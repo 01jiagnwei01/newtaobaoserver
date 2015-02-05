@@ -1,6 +1,7 @@
 package com.gxkj.taobaoservice.mail;
 
 import java.io.File;
+import java.sql.SQLException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -15,7 +16,11 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.gxkj.common.enums.BusinessExceptionInfos;
+import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.taobaoservice.dto.ToolMailDTO;
+import com.gxkj.taobaoservice.services.impl.EmailServiceImpl;
+import com.gxkj.taobaoservice.util.RegexUtils;
 
 @Service("demoMailService")
 public class MailSenderService {
@@ -29,6 +34,9 @@ public class MailSenderService {
 	@Autowired
 	@Qualifier("templateMailMessage")
 	private SimpleMailMessage templateMailMessage;
+	
+	@Autowired
+	private EmailServiceImpl emailServiceImpl;
 	
 	
 	private static final String ENCODING = "utf-8";
@@ -55,12 +63,19 @@ public class MailSenderService {
 		simpleMailMessage.setText(msg);
 		mailSender.send(simpleMailMessage);	
 	}
-	public void sendMaiForReg(String to, String code) {			 
-		SimpleMailMessage simpleMailMessage = new SimpleMailMessage(templateMailMessage);
+	public void sendMaiForReg(String email) throws SQLException, BusinessException {
 		 
-		simpleMailMessage.setTo(to);
+		boolean isReged = emailServiceImpl.emailIsRegd(email);
+		if(isReged){
+			throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED);
+		}
+		
+		SimpleMailMessage simpleMailMessage = new SimpleMailMessage(templateMailMessage);
+		String code = RegexUtils.getRandomNum(6)+"";
+		 
+		simpleMailMessage.setTo(email);
 		simpleMailMessage.setSubject("谷谷道场注册码");
-		simpleMailMessage.setText(code);
+		simpleMailMessage.setText(String.format("谷谷道场注册码:[%s]", code));
 		mailSender.send(simpleMailMessage);	
 	} 
 	/***

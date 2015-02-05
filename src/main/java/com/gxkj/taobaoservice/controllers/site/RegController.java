@@ -64,13 +64,11 @@ public class RegController {
 	@ResponseBody
 	public EntityReturnData doSendRegCode(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,String tomail) throws BusinessException{
 		EntityReturnData ret = new EntityReturnData();
-		Date now = new Date();
-		String code = now.getTime()+"";
 		try{
 			if(RegexUtils.isEmail( tomail)){
-				mailSenderService.sendMaiForReg(tomail,code );
+				mailSenderService.sendMaiForReg(tomail );
 				ret.setResult(true);
-				ret.setEntity(code);
+				ret.setEntity("");
 			}else{
 				ret.setResult(false);
 				ret.setMsg("emailNoValid");//{Invalid Addresses}

@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50620
+Source Server Version : 50621
 Source Host           : localhost:3306
 Source Database       : taobaoserver
 
 Target Server Type    : MYSQL
-Target Server Version : 50620
+Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-01-23 15:21:51
+Date: 2015-02-05 20:52:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -460,6 +460,24 @@ CREATE TABLE `pics` (
 -- Records of pics
 -- ----------------------------
 INSERT INTO `pics` VALUES ('3', 'http://001taobaoservice.oss-cn-beijing.aliyuncs.com/img/20150116174648995.jpg', 'NORMAL', '阿里测试', '阿里测试', '2015-01-16 17:46:49', '1');
+
+-- ----------------------------
+-- Table structure for `reg_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `reg_log`;
+CREATE TABLE `reg_log` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `value` varchar(50) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `active_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of reg_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `rel_admin_user_role`

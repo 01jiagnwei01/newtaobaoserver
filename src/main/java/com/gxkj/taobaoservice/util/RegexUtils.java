@@ -1,6 +1,7 @@
 package com.gxkj.taobaoservice.util;
 
 import java.util.Date;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,7 +21,8 @@ public class RegexUtils {
 		if(StringUtils.isEmpty(mail)){
 			return false;
 		}
-		Pattern pattern = Pattern.compile("^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$");
+		// /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi
+		Pattern pattern = Pattern.compile("/^([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\\-|\\.]?)*[a-zA-Z0-9]+\\.[a-zA-Z]{2,3}$/gi");
 		Matcher matcher = pattern.matcher(mail);
 		return matcher.matches();
 	}
@@ -48,8 +50,33 @@ public class RegexUtils {
 		Matcher matcher = pattern.matcher(timsString);
 		 return matcher.matches();
 	 }
+	 
+	 /**
+	  * 6位随机码
+	  * @param args
+	  */
+	 public static int getRandomNum(int length){
+		 int[] array = {0,1,2,3,4,5,6,7,8,9};
+		 Random rand = new Random();
+		 for (int i = 10; i > 1; i--) {
+		     int index = rand.nextInt(i);
+		     int tmp = array[index];
+		     array[index] = array[i - 1];
+		     array[i - 1] = tmp;
+		 }
+		 int result = 0;
+		 for(int i = 0; i < length; i++){
+			 if(i == 0 && array[i] == 0){
+				 array[i] = 1;
+			 }
+			 result = result * 10 + array[i];
+		 }
+		    
+		 return result;
+	 }
 	 public static void main(String[] args) {
-		  System.out.println(RegexUtils.isLeapYear(new Date()));
+		 // System.out.println(RegexUtils.isLeapYear(new Date()));
+		  System.out.println(RegexUtils.getRandomNum(6));
 		 
 	}
 

@@ -25,7 +25,8 @@ public enum BusinessExceptionInfos {
 	MAIL_RECEIVER_CANNOT_BE_NULL("22","收件人不能为空"), 
 	ONLY_NOSEND_MAIL_CAN_EXECUTE("23","只有未发送的邮件才允许执行"), 
 	SEND_TIME_SHOULD_AFTER_SYSTEM_TIME("24","发送时间应该晚于系统当前时间"), 
-	NO_USE_EXCEL_TEMPLATE("25","请使用模板进行导入");
+	NO_USE_EXCEL_TEMPLATE("25","请使用模板进行导入"),
+	EMAIL_IS_REGED("26","邮箱已经被注册了");
 	private String errorCode; 
 	
 	private String errorMsg;

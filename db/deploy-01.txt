@@ -1,0 +1,51 @@
+#!/bin/sh
+ROOT_PATH=/data/app
+TOMCAT_PATH=/usr/local/tomcat1
+JAVA_HOME=/usr/java/jdk1.6.0_26
+ANT_HOME=/usr/ant/
+project=cqa
+TAG="-r $1"
+#parmater check
+ if [ $# -lt 1 ]; then
+        echo 'need: svn version'
+        exit
+ fi
+#stop tomcat
+echo ">>>>>> tomcat stop<<<<<<<"
+cd $RESIN_PATH/$APP1_RESIN/bin
+echo "stop $TOMCAT_PATH"
+sh $TOMCAT_PATH/bin/shutdown.sh -force;
+echo ">>>>>> tomcat stoped<<<<<<"
+#app backup
+cd $ROOT_PATH;
+if [ -d $project ]; then
+ tar -cvjf $project.bak/$project.`date +%Y%m%d%H%M`.tar.gz $project
+fi
+#export project
+echo "exporting project : "$project
+rm -rf /data/tmp/$project/src
+rm -rf /data/tmp/$project/WebContent
+svn export $TAG  https://192.168.0.203/svn/cqa3.1/trunk/src /data/tmp/$project/src
+svn export $TAG  https://192.168.0.203/svn/cqa3.1/trunk/WebContent /data/tmp/$project/WebContent
+
+#ant build
+echo "build with ant"
+cd /data/tmp/$project
+echo $ANT_HOME/bin/ant
+$ANT_HOME/bin/ant -f cqa3build.xml
+
+#copy project
+rm -rf $ROOT_PATH/$project/WebContent
+cp -r /data/tmp/$project/WebContent $ROOT_PATH/$project/WebContent
+rm -rf $ROOT_PATH/$project/WebContent/WEB-INF/classes/SystemGlobals.properties
+mv $ROOT_PATH/$project/WebContent/WEB-INF/classes/SystemGlobals.neibu.properties $ROOT_PATH/$project/WebContent/WEB-INF/classes/SystemGlobals.properties
+rm -rf $ROOT_PATH/$project/WebContent/WEB-INF/web.xml
+mv $ROOT_PATH/$project/WebContent/WEB-INF/web.neibu.xml $ROOT_PATH/$project/WebContent/WEB-INF/web.x.xml
+mv $ROOT_PATH/$project/WebContent/WEB-INF/web.33.xml $ROOT_PATH/$project/WebContent/WEB-INF/web.xml
+sleep 5;
+echo ">>>>>>tomcat start<<<<<<"
+cd $TOMCAT_PATH/bin
+sh startup.sh
+sleep 5;
+wget http://127.0.0.1
+echo "********** www updated successfully! **********"

@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+           http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+ <!--  
+ 参考网址：
+ http://docs.spring.io/spring-amqp/reference/html/quick-tour.html#d4e73
+ http://docs.spring.io/spring-amqp/reference/html/amqp.html
+ http://projects.spring.io/spring-amqp/
+ http://docs.spring.io/spring-amqp/docs/1.4.2.BUILD-SNAPSHOT/reference/html/
+  -->
+ 
+ 
+ <rabbit:connection-factory id="rabbitConnectionFactory"
+    host="localhost"
+    port="5672"
+    username="guest" 
+    password="guest" 
+    channel-cache-size="25"
+ 		cache-mode="CONNECTION" 
+ 		connection-cache-size="25"
+    /> 
+    
+    <bean id="jsonMessageConverter"
+		class="org.springframework.amqp.support.converter.JsonMessageConverter">
+	</bean>
+	
+    
+    
+	<rabbit:admin connection-factory="rabbitConnectionFactory" auto-startup="true" />
+	
+	
+	
+</beans>	
+ 
+
+

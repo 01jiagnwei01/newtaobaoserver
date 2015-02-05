@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+ <!-- session超时定义,单位为分钟 -->
+	 <!-- <session-config>
+		<session-timeout>10</session-timeout>
+	</session-config> -->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:spring-*.xml</param-value>
+  </context-param>
+  <context-param>
+    <param-name>SystemGlobalsProperties</param-name>
+    <param-value>SystemGlobals.properties</param-value>
+  </context-param>
+  <!-- 配置log4j配置文件的路径，可以是xml或 properties（此参数必须配）--> 
+	<context-param>
+	   <param-name>log4jConfigLocation</param-name>
+	 <param-value>classpath:log4j.properties</param-value>
+	</context-param> 
+
+  <filter>
+    <filter-name>Spring character encoding filter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>UTF-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>Spring character encoding filter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <!--  去除spring security相关
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+			/WEB-INF/spring-security-basic.xml
+		</param-value>
+  </context-param>
+  <filter>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>/admin/*</url-pattern>
+  </filter-mapping>
+   -->
+  	<servlet>
+	    <servlet-name>springmvc</servlet-name>
+	    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	    <init-param>
+	      <param-name>contextConfigLocation</param-name>
+	      <param-value>
+				  /WEB-INF/mvc-dispatcher-servlet.xml</param-value>
+	    </init-param>
+	    <load-on-startup>1</load-on-startup>
+   </servlet>
+  <!-- FlashScope filter,在Flash中存储的数据,在下一次http请求中也可以继续引用,使用方法为Flash.current().error("存在错误"); -->
+	<filter>
+		<filter-name>FlashFilter</filter-name>
+		<filter-class>com.gxkj.common.web.scope.FlashFilter</filter-class>
+	</filter>
+
+	<!-- LoggerMDCFilter,存放在MDC中的数据，log4j可以直接引用并作为日志信息打印出来. -->
+	<filter>
+		<filter-name>LoggerMDCFilter</filter-name>
+		<filter-class>com.gxkj.common.filters.LoggerMDCFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>FlashFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter-mapping>
+		<filter-name>LoggerMDCFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+  	<servlet-mapping>
+    	<servlet-name>springmvc</servlet-name>
+    	<url-pattern>/</url-pattern>
+  	</servlet-mapping>
+  	
+  	<listener>
+   		  <listener-class>com.gxkj.common.listeners.ConfigInitializer</listener-class>
+	 </listener>
+	 <listener>
+	    <listener-class>com.gxkj.common.util.ContextUtil</listener-class>
+	 </listener>
+	 <listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	 </listener>
+	  <!-- 使Spring支持request与session的scope,如:<bean id="loginAction" class="com.foo.LoginAction" scope="request"/> -->
+	<listener>
+		  <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	
+		<!-- Spring 刷新Introspector防止内存泄露 -->
+	<listener>
+			<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

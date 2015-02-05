@@ -1,0 +1,61 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd 
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+  <context:component-scan base-package="com.gxkj.taobaoservice.mail"></context:component-scan>
+    
+<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+<!-- 
+	<property name="host" value="${taobaoservice.mail.host}" />
+	<property name="port" value="${taobaoservice.mail.port}" />
+	<property name="username" value="${taobaoservice.mail.username}" />
+	<property name="password" value="${taobaoservice.mail.password}" /> 
+	 -->
+ <!-- -->
+	<property name="host" value="smtp.aliyun.com" />
+	<property name="port" value="25" />
+	<property name="username" value="gugudaochang@aliyun.com" />
+	<property name="password" value="77585211a" /> 
+		 <!--   
+	 <property name="host" value="smtp.163.com" />
+	<property name="port" value="25" />
+	<property name="username" value="01jiangwei01@163.com" />
+	<property name="password" value="" />
+	-->
+	<property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.debug">true</prop>
+                <prop key="mail.smtp.timeout">25000</prop>
+                 
+            </props>
+	</property>
+</bean>
+  
+ <bean id="templateMailMessage"
+	class="org.springframework.mail.SimpleMailMessage"> 
+	<property name="from" value="gugudaochang@aliyun.com" /><!-- gugudaochang@aliyun.com ; 01jiangwei01@163.com-->
+	<property name="to" value="srinivasdj81@gmail.com" />
+	<property name="subject" value="Hello" />
+	<property name="text">
+	   <value>
+		<![CDATA[
+			Dear %s,
+			Mail Content : %s
+		]]>
+	   </value>
+        </property>
+</bean>
+
+</beans>

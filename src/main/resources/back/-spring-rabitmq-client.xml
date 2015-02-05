@@ -1,0 +1,49 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+           http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+
+<rabbit:template id="amqpTemplateWeiBo" connection-factory="rabbitConnectionFactory"
+    exchange="myExchange" routing-key="foo.weibo"/>
+ <rabbit:template id="amqpTemplatePinglun" connection-factory="rabbitConnectionFactory"
+    exchange="myExchange" routing-key="foo.pinglun"/>
+
+<rabbit:queue name="weiboQueue" />
+<rabbit:queue name="pinglunQueue" />
+
+<rabbit:topic-exchange name="myExchange">
+    <rabbit:bindings>
+        <rabbit:binding queue="weiboQueue" pattern="foo.weibo" />
+        <rabbit:binding queue="pinglunQueue" pattern="foo.pinglun" />
+    </rabbit:bindings>
+</rabbit:topic-exchange>
+
+<!--  -->
+<rabbit:listener-container connection-factory="rabbitConnectionFactory">
+    <rabbit:listener ref="foo" method="weiboListener" queue-names="weiboQueue" />
+   <rabbit:listener ref="foo" method="pinglunListener" queue-names="pinglunQueue" /> 
+</rabbit:listener-container>
+
+<bean id="foo" class="com.gxkj.taobaoservice.amqp.FooListener" />
+
+
+<!--jmx 
+	 <context:mbean-export/>
+
+    <bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean"
+          p:port="1099" /> -->
+    
+    <!-- Expose JMX over RMI 
+    <bean id="serverConnector" class="org.springframework.jmx.support.ConnectorServerFactoryBean" depends-on="registry"
+          p:objectName="connector:name=rmi"
+          p:serviceUrl="service:jmx:rmi://localhost/jndi/rmi://localhost:1099/myconnector" /> 
+          -->
+	
+</beans>	
+ 
+
+

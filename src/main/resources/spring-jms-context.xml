@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+  xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:amq="http://activemq.apache.org/schema/core"
+  xmlns:jms="http://www.springframework.org/schema/jms"
+  xsi:schemaLocation="http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd">
+<!-- 
+参考文档：
+http://www.javacodegeeks.com/2014/02/spring-jms-processing-messages-within-transactions.html?utm_source=tuicool
+https://github.com/xpadro/spring-integration/tree/master/jms-tx
+http://activemq.apache.org/redelivery-policy.html
+http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/jms.html
+http://activemq.apache.org/spring-support.html
+jms数据持久化
+http://obullxl.iteye.com/blog/1114827
+失效的消息的处理方法见我的博客
+http://01jiangwei01.iteye.com/admin/blogs/2174971
+jms数据内容
+http://sunny.blog.51cto.com/182601/107507/
+
+了解文档
+http://www.360doc.cn/article.aspx?id=53325069
+http://wenku.baidu.com/link?url=oZkKhVWaKOOnBu5y44TTiFGceqqDF9mUWoK4gXJ6xxZr0vHR-7IpaK8LwwzQz69jWkUKCymV8CS08X6cXyCwLMZ2oVc3UYISdf8UhMOTCnW
+ -->
+	<context:component-scan base-package="com.gxkj.taobaoservice.jms" />
+	 
+	<amq:connectionFactory brokerURL="tcp://localhost:61616" useAsyncSend="true"
+		id="connectionFactory" >
+		<amq:redeliveryPolicyMap>
+			<amq:redeliveryPolicyMap>
+				<amq:defaultEntry>
+					<!-- 5次，每次30秒 -->
+					<amq:redeliveryPolicy maximumRedeliveries="5"
+						initialRedeliveryDelay="30000" />
+				</amq:defaultEntry>
+				<amq:redeliveryPolicyEntries>
+					<!-- 
+					参考网址：http://activemq.apache.org/redelivery-policy.html
+					maximumRedeliveries:重复次数，默认6次,-1表示无限进行下去
+					initialRedeliveryDelay：第一次重发则延迟时间，默认1000L 毫秒
+					maximumRedeliveryDelay:最大延迟时间， 当useExponentialBackOff被设置时使用。
+					redeliveryDelay:传递延时，如果initialRedeliveryDelay为0
+					useCollisionAvoidance:false|true
+					useExponentialBackOff:false|true
+					backOffMultiplier:number  //默认是5 ，发生冲突时的强制性重传延迟因子。 大致意思就是网络上的节点在发送数据冲突后，等待一定时间后再发，等待时间是随指数增长
+					3次 1分钟 2分钟 4分钟 -->
+					<amq:redeliveryPolicy queue="myqueue"
+						maximumRedeliveries="3" initialRedeliveryDelay="60000"
+						backOffMultiplier="2" useExponentialBackOff="true" />
+						
+					<amq:redeliveryPolicy queue="toolMailQueue"
+						maximumRedeliveries="3" initialRedeliveryDelay="60000"
+						backOffMultiplier="2" useExponentialBackOff="true" />
+						<!-- 此处可以设置多个 -->
+				</amq:redeliveryPolicyEntries>
+			</amq:redeliveryPolicyMap>
+		</amq:redeliveryPolicyMap>
+	</amq:connectionFactory>
+	
+	
+	 
+	<bean id="exceptionListener" class="com.gxkj.taobaoservice.jms.JmsExceptionListener"></bean>
+	<bean id="cachingConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory" ref="connectionFactory"/>
+		<property name="exceptionListener" ref="exceptionListener"/><!-- 错误监听,没啥大用.用来打印信息而已 -->
+		<property name="sessionCacheSize" value="100"/><!-- 缓存的消息数 -->
+	</bean>
+ 
+	
+	
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <!-- 这个connectionFactory对应的是我们定义的Spring提供的那个ConnectionFactory对象 -->
+        <property name="connectionFactory" ref="cachingConnectionFactory"/>
+        <property name="sessionTransacted" value="true"/>
+        <property name="receiveTimeout" value="5000"/>
+    </bean>
+    
+	<amq:queue id="myqueue" physicalName="myqueue" />
+	<amq:queue id="toolMailQueue" physicalName="toolMailQueue" />
+	
+	<jms:listener-container destination-type="queue" 
+		concurrency="8-32" acknowledge="transacted" connection-factory="cachingConnectionFactory"
+		transaction-manager="transactionManager" 
+		>
+		<jms:listener destination="myqueue" ref="consumerMessageListener"   />
+			<!-- 此处可以设置多个 -->
+		<jms:listener destination="toolMailQueue" ref="toolMailMessageListener" />
+	</jms:listener-container>
+	
+	 
+	
+<!-- 定义消费者结束 -->
+	
+ <!-- 
+	<bean id="mysql-ds" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost/activemq?relaxAutoCommit=true"/>
+		<property name="username" value="root"/>
+		<property name="password" value=""/>
+		<property name="maxActive" value="200"/>
+		<property name="poolPreparedStatements" value="true"/>
+	</bean>
+  -->
+	
+	 
+	 
+</beans>

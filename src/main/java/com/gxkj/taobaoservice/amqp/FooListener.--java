@@ -1,0 +1,21 @@
+package com.gxkj.taobaoservice.amqp;
+
+import com.gxkj.taobaoservice.controllers.demo.dto.AmqOrder;
+
+public class FooListener  {
+//	public void weiboListener(AmqOrder order) {
+//        System.out.println("接收到的微博数据为："+order==null?null:order.getMsg());
+//    }
+//	public void pinglunListener(String foo) {
+//        System.out.println("接收到的评论数据为："+foo);
+//    }
+	
+	public   void weiboListener(AmqOrder order) {
+        System.out.println("接收到的微博数据为："+order.getMsg());
+    }
+	public <B> void pinglunListener(B foo) {
+        System.out.println("接收到的评论数据为："+foo);
+    }
+	
+	 
+}

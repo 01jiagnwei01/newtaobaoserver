@@ -1,0 +1,31 @@
+附：Annotation 说明:
+
+
+目的 Commons Attributes属性 JDK 5.0 注解 属性 / 注解类型 
+把 Class 所有的实例标记为由JMX管理的资源 ManagedResource  @ManagedResource  类 
+把方法标记为JMX的操作 ManagedOperation  @ManagedOperation  方法 
+把getter或setter标记为JMX的半个属性 ManagedAttribute  @ManagedAttribute  方法（仅 getters 和 setters） 
+定义描述操作参数 ManagedOperationParameter  @ManagedOperationParameter 和 @ManagedOperationParameters  @ManagedOperationParameter 和 @ManagedOperationParameters  方法 
+
+接下来的配置参数可以用于这些源码级的元数据类型： 
+
+表 20.3. 源码级的元数据参数
+官方文档：
+http://docs.spring.io/spring/docs/2.5.x/reference/jmx.html
+
+
+参数 描述 适用于 
+ObjectName  由类 MetadataNamingStrategy 使用，决定一个管理资源的 ObjectName。  ManagedResource  
+description  设置资源、属性或操作友好的描述  ManagedResource、 ManagedAttribute、 ManagedOperation、 ManagedOperationParameter  
+currencyTimeLimit  描述符字段，用于设置 currencyTimeLimit 的值  ManagedResource、ManagedAttribute  
+defaultValue  描述符字段，用于设置 defaultValue 的值  ManagedAttribute  
+log  描述符字段，用于设置 log 的值  ManagedResource  
+logFile  描述符字段，用于设置 logFile 的值  ManagedResource  
+persistPolicy  描述符字段，用于设置 persistPolicy 的值  ManagedResource  
+persistPeriod  描述符字段，用于设置 persistPeriod 的值  ManagedResource  
+persistLocation  描述符字段，用于设置 persistLocation 的值  ManagedResource  
+persistName  描述符字段，用于设置 persistName 的值  ManagedResource  
+name  设置一个操作参数的显示名字 ManagedOperationParameter  
+index  设置操作参 
+
+

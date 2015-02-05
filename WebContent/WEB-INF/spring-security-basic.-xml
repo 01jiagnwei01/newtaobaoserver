@@ -1,0 +1,78 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+
+	<http create-session="stateless" use-expressions="true" auto-config="false"
+		access-denied-page="/denied" realm="我的项目">
+	 	<http-basic 
+	 		entry-point-ref="authenticationEntryPoint"
+	 	/>
+	 	
+		<!-- 自定义登陆页面 ，自定义欢迎页面，自定义登陆失败页面 -->
+		<!--<form-login login-page="/login" default-target-url="/welcome"
+			authentication-failure-url="/login?error" 
+			username-parameter="username"
+			password-parameter="password" />-->
+			<!-- logout-success-url="/login?logout" -->
+		<logout 
+		invalidate-session="true" 
+		delete-cookies="JSESSIONID" 
+		success-handler-ref="logoutSuccessHandler" 
+		 />
+		<!-- 自定义filter -->
+		<custom-filter ref="preAuthenticatedProcessingFilter" before="BASIC_AUTH_FILTER" />
+		<custom-filter ref="customFilter" before="FILTER_SECURITY_INTERCEPTOR"/> 
+		<headers>
+            <frame-options policy="SAMEORIGIN" />
+            <cache-control />
+            <content-type-options />
+            <!-- <hsts include-subdomains="false" /> -->
+            <xss-protection />
+        </headers>
+	</http>
+
+  	<beans:bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+        <beans:property name="realmName" value="淘宝服务. basic" />
+    </beans:bean>
+    <beans:bean id="preAuthenticatedProcessingFilter" class="com.gxkj.common.security.basic.PreAuthenticatedProcessingFilter">
+        <beans:property name="authenticationEntryPoint" ref="authenticationEntryPoint" />
+    </beans:bean>
+    
+    <beans:bean id="logoutSuccessHandler" class="com.gxkj.common.security.filter.LogoutSuccessfulHandlerImpl"></beans:bean>
+    
+
+	<!-- 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可, 数据库验证就在这里完成-->
+	<authentication-manager alias="myauthenticationManager">
+		<authentication-provider user-service-ref="mycustomUserDetailsService">
+			<password-encoder ref="passwordEncoder" />
+		</authentication-provider>
+	</authentication-manager>
+
+	<!-- 密码加密方式 -->
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
+
+	<!-- 自定义用户验证服务 -->
+	<beans:bean id="mycustomUserDetailsService"
+		class="com.gxkj.common.security.service.MyCustomUserDetailsService" />
+
+	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
+	<beans:bean id="mycustomSecurityMetadataSource"
+		class="com.gxkj.common.security.service.MyCustomFilterInvocationSecurityMetadataSource" />
+
+	<!-- 自定义访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
+	<beans:bean id="mycustomAccessDecisionManager"
+		class="com.gxkj.common.security.service.MyCustomAccessDecisionManager" />
+
+	<!-- 自定义Filter -->
+	<beans:bean id="customFilter"
+		class="com.gxkj.common.security.filter.MyCustomFilterSecurityInterceptor">
+		<beans:property name="authenticationManager" ref="myauthenticationManager" />
+		<beans:property name="accessDecisionManager" ref="mycustomAccessDecisionManager" />
+		<beans:property name="securityMetadataSource" ref="mycustomSecurityMetadataSource" />
+	</beans:bean> 
+</beans:beans>

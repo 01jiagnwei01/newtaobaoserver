@@ -1,0 +1,596 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0045)http://www.shuakewang.com/html/ptgg/3950.html -->
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>任务价格与基本发布点数的对应关系-平台公告-刷客网</TITLE>
+<META content="text/html; charset=gb2312" http-equiv=Content-Type>
+<META content=IE=EmulateIE7 http-equiv=X-UA-Compatible><LINK rel=stylesheet 
+type=text/css href="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/style.css"><LINK 
+rel=stylesheet type=text/css 
+href="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/help.css"><LINK rel=stylesheet 
+type=text/css href="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/top_bar.css">
+<SCRIPT type=text/javascript 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/jquery.js"></SCRIPT>
+
+<SCRIPT type=text/javascript 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/kesion.box.js"></SCRIPT>
+
+<SCRIPT type=text/javascript 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/common.js"></SCRIPT>
+
+<SCRIPT language=JavaScript type=text/JavaScript>
+//改变图片大小
+function resizepic(thispic)
+{ 
+if(thispic.width>560) thispic.width=560; 
+}
+//无级缩放图片大小
+function bbimg(o)
+{
+  var zoom=parseInt(o.style.zoom, 10)||100;
+  zoom+=event.wheelDelta/12;
+  if (zoom>0) o.style.zoom=zoom+'%';
+  return false;
+}
+</SCRIPT>
+
+<META name=GENERATOR content="MSHTML 9.00.8112.16592"></HEAD>
+<BODY><!-- 网站头部通用 --><!-- topbar start -->
+<DIV id=top_bar>
+<DIV id=top_bar_c>
+<DIV id=userinfo><!--弹窗式登录代码---><SPAN id=showuserlogin><IMG alt="" 
+align=absMiddle src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/loading.gif">加载中...</SPAN>
+<SCRIPT type=text/javascript>
+	 function ShowPopLogin()
+	 { 	  
+	   	var p=new KesionPopup();
+		p.MsgBorder=1;
+		p.ShowBackground=false;
+		p.BgColor='#fff';
+		p.TitleCss="font-size:14px;background:#1B76B7;color:#fff;height:22px;";
+	    p.popup("<img src='/user/images/icon18.png' align='absmiddle'>会员登录","<form action='http://www.shuakewang.com/user/checkuserlogin.asp' method='post' name='myform'><div id='showloginform' style='background:url(http://www.shuakewang.com/user/images/loginbg.png) repeat-x;'>加载中...</div></form>",450);
+		  jQuery.getScript("http://www.shuakewang.com/user/userlogin.asp?action=PoploginStr",function(){
+		    jQuery("#showloginform").html(userpop.str);
+		  });
+	 }
+	function getCode(){
+	 document.getElementById('showVerify').innerHTML='<IMG style="cursor:pointer" src="http://www.shuakewang.com/plus/verifycode.asp" onClick="this.src=\'http://www.shuakewang.com/plus/verifycode.asp?n=\'+ Math.random();" align="absmiddle">';
+	}
+
+	var seccodefocus=0; 
+	function getverifycode() { 
+	var obj=document.getElementById("vcodetext_menu"); 
+	obj.style.top = (-parseInt(obj.style.height)) + 'px'; 
+	obj.style.left = '0px'; 
+	obj.style.display = ''; 
+	document.getElementById('vcodeimg').src =document.getElementById('vcodeimg').src.split('?')[0]+'?time=' + Math.random(); 
+	$("#vcodetext_menu").fadeOut('fast').fadeIn('fast'); 
+	}
+	
+	function CheckLoginForm(){
+		var username=document.myform.Username.value;
+		var pass=document.myform.Password.value;
+		if (username==''){
+		  alert('请输入用户名');
+		  document.myform.Username.focus();
+		  return false;}
+		if (pass==''){
+		  alert('请输入登录密码');
+		  document.myform.Password.focus();
+		  return false;
+		 }
+		  return true;
+	} 
+	function GetUserLoginStr(){
+		  jQuery.getScript("http://www.shuakewang.com/user/userlogin.asp?action=checklogin&s=1",function(){
+		    jQuery("#showuserlogin").html(user.loginstr);
+		  });
+	  }
+	GetUserLoginStr();
+	 </SCRIPT>
+ <!--登录结束---></DIV>
+<DIV id=toolsbar>
+<UL><A href="http://www.shuakewang.com/Task/AddTask.asp">发布任务</A></UL>
+<UL class=line><U></U></UL>
+<UL><A href="http://www.shuakewang.com/Task/">接手任务</A></UL>
+<UL class=line><U></U></UL>
+<UL><A title=把本站网址放到您电脑桌面，方便下次浏览！ 
+  href="http://www.shuakewang.com/Desktop.asp">加入桌面</A></UL>
+<UL class=line><U></U></UL>
+<UL><A 
+  onclick="javascript:window.external.addFavorite('http://'+location.hostname+(location.port!=''?':':'')+location.port,'刷客网');" 
+  href="http://www.shuakewang.com/html/ptgg/3950.html#">加入收藏</A></UL>
+<UL class=line><U></U></UL>
+<UL>
+  <SCRIPT type=text/javascript 
+  src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/language.js"></SCRIPT>
+</UL>
+<UL class=line><U></U></UL></DIV></DIV></DIV><!-- topbar end --><!-- header start -->
+<DIV class="nav_Logo clearfix">
+<DIV class=logo_img>
+<H1><A title=刷客-刷客网官网 href="http://www.shuakewang.com/">刷客</A></H1>
+<DIV style="FLOAT: right">
+<DIV class=search_box>
+<FORM style="MARGIN: 0px" onsubmit="return S_Confirm(this)" method=get 
+name=help_form action=""><SELECT id=search_select name=cat> <OPTION selected 
+  value=0>帮助搜索</OPTION> <OPTION value=1>论坛搜索</OPTION></SELECT> <INPUT 
+class=search_key onclick="if(this.value=='请输入搜索的关键词，如：提现'){this.value='';}" 
+name=key maxLength=40 value=请输入搜索的关键词，如：提现> <INPUT class=search_button type=submit> </FORM>
+<SCRIPT type=text/javascript 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/LeeSelect.js"></SCRIPT>
+
+<SCRIPT type=text/javascript>
+jQuery("#search_select").LeeSelect();
+function S_Confirm(obj){
+if(obj.key.value==''||obj.key.value=='请输入搜索的关键词，如：提现'){alert('请您输入关键词!');return false;}
+var url="/plus/Search.asp?SearchType=1&ClassID=0&KeyWord=" + escape(obj.key.value) + "&ChannelID=1&Submit=%CB%D1+%CB%F7";
+if($("#cat input[name='cat']").val()=="1"){url="/club/query/?key=" + escape(obj.key.value) + "&boardid=0&stype=1";}
+location.href=url;
+return false;
+}
+</SCRIPT>
+</DIV></DIV></DIV><!-- nav start -->
+<DIV class="v4_nav clearfix">
+<DIV class=v4_nav_right></DIV>
+<UL class=nav_content>
+  <LI><A title=网站首页 href="http://www.shuakewang.com/"><SPAN>网站首页</SPAN></A> 
+</LI>
+  <LI class=current><A title=帮助中心 
+  href="http://www.shuakewang.com/html/help/"><SPAN>帮助中心</SPAN></A> </LI>
+  <LI><A title=自助服务 
+  href="http://www.shuakewang.com/html/SelfService.html"><SPAN>自助服务</SPAN></A> 
+  </LI>
+  <LI><A title=客服中心 
+  href="http://www.shuakewang.com/html/Service.html"><SPAN>客服中心</SPAN></A> </LI>
+  <LI><A style="COLOR: #fff571" title=新手指南 
+  href="http://www.shuakewang.com/html/help/xszn.html" 
+  target=_blank><SPAN>新手指南</SPAN></A> </LI></UL></DIV><!-- nav end --></DIV><!-- header end --><!-- 头部搜索 -->
+<DIV class=clear></DIV><!-- 广告 -->
+<DIV class=ad1>
+<SCRIPT type=text/javascript 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/57.js"></SCRIPT>
+</DIV><!-- 广告End --><!-- 顶部结束 -->
+<DIV class=clear></DIV>
+<DIV class=news_nav>
+<H3>帮助导航：</H3>
+<UL class=newsnav>
+  <LI class=currclass><A 
+  href="http://www.shuakewang.com/html/help/xszn.html">新手教程</A> </LI>
+  <LI class=currclass><A 
+  href="http://www.shuakewang.com/html/help/wsmj2.html">卖家教程</A> </LI>
+  <LI class=currclass><A 
+  href="http://www.shuakewang.com/html/help/wsmj.html">买家教程</A> </LI>
+  <LI class=currclass><A 
+  href="http://www.shuakewang.com/html/help/cztx.html">充值提现</A> </LI>
+  <LI class=currclass><A 
+  href="http://www.shuakewang.com/html/help/FAQ.html">常见问题</A> </LI>
+  <LI class=currclass><A 
+  href="http://www.shuakewang.com/html/help/contact.html">联系方式</A> </LI>
+  <LI class=currclass><A 
+  href="http://www.shuakewang.com/html/help/payment.html">支付方式</A> </LI>
+  <LI class=currclass><A 
+  href="http://www.shuakewang.com/html/help/hskgz.html">刷客网规则</A> </LI>
+  <LI class=currclass><A 
+  href="http://www.shuakewang.com/html/help/about.html">关于我们</A> </LI></UL>
+<DIV class=tl></DIV>
+<DIV class=tr></DIV>
+<DIV class=bl></DIV>
+<DIV class=br></DIV></DIV>
+<DIV class=clear></DIV><!-- 内容页主体开始 -->
+<DIV class=content>
+<DIV class=artmainl>
+<DIV class=curPosition>您当前位置：<A href="http://www.shuakewang.com/">刷客网</A> 
+&gt;&gt; <A href="http://www.shuakewang.com/html/ptgg/ptgg.html">平台公告</A> 
+&gt;&gt; 浏览文章</DIV>
+<DIV class=arttitle>
+<H3>任务价格与基本发布点数的对应关系</H3></DIV>
+<DIV class=info>2011-1-1 22:44:52 <SPAN class=infoCol><SPAN 
+class=where>本站原创</SPAN> <SPAN class=auth>好刷客官方</SPAN> <SPAN class=auth>
+<SCRIPT language=javascript type=text/javascript>
+function ContentSize(size)
+{document.getElementById('MyContent').style.fontSize=size+'px';}
+</SCRIPT>
+【字体：<A href="javascript:ContentSize(16)">大</A> <A 
+href="javascript:ContentSize(14)">中</A> <A 
+href="javascript:ContentSize(12)">小</A>】 </SPAN></SPAN><A 
+href="http://www.shuakewang.com/plus/Comment.asp?ChannelID=1&amp;InfoID=3950" 
+target=_blank><SPAN id=SQLksu我要评论kslksr3950p20104419589320}></SPAN></A></DIV>
+<DIV class="line clear"></DIV>
+<DIV class=articlemain>
+<DIV id=MyContent>
+<STYLE type=text/css>UNKNOWN {
+	
+}
+UNKNOWN {
+	
+}
+</STYLE>
+
+<P><STRONG>发布任务价格与基本发布点数的对应关系</STRONG><BR>&nbsp;</P>
+<P>发布方发布任务需要消耗一定的发布点，消耗的发布点数目随任务担保价不同而不同。<BR>&nbsp;</P>
+<P>具体请看下表：<BR>&nbsp;</P>
+<P><STRONG>单件商品与基本发布点关系：</STRONG></P>
+<P>&nbsp;</P>
+<TABLE 
+style="BORDER-BOTTOM: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-RIGHT: #ccc 1px solid" 
+cellSpacing=0 cellPadding=1 width="90%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cccccc height=25 width="51%" align=center>商品价格(含)元</TD>
+    <TD bgColor=#cccccc width="49%" align=center>发布点(点)</TD></TR>
+  <TR>
+    <TD height=25 width="51%" align=center>40元以下</TD>
+    <TD width="49%" align=center>1</TD></TR>
+  <TR>
+    <TD height=25 align=center>40到80</TD>
+    <TD align=center>1.5</TD></TR>
+  <TR>
+    <TD height=25 align=center>80到120</TD>
+    <TD align=center>2</TD></TR>
+  <TR>
+    <TD height=25 align=center>120到200</TD>
+    <TD align=center>3</TD></TR>
+  <TR>
+    <TD height=25 align=center>200到500</TD>
+    <TD align=center>4</TD></TR>
+  <TR>
+    <TD height=25 align=center>500到1000</TD>
+    <TD align=center>5</TD></TR>
+  <TR>
+    <TD height=25 align=center>1000到1500</TD>
+    <TD align=center>6</TD></TR>
+  <TR>
+    <TD height=25 align=center>1500以上</TD>
+    <TD align=center>7</TD></TR></TBODY></TABLE>
+<P><STRONG>收货时间与发布点关系：</STRONG></P>
+<P>&nbsp;</P>
+<TABLE 
+style="BORDER-BOTTOM: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-RIGHT: #ccc 1px solid" 
+cellSpacing=0 cellPadding=1 width="90%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cccccc height=25 width="51%" align=center>收货时间</TD>
+    <TD bgColor=#cccccc width="49%" align=center>发布点(点)</TD></TR>
+  <TR>
+    <TD height=25 width="51%" align=center>24小时</TD>
+    <TD width="49%" align=center>基本发布点X1.5</TD></TR>
+  <TR>
+    <TD height=25 align=center>48小时</TD>
+    <TD align=center>基本发布点X1.5+1</TD></TR>
+  <TR>
+    <TD height=25 align=center>72小时</TD>
+    <TD align=center>基本发布点X1.5+2</TD></TR></TBODY></TABLE>
+<P><BR><STRONG>购物车任务中发布三个商品地址：</STRONG></P>
+<TABLE 
+style="BORDER-BOTTOM: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-RIGHT: #ccc 1px solid" 
+cellSpacing=0 cellPadding=1 width="90%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cccccc height=25 width="51%" align=center>商品价格(含)元</TD>
+    <TD bgColor=#cccccc width="49%" align=center>发布点(点)</TD></TR>
+  <TR>
+    <TD height=25 width="51%" align=center>120以下</TD>
+    <TD width="49%" align=center>3</TD></TR>
+  <TR>
+    <TD height=25 align=center>120到180</TD>
+    <TD align=center>4</TD></TR>
+  <TR>
+    <TD height=25 align=center>180到300</TD>
+    <TD align=center>5</TD></TR>
+  <TR>
+    <TD height=25 align=center>300到500</TD>
+    <TD align=center>6</TD></TR>
+  <TR>
+    <TD height=25 align=center>500到800</TD>
+    <TD align=center>7</TD></TR>
+  <TR>
+    <TD height=25 align=center>800到1200</TD>
+    <TD align=center>8</TD></TR>
+  <TR>
+    <TD height=25 align=center>1200到1500</TD>
+    <TD align=center>9</TD></TR>
+  <TR>
+    <TD height=25 align=center>1500以上</TD>
+    <TD align=center>10</TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<P><STRONG>购物车任务中发布四个商品地址：</STRONG></P>
+<TABLE 
+style="BORDER-BOTTOM: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-RIGHT: #ccc 1px solid" 
+cellSpacing=0 cellPadding=1 width="90%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cccccc height=25 width="51%" align=center>商品价格(含)元</TD>
+    <TD bgColor=#cccccc width="49%" align=center>发布点(点)</TD></TR>
+  <TR>
+    <TD height=25 align=center>160以下</TD>
+    <TD align=center>3.9</TD></TR>
+  <TR>
+    <TD height=25 align=center>160到240</TD>
+    <TD align=center>5</TD></TR>
+  <TR>
+    <TD height=25 align=center>240到360</TD>
+    <TD align=center>6</TD></TR>
+  <TR>
+    <TD height=25 align=center>360到500</TD>
+    <TD align=center>7</TD></TR>
+  <TR>
+    <TD height=25 align=center>500到800</TD>
+    <TD align=center>8</TD></TR>
+  <TR>
+    <TD height=25 align=center>800到1200</TD>
+    <TD align=center>9</TD></TR>
+  <TR>
+    <TD height=25 align=center>1200到1500</TD>
+    <TD align=center>10</TD></TR>
+  <TR>
+    <TD height=25 align=center>1500以上</TD>
+    <TD align=center>11</TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<P><STRONG>购物车任务中发布五个商品地址：</STRONG></P>
+<TABLE 
+style="BORDER-BOTTOM: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-RIGHT: #ccc 1px solid" 
+cellSpacing=0 cellPadding=1 width="90%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cccccc height=25 width="51%" align=center>商品价格(含)元</TD>
+    <TD bgColor=#cccccc width="49%" align=center>发布点(点)</TD></TR>
+  <TR>
+    <TD height=25 align=center>150以下</TD>
+    <TD align=center>4.5</TD></TR>
+  <TR>
+    <TD height=25 align=center>150到250</TD>
+    <TD align=center>5</TD></TR>
+  <TR>
+    <TD height=25 align=center>250到400</TD>
+    <TD align=center>6</TD></TR>
+  <TR>
+    <TD height=25 align=center>400到600</TD>
+    <TD align=center>7</TD></TR>
+  <TR>
+    <TD height=25 align=center>600到900</TD>
+    <TD align=center>8</TD></TR>
+  <TR>
+    <TD height=25 align=center>900到1200</TD>
+    <TD align=center>9</TD></TR>
+  <TR>
+    <TD height=25 align=center>1200到1600</TD>
+    <TD align=center>10</TD></TR>
+  <TR>
+    <TD height=25 align=center>1600到2000</TD>
+    <TD align=center>11</TD></TR>
+  <TR>
+    <TD height=25 align=center>2000以上</TD>
+    <TD align=center>12</TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<P><STRONG>购物车任务中发布六个商品地址：</STRONG></P>
+<TABLE 
+style="BORDER-BOTTOM: #ccc 1px solid; BORDER-LEFT: #ccc 1px solid; BORDER-TOP: #ccc 1px solid; BORDER-RIGHT: #ccc 1px solid" 
+cellSpacing=0 cellPadding=1 width="90%">
+  <TBODY>
+  <TR>
+    <TD bgColor=#cccccc height=25 width="51%" align=center>商品价格(含)元</TD>
+    <TD bgColor=#cccccc width="49%" align=center>发布点(点)</TD></TR>
+  <TR>
+    <TD height=25 align=center>180以下</TD>
+    <TD align=center>5</TD></TR>
+  <TR>
+    <TD height=25 align=center>180到300</TD>
+    <TD align=center>6</TD></TR>
+  <TR>
+    <TD height=25 align=center>300到450</TD>
+    <TD align=center>7</TD></TR>
+  <TR>
+    <TD height=25 align=center>450到650</TD>
+    <TD align=center>8</TD></TR>
+  <TR>
+    <TD height=25 align=center>650到900</TD>
+    <TD align=center>9</TD></TR>
+  <TR>
+    <TD height=25 align=center>900到1200</TD>
+    <TD align=center>10</TD></TR>
+  <TR>
+    <TD height=25 align=center>1200到1600</TD>
+    <TD align=center>11</TD></TR>
+  <TR>
+    <TD height=25 align=center>1600到2000</TD>
+    <TD align=center>12</TD></TR>
+  <TR>
+    <TD height=25 align=center>2000以上</TD>
+    <TD align=center>13</TD></TR></TBODY></TABLE>
+<P>&nbsp;</P>
+<P><STRONG>注：为了保证平台能够长期良好运营，接手方完成每个任务，平台将从每个任务点中抽取0.1个发布点作为对平台的支持。（不包括积分小于50分的新手）</STRONG></P>
+<P><BR><STRONG>提示：每发布一个任务，将得到一定的积分！</STRONG></P>
+<P>&nbsp;</P>
+<P><STRONG>&nbsp; </STRONG></P></DIV></DIV>
+<DIV class=clear></DIV>
+<DIV class=mood>
+<SCRIPT language=javascript type=text/javascript 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/mood.htm"></SCRIPT>
+</DIV>
+<DIV class="dotline clear"></DIV>
+<DIV class=otherNews>
+<H2>相关阅读:</H2>
+<DIV class=otherNewslist>
+<UL></UL></DIV></DIV>
+<DIV class="dotline clear"></DIV>
+<DIV class=Toolarticle>【<A 
+href="http://www.shuakewang.com/plus/Comment.asp?ChannelID=1&amp;InfoID=3950" 
+target=_blank>发表评论</A>】【<A 
+href="http://www.shuakewang.com/item/SendMail.asp?m=1&amp;ID=3950" 
+target=_blank>告诉好友</A>】【<A 
+href="http://www.shuakewang.com/item/Print.asp?m=1&amp;ID=3950" 
+target=_blank>打印此文</A>】【<A 
+href="http://www.shuakewang.com/User/User_Favorite.asp?Action=Add&amp;ChannelID=1&amp;InfoID=3950" 
+target=_blank>收藏此文</A>】【<A href="javascript:window.close();">关闭窗口</A>】 </DIV>
+<DIV class="dotline clear"></DIV>
+<DIV class=goto_top><A 
+href="http://www.shuakewang.com/html/ptgg/3950.html#top"><IMG 
+style="MARGIN-BOTTOM: -3px" src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/goto_top.gif"> 
+返回顶部</A></DIV>
+<DIV class=clear></DIV>
+<DIV class=tl_b></DIV>
+<DIV class=tr_b></DIV></DIV>
+<DIV class=gg_box_1>
+<H3 class=ora>平台公告</H3>
+<UL>
+  <LI><A title=马上有惊喜-买发布点送发布点，买VIP送发布点 
+  href="http://www.shuakewang.com/html/ptgg/4219.html" 
+  target=_blank><STRONG><SPAN 
+  style="COLOR: blue">[公告]</SPAN>马上有惊喜-买发布点送发布点，买VIP送发布点</STRONG></A> </LI>
+  <LI><A title=刷客网是正规网站吗？安全可信吗？ 
+  href="http://www.shuakewang.com/html/ptgg/4208.html" 
+  target=_blank><STRONG><SPAN style="COLOR: blue">[公告]</SPAN><SPAN 
+  style="COLOR: #ff0000">刷客网是正规网站吗？安全可信吗？</SPAN></STRONG></A> </LI>
+  <LI><A title=2014国庆节刷客网放假事宜安排 
+  href="http://www.shuakewang.com/html/ptgg/4262.html" 
+  target=_blank><STRONG><SPAN style="COLOR: blue">[公告]</SPAN><SPAN 
+  style="COLOR: #ff0000">2014国庆节刷客网放假事宜安排</SPAN></STRONG></A> </LI>
+  <LI><A title=2014年刷客网中秋放假通知 
+  href="http://www.shuakewang.com/html/ptgg/4258.html" 
+  target=_blank><STRONG><SPAN 
+  style="COLOR: #ff0000">2014年刷客网中秋放假通知</SPAN></STRONG></A> </LI>
+  <LI><A title=刷客网的银行提现功能免费啦 
+  href="http://www.shuakewang.com/html/ptgg/4241.html" target=_blank><SPAN 
+  style="COLOR: blue">[公告]</SPAN>刷客网的银行提现功能免费啦</A> </LI>
+  <LI><A title=限量出售半年前1心淘宝小号 
+  href="http://www.shuakewang.com/html/ptgg/4239.html" 
+  target=_blank>限量出售半年前1心淘宝小号</A> </LI>
+  <LI><A title=正规淘宝刷钻平台 href="http://www.shuakewang.com/html/ptgg/4236.html" 
+  target=_blank><SPAN style="COLOR: blue">[公告]</SPAN>正规淘宝刷钻平台</A> </LI>
+  <LI><A title=暂停QQ,旺旺,网易等第三个插件登录 
+  href="http://www.shuakewang.com/html/ptgg/4232.html" target=_blank><SPAN 
+  style="COLOR: blue">[公告]</SPAN>暂停QQ,旺旺,网易等第三个插件登录</A> </LI>
+  <LI><A title=关于部份卖家发布任务指定自已接手 
+  href="http://www.shuakewang.com/html/ptgg/4229.html" target=_blank><SPAN 
+  style="COLOR: blue">[公告]</SPAN>关于部份卖家发布任务指定自已接手</A> </LI>
+  <LI><A title=刷客网2014春节放假通知 
+  href="http://www.shuakewang.com/html/ptgg/4225.html" target=_blank><SPAN 
+  style="COLOR: blue">[公告]</SPAN>刷客网2014春节放假通知</A> </LI></UL>
+<DIV class=clear></DIV>
+<DIV class=tl_b></DIV>
+<DIV class=tr_b></DIV>
+<DIV class=bl_b></DIV>
+<DIV class=br_b></DIV></DIV>
+<DIV style="MARGIN-TOP: 10px" class=gg_box_1>
+<H3 class=ora>推荐文章</H3>
+<UL>
+  <LI><A title=刷客网通会员与VIP会员有什么不同 
+  href="http://www.shuakewang.com/html/help/FAQ/4014.html">刷客网通会员与VIP会员有什么不同</A> 
+  </LI>
+  <LI><A title=淘宝描述空格键的秘密? 
+  href="http://www.shuakewang.com/html/help/wsmj2/4259.html"><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>淘宝描述空格键的秘密?</A> </LI>
+  <LI><A title=淘宝店长应该知道的刷单技巧 
+  href="http://www.shuakewang.com/html/help/xszn/4257.html"><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>淘宝店长应该知道的刷单技巧</A> </LI>
+  <LI><A title=淘宝反作弊核心机密怎么破 
+  href="http://www.shuakewang.com/html/help/wsmj2/4256.html"><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>淘宝反作弊核心机密怎么破</A> </LI>
+  <LI><A title=淘宝搜索未来的方向 
+  href="http://www.shuakewang.com/html/help/xszn/4255.html"><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>淘宝搜索未来的方向</A> </LI>
+  <LI><A title=如何分析宝贝搜索的排序 
+  href="http://www.shuakewang.com/html/help/wsmj2/4254.html"><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>如何分析宝贝搜索的排序</A> </LI>
+  <LI><A title=浅谈最新淘宝搜索规则 
+  href="http://www.shuakewang.com/html/help/wsmj2/4253.html"><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>浅谈最新淘宝搜索规则</A> </LI>
+  <LI><A title=为什么淘宝搜索的变化关系着中小卖家的利益 
+  href="http://www.shuakewang.com/html/help/wsmj2/4252.html"><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>为什么淘宝搜索的变化关系着中小卖家的利益</A> </LI></UL>
+<DIV class=clear></DIV>
+<DIV class=tl_b></DIV>
+<DIV class=tr_b></DIV>
+<DIV class=bl_b></DIV>
+<DIV class=br_b></DIV></DIV>
+<DIV style="MARGIN-TOP: 10px" class=gg_box_1>
+<H3 class=ora>买/卖家教程</H3>
+<UL>
+  <LI><A title="刷客网IP代理软件 VPN电脑全网换IP" 
+  href="http://www.shuakewang.com/html/help/wsmj/4218.html" 
+  target=_blank><STRONG><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>刷客网IP代理软件&nbsp;VPN电脑全网换IP</STRONG></A> </LI>
+  <LI><A title=淘宝描述空格键的秘密? 
+  href="http://www.shuakewang.com/html/help/wsmj2/4259.html" target=_blank><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>淘宝描述空格键的秘密?</A> </LI>
+  <LI><A title=淘宝反作弊核心机密怎么破 
+  href="http://www.shuakewang.com/html/help/wsmj2/4256.html" target=_blank><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>淘宝反作弊核心机密怎么破</A> </LI>
+  <LI><A title=如何分析宝贝搜索的排序 
+  href="http://www.shuakewang.com/html/help/wsmj2/4254.html" target=_blank><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>如何分析宝贝搜索的排序</A> </LI>
+  <LI><A title=浅谈最新淘宝搜索规则 
+  href="http://www.shuakewang.com/html/help/wsmj2/4253.html" target=_blank><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>浅谈最新淘宝搜索规则</A> </LI>
+  <LI><A title=为什么淘宝搜索的变化关系着中小卖家的利益 
+  href="http://www.shuakewang.com/html/help/wsmj2/4252.html" target=_blank><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>为什么淘宝搜索的变化关系着中小卖家的利益</A> </LI>
+  <LI><A title=淘宝直通车与淘宝搜索排名关系 
+  href="http://www.shuakewang.com/html/help/wsmj2/4251.html" target=_blank><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>淘宝直通车与淘宝搜索排名关系</A> </LI>
+  <LI><A title=淘宝人气排序的重要性 
+  href="http://www.shuakewang.com/html/help/wsmj2/4244.html" target=_blank><SPAN 
+  style="COLOR: #990000">[推荐]</SPAN>淘宝人气排序的重要性</A> </LI></UL>
+<DIV class=clear></DIV>
+<DIV class=tl_b></DIV>
+<DIV class=tr_b></DIV>
+<DIV class=bl_b></DIV>
+<DIV class=br_b></DIV></DIV><!-- 
+<div class="gg_box_1" style="margin-top:10px;">
+<h3 class="ora"><span class="more"><a href="http://www.shuakewang.com/club">进入论坛</a></span>论坛新热帖</h3>
+    <div class="rightbox1l">
+    <ul>
+        
+        
+    </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="tl_b"></div><div class="tr_b"></div>
+</div>
+ --></DIV><!-- 内容页主体结束 -->
+<DIV class=clear></DIV>
+<DIV class=copyright><!-- copyright start -->
+<DIV class=footer_copyright>
+<HR style="MARGIN: 0px auto; HEIGHT: 1px; COLOR: #eee" width=850>
+
+<P><A href="http://www.shuakewang.com/html/help/about.html" rel=nofollow 
+target=_blank>关于我们</A> | <A 
+href="http://www.shuakewang.com/html/help/contact.html" rel=nofollow 
+target=_blank ?>联系方式</A> | <A 
+href="http://www.shuakewang.com/html/help/payment.html" rel=nofollow 
+target=_blank ?>支付方式</A> | <A href="http://www.shuakewang.com/html/Service.html" 
+rel=nofollow target=_blank ?>合作专区</A> | <A 
+href="http://www.shuakewang.com/html/SelfService.html" rel=nofollow 
+target=_blank ?>自助服务</A> | <A 
+href="http://www.shuakewang.com/html/help/help.html" rel=nofollow target=_blank 
+?>帮助中心</A> | <A href="http://www.shuakewang.com/html/Service.html" rel=nofollow 
+target=_blank ?>客服中心</A><BR>Copyright Reserved 2010-2011&copy; 工业和信息化部备案编号：<A 
+href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action" 
+target=_blank>粤ICP备13049275号-3 </A>刷客网 <A class=link 
+href="http://www.shuakewang.com/">http://www.shuakewang.com/</A> 
+(刷客网战略伙伴)<BR>搜索本站关键字：<A class=link 
+href="http://www.shuakewang.com/html/ptgg/3992.html">淘宝推广</A>|<A class=link 
+href="http://www.shuakewang.com/html/ptgg/4055.html">动态评分</A>||<A class=link 
+href="http://www.shuakewang.com/Task/index.asp?0-0-2-0-0">拍拍推广</A><BR>渠道合作QQ：104932664 
+&nbsp;Email：shijidecheng@foxmail.com &nbsp; <!--百度统计-->
+<SCRIPT type=text/javascript>
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fded57a3514e1910df1c47f102ee09093' type='text/javascript'%3E%3C/script%3E"));
+</SCRIPT>
+</P><A href="http://webscan.360.cn/index/checkwebsite/url/www.shuakewang.com" 
+rel=nofollow target=_blank><IMG border=0 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/125f90a1d2b6da60700b56bdc84d7be8.png"></A> 
+<A href="http://www.anquan.org/s/www.shuakewang.com" rel=nofollow 
+target=_blank><IMG border=0 alt=安全联盟认证 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/anquan.jpg"></A> <A 
+href="http://t.knet.cn/index_new.jsp" rel=nofollow target=_blank><IMG border=0 
+alt=中网可信网站权威认证 src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/knet.jpg"></A> 
+<P></P></DIV><!-- copyright end --><!--可信网站图片LOGO安装开始-->
+<SCRIPT src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/seallogo"></SCRIPT>
+<!--可信网站图片LOGO安装结束-->
+<P></P>
+<SCRIPT type=text/javascript charset=utf-8 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/ks.js"></SCRIPT>
+</DIV><!-- copyright end -->
+<DIV></DIV>
+<SCRIPT type=text/javascript 
+src="任务价格与基本发布点数的对应关系-平台公告-刷客网_files/ajax.js"></SCRIPT>
+</BODY></HTML>

@@ -1,0 +1,119 @@
+
+var KX_cfg_data = { cnnic_dn : '', cnnic_lang : 'zh_cn' };
+
+KX_cfg_data.cnnic_sn = "e13062544030041395ldkf000000";
+KX_cfg_data.cnnic_u1 = "https://ss.knet.cn/verifyseal.dll" + "?sn=" + KX_cfg_data.cnnic_sn + "&ct=df" + "&a=1&pa=" + Math.random();
+KX_cfg_data.cnnic_u2 = "http://rr.knet.cn/static/images/logo/cnnic.png";
+
+var KX_TOOL = (function(){
+	var qk = document.compatMode !== 'CSS1Compat',
+		ie = /ie /i.test( navigator.userAgent ),
+		i6 = /ie 6.0/i.test( navigator.userAgent ),
+		rt = qk ? document.body : document.documentElement;
+		
+	return {
+		qk : qk, ie : ie, i6 : i6,
+		$  : function(i,c){ return (c || document).getElementById(i); },
+		sine : function(t,b,c,d){ return ((t/=d/2) < 1) ? (c/2*t*t + b) : (-c/2 * ((--t)*(t-2) - 1) + b); },
+		getViewPort : function(){ return { width : rt.clientWidth, height : rt.clientHeight }; },
+		getScroll : function(){ return { left : window.pageXOffset || rt.scrollLeft, top : window.pageYOffset || rt.scrollTop }; }
+	};
+})();
+var KX_Event = (function(){
+	if( window.addEventListener ) return {
+		get : function(e){return e;},
+		add : function(e, t, h){ if(!e) return; e.addEventListener(t, h, false); },
+		target : function(e){ return e.target; },
+		prevent : function(e){ e.preventDefault(), e.stopPropagation(); }
+	};
+	return {
+		get : function(e){ return window.event; },
+		add : function(e, t, h){ if(!e) return; e.attachEvent('on' + t, h); },
+		target : function(e){ return window.event.srcElement; },
+		prevent : function(e){ window.event.cancleBubble = true, window.event.returnValue = false; }
+	};
+})();
+function KXverifyTop(opts){
+	var self = this;
+	opts.position = opts.position ? opts.position : 'fixed';
+	opts.pushContent = opts.pushContent ? opts.pushContent : 'n';
+	self.cfg = {
+		speed		: 13,
+		opacity		: opts.opacity,
+		position	: opts.position,
+		pushContent : opts.pushContent
+	};
+	
+	self.addStyle = function(){
+		var st = document.createElement('style'),
+			cs = [
+			'#knet_kx_verify_top_bar{height:33px;right:0;background:url(http://rr.knet.cn/static/images/kx_logo_install.png) repeat-x 0 0;border-bottom:1px solid #979797;zIndex:1000;}',
+			'#knet_kx_verify_top_bar_ifm{position:fixed;height:33px;left:0;top:0;height:32px;opacity:0;filter:alpha(opacity=0);border:none;}',
+			'#knet_kx_verify_top_bar #knet_verify_close{background:url(http://rr.knet.cn/static/images/kx_logo_install.png) repeat-x scroll 0 -40px transparent;height:19px;top:7px;right:10px;position:absolute;width:18px;}',
+			'#knet_kx_verify_top_bar .knet_verify_notice{background:url(http://rr.knet.cn/static/images/kx_logo_install.png) repeat-x scroll 0 -80px transparent;color:#333333;float:left;height:32px;line-height:32px;margin-left:10em;width:425px;}',
+			'#knet_kx_verify_top_bar #knet_verify_view{background:url(http://rr.knet.cn/static/images/kx_logo_install.png) repeat-x scroll -30px -40px transparent;width:71px;height:21px;margin:6px 0 0 10px;float:right;}'].join('');
+		st.type = 'text/css';
+		KX_TOOL.ie ? st.styleSheet.cssText = cs : st.appendChild( document.createTextNode( cs ) );
+		document.getElementsByTagName( 'head' )[0].appendChild( st );
+	}
+		
+	self.build = function(){
+		var v = KX_TOOL.getViewPort(), cfg = self.cfg, box = self.box, ifm = document.createElement('iframe');
+		
+		box.id = "knet_kx_verify_top_bar";
+		box.style.top = '0';
+		box.style.left = '0';
+		box.style.height = '32px';
+		box.style.width = ( v.width < 650 ) ? '650px' : v.width + 'px';
+		box.style.overflow = 'hidden';
+		box.style.position = ifm.style.position = (KX_TOOL.qk && KX_TOOL.ie || KX_TOOL.i6) ? 'absolute' : cfg.position;
+		box.style.filter = 'alpha(opacity=' + cfg.opacity*100 + ')';
+		box.style.opacity = cfg.opacity;
+		
+		box.innerHTML = [
+			'<span id="knet_verify_close" title="关闭"></span>',
+			'<span class="knet_verify_notice"><a href="' + KX_cfg_data.cnnic_u1 + '" id="knet_verify_view" title="点击查看详情" target="_blank"></a></span>',
+			'<br style="clear:both;"/>'
+		].join('');
+		
+		ifm.id = 'knet_kx_verify_top_bar_ifm';
+		ifm.style.width = box.style.width;
+		document.body.appendChild( ifm );
+		document.body.appendChild( box );
+		self.addStyle();
+		if( cfg.pushContent == 'y' ){
+			cfg.bodyPT = document.body.style.paddingTop;
+			document.body.style.paddingTop = box.style.height;
+		}
+	
+		KX_Event.add( KX_TOOL.$('knet_verify_close' ), 'click', function(e){
+			var o = KX_Event.target(e), cfg = self.cfg, n = box, t = 0, d = 20, b = box.offsetHeight;
+			if( KX_TOOL.qk ){ 
+				n.style.display = 'none';
+				document.body.style.paddingTop = cfg.bodyPT;
+				return; 
+			}
+			;(function(){
+				var h = Math.ceil( KX_TOOL.sine(t, b, -b, d) ) + 'px'
+				n.style.height = ifm.style.height = h;
+				( cfg.pushContent == 'y' ) && ( document.body.style.paddingTop = h );
+				if(++t <= d) setTimeout( arguments.callee, cfg.speed);
+			})();
+		});
+		KX_Event.add( window, 'resize', function(e){ 
+			var v = KX_TOOL.getViewPort(), box = self.box;
+			box.style.width = ( v.width < 650 ) ? '650px' : '100%'; 
+		});
+	}
+	self.box = document.createElement('div');
+	self.build();
+}
+var KX_load = window.onload;
+window.onload = function(){
+	if( typeof KX_load == 'function' ) KX_load();
+	new KXverifyTop({
+		position : 'fixed', 
+		opacity : 1,
+		pushContent : 'n'
+	});
+}

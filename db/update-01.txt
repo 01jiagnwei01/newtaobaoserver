@@ -1,0 +1,56 @@
+#!/bin/sh
+
+if [ "$#" = "0" ]; then
+        echo "传入更新包名";
+        echo "例如: 上传的包名为 cqa.20131213.tar.gz , 则 运行 sh update_cqa.sh cqa.20131213.tar.gz"
+        exit 1;
+fi
+PKG="${1}"
+FULL_PKG="/data/push_files/${1}"
+
+if [ ! -f "${FULL_PKG}" ]; then
+        echo "[错误]更新包不存在";
+        exit 1;
+fi
+
+echo "开始备份旧包..."
+now="`date +%Y-%m-%d-%H:%M:%S`"
+backup_pkg_path="/data/app/backup_projects/backup_cqa/cqa.${now}.tar.gz"
+cd /data/app/cqa/
+tar -zcf ${backup_pkg_path} *
+cd -
+echo "备份完成, 备份包路径: ${backup_pkg_path}"
+echo ""
+
+echo "开始解压新包"
+rm -fr /data/push_files/WebContent
+tar xf ${FULL_PKG} -C /data/push_files/
+if [ ! -d "/data/push_files/WebContent" ]; then
+        echo "[错误]更新包中没有包含WebContent目录，不能更新"
+        exit 1
+fi
+echo "解压完成"
+echo ""
+
+echo "替换配置文件"
+cp -fv /data/push_files/WebContent/WEB-INF/web.x.xml /data/push_files/WebContent/WEB-INF/web.xml
+echo "替换完成"
+echo ""
+
+echo "覆盖"
+sleep 3
+rsync -avzP /data/push_files/WebContent /data/app/cqa/
+#rsync -azP /data/push_files/WebContent /data/app/cqa/
+echo "覆盖完成"
+echo ""
+
+
+echo "正在停止服务1"
+sh /usr/local/tomcat1/bin/shutdown.sh
+sleep 3
+echo "服务1已经停止"
+echo ""
+
+echo "正在停止服务2"
+sh /usr/local/tomcat2/bin/shutdown.sh
+"update_cqa.sh" 71L, 1580C

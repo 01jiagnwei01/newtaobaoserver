@@ -1,7 +1,5 @@
 package com.gxkj.taobaoservice.controllers.site;
 
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +14,7 @@ import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.RegObjDTO;
-import com.gxkj.taobaoservice.mail.MailSenderService;
+import com.gxkj.taobaoservice.services.RegService;
 import com.gxkj.taobaoservice.services.UserBaseService;
 import com.gxkj.taobaoservice.util.RegexUtils;
 
@@ -28,7 +26,7 @@ public class RegController {
 	private UserBaseService userBaseService;
 
 	@Autowired
-	private MailSenderService mailSenderService;
+	private RegService regService;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public String reg(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
@@ -66,7 +64,7 @@ public class RegController {
 		EntityReturnData ret = new EntityReturnData();
 		try{
 			if(RegexUtils.isEmail( tomail)){
-				mailSenderService.sendMaiForReg(tomail );
+				regService.doSendMail(tomail );
 				ret.setResult(true);
 				ret.setEntity("");
 			}else{

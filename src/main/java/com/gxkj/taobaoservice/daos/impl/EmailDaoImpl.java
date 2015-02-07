@@ -14,6 +14,7 @@ public class EmailDaoImpl extends BaseDAOImpl implements EmailDao {
 	 
 	public boolean emailIsRegd(String email) throws SQLException {
 		Integer  result = (Integer) this.selectOneBySQL(emailIsReqSql, new Object[]{email}, Integer.class);
+		if (result == null) return false;
 		return result.compareTo(new Integer("0"))>0?true: false;
 	}
 }

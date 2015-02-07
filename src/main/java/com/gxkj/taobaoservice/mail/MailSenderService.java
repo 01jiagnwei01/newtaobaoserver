@@ -2,10 +2,12 @@ package com.gxkj.taobaoservice.mail;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.FileSystemResource;
@@ -15,11 +17,15 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindException;
 
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
+import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.dto.ToolMailDTO;
-import com.gxkj.taobaoservice.services.impl.EmailServiceImpl;
+import com.gxkj.taobaoservice.entitys.RegLog;
+import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.services.RegLogService;
 import com.gxkj.taobaoservice.util.RegexUtils;
 
 @Service("demoMailService")
@@ -35,8 +41,11 @@ public class MailSenderService {
 	@Qualifier("templateMailMessage")
 	private SimpleMailMessage templateMailMessage;
 	
+//	@Autowired
+//	private EmailServiceImpl emailServiceImpl;
+	
 	@Autowired
-	private EmailServiceImpl emailServiceImpl;
+	private RegLogService  regLogService ;
 	
 	
 	private static final String ENCODING = "utf-8";
@@ -63,16 +72,30 @@ public class MailSenderService {
 		simpleMailMessage.setText(msg);
 		mailSender.send(simpleMailMessage);	
 	}
-	public void sendMaiForReg(String email) throws SQLException, BusinessException {
+	public void sendMaiForReg(String email) throws SQLException, BusinessException, BindException {
 		 
-		boolean isReged = emailServiceImpl.emailIsRegd(email);
+		boolean isReged = false;//emailServiceImpl.emailIsRegd(email);
 		if(isReged){
 			throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED);
 		}
-		
-		SimpleMailMessage simpleMailMessage = new SimpleMailMessage(templateMailMessage);
 		String code = RegexUtils.getRandomNum(6)+"";
-		 
+		Date now = new Date();
+		RegLog regLog = new RegLog();
+		regLog.setCode(code);
+		regLog.setCreateDime(now);
+		regLog.setType(RegLogTypes.email);
+		int validTimeLeng = SystemGlobals.getIntPreference("reg.code.valid.time", 5);
+		Date expTime = DateUtils.addMilliseconds(now, validTimeLeng);
+		regLog.setExpTime(expTime);
+		/**
+		 * 保存注册信息
+		 */
+		regLogService.addRegLog(regLog);
+		
+		/**
+		 * 发送邮件
+		 */
+		SimpleMailMessage simpleMailMessage = new SimpleMailMessage(templateMailMessage);
 		simpleMailMessage.setTo(email);
 		simpleMailMessage.setSubject("谷谷道场注册码");
 		simpleMailMessage.setText(String.format("谷谷道场注册码:[%s]", code));

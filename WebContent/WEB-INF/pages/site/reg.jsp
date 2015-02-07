@@ -25,7 +25,7 @@
 				</tr>
 				<tr>
 					<td align="right">邮箱：</td>
-					<td><input type="text" name="textfield" id="email_text" style="padding:10px 5px; width:200px;" placeholder="请填写常用邮箱"></td>
+					<td><input type="text" name="textfield"  size="40" id="email_text" style="padding:10px 5px; width:200px;" placeholder="请填写常用邮箱"></td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
@@ -44,7 +44,7 @@
 				</tr>
 				<tr>
 					<td align="right">用户名：</td>
-					<td><input type="text" name="user_name" id="user_name" style="padding:10px 5px; width:200px;" placeholder=""></td>
+					<td><input type="text" name="user_name" id="user_name" size="40" style="padding:10px 5px; width:200px;" placeholder=""></td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
@@ -52,7 +52,7 @@
 				</tr>
 				<tr>
 					<td align="right">密码：</td>
-					<td><input type="text" name="password" id="password"  style="padding:10px 5px; width:200px;" placeholder="请输入8-16位字母或数字"></td>
+					<td><input type="password" name="password" id="password"  size="40" style="padding:10px 5px; width:200px;" placeholder="请输入8-16位字母或数字"></td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
@@ -60,14 +60,14 @@
 				</tr>
 				<tr>
 					<td align="right">确认密码：</td>
-					<td><input type="text" name="repassword" id="repassword" style="padding:10px 5px; width:200px;" placeholder="请再次输入"></td>
+					<td><input type="password" name="repassword" id="repassword" size="40" style="padding:10px 5px; width:200px;" placeholder="请再次输入"></td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
 					<td><span style="color:#F00"  id="repassword_error"></span></td>
 				</tr>
 			</table>
-			<div class="tac"><a href="###" style="display:inline-block; border-radius:5px; background-color:#09F; width:275px; color:#fff; line-height:40px; height:40px;" class="tac">注册</a></div>
+			<div class="tac"><a href="javascript:doRegFn()" style="display:inline-block; border-radius:5px; background-color:#09F; width:275px; color:#fff; line-height:40px; height:40px;" class="tac">注册</a></div>
 
 	</div>
 
@@ -79,20 +79,31 @@
 		激活时间已过！期激活不成功，请重新注册
 	</div>-->
 	
-	
-	<div style="width:100%; background-color:#8d8d8d; position:fixed; left:0; bottom:0;">
-		<div class="center tac" style="width:1200px; line-height:100px; height:100px; color:#FFF;">谷谷道场</div>
-	</div> 
+	<jsp:include page="./common/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript">
 var endTime = 0;
+var clitime = 0;
 $(function(){
 	$("#email_text").val("");
 	$("#email_text").focus(); 
 	$("#email_text").focus(function(){
 		$("#email_error").html("");
 	});
-	$("#getvefydata_email").click(sendYanZhengMa);
+	 $("#getvefydata_email").bind('click',sendYanZhengMa);
+	$("#user_name").focus(function(){
+		$("#user_name_error").html("");
+	});
+	$("#password").focus(function(){
+		$("#password_error").html("");
+	});
+	$("#repassword").focus(function(){
+		$("#repassword_error").html("");
+	}); 
+	$("#email_code").focus(function(){
+		$("#email_code_error").html("");
+	});
+	
 })
 function checkEmail(str){
 	
@@ -104,13 +115,14 @@ function checkEmail(str){
     }
 }
 function sendYanZhengMa(){
-	 if(!checkEmailFn()) return; 
+	 if(!checkEmailFn()) {
+		 return;
+	 }; 
+	 if(clitime>=1)return;
 	// document.getElementById("getvefydata_email").style.disable = true;
-	 $("#getvefydata_email").attr("disabled",true); 
-	 $("#getvefydata_email").unbind();
-	 endTime = 60;
-	 changeSendEmailCodeInfo();
-	 window.setInterval("changeSendEmailCodeInfo()", 1000); 
+	 
+	 sendAjaxGetEmailCode($("#email_text").val());
+	 
 }
 function checkEmailFn(){
 	var email = $("#email_text").val();
@@ -131,7 +143,7 @@ function changeSendEmailCodeInfo(){
 		window.clearInterval(changeSendEmailCodeInfo);
 		 $("#getvefydata_email").attr("disabled",false); 
 		 $("#getvefydata_email").text( "发送验证码");
-		 $("#getvefydata_email").click(sendYanZhengMa);
+		 $("#getvefydata_email").bind('click',sendYanZhengMa);
 		return;
 	}
 	$("#getvefydata_email").text(endTime+"秒后重发");
@@ -140,26 +152,84 @@ function changeSendEmailCodeInfo(){
 function sendAjaxGetEmailCode(mail){
 	var yanzhengmaurl = "<%=request.getContextPath()%>/reg/sendmail";
   	$.ajax({
-		  type:'GET',
+		  type:'post',
 		  url: yanzhengmaurl,
 		  context: document.body,
 		  beforeSend:function(){
-		  		 
+			  clitime = 1;
+			  $("#getvefydata_email").attr("disabled",true); 
+			  $("#getvefydata_email").unbind("click");
 		 },
 		  data:{ d:new Date().getTime(),tomail:mail},
 		  success:function(json){
-			  
-			  var result = json["result"];
-			  var yanzhengmaget = json["entity"];
+			  clitime = 0;
+			  var result = json["result"];  
+			  //修改发送状态
+			  endTime = 60;
+			 changeSendEmailCodeInfo();
+			 window.setInterval("changeSendEmailCodeInfo()", 1000); 
+			
 			 	  
 		  },
 	      error:function(xhr,textStatus,errorThrown){
-	    	  
+	    	  clitime = 0;
 	  		var responseText = xhr.responseText;
 	  		// $(btn)).removeAttr("disabled");
 	  } 
+	})
 }
+function doRegFn(){
+	if(!checkEmailFn())return;
+	if(!checkCode())return;
+	if(!checkUserName())return;
+	if(!checkpassword())return;
+	
+	
+	var email = $("#email_text").val();
+	var code = $("#email_code").val();
+	
+	var username = $("#user_name").val();
+	var password = $("#password").val();
+	var repassword = $("#repassword").val();
 }
-  
+function checkUserName(){
+	var username = $("#user_name").val();
+	if($.trim(username).length == 0 ){
+		$("#user_name_error").html("请输入用户名");
+		return false;
+	}else if($.trim(username).length >= 41 ){
+		$("#user_name_error").html("用户名长度不能超过40");
+		return false;
+	}
+	return true;
+}
+function checkpassword(){
+	var password = $.trim($("#password").val());
+	var repassword =  $.trim($("#repassword").val());
+	if(password.length == 0 ){
+		$("#password_error").html("密码不能为空");
+		return false;
+	}
+	if(repassword.length == 0 ){
+		$("#repassword_error").html("确认密码不能为空");
+		return false;
+	}
+	if(repassword != password  ){
+		$("#repassword_error").html("确认密码与密码不一致");
+		return false;
+	}
+	return true;
+}
+function checkCode(){
+	var code = $.trim($("#email_code").val());
+	if(code.length == 0 ){
+		$("#email_code_error").html("验证码不能为空");
+		return false;
+	}else if(code.length != 6 ){
+		$("#email_code_error").html("验证码输入错误");
+		return false;
+	}
+	return true;
+}
 </script>
 </html>

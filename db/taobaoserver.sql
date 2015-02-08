@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-02-05 20:52:00
+Date: 2015-02-08 14:17:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -426,20 +426,12 @@ CREATE TABLE `operate_log` (
   `ip` varchar(30) DEFAULT NULL,
   `isused` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of operate_log
 -- ----------------------------
-INSERT INTO `operate_log` VALUES ('1', '1', '2014-12-06 21:12:28', 'SET_SUPPLY_MONEY', '0', '50', null, '0');
-INSERT INTO `operate_log` VALUES ('2', '1', '2014-12-06 21:14:39', 'SET_SUPPLY_MONEY', '50', '50', null, '0');
-INSERT INTO `operate_log` VALUES ('3', '1', '2014-12-06 21:22:04', 'SET_SUPPLY_MONEY', '50', '50', null, '0');
-INSERT INTO `operate_log` VALUES ('4', '1', '2014-12-06 21:22:08', 'SET_SUPPLY_MONEY', '50', '50', null, '0');
-INSERT INTO `operate_log` VALUES ('5', '1', '2014-12-06 21:22:09', 'SET_SUPPLY_MONEY', '50', '50', null, '0');
-INSERT INTO `operate_log` VALUES ('6', '1', '2014-12-06 21:30:49', 'SET_SUPPLY_MONEY', '50', '49', null, '0');
-INSERT INTO `operate_log` VALUES ('7', '1', '2014-12-06 21:30:55', 'SET_SUPPLY_MONEY', '49', '0', null, '0');
-INSERT INTO `operate_log` VALUES ('8', '1', '2014-12-06 21:35:15', 'SET_SUPPLY_MONEY', '0', '21', null, '0');
-INSERT INTO `operate_log` VALUES ('9', '1', '2014-12-06 21:35:18', 'SET_SUPPLY_MONEY', '21', '0', null, '0');
+INSERT INTO `operate_log` VALUES ('14', '2', '2015-02-08 13:50:51', 'REG_EMAIL', null, '01jiangwei01@163.com', null, '0');
 
 -- ----------------------------
 -- Table structure for `pics`
@@ -471,13 +463,29 @@ CREATE TABLE `reg_log` (
   `type` varchar(10) NOT NULL,
   `value` varchar(50) NOT NULL,
   `create_time` datetime NOT NULL,
-  `active_time` datetime NOT NULL,
+  `active_time` datetime DEFAULT NULL,
+  `exp_time` datetime NOT NULL,
+  `enabled` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of reg_log
 -- ----------------------------
+INSERT INTO `reg_log` VALUES ('2', '876534', 'email', '01jiangwei01@163.com', '2015-02-07 21:19:55', null, '2015-02-07 21:19:55', '0');
+INSERT INTO `reg_log` VALUES ('3', '187956', 'email', '01jiangwei01@163.com', '2015-02-07 21:26:38', null, '2015-02-07 21:26:38', '0');
+INSERT INTO `reg_log` VALUES ('4', '926075', 'email', '01jiangwei01@163.com', '2015-02-07 22:03:09', null, '2015-02-07 22:03:09', '0');
+INSERT INTO `reg_log` VALUES ('5', '141936', 'email', '01jiangwei01@163.com', '2015-02-07 22:25:41', null, '2015-02-07 22:25:41', '0');
+INSERT INTO `reg_log` VALUES ('6', '932486', 'email', '01jiangwei01@163.com', '2015-02-07 22:27:35', null, '2015-02-07 22:27:35', '0');
+INSERT INTO `reg_log` VALUES ('7', '642185', 'email', '01jiangwei01@163.com', '2015-02-07 22:28:49', null, '2015-02-07 22:28:49', '0');
+INSERT INTO `reg_log` VALUES ('8', '856349', 'email', '01jiangwei01@163.com', '2015-02-07 22:31:03', null, '2015-02-07 22:31:03', '0');
+INSERT INTO `reg_log` VALUES ('9', '296401', 'email', '01jiangwei01@163.com', '2015-02-07 22:32:07', null, '2015-02-07 22:32:07', '0');
+INSERT INTO `reg_log` VALUES ('10', '853071', 'email', '01jiangwei01@163.com', '2015-02-07 22:32:11', null, '2015-02-07 22:32:11', '0');
+INSERT INTO `reg_log` VALUES ('11', '839061', 'email', '01jiangwei01@163.com', '2015-02-07 22:32:48', null, '2015-02-07 22:32:48', '0');
+INSERT INTO `reg_log` VALUES ('12', '578092', 'email', '01jiangwei01@163.com', '2015-02-07 22:32:51', null, '2015-02-07 22:32:51', '0');
+INSERT INTO `reg_log` VALUES ('13', '654389', 'email', '01jiangwei01@163.com', '2015-02-07 22:39:26', null, '2015-02-07 22:39:26', '0');
+INSERT INTO `reg_log` VALUES ('14', '971482', 'email', '01jiangwei01@163.com', '2015-02-08 13:17:52', null, '2015-02-08 13:17:52', '0');
+INSERT INTO `reg_log` VALUES ('16', '870569', 'email', '01jiangwei01@163.com', '2015-02-08 13:37:55', '2015-02-08 13:50:51', '2015-02-08 13:37:55', '1');
 
 -- ----------------------------
 -- Table structure for `rel_admin_user_role`
@@ -724,12 +732,12 @@ CREATE TABLE `user_account` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user_base` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_account
 -- ----------------------------
-INSERT INTO `user_account` VALUES ('1', '19.00', '4.00', '0.00', '0.00', '1');
+INSERT INTO `user_account` VALUES ('2', '0.00', '0.00', '0.00', '0.00', '2');
 
 -- ----------------------------
 -- Table structure for `user_account_log`
@@ -758,13 +766,6 @@ CREATE TABLE `user_account_log` (
 -- ----------------------------
 -- Records of user_account_log
 -- ----------------------------
-INSERT INTO `user_account_log` VALUES ('1', '2014-12-05 23:21:38', '1', 'RECHARGE', '10.00', '0.00', '0.00', '0.00', '0.00', '0.00', '10.00', '0.00', '0.00', '0.00', '1', null);
-INSERT INTO `user_account_log` VALUES ('2', '2014-12-06 08:38:03', '1', 'RECHARGE', '10.00', '0.00', '10.00', '0.00', '0.00', '0.00', '20.00', '0.00', '0.00', '0.00', '1', null);
-INSERT INTO `user_account_log` VALUES ('3', '2014-12-06 09:42:38', '1', 'WITHDRAW', '1.00', '0.00', '20.00', '0.00', '0.00', '0.00', '19.00', '0.00', '0.00', '0.00', '1', null);
-INSERT INTO `user_account_log` VALUES ('4', '2014-12-07 16:21:06', '1', 'COMPANY_SUPPLY', null, '1.00', '19.00', '0.00', '0.00', '0.00', '19.00', '1.00', '0.00', '0.00', '1', null);
-INSERT INTO `user_account_log` VALUES ('5', '2014-12-07 16:22:44', '1', 'COMPANY_SUPPLY', null, '1.00', '19.00', '1.00', '0.00', '0.00', '19.00', '2.00', '0.00', '0.00', '1', null);
-INSERT INTO `user_account_log` VALUES ('6', '2014-12-14 20:44:56', '1', 'COMPANY_SUPPLY', null, '1.00', '19.00', '2.00', '0.00', '0.00', '19.00', '3.00', '0.00', '0.00', '1', null);
-INSERT INTO `user_account_log` VALUES ('7', '2014-12-14 20:48:03', '1', 'COMPANY_SUPPLY', null, '1.00', '19.00', '3.00', '0.00', '0.00', '19.00', '4.00', '0.00', '0.00', '1', null);
 
 -- ----------------------------
 -- Table structure for `user_base`
@@ -776,14 +777,13 @@ CREATE TABLE `user_base` (
   `password` varchar(36) NOT NULL,
   `regTime` datetime NOT NULL COMMENT '用户基本信息表',
   `status` varchar(10) NOT NULL,
-  `supply_money` double(2,0) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_base
 -- ----------------------------
-INSERT INTO `user_base` VALUES ('1', 'x1', '6dbf9ac2da09ee1d3debf5a51873ec6d', '2014-12-02 17:59:15', 'NORMAL', '0');
+INSERT INTO `user_base` VALUES ('2', '01jiangwei01@163.com', 'cd0061c62d8221fef2bc83f38653e785', '2015-02-08 13:50:51', 'NORMAL');
 
 -- ----------------------------
 -- Table structure for `user_link`
@@ -794,13 +794,14 @@ CREATE TABLE `user_link` (
   `user_id` int(10) NOT NULL,
   `link_type` varchar(30) NOT NULL,
   `link_value` varchar(30) NOT NULL,
-  `status` varchar(10) NOT NULL,
+  `status` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_link
 -- ----------------------------
+INSERT INTO `user_link` VALUES ('2', '2', 'EMAIL', '01jiangwei01@163.com', 'NORMAL');
 
 -- ----------------------------
 -- Table structure for `valid_info`

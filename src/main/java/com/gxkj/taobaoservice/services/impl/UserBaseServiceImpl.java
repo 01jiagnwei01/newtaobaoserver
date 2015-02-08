@@ -105,7 +105,6 @@ public class UserBaseServiceImpl implements UserBaseService {
 		UserBase userBase = new UserBase();
 		userBase.setPassword(PWDGenter.generateKen(regObjDTO.getPassword()) );
 		userBase.setUserName(regObjDTO.getUserName());
-		userBase.setSupplyMoney(BigDecimal.ZERO);
 		userBase.setRegTime(now);
 		userBase.setStatus(UserBaseStatus.WAIT_FOR_ACTIVE);
 		userBaseDao.insert(userBase);

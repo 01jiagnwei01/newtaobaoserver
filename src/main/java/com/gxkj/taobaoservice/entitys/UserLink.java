@@ -34,6 +34,7 @@ public class UserLink implements Serializable{
 	private Integer userId;
 	
 	@Column(name = "link_type",  nullable = false) 
+	@Enumerated(EnumType.STRING)
 	private UserLinkTypes linkType;
 	
 	@Column(name = "link_value",  nullable = false) 
@@ -43,13 +44,6 @@ public class UserLink implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private UserLinkStatus status;
 	
-//	@Column(name = "create_time" )
-//	@Temporal(TemporalType.TIMESTAMP )
-//	private Date createTime;
-//	
-//	@Column(name = "active_time" )
-//	@Temporal(TemporalType.TIMESTAMP )
-//	private Date activeTime;
 
 	public Integer getId() {
 		return id;
@@ -93,21 +87,7 @@ public class UserLink implements Serializable{
 		this.status = status;
 	}
 
-//	public Date getCreateTime() {
-//		return createTime;
-//	}
-//
-//	public void setCreateTime(Date createTime) {
-//		this.createTime = createTime;
-//	}
-//
-//	public Date getActiveTime() {
-//		return activeTime;
-//	}
-//
-//	public void setActiveTime(Date activeTime) {
-//		this.activeTime = activeTime;
-//	}
+
 	
 	
 }

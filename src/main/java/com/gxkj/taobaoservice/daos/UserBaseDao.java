@@ -31,5 +31,13 @@ public interface UserBaseDao extends BaseDAO{
 	 * @throws SQLException
 	 */
 	List<UserBase> getAllSupplyUsers()throws SQLException;
+	
+	/**
+	 * 判断用户名是否被注册过
+	 * @param userName
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean userNameIsReged(String userName)throws SQLException;
 
 }

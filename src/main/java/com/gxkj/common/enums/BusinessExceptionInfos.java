@@ -26,7 +26,13 @@ public enum BusinessExceptionInfos {
 	ONLY_NOSEND_MAIL_CAN_EXECUTE("23","只有未发送的邮件才允许执行"), 
 	SEND_TIME_SHOULD_AFTER_SYSTEM_TIME("24","发送时间应该晚于系统当前时间"), 
 	NO_USE_EXCEL_TEMPLATE("25","请使用模板进行导入"),
-	EMAIL_IS_REGED("26","邮箱已经被注册了");
+	EMAIL_IS_REGED("26","邮箱已经被注册了"),
+	EMAIL_NOT_SEND_CODE("27","邮箱没有获得注册码"),
+	YAN_ZHENG_MA_ERROR("28","验证码错误"),
+	PASSWORD_IS_BLANK("29","密码为空"),
+	REPASSWORD_IS_BLANK("30","确认密码为空"),
+	USER_NAME_IS_BLANK("31","用户名为空"),
+	USER_NAME_IS_REGED("32","用户名已经被注册过");
 	private String errorCode; 
 	
 	private String errorMsg;

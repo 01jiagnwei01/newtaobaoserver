@@ -1,5 +1,7 @@
 package com.gxkj.taobaoservice.controllers.site;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.RegObjDTO;
@@ -34,29 +35,16 @@ public class RegController {
 		return mv;	
 	}
 	
-	@RequestMapping(value="",method=RequestMethod.POST)
+	@RequestMapping(value="/doreg",method=RequestMethod.POST)
 	@ResponseBody
-	public EntityReturnData doreg(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,RegObjDTO regObjDTO) throws BusinessException{
+	public EntityReturnData doreg(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,RegObjDTO regObjDTO) throws BusinessException, SQLException{
 		 
-//		EntityReturnData ret = new EntityReturnData();
-//		String yanzhengma = regObjDTO.getYanzhengma();
-//		if(StringUtils.isBlank(yanzhengma) || !yanzhengma.equals(request.getSession().getAttribute(RandomValidateCode.RANDOMCODEKEY))){
-//			throw new BusinessException(BusinessExceptionInfos.Yan_Zheng_MA_ERROR);
-//		}
-//		String ip = request.getRemoteAddr();
-//		regObjDTO.setIp(ip);
-//		try {
-//			ret =   userBaseService.addRegUser(regObjDTO);
-//		} catch (Exception e) {
-//			if(e instanceof AddressException){
-//				throw new BusinessException(BusinessExceptionInfos.EMAIL_ADDRESS_IS_ERROR);
-//			}
-//			e.printStackTrace();
-//			 
-//			throw new BusinessException(BusinessExceptionInfos.ADMIN_IS_MAINTING);
-//		}
-//		return ret;	
-		throw new BusinessException(BusinessExceptionInfos.EMAIL_ADDRESS_IS_ERROR);
+		 EntityReturnData ret = new EntityReturnData();
+		 regService.doRegFn(regObjDTO); 
+		 ret.setResult(true);
+		 ret.setMsg("注册成功");
+ 		 return ret;	
+		//throw new BusinessException(BusinessExceptionInfos.EMAIL_ADDRESS_IS_ERROR);
 	}
 	@RequestMapping(value="/sendmail",method=RequestMethod.POST)
 	@ResponseBody

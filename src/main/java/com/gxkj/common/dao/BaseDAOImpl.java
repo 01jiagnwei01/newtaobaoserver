@@ -166,10 +166,13 @@ public  class BaseDAOImpl    implements BaseDAO {
 		return enityts.size()==0 ? null : enityts.get(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object selectOneByHQL(String hql) throws SQLException {
-		List<?> enityts = sessionFactory.getCurrentSession().createQuery(hql).list();
-
-		return enityts.size()==0 ? null : enityts.get(0);
+		Query q = sessionFactory.getCurrentSession().createQuery(hql);
+		q.setFirstResult(0);
+		q.setMaxResults(1);
+		List<Object> entitys = q.list();
+		return entitys == null?null:entitys.size()>=1?entitys.get(0):null;
 	}
 
 	public int executeUpdate(String sql, Object[] parameters)
@@ -291,6 +294,7 @@ public  class BaseDAOImpl    implements BaseDAO {
 		return this.executeQuery(sql, parameters, clazz);
 	}
 	 
+	@SuppressWarnings("unchecked")
 	public Object selectOneBySQL(String sql,Class<?> clazz) throws SQLException {
 		Session session = sessionFactory.getCurrentSession();
 		SQLQuery q = session.createSQLQuery(sql); 
@@ -299,10 +303,14 @@ public  class BaseDAOImpl    implements BaseDAO {
 		}else{
 			 q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		}
-		return q.uniqueResult();
+		q.setFirstResult(0);
+		q.setMaxResults(1);
+		List<Object> entitys = q.list();
+		return entitys == null?null:entitys.size()>=1?entitys.get(0):null;
 	}
 
 	 
+	@SuppressWarnings("unchecked")
 	public Object selectOneBySQL(String sql, Object[] parameters,Class<?> clazz)
 			throws SQLException {
 		 
@@ -318,7 +326,10 @@ public  class BaseDAOImpl    implements BaseDAO {
 		}else{
 			 q.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		}
-		return q.uniqueResult();
+		q.setFirstResult(0);
+		q.setMaxResults(1);
+		List<Object> entitys = q.list();
+		return entitys == null?null:entitys.size()>=1?entitys.get(0):null;
 	}
 
  
@@ -449,9 +460,21 @@ public  class BaseDAOImpl    implements BaseDAO {
 		 return query.list();
 	}
 
-	
-	 
 
-	 
  
+	@SuppressWarnings("unchecked")
+	public Object selectOneByHQL(String hql, Map<String, Object> parameters)
+			throws SQLException {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery(hql);
+		if(parameters != null){
+			for (String key : parameters.keySet()) {
+				query.setParameter(key, parameters.get(key));
+			}
+		}
+		query.setFirstResult(0);
+		query.setMaxResults(1);
+		List<Object> entitys = query.list();
+		return entitys == null?null:entitys.size()>=1?entitys.get(0):null;
+	}
 }

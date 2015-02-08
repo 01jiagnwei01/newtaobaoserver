@@ -58,10 +58,13 @@ public interface BaseDAO {
 			throws SQLException;
 	
 
-	public Object selectOneByHQL(String hql, Object[] parameters)
-			throws SQLException;
+	
 
 	public Object selectOneByHQL(String hql) throws SQLException;
+	
+	public Object selectOneByHQL(String hql, Object[] parameters) throws SQLException;
+	
+	public Object selectOneByHQL(String hql, Map<String, Object> parameters) throws SQLException;
 	
 	public Object selectOneBySQL(String sql,Class<?> clazz) throws SQLException;
 	

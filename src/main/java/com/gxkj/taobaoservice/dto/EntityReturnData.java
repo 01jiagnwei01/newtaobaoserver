@@ -15,6 +15,11 @@ public class EntityReturnData implements Serializable{
 	 * 操作结果 
 	 */
 	private String msg;
+	
+	/**
+	 * 前台标识 
+	 */
+	private String siteFlag;
 	/**
 	 * 返回对象
 	 */
@@ -60,6 +65,14 @@ public class EntityReturnData implements Serializable{
 	 */
 	public void setEntity(Object entity) {
 		this.entity = entity;
+	}
+
+	public String getSiteFlag() {
+		return siteFlag;
+	}
+
+	public void setSiteFlag(String siteFlag) {
+		this.siteFlag = siteFlag;
 	}
 	
 	

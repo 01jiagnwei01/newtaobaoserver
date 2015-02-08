@@ -13,7 +13,7 @@
 		<jsp:param name="showshouye" value="true"></jsp:param>
 	</jsp:include>  
 
-	<div style="border-radius:10px; width:400px; margin:10px auto 30px; padding-bottom:30px; border:solid 1px #ccc;">
+	<div  id="reg_form"  style="border-radius:10px; width:400px; margin:10px auto 30px; padding-bottom:30px; border:solid 1px #ccc;">
 			<table  cellspacing="0" cellpadding="0" class="center" style="margin-top:30px;width:90%;border: 0 ">
 				<tr>
 						<td align="right"><span style="color:#09F; font-weight:bold">新用户注册</span></td>
@@ -71,9 +71,9 @@
 
 	</div>
 
-	<!--<div style="border-radius:10px; width:400px; margin:10px auto 30px; border:solid 1px #ccc; font-size:20px; font-weight:bold; height:300px; line-height:300px;" class="tac">
-		<a href="###" style="color:#09f;">激活成功，3秒后跳到首页</a>
-	</div>-->
+	 <div id="reg_success" style="display:none; border-radius:10px; width:400px; margin:10px auto 30px; border:solid 1px #ccc; font-size:20px; font-weight:bold; height:300px; line-height:300px;" class="tac">
+		<a href="<%=request.getContextPath() %>/login" style="color:#09f;">激活成功，请到登陆页面登陆</a>
+	</div> 
 
 	<!--<div style="border-radius:10px; width:400px; margin:10px auto 30px; border:solid 1px #ccc; font-size:20px; font-weight:bold; height:300px; line-height:300px;" class="tac">
 		激活时间已过！期激活不成功，请重新注册
@@ -185,12 +185,53 @@ function doRegFn(){
 	if(!checkpassword())return;
 	
 	
-	var email = $("#email_text").val();
-	var code = $("#email_code").val();
+	var email =  $.trim($("#email_text").val());
+	var code = $.trim($("#email_code").val());
+	var username = $.trim($("#user_name").val());
+	var password = $.trim($("#password").val());
+	var repassword = $.trim($("#repassword").val());
 	
-	var username = $("#user_name").val();
-	var password = $("#password").val();
-	var repassword = $("#repassword").val();
+	var yanzhengmaurl = "<%=request.getContextPath()%>/reg/doreg";
+  	$.ajax({
+		  type:'post',
+		  url: yanzhengmaurl,
+		  context: document.body,
+		  beforeSend:function(){
+			   
+		 },
+		  data:{
+			  d:new Date().getTime(),
+			  userName: username,
+			  email: email,
+			  password: password,
+			  rePassword: repassword,
+			  yanzhengma: code
+		  },
+		  success:function(json){
+			  
+			  clitime = 0;
+			  var result = json["result"]; 
+			  if(result){
+				  
+				  $("#reg_form").hide();
+				  $("#reg_success").show();
+				  return;
+			  }else{
+				  alert(json);
+			  }
+			  //修改发送状态
+			  alert(result);
+			  
+			
+			 	  
+		  },
+	      error:function(xhr,textStatus,errorThrown){
+	    	  clitime = 0;
+	  		var responseText = xhr.responseText;
+	  		alert(responseText);
+	  		// $(btn)).removeAttr("disabled");
+	  } 
+	})
 }
 function checkUserName(){
 	var username = $("#user_name").val();

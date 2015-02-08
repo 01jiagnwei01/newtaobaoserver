@@ -21,7 +21,8 @@ import com.gxkj.taobaoservice.enums.YANS;
 @Repository
 public class UserBaseDaoImpl extends BaseDAOImpl implements UserBaseDao {
 
-	 
+	private static final String  userNameIsRegedHQL = " from UserBase where userName =:userName ";
+	
 	@SuppressWarnings("unchecked")
 	public List<UserBase> getUsersByUserName(String userName) throws SQLException {
 		String hql = "from UserBase where userName = ?";
@@ -78,6 +79,13 @@ public class UserBaseDaoImpl extends BaseDAOImpl implements UserBaseDao {
 	public List<UserBase> getAllSupplyUsers() throws SQLException {
 		 String hql = "from UserBase where supplyMoney >0";
 		return (List<UserBase>) this.selectByHQL(hql);
+	}
+
+	public boolean userNameIsReged(String userName) throws SQLException {
+		 Map<String,Object> parameters = new HashMap<String,Object>();
+		 parameters.put("userName", userName);
+		UserBase base = (UserBase) this.selectOneByHQL(userNameIsRegedHQL, parameters);
+		return base == null?false:true;
 	}
 
 	 

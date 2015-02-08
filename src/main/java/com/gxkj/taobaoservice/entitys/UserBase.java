@@ -1,7 +1,6 @@
 package com.gxkj.taobaoservice.entitys;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,11 +63,7 @@ public class UserBase implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP )
 	private Date regTime;
 	
-	/**
-	 * 公司补偿金额
-	 */
-	@Column(name = "supply_money")
-	private BigDecimal supplyMoney = BigDecimal.ZERO;
+	 
 	
 	
 	
@@ -140,12 +135,6 @@ public class UserBase implements Serializable{
 		this.status = status;
 	}
 
-	public BigDecimal getSupplyMoney() {
-		return supplyMoney;
-	}
-
-	public void setSupplyMoney(BigDecimal supplyMoney) {
-		this.supplyMoney = supplyMoney;
-	}
+	 
 	
 }

@@ -7,6 +7,11 @@ public class BusinessException extends  Exception{
     private static final long serialVersionUID = 2332608236621015980L;  
   
     private String code;  
+    
+    /**
+     * 前台标识
+     */
+    private String siteFlag;
   
     public BusinessException() {  
         super();  
@@ -19,6 +24,11 @@ public class BusinessException extends  Exception{
     public BusinessException(BusinessExceptionInfos info) {  
         super(info.getErrorMsg());  
         this.code = info.getErrorCode();  
+    }
+    public BusinessException(BusinessExceptionInfos info,String siteFlag) {  
+        super(info.getErrorMsg());  
+        this.code = info.getErrorCode(); 
+        this.siteFlag = siteFlag;
     }
     public BusinessException(String code, String message) {  
         super(message);  
@@ -44,5 +54,14 @@ public class BusinessException extends  Exception{
   
     public void setCode(String code) {  
         this.code = code;  
-    } 
+    }
+
+	public String getSiteFlag() {
+		return siteFlag;
+	}
+
+	public void setSiteFlag(String siteFlag) {
+		this.siteFlag = siteFlag;
+	}
+    
 }

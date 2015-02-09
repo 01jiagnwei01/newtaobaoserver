@@ -50,7 +50,7 @@ public class CustomSimpleMappingExceptionResolver extends SimpleMappingException
 	                   
 	                    if (ex instanceof  BusinessException){
 	                    	json.setMsg(  ex.getMessage());
-	                    	json.setSiteFlag(((BusinessException) ex).getSiteFlag());
+	                    	json.setErrortype( ((BusinessException) ex).getSiteFlag());
 	    				}else if (ex instanceof  MaxUploadSizeExceededException){
 	    					json.setMsg(  "上传文件大小超限了，"+ex.getMessage());
 	    				}else if (ex instanceof  BindException){

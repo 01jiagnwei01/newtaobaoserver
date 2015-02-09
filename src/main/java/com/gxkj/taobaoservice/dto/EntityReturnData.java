@@ -19,7 +19,7 @@ public class EntityReturnData implements Serializable{
 	/**
 	 * 前台标识 
 	 */
-	private String siteFlag;
+	private String errortype;
 	/**
 	 * 返回对象
 	 */
@@ -67,13 +67,15 @@ public class EntityReturnData implements Serializable{
 		this.entity = entity;
 	}
 
-	public String getSiteFlag() {
-		return siteFlag;
+	public String getErrortype() {
+		return errortype;
 	}
 
-	public void setSiteFlag(String siteFlag) {
-		this.siteFlag = siteFlag;
+	public void setErrortype(String errortype) {
+		this.errortype = errortype;
 	}
+
+	 
 	
 	
 

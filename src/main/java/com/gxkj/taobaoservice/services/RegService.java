@@ -23,6 +23,7 @@ public interface RegService {
 	 * @param regObjDTO
 	 * @throws SQLException 
 	 * @throws BusinessException 
+	 * @throws BindException 
 	 */
 	public void doRegFn(RegObjDTO regObjDTO) throws SQLException, BusinessException;
 

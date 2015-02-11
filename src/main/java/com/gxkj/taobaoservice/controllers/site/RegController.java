@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,14 +38,13 @@ public class RegController {
 	
 	@RequestMapping(value="/doreg",method=RequestMethod.POST)
 	@ResponseBody
-	public EntityReturnData doreg(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,RegObjDTO regObjDTO) throws BusinessException, SQLException{
+	public EntityReturnData doreg(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,RegObjDTO regObjDTO) throws BusinessException, SQLException, BindException{
 		 
 		 EntityReturnData ret = new EntityReturnData();
 		 regService.doRegFn(regObjDTO); 
 		 ret.setResult(true);
 		 ret.setMsg("注册成功");
  		 return ret;	
-		//throw new BusinessException(BusinessExceptionInfos.EMAIL_ADDRESS_IS_ERROR);
 	}
 	@RequestMapping(value="/sendmail",method=RequestMethod.POST)
 	@ResponseBody

@@ -52,7 +52,7 @@
 				</tr>
 				<tr>
 					<td align="right">密码：</td>
-					<td><input type="password" name="password" id="password"  size="40" style="padding:10px 5px; width:200px;" placeholder="请输入8-16位字母或数字"></td>
+					<td><input type="password" name="password" id="password"  size="20" style="padding:10px 5px; width:200px;" placeholder="请输入6-20位字母或数字"></td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
@@ -60,14 +60,14 @@
 				</tr>
 				<tr>
 					<td align="right">确认密码：</td>
-					<td><input type="password" name="repassword" id="repassword" size="40" style="padding:10px 5px; width:200px;" placeholder="请再次输入"></td>
+					<td><input type="password" name="repassword" id="repassword" size="20" style="padding:10px 5px; width:200px;" placeholder="请再次输入"></td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
 					<td><span style="color:#F00"  id="repassword_error"></span></td>
 				</tr>
 			</table>
-			<div class="tac"><a href="javascript:doRegFn()" style="display:inline-block; border-radius:5px; background-color:#09F; width:275px; color:#fff; line-height:40px; height:40px;" class="tac">注册</a></div>
+			<div class="tac"><a href="javascript:doRegFn(this)" style="display:inline-block; border-radius:5px; background-color:#09F; width:275px; color:#fff; line-height:40px; height:40px;" class="tac" id="reg_btn">注册</a></div>
 
 	</div>
 
@@ -178,13 +178,12 @@ function sendAjaxGetEmailCode(mail){
 	  } 
 	})
 }
-function doRegFn(){
+function doRegFn(athis){
 	if(!checkEmailFn())return;
 	if(!checkCode())return;
 	if(!checkUserName())return;
 	if(!checkpassword())return;
-	
-	
+	 
 	var email =  $.trim($("#email_text").val());
 	var code = $.trim($("#email_code").val());
 	var username = $.trim($("#user_name").val());
@@ -197,7 +196,8 @@ function doRegFn(){
 		  url: yanzhengmaurl,
 		  context: document.body,
 		  beforeSend:function(){
-			   
+			  $("#reg_btn").attr("disabled",true); 
+			  $("#reg_btn").html("正在注册中。。。");
 		 },
 		  data:{
 			  d:new Date().getTime(),
@@ -208,8 +208,8 @@ function doRegFn(){
 			  yanzhengma: code
 		  },
 		  success:function(json){
-			  
-			  clitime = 0;
+			  $("#reg_btn").attr("disabled",false);
+			  $("#reg_btn").html("注册");
 			  var result = json["result"]; 
 			  if(result){
 				  
@@ -217,18 +217,32 @@ function doRegFn(){
 				  $("#reg_success").show();
 				  return;
 			  }else{
-				  alert(json);
-			  }
-			  //修改发送状态
-			  alert(result);
+				 
+			  } 
 			  
 			
 			 	  
 		  },
 	      error:function(xhr,textStatus,errorThrown){
-	    	  clitime = 0;
+	    	  $("#reg_btn").attr("disabled",false);
+	    	  $("#reg_btn").html("注册");
 	  		var responseText = xhr.responseText;
-	  		alert(responseText);
+	  		var obj = jQuery.parseJSON(responseText);
+			var errortype = obj.errortype
+	  		var msg = obj.msg;
+			if(errortype == 'password'){
+				$("#password_error").html(msg);
+			}else if(errortype == 'rePassword'){
+				$("#repassword_error").html(msg);
+			}else if(errortype == 'userName'){
+				$("#user_name_error").html(msg);
+			}else if(errortype == 'email'){
+				$("#email_error").html(msg);
+			}else if(errortype == 'code'){
+			 
+				$("#email_code_error").html(msg);
+			}
+			
 	  		// $(btn)).removeAttr("disabled");
 	  } 
 	})

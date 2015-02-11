@@ -37,7 +37,7 @@ public class UserLink implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private UserLinkTypes linkType;
 	
-	@Column(name = "link_value",  nullable = false) 
+	@Column(name = "link_value",  nullable = false,length=50) 
 	private String linkValue;
 	
 	@Column(name = "status",  nullable = false)

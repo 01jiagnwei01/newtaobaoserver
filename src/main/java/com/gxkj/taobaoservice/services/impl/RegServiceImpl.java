@@ -118,11 +118,13 @@ public class RegServiceImpl implements RegService {
 	 * 进行注册操作
 	 * @throws SQLException 
 	 * @throws BusinessException 
+	 * @throws BindException 
 	 */
 	public void doRegFn(RegObjDTO regObjDTO) throws SQLException, BusinessException {
 		String password = regObjDTO.getPassword();
 		String rePassword = regObjDTO.getRePassword();
 		String userName = regObjDTO.getUserName();
+		String  email  = regObjDTO.getEmail();
 		if(StringUtils.isBlank(password )) {
 			throw new BusinessException(BusinessExceptionInfos.PASSWORD_IS_BLANK,"password");
 		}
@@ -130,11 +132,43 @@ public class RegServiceImpl implements RegService {
 			throw new BusinessException(BusinessExceptionInfos.REPASSWORD_IS_BLANK,"rePassword");
 		}
 		/**
-		 * 判断用户名是否被使用过 
+		 * 用户名长度不能小于5
 		 */
+		if(RegexUtils.stringLengLessThan(5, userName)) {
+			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_less_than,"userName");
+		}
+		/**
+		 * 用户名长度不能大于50
+		 */
+		if(RegexUtils.stringLengMoreThan(50, userName)) {
+			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_OUT_MAX,"userName");
+			
+		}
+		/**
+		 * 密码长度不能大于20
+		 */
+		if(RegexUtils.stringLengMoreThan(20, password)) {
+			throw new BusinessException(BusinessExceptionInfos.PASSWORD_IS_MORE_than_20,"password");
+		}
+		/**
+		 * 邮箱长度不能超过50
+		 */
+		if(RegexUtils.stringLengMoreThan(50, email)) {
+			throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_MORE_than_50,"email");
+		}
 		if(StringUtils.isBlank(userName )) {
 			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_BLANK,"userName");
 		}
+		/**
+		 * 判断邮箱是否被注册过
+		 */
+		boolean isReged = emailService.emailIsRegd(regObjDTO.getEmail());
+		if(isReged){
+			throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED,"email");
+		}
+		/**
+		 * 判断用户名是否被使用过 
+		 */
 		boolean userNameIsReged = userBaseDao.userNameIsReged(userName);
 		if(userNameIsReged) {
 			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_REGED,"userName");
@@ -147,10 +181,7 @@ public class RegServiceImpl implements RegService {
 		if (!regLog.getCode().equals(regObjDTO.getYanzhengma())) {
 			throw new BusinessException(BusinessExceptionInfos.YAN_ZHENG_MA_ERROR,"code");
 		}
-		boolean isReged = emailService.emailIsRegd(regObjDTO.getEmail());
-		if(isReged){
-			throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED,"email");
-		}
+		
 		/**
 		 * 进行注册流程
 		 */
@@ -162,8 +193,8 @@ public class RegServiceImpl implements RegService {
 		userBase.setUserName(userName);
 		userBase.setRegTime(now);
 		userBase.setStatus(UserBaseStatus.NORMAL);
+		 
 		userBaseDao.insert(userBase);
-		
 		
 		/**
 		 * 联系方式
@@ -173,7 +204,7 @@ public class RegServiceImpl implements RegService {
 		emailLink.setStatus(UserLinkStatus.NORMAL);
 		emailLink.setLinkType(UserLinkTypes.EMAIL);
 		emailLink.setLinkValue(regObjDTO.getEmail());
-		emailLink.setUserId(userBase.getId());
+		emailLink.setUserId(userBase.getId()); 
 		userLinkDao.insert(emailLink);
 		
 		/**

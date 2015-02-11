@@ -38,7 +38,8 @@ public class UserBase implements Serializable{
 	/**
 	 * 用户名
 	 */
-	@Column(name="user_name" )
+	
+	@Column(name="user_name" ) 
 	private String userName;
 	
 	/**

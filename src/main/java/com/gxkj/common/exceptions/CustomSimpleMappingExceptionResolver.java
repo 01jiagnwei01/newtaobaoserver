@@ -55,7 +55,6 @@ public class CustomSimpleMappingExceptionResolver extends SimpleMappingException
 	    					json.setMsg(  "上传文件大小超限了，"+ex.getMessage());
 	    				}else if (ex instanceof  BindException){
 	    					List<FieldError> filedErrors = ((BindException) ex).getFieldErrors();
-	    					 
 	    					List<Map<String,String>> listErrors = new ArrayList<Map<String,String>>();
 	    					for(FieldError error : filedErrors){
 	    						 Map<String,String> errMap = new HashMap<String,String>();
@@ -65,8 +64,10 @@ public class CustomSimpleMappingExceptionResolver extends SimpleMappingException
 	    						 listErrors.add(errMap);
 	    						 
 	    					}
+	    					json.setErrortype("bind");
 	                    	json.setMsg( JsonOutput.toJson(listErrors));
 	    				}else{
+	    					json.setErrortype("system");
 	    					json.setMsg(   "系统问题,请找技术人员解决");
 	    				}
 	                    if(json.getEntity() == null){

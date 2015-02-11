@@ -74,6 +74,27 @@ public class RegexUtils {
 		    
 		 return result;
 	 }
+	 /**
+	  * 用户名长度小于length
+	  * @param length
+	  * @param userName
+	  * @return
+	  */
+	 public static  boolean stringLengLessThan(int length,String userName) {
+		 int userNameLength = userName.length();
+		 return userNameLength<=length;
+	 }
+	 /**
+	  * 用户名长度大于length
+	  * @param length
+	  * @param userName
+	  * @return
+	  */
+	 public static  boolean stringLengMoreThan(int length,String userName) {
+		 int userNameLength = userName.length();
+		 return userNameLength>length;
+	 }
+	 
 	 public static void main(String[] args) {
 		 // System.out.println(RegexUtils.isLeapYear(new Date()));
 		  System.out.println(RegexUtils.getRandomNum(6));

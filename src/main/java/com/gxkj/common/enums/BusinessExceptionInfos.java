@@ -32,7 +32,11 @@ public enum BusinessExceptionInfos {
 	PASSWORD_IS_BLANK("29","密码为空"),
 	REPASSWORD_IS_BLANK("30","确认密码为空"),
 	USER_NAME_IS_BLANK("31","用户名为空"),
-	USER_NAME_IS_REGED("32","用户名已经被注册过");
+	USER_NAME_IS_REGED("32","用户名已经被注册过"),
+	USER_NAME_IS_OUT_MAX("33","用户名长度超过了50"),
+	USER_NAME_IS_less_than("34","用户名长度应该大于5"),
+	PASSWORD_IS_MORE_than_20("35","密码长度不能大于20"),
+	EMAIL_IS_MORE_than_50("36","邮箱长度不能超过50");
 	private String errorCode; 
 	
 	private String errorMsg;

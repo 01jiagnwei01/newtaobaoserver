@@ -234,7 +234,7 @@ function doRegFn(athis){
 				$("#password_error").html(msg);
 			}else if(errortype == 'rePassword'){
 				$("#repassword_error").html(msg);
-			}else if(errortype == 'userName'){
+			}else if(errortype == 'username'){
 				$("#user_name_error").html(msg);
 			}else if(errortype == 'email'){
 				$("#email_error").html(msg);
@@ -254,6 +254,9 @@ function checkUserName(){
 		return false;
 	}else if($.trim(username).length >= 41 ){
 		$("#user_name_error").html("用户名长度不能超过40");
+		return false;
+	}else if($.trim(username).length <= 3 ){
+		$("#user_name_error").html("用户名长度至少4位");
 		return false;
 	}
 	return true;

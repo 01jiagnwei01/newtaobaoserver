@@ -29,10 +29,15 @@ public class Flash {
     }
 
     public void save(HttpServletRequest request,HttpServletResponse response) {
-    	HttpSession session = request.getSession();
-		if(session != null) {
-			session.setAttribute(FLASH_IN_SESSION_KEY, out);
-		}
+    	try {
+    		HttpSession session = request.getSession();
+    		if(session != null) {
+    			session.setAttribute(FLASH_IN_SESSION_KEY, out);
+    		}
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
     }
 
     // ThreadLocal access

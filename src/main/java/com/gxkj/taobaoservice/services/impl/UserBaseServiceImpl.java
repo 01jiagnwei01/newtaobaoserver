@@ -20,7 +20,6 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
@@ -36,6 +35,7 @@ import com.gxkj.taobaoservice.daos.UserLinkDao;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.RegObjDTO;
 import com.gxkj.taobaoservice.entitys.AdminUser;
+import com.gxkj.taobaoservice.entitys.BusinessExceptionEntity;
 import com.gxkj.taobaoservice.entitys.CompanyAccount;
 import com.gxkj.taobaoservice.entitys.OperateLog;
 import com.gxkj.taobaoservice.entitys.UserAccount;
@@ -214,8 +214,8 @@ public class UserBaseServiceImpl implements UserBaseService {
 		}
 		
 		
-		List<UserBase> users =userBaseDao.getUsersByUserName(userName);
-		if(CollectionUtils.isNotEmpty(users)){
+		 UserBase  user  =userBaseDao.getUsersByUserName(userName);
+		if(user != null){
 			ret.setMsg(RegProcessResult.USER_NAME_IS_USED_FAILURE.toString());
 			return false;
 		}
@@ -232,19 +232,25 @@ public class UserBaseServiceImpl implements UserBaseService {
 	 * @throws SQLException 
 	 * @throws BusinessException 
 	 */
-	public UserBase doLogin(String username, String password) throws SQLException, BusinessException {
-		Assert.notNull(username);
-		Assert.notNull(password);
+	public UserBase doLogin(String username, String password,String yanzhengma,String yanzhengMaInSession) throws SQLException, BusinessException {
 		 
+		if(StringUtils.isBlank(username)){
+			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_BLANK,"username");
+		}else if(StringUtils.isBlank(password)){
+			throw new BusinessException(BusinessExceptionInfos.PASSWORD_IS_BLANK,"password");
+		}else if(StringUtils.isBlank(yanzhengma)){
+			throw new BusinessException(BusinessExceptionInfos.YAN_ZHENG_MA_ERROR,"yanzhengma");
+		}else if(!yanzhengMaInSession.equalsIgnoreCase(yanzhengma)){
+			throw new BusinessException(BusinessExceptionInfos.YAN_ZHENG_MA_ERROR,"yanzhengma");
+		}
 		
-		List<UserBase>  userBases =   userBaseDao.getUsersByUserName(username);
-		if(CollectionUtils.isEmpty(userBases)){
-			return null;
+		UserBase  userBase =   userBaseDao.getUsersByUserName(username);
+		if(userBase == null) {
+			throw new BusinessException(BusinessExceptionInfos.USER_NAME_OR_PASSWORD_ERROR,"username");
 		}
 		password = PWDGenter.generateKen(password);
-		UserBase userBase = userBases.get(0);
 		if(!userBase.getPassword().equals(password)){
-			return null;
+			throw new BusinessException(BusinessExceptionInfos.USER_NAME_OR_PASSWORD_ERROR,"password");
 		}
 		if(userBase.getStatus() != UserBaseStatus.NORMAL){
 			return userBase;
@@ -253,7 +259,10 @@ public class UserBaseServiceImpl implements UserBaseService {
 		UserAccount uerAccount = userAccountDao.getUserAccountByUserId(userBase.getId());
 		if(uerAccount == null){
 			
-			com.gxkj.taobaoservice.entitys.BusinessExceptionEntity fentity = businessExceptionService.initBusinessException(this.getClass(), Thread.currentThread().getStackTrace()[1].getMethodName()
+			/**
+			 * 记录用户登录异常
+			 */
+			 BusinessExceptionEntity fentity = businessExceptionService.initBusinessException(this.getClass(), Thread.currentThread().getStackTrace()[1].getMethodName()
 					, BusinessExceptionInfos.NO_USER_ACCOUNT_BY_USERID, "{username:"+username+"}", userBase.getId());
 			businessExceptionService.insertEntity(fentity);
 			

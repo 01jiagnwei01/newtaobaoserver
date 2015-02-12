@@ -14,7 +14,7 @@ public class LogoutController {
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public String login(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
 		request.getSession().invalidate();
-		String mv = "index";
+		String mv = "site/index";
 		return mv;	
 	}
 }

@@ -55,14 +55,14 @@
 				<div class="tag pos1">至今</div>
 				<div class="tac" style="padding-top:30px;">
 					<span style="color:#008FCF; font-weight:bold; font-size:28px;">4,969,873</span>
-					<br />人发现并注册拍拍贷
+					<br />人发现并注册谷谷道场
 				</div>
 				<div class="tag pos2">上月</div>
 				<div class="tac" style="padding-top:60px;">
-					<span style="color:#008FCF; font-weight:bold; font-size:28px;">320,617</span>人次借款
+					<span style="color:#008FCF; font-weight:bold; font-size:28px;">320,617</span>人完成任务
 				</div>
 				<div class="tac">
-					<span style="color:#008FCF; font-weight:bold; font-size:28px;">1,339,397</span>人次投资
+					<span style="color:#008FCF; font-weight:bold; font-size:28px;">1,339,397</span>人次发布任务
 				</div>
 			</div>
 		</div>

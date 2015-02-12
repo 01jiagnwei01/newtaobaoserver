@@ -39,11 +39,13 @@ public interface UserBaseService {
 	 * 用户登陆 
 	 * @param username
 	 * @param password
+	 * @param yanzhengMaInSession session里的验证码
+	 * @param yanzhengma 用户输入的验证码
 	 * @return
 	 * @throws SQLException 
 	 * @throws BusinessException 
 	 */
-	UserBase doLogin(String username, String password) throws SQLException, BusinessException;
+	UserBase doLogin(String username, String password,String yanzhengma,String yanzhengMaInSession) throws SQLException, BusinessException;
 	/**
 	 * 分页查看
 	 * @param pageno

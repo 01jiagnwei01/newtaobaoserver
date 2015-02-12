@@ -23,10 +23,9 @@ public class UserBaseDaoImpl extends BaseDAOImpl implements UserBaseDao {
 
 	private static final String  userNameIsRegedHQL = " from UserBase where userName =:userName ";
 	
-	@SuppressWarnings("unchecked")
-	public List<UserBase> getUsersByUserName(String userName) throws SQLException {
+	public UserBase getUsersByUserName(String userName) throws SQLException {
 		String hql = "from UserBase where userName = ?";
-		return ((List<UserBase>) this.selectByHQL(hql, new Object[]{userName}));
+		return (UserBase) this.selectOneByHQL(hql, new Object[] {userName});
 	}
 
 	public ListPager doPage(int pageno, int pagesize, String name,

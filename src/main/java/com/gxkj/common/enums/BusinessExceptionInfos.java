@@ -36,7 +36,9 @@ public enum BusinessExceptionInfos {
 	USER_NAME_IS_OUT_MAX("33","用户名长度超过了50"),
 	USER_NAME_IS_less_than("34","用户名长度应该大于5"),
 	PASSWORD_IS_MORE_than_20("35","密码长度不能大于20"),
-	EMAIL_IS_MORE_than_50("36","邮箱长度不能超过50");
+	EMAIL_IS_MORE_than_50("36","邮箱长度不能超过50"),
+	USER_NAME_OR_PASSWORD_ERROR("37","用户名获密码错误"),
+	PASSWORD_IS_ERROE("38","密码错误");
 	private String errorCode; 
 	
 	private String errorMsg;

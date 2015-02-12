@@ -18,7 +18,7 @@ public interface UserBaseDao extends BaseDAO{
 	 * @param userName
 	 * @return
 	 */
-	List<UserBase> getUsersByUserName(String userName)throws SQLException;
+	UserBase getUsersByUserName(String userName)throws SQLException;
 	
 	/**
 	 * 分页查看用户信息

@@ -35,7 +35,7 @@
 					<td align="right">&nbsp;</td>
 					<td>
 						<input type="text" name="textfield5" id="email_code" style="padding:10px 5px; width:110px;" placeholder="请输入邮箱验证码">
-						<a href="###" id="getvefydata_email" style="display:inline-block; border-radius:5px; padding:8px 0; background-color:#eee; width:85px; line-height:25px; height:25px; margin-right:20px;" class="tac">发送验证码</a>
+						<a   id="getvefydata_email" style="display:inline-block; border-radius:5px; padding:8px 0; background-color:#eee; width:85px; line-height:25px; height:25px; margin-right:20px;" class="tac">发送验证码</a>
 					</td>
 				</tr>
 				<tr>
@@ -159,15 +159,16 @@ function sendAjaxGetEmailCode(mail){
 			  clitime = 1;
 			  $("#getvefydata_email").attr("disabled",true); 
 			  $("#getvefydata_email").unbind("click");
+			  endTime = 60;
+			 changeSendEmailCodeInfo();
+			 window.setInterval("changeSendEmailCodeInfo()", 1000); 
 		 },
 		  data:{ d:new Date().getTime(),tomail:mail},
 		  success:function(json){
 			  clitime = 0;
 			  var result = json["result"];  
 			  //修改发送状态
-			  endTime = 60;
-			 changeSendEmailCodeInfo();
-			 window.setInterval("changeSendEmailCodeInfo()", 1000); 
+			  
 			
 			 	  
 		  },

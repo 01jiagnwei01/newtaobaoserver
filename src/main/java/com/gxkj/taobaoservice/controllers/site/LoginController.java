@@ -31,7 +31,12 @@ public class LoginController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String login(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
+		
 		String mv = "site/login";
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		if(userBase != null) {
+			return "forward:/useraccount";  
+		}
 		return mv;
 	}
 

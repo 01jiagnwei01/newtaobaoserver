@@ -39,5 +39,21 @@ public interface UserBaseDao extends BaseDAO{
 	 * @throws SQLException
 	 */
 	public boolean userNameIsReged(String userName)throws SQLException;
+	
+	/**
+	 * 判断邮箱是否被注册过
+	 * @param email
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean emailIsReged(String email) throws SQLException ;
+
+	/**
+	 * 修改用户的操作码
+	 * @param userId
+	 * @param md5CaoZuoMa
+	 * @throws SQLException
+	 */
+	public void updateUserCaoZuoMa(Integer userId, String md5CaoZuoMa)throws SQLException ;
 
 }

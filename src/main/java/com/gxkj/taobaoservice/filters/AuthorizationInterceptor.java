@@ -26,10 +26,12 @@ import org.springframework.web.servlet.mvc.multiaction.MethodNameResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gxkj.common.annotation.WithoutAuthorize;
+import com.gxkj.common.util.SessionUtil;
 import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.SessionConstant;
 import com.gxkj.taobaoservice.entitys.AdminUser;
+import com.gxkj.taobaoservice.entitys.UserBase;
 
  
  
@@ -127,7 +129,24 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 			}
 		}else {
 			//前台来的
-			return true;
+			if(		"/".equals(url) 
+					||"".equals(url)
+					||  url.indexOf("/login")>=0 
+					|| url.indexOf("reg")>=0
+					||  url.indexOf("/exception")>=0
+					||  url.indexOf("/login")>=0
+					||  url.indexOf("/yanzhengma")>=0) {
+				return true;
+			}
+			UserBase base = SessionUtil.getSiteUserInSession(req);
+			if(base== null) {
+				response.sendRedirect(req.getContextPath() +"/login");
+				return false;
+			}else {
+				return true;
+			}
+			
+			
 		}
 		
 		

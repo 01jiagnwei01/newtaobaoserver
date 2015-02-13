@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gxkj.common.exceptions.BusinessException;
+import com.gxkj.common.util.SessionUtil;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.RegObjDTO;
+import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.RegService;
 import com.gxkj.taobaoservice.services.UserBaseService;
 import com.gxkj.taobaoservice.util.RegexUtils;
@@ -33,6 +35,10 @@ public class RegController {
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public String reg(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
 		String mv = "site/reg";
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		if(userBase != null) {
+			return "forward:/useraccount";  
+		}
 		return mv;	
 	}
 	

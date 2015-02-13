@@ -61,12 +61,25 @@
  <bean id="regTemplateMailMessage"
 	class="org.springframework.mail.SimpleMailMessage"> 
 	<property name="from" value="gugudaochang@aliyun.com" /><!-- gugudaochang@aliyun.com ; 01jiangwei01@163.com-->
-	<property name="to" value="srinivasdj81@gmail.com" />
+	<property name="to" value="" />
 	<property name="subject" value="谷谷道场注册码" />
 	<property name="text">
 	   <value>
 		<![CDATA[
 			<!DOCTYPE html><html lang=\"zh\"><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE8\" content=\"ie=edge\"/><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body >谷谷道场注册码:[%s]</body></html>
+		]]>
+	   </value>
+        </property>
+</bean>
+ <bean id="caozuomaTemplateMailMessage"
+	class="org.springframework.mail.SimpleMailMessage"> 
+	<property name="from" value="gugudaochang@aliyun.com" /><!-- gugudaochang@aliyun.com ; 01jiangwei01@163.com-->
+	<property name="to" value="" />
+	<property name="subject" value="修改谷谷道场操作码" />
+	<property name="text">
+	   <value>
+		<![CDATA[
+			<!DOCTYPE html><html lang=\"zh\"><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE8\" content=\"ie=edge\"/><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body >谷谷道场验证码:[%s]</body></html>
 		]]>
 	   </value>
         </property>

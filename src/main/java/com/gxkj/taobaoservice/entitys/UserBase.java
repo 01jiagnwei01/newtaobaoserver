@@ -1,9 +1,7 @@
 package com.gxkj.taobaoservice.entitys;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +49,7 @@ public class UserBase implements Serializable{
 	 
 
 	/**
-	 * status
+	 * 状态
 	 */
 	@Column(name="status" )
 	@Enumerated(EnumType.STRING)
@@ -64,10 +62,6 @@ public class UserBase implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP )
 	private Date regTime;
 	
-	 
-	
-	
-	
 	/**
 	 * 账户信息
 	 */
@@ -75,10 +69,19 @@ public class UserBase implements Serializable{
 	private UserAccount uerAccount;
 	
 	/**
-	 * 联系方式
+	 * 绑定邮箱
 	 */
-	@Transient
-	private List<UserLink> userLinks = new ArrayList<UserLink>();
+	@Column(name="bind_email" )
+	private String bindEmail;
+	
+	/**
+	 * 绑定手机号
+	 */
+	@Column(name="bind_telphone" )
+	private String bindTelphone;
+	
+	@Column(name="cao_zuo_ma" )
+	private String caoZuoMa;
 
 	public Integer getId() {
 		return id;
@@ -120,13 +123,7 @@ public class UserBase implements Serializable{
 		this.uerAccount = uerAccount;
 	}
 
-	public List<UserLink> getUserLinks() {
-		return userLinks;
-	}
-
-	public void setUserLinks(List<UserLink> userLinks) {
-		this.userLinks = userLinks;
-	}
+	 
 
 	public UserBaseStatus getStatus() {
 		return status;
@@ -135,6 +132,31 @@ public class UserBase implements Serializable{
 	public void setStatus(UserBaseStatus status) {
 		this.status = status;
 	}
+
+	public String getCaoZuoMa() {
+		return caoZuoMa;
+	}
+
+	public void setCaoZuoMa(String caoZuoMa) {
+		this.caoZuoMa = caoZuoMa;
+	}
+
+	public String getBindEmail() {
+		return bindEmail;
+	}
+
+	public void setBindEmail(String bindEmail) {
+		this.bindEmail = bindEmail;
+	}
+
+	public String getBindTelphone() {
+		return bindTelphone;
+	}
+
+	public void setBindTelphone(String bindTelphone) {
+		this.bindTelphone = bindTelphone;
+	}
+	
 
 	 
 	

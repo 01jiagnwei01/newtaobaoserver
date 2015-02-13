@@ -162,6 +162,8 @@ public  class BaseDAOImpl    implements BaseDAO {
 				query.setParameter(i, parameters[i]);
 			}
 		}
+		query.setFirstResult(0);
+		query.setMaxResults(1);
 		List<?> enityts = query.list();
 		return enityts.size()==0 ? null : enityts.get(0);
 	}

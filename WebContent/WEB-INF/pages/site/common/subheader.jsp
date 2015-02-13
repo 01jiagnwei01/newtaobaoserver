@@ -19,7 +19,7 @@ boolean subheaderBoolean = StringUtils.isBlank(showshouye)?false:"true".equals(s
 				}
 			%>
 			<a class="fs16" href="###" style="margin-left:70px;">我要兼职</a>
-			<a class="fs16" href="###" style="margin-left:70px;">我的账户</a>
+			<a class="fs16" href="<%=request.getContextPath() %>/useraccount" style="margin-left:70px;">我的账户</a>
 			<a class="fs16" href="###" style="margin-left:70px;">关于谷谷道场</a>
 		</div>
 	</div>

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-02-08 14:17:31
+Date: 2015-02-13 16:09:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -196,6 +196,27 @@ CREATE TABLE `business_exception` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for `caozuoma_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `caozuoma_log`;
+CREATE TABLE `caozuoma_log` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `value` varchar(50) NOT NULL,
+  `code` varchar(8) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `active_time` datetime DEFAULT NULL,
+  `exp_time` datetime NOT NULL,
+  `enabled` int(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of caozuoma_log
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `company_account`
 -- ----------------------------
 DROP TABLE IF EXISTS `company_account`;
@@ -273,9 +294,6 @@ CREATE TABLE `log_info` (
 -- ----------------------------
 -- Records of log_info
 -- ----------------------------
-INSERT INTO `log_info` VALUES ('1', '1', '2015-01-10 23:32:14', 'FIND_PASSWORD');
-INSERT INTO `log_info` VALUES ('2', '1', '2015-01-11 16:05:44', 'FIND_PASSWORD');
-INSERT INTO `log_info` VALUES ('3', '1', '2015-01-12 11:15:34', 'FIND_PASSWORD');
 
 -- ----------------------------
 -- Table structure for `mail_address_list`
@@ -426,12 +444,14 @@ CREATE TABLE `operate_log` (
   `ip` varchar(30) DEFAULT NULL,
   `isused` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of operate_log
 -- ----------------------------
 INSERT INTO `operate_log` VALUES ('14', '2', '2015-02-08 13:50:51', 'REG_EMAIL', null, '01jiangwei01@163.com', null, '0');
+INSERT INTO `operate_log` VALUES ('15', '1', '2015-02-11 14:19:38', 'REG_EMAIL', null, '01jiangwei01@163.com', null, '0');
+INSERT INTO `operate_log` VALUES ('16', '1', '2015-02-13 14:36:22', 'REG_EMAIL', null, '01jiangwei01@163.com', null, '0');
 
 -- ----------------------------
 -- Table structure for `pics`
@@ -467,25 +487,12 @@ CREATE TABLE `reg_log` (
   `exp_time` datetime NOT NULL,
   `enabled` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of reg_log
 -- ----------------------------
-INSERT INTO `reg_log` VALUES ('2', '876534', 'email', '01jiangwei01@163.com', '2015-02-07 21:19:55', null, '2015-02-07 21:19:55', '0');
-INSERT INTO `reg_log` VALUES ('3', '187956', 'email', '01jiangwei01@163.com', '2015-02-07 21:26:38', null, '2015-02-07 21:26:38', '0');
-INSERT INTO `reg_log` VALUES ('4', '926075', 'email', '01jiangwei01@163.com', '2015-02-07 22:03:09', null, '2015-02-07 22:03:09', '0');
-INSERT INTO `reg_log` VALUES ('5', '141936', 'email', '01jiangwei01@163.com', '2015-02-07 22:25:41', null, '2015-02-07 22:25:41', '0');
-INSERT INTO `reg_log` VALUES ('6', '932486', 'email', '01jiangwei01@163.com', '2015-02-07 22:27:35', null, '2015-02-07 22:27:35', '0');
-INSERT INTO `reg_log` VALUES ('7', '642185', 'email', '01jiangwei01@163.com', '2015-02-07 22:28:49', null, '2015-02-07 22:28:49', '0');
-INSERT INTO `reg_log` VALUES ('8', '856349', 'email', '01jiangwei01@163.com', '2015-02-07 22:31:03', null, '2015-02-07 22:31:03', '0');
-INSERT INTO `reg_log` VALUES ('9', '296401', 'email', '01jiangwei01@163.com', '2015-02-07 22:32:07', null, '2015-02-07 22:32:07', '0');
-INSERT INTO `reg_log` VALUES ('10', '853071', 'email', '01jiangwei01@163.com', '2015-02-07 22:32:11', null, '2015-02-07 22:32:11', '0');
-INSERT INTO `reg_log` VALUES ('11', '839061', 'email', '01jiangwei01@163.com', '2015-02-07 22:32:48', null, '2015-02-07 22:32:48', '0');
-INSERT INTO `reg_log` VALUES ('12', '578092', 'email', '01jiangwei01@163.com', '2015-02-07 22:32:51', null, '2015-02-07 22:32:51', '0');
-INSERT INTO `reg_log` VALUES ('13', '654389', 'email', '01jiangwei01@163.com', '2015-02-07 22:39:26', null, '2015-02-07 22:39:26', '0');
-INSERT INTO `reg_log` VALUES ('14', '971482', 'email', '01jiangwei01@163.com', '2015-02-08 13:17:52', null, '2015-02-08 13:17:52', '0');
-INSERT INTO `reg_log` VALUES ('16', '870569', 'email', '01jiangwei01@163.com', '2015-02-08 13:37:55', '2015-02-08 13:50:51', '2015-02-08 13:37:55', '1');
+INSERT INTO `reg_log` VALUES ('1', '248936', 'email', '01jiangwei01@163.com', '2015-02-13 14:35:04', '2015-02-13 14:36:22', '2015-02-13 14:35:04', '1');
 
 -- ----------------------------
 -- Table structure for `rel_admin_user_role`
@@ -732,12 +739,12 @@ CREATE TABLE `user_account` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user_base` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_account
 -- ----------------------------
-INSERT INTO `user_account` VALUES ('2', '0.00', '0.00', '0.00', '0.00', '2');
+INSERT INTO `user_account` VALUES ('1', '0.00', '0.00', '0.00', '0.00', '1');
 
 -- ----------------------------
 -- Table structure for `user_account_log`
@@ -761,7 +768,7 @@ CREATE TABLE `user_account_log` (
   `admin_user_id` int(10) DEFAULT NULL,
   `task_id` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_account_log
@@ -777,13 +784,16 @@ CREATE TABLE `user_base` (
   `password` varchar(36) NOT NULL,
   `regTime` datetime NOT NULL COMMENT '用户基本信息表',
   `status` varchar(10) NOT NULL,
+  `cao_zuo_ma` varchar(50) DEFAULT NULL,
+  `bind_email` varchar(50) DEFAULT NULL,
+  `bind_telphone` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_base
 -- ----------------------------
-INSERT INTO `user_base` VALUES ('2', '01jiangwei01@163.com', 'cd0061c62d8221fef2bc83f38653e785', '2015-02-08 13:50:51', 'NORMAL');
+INSERT INTO `user_base` VALUES ('1', '01jiangwei01@163.com', 'cd0061c62d8221fef2bc83f38653e785', '2015-02-13 14:36:22', 'NORMAL', 'c81e728d9d4c2f636f067f89cc14862c', '01jiangwei01@163.com', null);
 
 -- ----------------------------
 -- Table structure for `user_link`
@@ -793,15 +803,14 @@ CREATE TABLE `user_link` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) NOT NULL,
   `link_type` varchar(30) NOT NULL,
-  `link_value` varchar(30) NOT NULL,
+  `link_value` varchar(50) NOT NULL,
   `status` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_link
 -- ----------------------------
-INSERT INTO `user_link` VALUES ('2', '2', 'EMAIL', '01jiangwei01@163.com', 'NORMAL');
 
 -- ----------------------------
 -- Table structure for `valid_info`

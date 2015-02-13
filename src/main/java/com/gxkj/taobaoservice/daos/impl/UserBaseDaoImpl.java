@@ -23,6 +23,10 @@ public class UserBaseDaoImpl extends BaseDAOImpl implements UserBaseDao {
 
 	private static final String  userNameIsRegedHQL = " from UserBase where userName =:userName ";
 	
+	private static final String  emailIsRegedHQL = " from UserBase where bindEmail =:bindEmail ";
+	
+	private static final String updateUserCaoZuoMaHql = "update UserBase set caoZuoMa = ? where id = ?";
+	
 	public UserBase getUsersByUserName(String userName) throws SQLException {
 		String hql = "from UserBase where userName = ?";
 		return (UserBase) this.selectOneByHQL(hql, new Object[] {userName});
@@ -85,6 +89,19 @@ public class UserBaseDaoImpl extends BaseDAOImpl implements UserBaseDao {
 		 parameters.put("userName", userName);
 		UserBase base = (UserBase) this.selectOneByHQL(userNameIsRegedHQL, parameters);
 		return base == null?false:true;
+	}
+	public boolean emailIsReged(String email) throws SQLException {
+		 Map<String,Object> parameters = new HashMap<String,Object>();
+		 parameters.put("bindEmail", email);
+		UserBase base = (UserBase) this.selectOneByHQL(emailIsRegedHQL, parameters);
+		return base == null?false:true;
+	}
+
+ 
+	public void updateUserCaoZuoMa(Integer userId, String md5CaoZuoMa)
+			throws SQLException {
+		 
+		this.executeUpdateByHql(updateUserCaoZuoMaHql, new Object[] {md5CaoZuoMa,userId});
 	}
 
 	 

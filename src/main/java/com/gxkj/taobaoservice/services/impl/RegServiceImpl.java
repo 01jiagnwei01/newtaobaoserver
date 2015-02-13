@@ -22,6 +22,7 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.PWDGenter;
 import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.daos.OperateLogDao;
+import com.gxkj.taobaoservice.daos.RegLogDao;
 import com.gxkj.taobaoservice.daos.UserAccountDao;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.daos.UserBaseDao;
@@ -31,14 +32,10 @@ import com.gxkj.taobaoservice.entitys.OperateLog;
 import com.gxkj.taobaoservice.entitys.RegLog;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
-import com.gxkj.taobaoservice.entitys.UserLink;
 import com.gxkj.taobaoservice.enums.OperateTypes;
 import com.gxkj.taobaoservice.enums.RegLogTypes;
 import com.gxkj.taobaoservice.enums.UserBaseStatus;
-import com.gxkj.taobaoservice.enums.UserLinkStatus;
-import com.gxkj.taobaoservice.enums.UserLinkTypes;
 import com.gxkj.taobaoservice.services.EmailService;
-import com.gxkj.taobaoservice.services.RegLogService;
 import com.gxkj.taobaoservice.services.RegService;
 import com.gxkj.taobaoservice.util.RegexUtils;
 @Service
@@ -59,7 +56,7 @@ public class RegServiceImpl implements RegService {
 	EmailService emailService;
 	
 	@Autowired
-	RegLogService  regLogService ;
+	private RegLogDao regLogDao;
 	
 	@Autowired
 	UserBaseDao userBaseDao;
@@ -83,7 +80,7 @@ public class RegServiceImpl implements RegService {
 			if(isReged){
 				throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED);
 			}
-			 regLogService.updateEmaiToNoEnable(mail);
+			regLogDao.updateEmaiToNoEnable(mail);
 			
 			String code = RegexUtils.getRandomNum(6)+"";
 			Date now = new Date();
@@ -97,9 +94,9 @@ public class RegServiceImpl implements RegService {
 			Date expTime = DateUtils.addMilliseconds(now, validTimeLeng);
 			regLog.setExpTime(expTime);
 			/**
-			 * 保存注册信息
+			 * 保存注册日志
 			 */
-			regLogService.addRegLog(regLog);
+			regLogDao.insert(regLog);
 			
 			/**
 			 * 发送邮件
@@ -174,12 +171,12 @@ public class RegServiceImpl implements RegService {
 			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_REGED,"userName");
 		}
 		
-		RegLog regLog = regLogService.getRegLogByTypeAndValue(RegLogTypes.email,regObjDTO.getEmail());
+		RegLog regLog = regLogDao.getRegLogByTypeAndValue(RegLogTypes.email,regObjDTO.getEmail());
 		if(regLog == null) {
 			throw new BusinessException(BusinessExceptionInfos.EMAIL_NOT_SEND_CODE,"email");
 		}
 		if (!regLog.getCode().equals(regObjDTO.getYanzhengma())) {
-			throw new BusinessException(BusinessExceptionInfos.YAN_ZHENG_MA_ERROR,"code");
+			throw new BusinessException(BusinessExceptionInfos.Yan_Zheng_MA_ERROR,"code");
 		}
 		
 		/**
@@ -188,24 +185,14 @@ public class RegServiceImpl implements RegService {
 		Date now = new Date();
 		regLog.setActiveTime(now);
 		
+		
 		UserBase userBase = new UserBase();
 		userBase.setPassword(PWDGenter.generateKen(password) );
 		userBase.setUserName(userName);
 		userBase.setRegTime(now);
 		userBase.setStatus(UserBaseStatus.NORMAL);
-		 
+		userBase.setBindEmail(regObjDTO.getEmail());
 		userBaseDao.insert(userBase);
-		
-		/**
-		 * 联系方式
-		 * 邮箱：默认
-		 */
-		UserLink emailLink = new UserLink();
-		emailLink.setStatus(UserLinkStatus.NORMAL);
-		emailLink.setLinkType(UserLinkTypes.EMAIL);
-		emailLink.setLinkValue(regObjDTO.getEmail());
-		emailLink.setUserId(userBase.getId()); 
-		userLinkDao.insert(emailLink);
 		
 		/**
 		 * 初始化账号信息

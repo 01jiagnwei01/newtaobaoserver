@@ -104,6 +104,16 @@ public class UserBaseDaoImpl extends BaseDAOImpl implements UserBaseDao {
 		this.executeUpdateByHql(updateUserCaoZuoMaHql, new Object[] {md5CaoZuoMa,userId});
 	}
 
+ 
+	public boolean emailIsRegdByOtherPeople(Integer id, String tomail)
+			throws SQLException {
+		 Map<String,Object> parameters = new HashMap<String,Object>();
+		 parameters.put("bindEmail", tomail);
+		UserBase base = (UserBase) this.selectOneByHQL(emailIsRegedHQL, parameters);
+		return base == null?false:base.getId().equals(id)?false:true;
+	
+	}
+
 	 
 
 	 

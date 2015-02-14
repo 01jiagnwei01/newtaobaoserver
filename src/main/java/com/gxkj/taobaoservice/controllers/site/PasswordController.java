@@ -1,14 +1,11 @@
 package com.gxkj.taobaoservice.controllers.site;
 
-import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,49 +13,35 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.SessionUtil;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
-import com.gxkj.taobaoservice.dto.RegObjDTO;
 import com.gxkj.taobaoservice.entitys.UserBase;
-import com.gxkj.taobaoservice.services.RegService;
-import com.gxkj.taobaoservice.services.UserBaseService;
+import com.gxkj.taobaoservice.services.PasswordService;
 import com.gxkj.taobaoservice.util.RegexUtils;
 
 @Controller
-@RequestMapping("/reg")
-public class RegController {
+@RequestMapping("/site/user/password")
+public class PasswordController {
 	
 	@Autowired
-	private UserBaseService userBaseService;
-
-	@Autowired
-	private RegService regService;
+	private PasswordService passwordService;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
-	public String reg(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
-		String mv = "site/reg";
-		UserBase userBase = SessionUtil.getSiteUserInSession(request);
-		if(userBase != null) {
-			return "forward:/useraccount";  
-		}
+	public String password_email(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+		String mv = "site/user/password-email";
 		return mv;	
 	}
-	
-	@RequestMapping(value="/doreg",method=RequestMethod.POST)
-	@ResponseBody
-	public EntityReturnData doreg(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,RegObjDTO regObjDTO) throws BusinessException, SQLException, BindException{
-		 
-		 EntityReturnData ret = new EntityReturnData();
-		 regService.doRegFn(regObjDTO); 
-		 ret.setResult(true);
-		 ret.setMsg("注册成功");
- 		 return ret;	
+	@RequestMapping(value="/phone",method=RequestMethod.GET)
+	public String password_phone(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+		String mv = "site/user/password-phone";
+		return mv;	
 	}
 	@RequestMapping(value="/sendmail",method=RequestMethod.POST)
 	@ResponseBody
 	public EntityReturnData doSendRegCode(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,String tomail) throws BusinessException{
 		EntityReturnData ret = new EntityReturnData();
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		try{
 			if(RegexUtils.isEmail( tomail)){
-				regService.doSendMail(tomail );
+				passwordService.doSendMail(userBase, tomail );
 				ret.setResult(true);
 				ret.setEntity("");
 			}else{
@@ -83,5 +66,4 @@ public class RegController {
 		}
 		return ret;
 	}
-		
 }

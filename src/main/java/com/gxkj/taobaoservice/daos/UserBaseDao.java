@@ -56,4 +56,13 @@ public interface UserBaseDao extends BaseDAO{
 	 */
 	public void updateUserCaoZuoMa(Integer userId, String md5CaoZuoMa)throws SQLException ;
 
+	/**
+	 * 判断邮箱是否被别人使用中
+	 * @param id
+	 * @param tomail
+	 * @return
+	 * @throws SQLException
+	 */
+	boolean emailIsRegdByOtherPeople(Integer id, String tomail)throws SQLException ;
+
 }

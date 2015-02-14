@@ -33,6 +33,7 @@ import com.gxkj.taobaoservice.entitys.RegLog;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.OperateTypes;
+import com.gxkj.taobaoservice.enums.RegLogTranType;
 import com.gxkj.taobaoservice.enums.RegLogTypes;
 import com.gxkj.taobaoservice.enums.UserBaseStatus;
 import com.gxkj.taobaoservice.services.EmailService;
@@ -78,7 +79,7 @@ public class RegServiceImpl implements RegService {
 		BusinessException, BindException, MessagingException {
 			boolean isReged = emailService.emailIsRegd(mail);
 			if(isReged){
-				throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED);
+				throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED,"email");
 			}
 			regLogDao.updateEmaiToNoEnable(mail);
 			
@@ -90,6 +91,7 @@ public class RegServiceImpl implements RegService {
 			regLog.setType(RegLogTypes.email);
 			regLog.setValue(mail);
 			regLog.setEnabled(true);
+			regLog.setTranType(RegLogTranType.REG);
 			int validTimeLeng = SystemGlobals.getIntPreference("reg.code.valid.time", 5);
 			Date expTime = DateUtils.addMilliseconds(now, validTimeLeng);
 			regLog.setExpTime(expTime);

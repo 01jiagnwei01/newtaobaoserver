@@ -105,24 +105,13 @@ $(function(){
 	});
 	
 })
-function checkEmail(str){
-	
-    var re = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi;
-    if(re.test(str)){
-       	return true;
-    }else{
-       return false;
-    }
-}
+
 function sendYanZhengMa(){
 	 if(!checkEmailFn()) {
 		 return;
 	 }; 
 	 if(clitime>=1)return;
-	// document.getElementById("getvefydata_email").style.disable = true;
-	 
-	 sendAjaxGetEmailCode($("#email_text").val());
-	 
+	 sendAjaxGetEmailCode($("#email_text").val()); 	 
 }
 function checkEmailFn(){
 	var email = $("#email_text").val();
@@ -174,8 +163,14 @@ function sendAjaxGetEmailCode(mail){
 		  },
 	      error:function(xhr,textStatus,errorThrown){
 	    	  clitime = 0;
-	  		var responseText = xhr.responseText;
-	  		// $(btn)).removeAttr("disabled");
+	    	  var responseText = xhr.responseText;
+		  		var obj = jQuery.parseJSON(responseText);
+				var errortype = obj.errortype
+		  		var msg = obj.msg;
+				if(errortype == 'email'){
+					$("#email_error").html(msg);
+					endTime = 0;
+				}
 	  } 
 	})
 }

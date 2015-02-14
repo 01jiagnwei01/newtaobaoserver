@@ -25,7 +25,15 @@ function deleteCookie(name){
 	var date=new Date(); 
 	date.setTime(date.getTime()-10000); 
 	document.cookie=name+"=v; expires="+date.toGMTString(); 
-	} 
+} 
+function checkEmail(str){
+    var re = /^([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\-|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/gi;
+    if(re.test(str)){
+       	return true;
+    }else{
+       return false;
+    }
+}
 
 //-->
 </script> 

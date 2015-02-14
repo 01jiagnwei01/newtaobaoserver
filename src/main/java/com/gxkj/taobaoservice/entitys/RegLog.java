@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.gxkj.taobaoservice.enums.RegLogTranType;
 import com.gxkj.taobaoservice.enums.RegLogTypes;
 @Entity
 @Table(name = "reg_log")
@@ -77,6 +78,9 @@ public class RegLog implements Serializable{
 	@Column(name = "exp_time")
 	@Temporal(TemporalType.TIMESTAMP )
 	private Date expTime;
+	
+	@Column(name = "tran_type")
+	private RegLogTranType tranType;
 	
 	@Column(name = "enabled", length = 1)
 	private boolean enabled;
@@ -143,6 +147,14 @@ public class RegLog implements Serializable{
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public RegLogTranType getTranType() {
+		return tranType;
+	}
+
+	public void setTranType(RegLogTranType tranType) {
+		this.tranType = tranType;
 	}
 	
 	

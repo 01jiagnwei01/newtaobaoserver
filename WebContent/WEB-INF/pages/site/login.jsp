@@ -77,7 +77,7 @@ $(function(){
 	}); 
 	 
 })
-function refreshYanZhengMa(obj) {        document.getElementById("yanzhengmaBtn").src = "<%=request.getContextPath()%>/yanzhengma?"+Math.random();    }
+function refreshYanZhengMa(obj) {  $(obj).attr("src","<%=request.getContextPath()%>/yanzhengma?"+Math.random());  }
 function loginfn(btn){
   	var name = $("#username").val();
   	var pass = $("#password").val();

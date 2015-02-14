@@ -24,6 +24,7 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.dto.ToolMailDTO;
 import com.gxkj.taobaoservice.entitys.RegLog;
+import com.gxkj.taobaoservice.enums.RegLogTranType;
 import com.gxkj.taobaoservice.enums.RegLogTypes;
 import com.gxkj.taobaoservice.services.RegLogService;
 import com.gxkj.taobaoservice.util.RegexUtils;
@@ -74,32 +75,33 @@ public class MailSenderService {
 	}
 	public void sendMaiForReg(String email) throws SQLException, BusinessException, BindException {
 		 
-		boolean isReged = false;//emailServiceImpl.emailIsRegd(email);
-		if(isReged){
-			throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED);
-		}
-		String code = RegexUtils.getRandomNum(6)+"";
-		Date now = new Date();
-		RegLog regLog = new RegLog();
-		regLog.setCode(code);
-		regLog.setCreateDime(now);
-		regLog.setType(RegLogTypes.email);
-		int validTimeLeng = SystemGlobals.getIntPreference("reg.code.valid.time", 5);
-		Date expTime = DateUtils.addMilliseconds(now, validTimeLeng);
-		regLog.setExpTime(expTime);
-		/**
-		 * 保存注册信息
-		 */
-		regLogService.addRegLog(regLog);
-		
-		/**
-		 * 发送邮件
-		 */
-		SimpleMailMessage simpleMailMessage = new SimpleMailMessage(templateMailMessage);
-		simpleMailMessage.setTo(email);
-		simpleMailMessage.setSubject("谷谷道场注册码");
-		simpleMailMessage.setText(String.format("谷谷道场注册码:[%s]", code));
-		mailSender.send(simpleMailMessage);	
+//		boolean isReged = false;//emailServiceImpl.emailIsRegd(email);
+//		if(isReged){
+//			throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED);
+//		}
+//		String code = RegexUtils.getRandomNum(6)+"";
+//		Date now = new Date();
+//		RegLog regLog = new RegLog();
+//		regLog.setCode(code);
+//		regLog.setCreateDime(now);
+//		regLog.setType(RegLogTypes.email);
+//		regLog.setTranType(RegLogTranType.REG);
+//		int validTimeLeng = SystemGlobals.getIntPreference("reg.code.valid.time", 5);
+//		Date expTime = DateUtils.addMilliseconds(now, validTimeLeng);
+//		regLog.setExpTime(expTime);
+//		/**
+//		 * 保存注册信息
+//		 */
+//		regLogService.addRegLog(regLog);
+//		
+//		/**
+//		 * 发送邮件
+//		 */
+//		SimpleMailMessage simpleMailMessage = new SimpleMailMessage(templateMailMessage);
+//		simpleMailMessage.setTo(email);
+//		simpleMailMessage.setSubject("谷谷道场注册码");
+//		simpleMailMessage.setText(String.format("谷谷道场注册码:[%s]", code));
+//		mailSender.send(simpleMailMessage);	
 	} 
 	/***
 	 * 邮件营销发送邮件

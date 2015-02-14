@@ -59,23 +59,25 @@ table td{padding:5px; font-size:14px; height:25px;}
 					<a href="<%=request.getContextPath() %>/site/user/password/phone" style="display:inline-block; padding:10px 15px; background-color:#eee; color:#666; margin-right:15px;">用【绑定手机】重置密码</a>
 				</div>
 				<table border="0" cellpadding="0" cellspacing="0" style="margin:10px auto 30px; padding-bottom:30px;   clear:both;">
-					
+					<% if(StringUtils.isNotBlank(email)) {%>
 					<tr>
 							<td align="right">已绑定邮箱：</td>
 							<td><span   style="padding:10px 5px;width:260px;"  ><%=email%></span></td>
 							<td style="width: 100px"> </td>
 					</tr>
+					<%} %>
 					<tr>
 						<td align="right">邮箱：</td>
 						<td><input type="text" name="email_text"  size="40" id="email_text" style="padding:10px 5px; width:260px;" placeholder="请填写常用邮箱"></td>
 						<td><span style="font-size:12px; color:#F00;width: 80px" id="email_error"> </span></td>
 					</tr>
 					<tr>
-					<td align="right">&nbsp;</td>
+						<td align="right">&nbsp;</td>
 						<td>
 							<input type="text" name="email_code" id="email_code" style="padding:10px 5px; width:110px;" placeholder="请输入邮箱验证码">
 							<a   id="getvefydata_email" style="display:inline-block; border-radius:5px; padding:8px 0; background-color:#eee; width:85px; line-height:25px; height:25px; margin-right:20px;" class="tac">发送验证码</a>
 						</td>
+						<td><span style="font-size:12px; color:#F00;width: 80px" id="email_code_error"> </span></td>
 					</tr>
 					<tr>
 							<td align="right">操作码：</td>
@@ -113,7 +115,8 @@ $(function(){
 	$("#email_text").focus(function(){
 		$("#email_error").html("");
 	});
-	 $("#getvefydata_email").bind('click',sendYanZhengMa);
+	$("#getvefydata_email").bind('click',sendYanZhengMa);
+	$("#email_submit").bind('click',submitFn);
 })
 function sendYanZhengMa(){
 	 if(!checkEmailFn()) {
@@ -154,8 +157,6 @@ function sendAjaxGetEmailCode(mail){
 			  clitime = 0;
 			  var result = json["result"];  
 			  //修改发送状态
-			  
-			
 			 	  
 		  },
 	      error:function(xhr,textStatus,errorThrown){
@@ -182,6 +183,86 @@ function changeSendEmailCodeInfo(){
 	}
 	$("#getvefydata_email").text(endTime+"秒后重发");
 	endTime--;
+}
+function checkCode(){
+	var code = $.trim($("#email_code").val());
+	if(code.length == 0 ){
+		$("#email_code_error").html("验证码不能为空");
+		return false;
+	}else if(code.length != 6 ){
+		$("#email_code_error").html("验证码输入错误");
+		return false;
+	}
+	return true;
+}
+function checkCaoZuoMa(){
+	var caozuoma = $.trim($("#email_caozuoma").val()); 
+	if(caozuoma.length == 0 ){
+		$("#email_caozuoma_error").html("密码不能为空");
+		return false;
+	}
+	 
+	return true;
+}
+function submitFn(){
+	if(!checkEmailFn())return ;
+	if(!checkCode())return;
+	if(!checkCaoZuoMa())return;
+	var email =  $.trim($("#email_text").val());
+	var email_caozuoma = $.trim($("#email_caozuoma").val());
+	var email_code = $.trim($("#email_code").val());
+	
+	var yanzhengmaurl = "<%=request.getContextPath()%>/site/user/password/doupdatebyemail";
+  	$.ajax({
+		  type:'post',
+		  url: yanzhengmaurl,
+		  context: document.body,
+		  beforeSend:function(){
+			  $("#email_submit").attr("disabled",true); 
+			  $("#email_submit").html("正在提交中。。。");
+		 },
+		  data:{
+			  d:new Date().getTime(),
+			  email: email,
+			  caozuoma:email_caozuoma,
+			  yanzhengma:email_code
+		  },
+		  success:function(json){
+			  $("#email_submit").attr("disabled",false);
+			  $("#email_submit").html("提交");
+			  var result = json["result"]; 
+			  if(result){
+				  alert("修改成功");
+				  window.location.reload();
+				  return;
+			  }else{
+				 
+			  }  
+			 	  
+		  },
+	      error:function(xhr,textStatus,errorThrown){
+	    	  $("#reg_btn").attr("disabled",false);
+	    	  $("#reg_btn").html("注册");
+	  		var responseText = xhr.responseText;
+	  		var obj = jQuery.parseJSON(responseText);
+			var errortype = obj.errortype
+	  		var msg = obj.msg;
+			if(errortype == 'password'){
+				$("#password_error").html(msg);
+			}else if(errortype == 'rePassword'){
+				$("#repassword_error").html(msg);
+			}else if(errortype == 'username'){
+				$("#user_name_error").html(msg);
+			}else if(errortype == 'email'){
+				$("#email_error").html(msg);
+			}else if(errortype == 'code'){
+			 
+				$("#email_code_error").html(msg);
+			}
+			
+	  		// $(btn)).removeAttr("disabled");
+	  } 
+	})
 }
 </script>
 </html>

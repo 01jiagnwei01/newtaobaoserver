@@ -1,5 +1,7 @@
 package com.gxkj.taobaoservice.controllers.site;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -65,5 +67,16 @@ public class PasswordController {
 			e.printStackTrace();
 		}
 		return ret;
+	}
+	@RequestMapping(value="/doupdatebyemail",method=RequestMethod.POST)
+	@ResponseBody
+	public EntityReturnData doupdatebyemail(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,
+			String email,String caozuoma,String yanzhengma) throws BusinessException, SQLException{
+		EntityReturnData ret = new EntityReturnData();
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		passwordService.doupdateByEmail(userBase,email,caozuoma,yanzhengma);
+		ret.setResult(true);
+		ret.setEntity("");
+		return ret;	
 	}
 }

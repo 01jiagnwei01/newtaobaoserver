@@ -16,33 +16,27 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.gxkj.taobaoservice.enums.YanZhengMaTranType;
 import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 @Entity
-@Table(name = "caozuoma_log")
-public class CaoZuoMaLog implements Serializable{
-	
+@Table(name = "yanzhengma_bind_code")
+public class YanZhengMaBindCode implements Serializable{
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7217428708667598876L;
-
+	private static final long serialVersionUID = -5407429116075398639L;
+	
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@GeneratedValue(generator = "generator")
 	@Id
 	@Column(name = "id", unique = true, nullable = false) 
 	private Integer  id;
 	
+	@Column(name = "user_id",   nullable = false) 
+	private Integer  userId;
 	
-	@Column(name = "user_id", nullable = false) 
-	private Integer  userd;
-	
-	/**
-	 * 验证码
-	 */
-	@NotNull(message = "验证码不能为空")
-	@Column(name = "code", length = 10)
-	private String code;
-	
+
 	/**
 	 * 注册方式类型
 	 */
@@ -57,6 +51,16 @@ public class CaoZuoMaLog implements Serializable{
 	@NotNull(message = "联系方式不能为空")
 	@Column(name = "value", length = 50)
 	private String value;
+	
+	/**
+	 * 验证码
+	 */
+	@NotNull(message = "验证码不能为空")
+	@Column(name = "code", length = 10)
+	private String code;
+	
+	
+	
 	
 	/**
 	 * 创建时间
@@ -82,6 +86,10 @@ public class CaoZuoMaLog implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP )
 	private Date expTime;
 	
+	@Column(name = "tran_type")
+	@Enumerated(EnumType.STRING)
+	private YanZhengMaTranType tranType;
+	
 	@Column(name = "enabled", length = 1)
 	private boolean enabled;
 
@@ -93,12 +101,12 @@ public class CaoZuoMaLog implements Serializable{
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public YanZhengMaTypes getType() {
@@ -115,6 +123,14 @@ public class CaoZuoMaLog implements Serializable{
 
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public Date getCreateDime() {
@@ -141,6 +157,14 @@ public class CaoZuoMaLog implements Serializable{
 		this.expTime = expTime;
 	}
 
+	public YanZhengMaTranType getTranType() {
+		return tranType;
+	}
+
+	public void setTranType(YanZhengMaTranType tranType) {
+		this.tranType = tranType;
+	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -148,16 +172,7 @@ public class CaoZuoMaLog implements Serializable{
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	
+	
 
-	public Integer getUserd() {
-		return userd;
-	}
-
-	public void setUserd(Integer userd) {
-		this.userd = userd;
-	}
-	
-	
-	
-	
 }

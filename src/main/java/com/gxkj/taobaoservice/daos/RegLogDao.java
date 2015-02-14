@@ -6,7 +6,7 @@ import org.springframework.validation.BindException;
 
 import com.gxkj.common.dao.BaseDAO;
 import com.gxkj.taobaoservice.entitys.RegLog;
-import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 
 public interface RegLogDao extends BaseDAO {
 
@@ -18,6 +18,7 @@ public interface RegLogDao extends BaseDAO {
 	 * @return
 	 * @throws SQLException 
 	 */
-	RegLog getRegLogByTypeAndValue(RegLogTypes type, String value) throws SQLException;
+	RegLog getRegLogByTypeAndValue(YanZhengMaTypes type, String value) throws SQLException;
+	 
 
 }

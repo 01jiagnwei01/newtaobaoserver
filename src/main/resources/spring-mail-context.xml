@@ -92,7 +92,7 @@
 	<property name="text">
 	   <value>
 		<![CDATA[
-			<!DOCTYPE html><html lang=\"zh\"><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE8\" content=\"ie=edge\"/><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body >谷谷道场验证码:[%s]</body></html>
+			<!DOCTYPE html><html lang=\"zh\"><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE8\" content=\"ie=edge\"/><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\"></head><body >您正在进行修改绑定邮箱操作,谷谷道场验证码:[%s]</body></html>
 		]]>
 	   </value>
         </property>

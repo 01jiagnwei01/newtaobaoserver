@@ -33,8 +33,8 @@ import com.gxkj.taobaoservice.entitys.RegLog;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.OperateTypes;
-import com.gxkj.taobaoservice.enums.RegLogTranType;
-import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTranType;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 import com.gxkj.taobaoservice.enums.UserBaseStatus;
 import com.gxkj.taobaoservice.services.EmailService;
 import com.gxkj.taobaoservice.services.RegService;
@@ -88,10 +88,9 @@ public class RegServiceImpl implements RegService {
 			RegLog regLog = new RegLog();
 			regLog.setCode(code);
 			regLog.setCreateDime(now);
-			regLog.setType(RegLogTypes.email);
+			regLog.setType(YanZhengMaTypes.email);
 			regLog.setValue(mail);
 			regLog.setEnabled(true);
-			regLog.setTranType(RegLogTranType.REG);
 			int validTimeLeng = SystemGlobals.getIntPreference("reg.code.valid.time", 5);
 			Date expTime = DateUtils.addMilliseconds(now, validTimeLeng);
 			regLog.setExpTime(expTime);
@@ -173,7 +172,7 @@ public class RegServiceImpl implements RegService {
 			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_REGED,"userName");
 		}
 		
-		RegLog regLog = regLogDao.getRegLogByTypeAndValue(RegLogTypes.email,regObjDTO.getEmail());
+		RegLog regLog = regLogDao.getRegLogByTypeAndValue(YanZhengMaTypes.email,regObjDTO.getEmail());
 		if(regLog == null) {
 			throw new BusinessException(BusinessExceptionInfos.EMAIL_NOT_SEND_CODE,"email");
 		}

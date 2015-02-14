@@ -3,7 +3,7 @@ package com.gxkj.taobaoservice.services;
 import java.sql.SQLException;
 
 import com.gxkj.taobaoservice.entitys.RegLog;
-import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 
 import org.springframework.validation.BindException;
 
@@ -27,5 +27,5 @@ public interface RegLogService {
 	 * @return
 	 * @throws SQLException 
 	 */
-	public RegLog getRegLogByTypeAndValue(RegLogTypes type, String email) throws SQLException;
+	public RegLog getRegLogByTypeAndValue(YanZhengMaTypes type, String email) throws SQLException;
 }

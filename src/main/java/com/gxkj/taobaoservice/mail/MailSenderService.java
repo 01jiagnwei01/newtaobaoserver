@@ -24,8 +24,8 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.dto.ToolMailDTO;
 import com.gxkj.taobaoservice.entitys.RegLog;
-import com.gxkj.taobaoservice.enums.RegLogTranType;
-import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTranType;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 import com.gxkj.taobaoservice.services.RegLogService;
 import com.gxkj.taobaoservice.util.RegexUtils;
 

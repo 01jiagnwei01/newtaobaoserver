@@ -9,7 +9,7 @@ import org.springframework.validation.BindException;
 import com.gxkj.common.util.SpringValidatorHolder;
 import com.gxkj.taobaoservice.daos.RegLogDao;
 import com.gxkj.taobaoservice.entitys.RegLog;
-import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 import com.gxkj.taobaoservice.services.RegLogService;
 @Service
 public class RegLogServiceImpl implements RegLogService {
@@ -34,7 +34,7 @@ public class RegLogServiceImpl implements RegLogService {
 
 
 	 
-	public RegLog getRegLogByTypeAndValue(RegLogTypes type, String value) throws SQLException {
+	public RegLog getRegLogByTypeAndValue(YanZhengMaTypes type, String value) throws SQLException {
 		
 		
 		return regLogDao.getRegLogByTypeAndValue(type,value);

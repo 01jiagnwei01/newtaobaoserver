@@ -16,8 +16,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.gxkj.taobaoservice.enums.RegLogTranType;
-import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 @Entity
 @Table(name = "reg_log")
 public class RegLog implements Serializable{
@@ -46,7 +45,7 @@ public class RegLog implements Serializable{
 	@NotNull(message = "注册方式类型不能为空")
 	@Column(name = "type", length = 10)
 	@Enumerated(EnumType.STRING)
-	private RegLogTypes type;
+	private YanZhengMaTypes type;
 	
 	/**
 	 * 注册的手机号或者是邮箱地址
@@ -78,9 +77,7 @@ public class RegLog implements Serializable{
 	@Column(name = "exp_time")
 	@Temporal(TemporalType.TIMESTAMP )
 	private Date expTime;
-	
-	@Column(name = "tran_type")
-	private RegLogTranType tranType;
+
 	
 	@Column(name = "enabled", length = 1)
 	private boolean enabled;
@@ -101,11 +98,11 @@ public class RegLog implements Serializable{
 		this.code = code;
 	}
 
-	public RegLogTypes getType() {
+	public YanZhengMaTypes getType() {
 		return type;
 	}
 
-	public void setType(RegLogTypes type) {
+	public void setType(YanZhengMaTypes type) {
 		this.type = type;
 	}
 
@@ -149,13 +146,4 @@ public class RegLog implements Serializable{
 		this.enabled = enabled;
 	}
 
-	public RegLogTranType getTranType() {
-		return tranType;
-	}
-
-	public void setTranType(RegLogTranType tranType) {
-		this.tranType = tranType;
-	}
-	
-	
 }

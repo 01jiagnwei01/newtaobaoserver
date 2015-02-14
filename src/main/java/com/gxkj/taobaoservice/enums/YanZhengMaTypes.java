@@ -1,11 +1,11 @@
 package com.gxkj.taobaoservice.enums;
 
-public enum RegLogTypes {
+public enum YanZhengMaTypes {
 	
 	phone("手机号码"),email("邮箱");
 	
 	private String name;
-	private RegLogTypes(String name ) {
+	private YanZhengMaTypes(String name ) {
 			   this.name = name;
 	}
 	public String getName() {

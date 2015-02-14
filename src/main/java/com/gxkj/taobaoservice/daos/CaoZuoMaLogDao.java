@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import com.gxkj.common.dao.BaseDAO;
 import com.gxkj.taobaoservice.entitys.CaoZuoMaLog;
-import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 
 public interface CaoZuoMaLogDao extends BaseDAO {
 
@@ -14,7 +14,7 @@ public interface CaoZuoMaLogDao extends BaseDAO {
 	 * @param email
 	 * @throws SQLException 
 	 */
-	void setEnableCodeToMail(Integer id, RegLogTypes regLogType) throws SQLException;
+	void setEnableCodeToMail(Integer id, YanZhengMaTypes regLogType) throws SQLException;
 
 	/**
 	 * 查询用户的验证码
@@ -25,6 +25,6 @@ public interface CaoZuoMaLogDao extends BaseDAO {
 	 * @throws SQLException
 	 */
 	CaoZuoMaLog getCodeByUserIdAndType(Integer userId, String value,
-			RegLogTypes type)throws SQLException;
+			YanZhengMaTypes type)throws SQLException;
 
 }

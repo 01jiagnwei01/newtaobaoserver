@@ -24,7 +24,7 @@ import com.gxkj.taobaoservice.daos.CaoZuoMaLogDao;
 import com.gxkj.taobaoservice.daos.UserBaseDao;
 import com.gxkj.taobaoservice.entitys.CaoZuoMaLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
-import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 import com.gxkj.taobaoservice.services.CaoZuoMaService;
 import com.gxkj.taobaoservice.util.RegexUtils;
 @Service
@@ -51,7 +51,7 @@ public class CaoZuoMaServiceImpl implements CaoZuoMaService {
 			throw new BusinessException(BusinessExceptionInfos.NO_EMAIL_IS_BIND,"email");
 		}
 		
-		caoZuoMaLogDao.setEnableCodeToMail(base.getId(),RegLogTypes.email);
+		caoZuoMaLogDao.setEnableCodeToMail(base.getId(),YanZhengMaTypes.email);
 		
 		String code = RegexUtils.getRandomNum(6)+"";
 		Date now = new Date();
@@ -60,7 +60,7 @@ public class CaoZuoMaServiceImpl implements CaoZuoMaService {
 		caoZuoMaLog.setUserd(base.getId());
 		caoZuoMaLog.setCode(code);
 		caoZuoMaLog.setCreateDime(now);
-		caoZuoMaLog.setType(RegLogTypes.email);
+		caoZuoMaLog.setType(YanZhengMaTypes.email);
 		caoZuoMaLog.setValue(email);
 		caoZuoMaLog.setEnabled(true);
 		int validTimeLeng = SystemGlobals.getIntPreference("reg.code.valid.time", 5);
@@ -109,7 +109,7 @@ public class CaoZuoMaServiceImpl implements CaoZuoMaService {
 			 throw new BusinessException(BusinessExceptionInfos.Yan_Zheng_MA_IS_BLANK,"yanzhengma");
 		 }
 		 
-		 CaoZuoMaLog caoZuoMaLog = caoZuoMaLogDao.getCodeByUserIdAndType(base.getId(),base.getBindEmail(),RegLogTypes.email);
+		 CaoZuoMaLog caoZuoMaLog = caoZuoMaLogDao.getCodeByUserIdAndType(base.getId(),base.getBindEmail(),YanZhengMaTypes.email);
 		 String dbCode = caoZuoMaLog==null?null:caoZuoMaLog.getCode();
 		 if(dbCode == null || !dbCode.equals(code)) {
 				 throw new BusinessException(BusinessExceptionInfos.Yan_Zheng_MA_ERROR,"yanzhengma");

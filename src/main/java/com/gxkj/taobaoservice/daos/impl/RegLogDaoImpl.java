@@ -10,7 +10,8 @@ import org.springframework.validation.BindException;
 import com.gxkj.common.dao.BaseDAOImpl;
 import com.gxkj.taobaoservice.daos.RegLogDao;
 import com.gxkj.taobaoservice.entitys.RegLog;
-import com.gxkj.taobaoservice.enums.RegLogTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTranType;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 @Repository
 public class RegLogDaoImpl extends BaseDAOImpl implements RegLogDao {
 
@@ -19,16 +20,20 @@ public class RegLogDaoImpl extends BaseDAOImpl implements RegLogDao {
 	
 	public void updateEmaiToNoEnable(String mail) throws SQLException,
 			BindException {
-		 this.executeUpdateBySql(updateEmaiToNoEnableSql, new Object[] {mail,RegLogTypes.email.toString()});
+		 this.executeUpdateBySql(updateEmaiToNoEnableSql, new Object[] {mail,YanZhengMaTypes.email.toString()});
 	}
 	 
 	 
-	public RegLog getRegLogByTypeAndValue(RegLogTypes type, String value) throws SQLException {
+	public RegLog getRegLogByTypeAndValue(YanZhengMaTypes type, String value) throws SQLException {
 		Map<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("type", type);
 		parameter.put("value", value);
 		return (RegLog) this.selectOneByHQL(getRegLogByTypeAndValueSql,parameter);
 	}
+
+
+	 
+	 
 
 
 	 

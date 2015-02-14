@@ -44,7 +44,10 @@ public enum BusinessExceptionInfos {
 	RECAO_ZUO_MA_NOT_EQUAL("41","确认操作码与操作码不一致"),
 	Yan_Zheng_MA_IS_BLANK("42","验证码为空"),
 	OLD_CAO_ZUO_MA_IS_BLANK("43","旧操作码为空"),
-	OLD_CAO_ZUO_MA_IS_ERROR("44","旧操作码输入错误") ;
+	OLD_CAO_ZUO_MA_IS_ERROR("44","旧操作码输入错误"),
+	NEW_EMAIL_IS_EQUAL_USER_EMAIL("45","新邮箱与已绑定邮箱一致，请重置新邮箱"),
+	NEW_EMAIL_IS_BLANK("46","新邮箱为空"),
+	CAO_ZUO_MA_IS_ERROR("47","操作码输入错误") ;
 	private String errorCode; 
 	
 	private String errorMsg;

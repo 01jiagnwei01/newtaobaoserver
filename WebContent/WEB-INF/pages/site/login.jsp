@@ -105,7 +105,7 @@ function loginfn(btn){
 				  username: name,password:pass,yanzhengma:yanzhengma
 			  },
 			  success:function(json){
-				  $("#loginBtn").attr("disabled",false); 
+				
 				  $("#loginBtn").html("登录");
 			  		//json = jQuery.parseJSON(json);
 				 	 var result = json["result"];
@@ -114,6 +114,7 @@ function loginfn(btn){
 				 	 }else{
 				 	 	log.info("登录失败："+json); 
 				 	 }
+				 	  $("#loginBtn").attr("disabled",false); 
 				 	  
 			  },
 		      error:function(xhr,textStatus,errorThrown){

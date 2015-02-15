@@ -79,14 +79,14 @@ table td{padding:5px; font-size:14px; height:25px;}
 					</tr>
 					<tr>
 							<td align="right">操作码：</td>
-							<td><input type="text" name="caozuoma" id="caozuoma" size="16" style="width:260px;"></td>
+							<td><input type="password" name="caozuoma" id="caozuoma" size="16" style="width:260px;"></td>
 							<td><span style="font-size:12px; color:#F00;" id="caozuoma_error"></span></td>
 					</tr>
 					 
 					<tr>
 							<td>&nbsp;</td>
 							<td>
-									<a href="#" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac" onclick="alert('修改成功或失败')">提交</a>
+									<a  id="sutmitBtn" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac" >提交</a>
 							</td>
 							<td>&nbsp;</td>
 					</tr>
@@ -109,7 +109,17 @@ table td{padding:5px; font-size:14px; height:25px;}
 </body>
 <script type="text/javascript">
  $(function(){
+	 $("#newpassword").focus(function(){
+			$("#newpassword_error").html("");
+		});
+	 $("#repassword").focus(function(){
+			$("#repassword_error").html("");
+		});
+	 $("#caozuoma").focus(function(){
+			$("#caozuoma_error").html("");
+		});
 	 
+	 $("#sutmitBtn").bind('click',submitFn);
 })
 function submitFn(){
 	 if(!checkNewPassword())return;
@@ -119,48 +129,51 @@ function submitFn(){
 	 var repassword = $.trim($("#repassword").val());
 	 var caozuoma = $.trim($("#caozuoma").val());
 	 
-	 var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/email/doupdatebyemail";
+	 var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/password/doupdatepassword";
 	  	$.ajax({
 			  type:'post',
 			  url: yanzhengmaurl,
 			  context: document.body,
 			  beforeSend:function(){
-				  $("#email_submit").attr("disabled",true); 
-				  $("#email_submit").html("正在提交中。。。");
+				  $("#sutmitBtn").attr("disabled",true); 
+				  $("#sutmitBtn").html("正在提交中。。。");
 			 },
 			  data:{
 				  d:new Date().getTime(),
-				  email: email,
-				  caozuoma:email_caozuoma,
-				  yanzhengma:email_code
+				  password: newpassword,
+				  repassword:repassword,
+				  caozuoma:caozuoma
 			  },
 			  success:function(json){
-				  $("#email_submit").attr("disabled",false);
-				  $("#email_submit").html("提交");
+				  $("#sutmitBtn").attr("disabled",false);
+				  $("#sutmitBtn").html("提交");
 				  var result = json["result"]; 
 				  if(result){
 					  alert("修改成功");
 					  $("#form_").reset();
-					  window.location.reload();
+					  
+					  window.top.location.reload(); 
 					  return;
 				  }else{
 					 
 				  }  
+				  $("#sutmitBtn").attr("disabled",false);
+		    	  $("#sutmitBtn").html("提交");
 				 	  
 			  },
 		      error:function(xhr,textStatus,errorThrown){
-		    	  $("#email_submit").attr("disabled",false);
-		    	  $("#email_submit").html("提交");
+		    	  $("#sutmitBtn").attr("disabled",false);
+		    	  $("#sutmitBtn").html("提交");
 		  		var responseText = xhr.responseText;
 		  		var obj = jQuery.parseJSON(responseText);
 				var errortype = obj.errortype
 		  		var msg = obj.msg;
-				if(errortype == 'yanzhengma'){
-					$("#email_code_error").html(msg);
-				}else if(errortype == 'email'){
-					$("#email_error").html(msg);
-				}else if(errortype == 'caozuoma'){
-					$("#email_caozuoma_error").html(msg);
+				if(errortype == 'caozuoma'){
+					$("#caozuoma_error").html(msg);
+				}else if(errortype == 'newpassword'){
+					$("#newpassword_error").html(msg);
+				}else if(errortype == 'repassword'){
+					$("#repassword_error").html(msg);
 				} 
 				
 		  		// $(btn)).removeAttr("disabled");
@@ -171,7 +184,7 @@ function submitFn(){
  }
  function checkNewPassword(){
 	 var newpassword = $.trim($("#newpassword").val());
-	 if(newpasswor.length == 0 ){
+	 if(newpassword.length == 0 ){
 		 $("#newpassword_error").html("确认密码与新密码不一致");
 			return false;
 		}

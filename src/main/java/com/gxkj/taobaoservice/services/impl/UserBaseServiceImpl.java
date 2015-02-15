@@ -390,7 +390,7 @@ public class UserBaseServiceImpl implements UserBaseService {
 			throw  new BusinessException(BusinessExceptionInfos.REPASSWORD_NOT_EQUAL_PASSOWRD,"repassword");
 		}
 		String md5caozuoma = PWDGenter.generateKen(caozuoma);
-		if( md5caozuoma.equals(userBase.getCaoZuoMa())) {
+		if( !md5caozuoma.equals(userBase.getCaoZuoMa())) {
 			throw  new BusinessException(BusinessExceptionInfos.CAO_ZUO_MA_IS_ERROR,"caozuoma");
 		}
 		

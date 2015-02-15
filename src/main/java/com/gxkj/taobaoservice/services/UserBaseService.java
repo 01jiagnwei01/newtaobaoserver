@@ -81,6 +81,17 @@ public interface UserBaseService {
 	 */
 	void doSupplypoint(AdminUser adminUser, Integer userId,
 			BigDecimal supplyMoney)throws SQLException, BusinessException;
+	/**
+	 * 修改用户密码
+	 * @param userBase
+	 * @param newpassword
+	 * @param repassword
+	 * @param caozuoma
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	boolean doUpdatePasswordBy(UserBase userBase, String newpassword,
+			String repassword, String caozuoma)throws SQLException, BusinessException;
 	
 	
 

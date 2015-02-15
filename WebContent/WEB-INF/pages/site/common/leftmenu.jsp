@@ -22,10 +22,10 @@
 						</a>
 					</li>
 						<ul>
-					<li><a href="<%=request.getContextPath() %>/site/user/password" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;修改密码</span></a></li>
+					<li><a href="<%=request.getContextPath() %>/site/bind/password" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;修改密码</span></a></li>
 					<li><a href="<%=request.getContextPath() %>/useraccount" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;设置操作码</span></a></li>
-					<li><a href="###" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定邮箱</span></a></li>
-					<li><a href="###" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定手机</span></a></li>
+					<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定邮箱</span></a></li>
+					
 						</ul>
 				</ul>
 				<div style="clear:both;"></div>

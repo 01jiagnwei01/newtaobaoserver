@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,26 +17,23 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.SessionUtil;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.entitys.UserBase;
-import com.gxkj.taobaoservice.services.PasswordService;
+import com.gxkj.taobaoservice.services.EmailService;
 import com.gxkj.taobaoservice.util.RegexUtils;
 
 @Controller
-@RequestMapping("/site/user/password")
-public class PasswordController {
+@RequestMapping("/site/bind/email")
+public class BindEmailController {
+ 
 	
 	@Autowired
-	private PasswordService passwordService;
+	private EmailService emailService;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
-	public String password_email(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
-		String mv = "site/user/password-email";
-		return mv;	
-	}
-	@RequestMapping(value="/phone",method=RequestMethod.GET)
 	public String password_phone(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
-		String mv = "site/user/password-phone";
+		String mv = "site/user/bind_email";
 		return mv;	
 	}
+	
 	@RequestMapping(value="/sendmail",method=RequestMethod.POST)
 	@ResponseBody
 	public EntityReturnData doSendRegCode(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,String tomail) throws BusinessException{
@@ -43,7 +41,7 @@ public class PasswordController {
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		try{
 			if(RegexUtils.isEmail( tomail)){
-				passwordService.doSendMail(userBase, tomail );
+				emailService.doSendMailCode(userBase, tomail );
 				ret.setResult(true);
 				ret.setEntity("");
 			}else{
@@ -68,13 +66,14 @@ public class PasswordController {
 		}
 		return ret;
 	}
+	
 	@RequestMapping(value="/doupdatebyemail",method=RequestMethod.POST)
 	@ResponseBody
 	public EntityReturnData doupdatebyemail(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,
 			String email,String caozuoma,String yanzhengma) throws BusinessException, SQLException{
 		EntityReturnData ret = new EntityReturnData();
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
-		passwordService.doupdateByEmail(userBase,email,caozuoma,yanzhengma);
+		emailService.doUpdateByEmail(userBase,email,caozuoma,yanzhengma);
 		ret.setResult(true);
 		ret.setEntity("");
 		return ret;	

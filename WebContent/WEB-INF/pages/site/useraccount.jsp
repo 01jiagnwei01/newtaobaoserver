@@ -75,19 +75,19 @@ table td{padding:5px; font-size:14px; height:25px;}
 									%>
 								<table   cellpadding="0" cellspacing="0" style="margin:0 auto;border:0">
 									<tr>
-										<td align="right">旧输入码：</td>
-										<td><input type="text" name="old_caozuoMa" id="old_caozuoMa" style="width:260px;"></td>
+										<td align="right">旧操作码：</td>
+										<td><input size="16" type="text" name="old_caozuoMa" id="old_caozuoMa" style="width:260px;"></td>
 										<td><span style="font-size:12px; color:#F00;" id="old_caozuoMa_error"></span></td>
 									</tr>
 									<tr>
-										<td align="right">新输入码：</td>
-										<td><input type="text" name="f1_caozuoma" id="f1_caozuoma" style="width:260px;"></td>
+										<td align="right">新操作码：</td>
+										<td><input size="16" type="text" name="f1_caozuoma" id="f1_caozuoma" style="width:260px;"></td>
 										<td><span style="font-size:12px; color:#F00;" id="f1_caozuoma_error"></span></td>
 									</tr>
 									<tr>
-										<td align="right">确认输入码：</td>
-										<td><input type="text" name="f1_recaozuoma" id="f1_recaozuoma" style="width:260px;"></td>
-										<td><span style="font-size:12px; color:#F00;" id="f1_recaozuoma_error"></span></td>
+										<td align="right">确认操作码：</td>
+										<td><input size="16" type="text" name="f1_recaozuoma" id="f1_recaozuoma" style="width:260px;"></td>
+										<td><span  style="font-size:12px; color:#F00;" id="f1_recaozuoma_error"></span></td>
 									</tr>
 									<tr>
 										<td>&nbsp;</td>

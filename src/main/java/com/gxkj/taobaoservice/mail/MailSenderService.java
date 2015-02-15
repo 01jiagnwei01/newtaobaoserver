@@ -2,12 +2,10 @@ package com.gxkj.taobaoservice.mail;
 
 import java.io.File;
 import java.sql.SQLException;
-import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.FileSystemResource;
@@ -19,15 +17,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindException;
 
-import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
-import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.dto.ToolMailDTO;
-import com.gxkj.taobaoservice.entitys.RegLog;
-import com.gxkj.taobaoservice.enums.YanZhengMaTranType;
-import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 import com.gxkj.taobaoservice.services.RegLogService;
-import com.gxkj.taobaoservice.util.RegexUtils;
 
 @Service("demoMailService")
 public class MailSenderService {
@@ -41,9 +33,6 @@ public class MailSenderService {
 	@Autowired
 	@Qualifier("templateMailMessage")
 	private SimpleMailMessage templateMailMessage;
-	
-//	@Autowired
-//	private EmailServiceImpl emailServiceImpl;
 	
 	@Autowired
 	private RegLogService  regLogService ;

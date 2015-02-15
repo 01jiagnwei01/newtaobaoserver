@@ -22,18 +22,17 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.PWDGenter;
 import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.daos.OperateLogDao;
-import com.gxkj.taobaoservice.daos.RegLogDao;
+import com.gxkj.taobaoservice.daos.YanZhengMaLogDao;
 import com.gxkj.taobaoservice.daos.UserAccountDao;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.daos.UserBaseDao;
 import com.gxkj.taobaoservice.daos.UserLinkDao;
 import com.gxkj.taobaoservice.dto.RegObjDTO;
 import com.gxkj.taobaoservice.entitys.OperateLog;
-import com.gxkj.taobaoservice.entitys.RegLog;
+import com.gxkj.taobaoservice.entitys.YanzhengmaLog;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.OperateTypes;
-import com.gxkj.taobaoservice.enums.YanZhengMaTranType;
 import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 import com.gxkj.taobaoservice.enums.UserBaseStatus;
 import com.gxkj.taobaoservice.services.EmailService;
@@ -57,7 +56,7 @@ public class RegServiceImpl implements RegService {
 	EmailService emailService;
 	
 	@Autowired
-	private RegLogDao regLogDao;
+	private YanZhengMaLogDao regLogDao;
 	
 	@Autowired
 	UserBaseDao userBaseDao;
@@ -85,7 +84,7 @@ public class RegServiceImpl implements RegService {
 			
 			String code = RegexUtils.getRandomNum(6)+"";
 			Date now = new Date();
-			RegLog regLog = new RegLog();
+			YanzhengmaLog regLog = new YanzhengmaLog();
 			regLog.setCode(code);
 			regLog.setCreateDime(now);
 			regLog.setType(YanZhengMaTypes.email);
@@ -172,7 +171,7 @@ public class RegServiceImpl implements RegService {
 			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_REGED,"userName");
 		}
 		
-		RegLog regLog = regLogDao.getRegLogByTypeAndValue(YanZhengMaTypes.email,regObjDTO.getEmail());
+		YanzhengmaLog regLog = regLogDao.getRegLogByTypeAndValue(YanZhengMaTypes.email,regObjDTO.getEmail());
 		if(regLog == null) {
 			throw new BusinessException(BusinessExceptionInfos.EMAIL_NOT_SEND_CODE,"email");
 		}

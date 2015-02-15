@@ -1,11 +1,10 @@
 package com.gxkj.taobaoservice.enums;
 
-public enum YanZhengMaTranType {
-
-	REG("注册"),UPDATE_BIND_EMAIL("修改绑定邮箱");
+public enum YanZhengMaLogTranTypes {
+	Reg("注册"),Update_bind("修改绑定");
 	
 	private String name; 
-	private YanZhengMaTranType(String name ) {  
+	private YanZhengMaLogTranTypes(String name ) {  
 		       this.name = name; 
 	}
 	public String getName() {

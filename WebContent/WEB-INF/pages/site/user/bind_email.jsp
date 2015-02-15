@@ -54,10 +54,7 @@ table td{padding:5px; font-size:14px; height:25px;}
 			<div style="width:910px; padding:0 40px; background-color:#FFF;" class="fr">
 			
 				<div style="margin:20px 0;"></div>
-				<div style="text-align:center;">
-					<a  style="display:inline-block; padding:10px 15px; background-color:#09f; color:#fff; margin-right:15px;">用【绑定邮箱】重置密码</a>
-					<a href="<%=request.getContextPath() %>/site/user/password/phone" style="display:inline-block; padding:10px 15px; background-color:#eee; color:#666; margin-right:15px;">用【绑定手机】重置密码</a>
-				</div>
+				 
 				<form id = "form_">
 				<table border="0" cellpadding="0" cellspacing="0" style="margin:10px auto 30px; padding-bottom:30px;   clear:both;">
 					<% if(StringUtils.isNotBlank(email)) {%>
@@ -117,6 +114,13 @@ $(function(){
 	$("#email_text").focus(function(){
 		$("#email_error").html("");
 	});
+	$("#email_code").focus(function(){
+		$("#email_code_error").html('');
+	});
+	$("#email_caozuoma").focus(function(){
+		$("#email_caozuoma_error").html('');
+	});
+	
 	$("#getvefydata_email").bind('click',sendYanZhengMa);
 	$("#email_submit").bind('click',submitFn);
 })
@@ -141,7 +145,7 @@ function checkEmailFn(){
 	return true;
 }
 function sendAjaxGetEmailCode(mail){
-	var yanzhengmaurl = "<%=request.getContextPath()%>/site/user/password/sendmail";
+	var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/email/sendmail";
   	$.ajax({
 		  type:'post',
 		  url: yanzhengmaurl,
@@ -214,7 +218,7 @@ function submitFn(){
 	var email_caozuoma = $.trim($("#email_caozuoma").val());
 	var email_code = $.trim($("#email_code").val());
 	
-	var yanzhengmaurl = "<%=request.getContextPath()%>/site/user/password/doupdatebyemail";
+	var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/email/doupdatebyemail";
   	$.ajax({
 		  type:'post',
 		  url: yanzhengmaurl,
@@ -244,8 +248,8 @@ function submitFn(){
 			 	  
 		  },
 	      error:function(xhr,textStatus,errorThrown){
-	    	  $("#reg_btn").attr("disabled",false);
-	    	  $("#reg_btn").html("注册");
+	    	  $("#email_submit").attr("disabled",false);
+	    	  $("#email_submit").html("提交");
 	  		var responseText = xhr.responseText;
 	  		var obj = jQuery.parseJSON(responseText);
 			var errortype = obj.errortype
@@ -255,7 +259,7 @@ function submitFn(){
 			}else if(errortype == 'email'){
 				$("#email_error").html(msg);
 			}else if(errortype == 'caozuoma'){
-				$("#email_caozuoma").html(msg);
+				$("#email_caozuoma_error").html(msg);
 			} 
 			
 	  		// $(btn)).removeAttr("disabled");

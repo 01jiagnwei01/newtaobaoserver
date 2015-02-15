@@ -370,4 +370,36 @@ public class UserBaseServiceImpl implements UserBaseService {
 		 
 	}
 
+	/**
+	 * 修改用户密码 
+	 */
+	public boolean doUpdatePasswordBy(UserBase userBase, String newpassword,
+			String repassword, String caozuoma) throws SQLException,
+			BusinessException {
+		 
+		if(StringUtils.isBlank(newpassword)) {
+			throw  new BusinessException(BusinessExceptionInfos.PASSWORD_IS_BLANK,"newpassword");
+		}
+		if(StringUtils.isBlank(repassword)) {
+			throw  new BusinessException(BusinessExceptionInfos.REPASSWORD_IS_BLANK,"repassword");
+		}
+		if(StringUtils.isBlank(caozuoma)) {
+			throw  new BusinessException(BusinessExceptionInfos.CAO_ZUO_MA_IS_BLANK,"caozuoma");
+		}
+		if(!repassword.equals(newpassword )) {
+			throw  new BusinessException(BusinessExceptionInfos.REPASSWORD_NOT_EQUAL_PASSOWRD,"repassword");
+		}
+		String md5caozuoma = PWDGenter.generateKen(caozuoma);
+		if( md5caozuoma.equals(userBase.getCaoZuoMa())) {
+			throw  new BusinessException(BusinessExceptionInfos.CAO_ZUO_MA_IS_ERROR,"caozuoma");
+		}
+		
+		//进行修改密码
+		String md5passoword = PWDGenter.generateKen(newpassword);
+		userBase.setPassword(md5passoword);
+		this.userBaseDao.update(userBase);
+		return true;
+		
+	}
+
 }

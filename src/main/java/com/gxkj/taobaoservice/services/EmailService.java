@@ -2,6 +2,11 @@ package com.gxkj.taobaoservice.services;
 
 import java.sql.SQLException;
 
+import javax.mail.MessagingException;
+
+import org.springframework.validation.BindException;
+
+import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.taobaoservice.entitys.UserBase;
 
 public interface EmailService {
@@ -23,4 +28,26 @@ public interface EmailService {
 	 */
 	public boolean emailIsRegdByOtherPeople(UserBase userBase, String tomail) throws SQLException;
 
+	/**
+	 * 向邮箱发送验证码
+	 * @param userBase
+	 * @param tomail
+	 * @throws BusinessException
+	 * @throws SQLException
+	 * @throws BindException
+	 * @throws MessagingException
+	 */
+	public void doSendMailCode(UserBase userBase, String tomail) throws BusinessException, SQLException, BindException, MessagingException;
+
+	/**
+	 * 更新用户邮箱
+	 * @param userBase
+	 * @param email
+	 * @param caozuoma
+	 * @param yanzhengma
+	 * @throws BusinessException
+	 * @throws SQLException
+	 */
+	public void doUpdateByEmail(UserBase userBase, String email,
+			String caozuoma, String yanzhengma) throws BusinessException, SQLException;
 }

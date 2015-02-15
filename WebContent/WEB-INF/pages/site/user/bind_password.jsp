@@ -64,7 +64,7 @@ table td{padding:5px; font-size:14px; height:25px;}
 							</tr>
 					<tr>
 							<td align="right">&nbsp;</td>
-							<td style="font-size:12px; color:#666;">请使用8-16个字符的英文字母、符号和数字的组合。</td>
+							<td style="font-size:12px; color:#666;">建议使用英文字母、符号和数字的组合，长度不要超过16位。</td>
 							<td>&nbsp;</td>
 					</tr>
 					<tr>

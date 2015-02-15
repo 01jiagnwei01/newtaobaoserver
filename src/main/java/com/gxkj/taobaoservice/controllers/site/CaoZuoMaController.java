@@ -26,6 +26,12 @@ public class CaoZuoMaController {
 	@Autowired
 	private CaoZuoMaService caoZuoMaService;
 	
+	@RequestMapping(value="",method=RequestMethod.GET)
+	public String password_phone(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+		String mv = "site/user/bind_caozuoma";
+		return mv;	
+	}
+	
 	@RequestMapping(value="/sendmail",method=RequestMethod.POST)
 	@ResponseBody
 	public EntityReturnData doSendRegCode(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws BusinessException, SQLException, BindException, MessagingException{

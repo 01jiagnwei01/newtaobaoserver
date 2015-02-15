@@ -36,7 +36,7 @@ public enum BusinessExceptionInfos {
 	USER_NAME_IS_less_than("33","用户名长度应该大于5"),
 	PASSWORD_IS_MORE_than_20("34","密码长度不能大于20"),
 	EMAIL_IS_MORE_than_50("35","邮箱长度不能超过50"),
-	USER_NAME_OR_PASSWORD_ERROR("36","用户名获密码错误"),
+	USER_NAME_OR_PASSWORD_ERROR("36","用户名或密码错误"),
 	PASSWORD_IS_ERROE("37","密码错误"),
 	NO_EMAIL_IS_BIND("38","没有绑定邮箱"),
 	CAO_ZUO_MA_IS_BLANK("39","操作码为空"),

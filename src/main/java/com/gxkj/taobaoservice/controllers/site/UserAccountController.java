@@ -14,7 +14,7 @@ public class UserAccountController {
 
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public String order_create_get(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
-		String mv = "site/useraccount";
+		String mv = "forward:/caozuoma";
 		return mv;	
 	}
 }

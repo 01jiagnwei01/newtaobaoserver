@@ -24,7 +24,7 @@ import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.SessionConstant;
 import com.gxkj.taobaoservice.entitys.AdminUser;
-import com.gxkj.taobaoservice.entitys.DepositApply;
+import com.gxkj.taobaoservice.entitys.DepositAppLog;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 import com.gxkj.taobaoservice.services.DepositApplyService;
 
@@ -118,7 +118,7 @@ public class DDepositController {
 			ret.setResult(true);
 			 
 			AdminUser adminUser = SessionConstant.getAdminUserInSession(request);
-			DepositApply entity =rechargeApplyService.doAgreeRechargeApply(applyId, adminUser);
+			DepositAppLog entity =rechargeApplyService.doAgreeRechargeApply(applyId, adminUser);
 			ret.setEntity(entity);
 			 
 			return ret;
@@ -144,7 +144,7 @@ public class DDepositController {
 			ret.setResult(true);
 			 
 			AdminUser adminUser = SessionConstant.getAdminUserInSession(request);
-			DepositApply entity =rechargeApplyService.doRefuseRechargeApply(applyId, adminUser, reason);
+			DepositAppLog entity =rechargeApplyService.doRefuseRechargeApply(applyId, adminUser, reason);
 			ret.setEntity(entity);
 			 
 			return ret;

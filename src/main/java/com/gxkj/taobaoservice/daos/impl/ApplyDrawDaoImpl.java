@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.gxkj.common.dao.BaseDAOImpl;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.ApplyDrawDao;
-import com.gxkj.taobaoservice.entitys.ApplyDraw;
+import com.gxkj.taobaoservice.entitys.ApplyDrawLog;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 @Repository
 public class ApplyDrawDaoImpl  extends BaseDAOImpl implements ApplyDrawDao {
@@ -25,10 +25,10 @@ public class ApplyDrawDaoImpl  extends BaseDAOImpl implements ApplyDrawDao {
 	 * @throws SQLException 
 	 */
 	@SuppressWarnings("unchecked")
-	public List<ApplyDraw> getApplyDrawByThirdOrderNoAndNotIDndPassed(
+	public List<ApplyDrawLog> getApplyDrawByThirdOrderNoAndNotIDndPassed(
 			String thirdOrderNo, Integer applyId) throws SQLException {
 		String hql = "from ApplyDraw where thirdOrderNo = ? and id != ? and status = '"+RechargeApplyStatus.APPROVE+"'";
-		return (List<ApplyDraw>) this.selectByHQL(hql, new Object[]{thirdOrderNo,applyId});
+		return (List<ApplyDrawLog>) this.selectByHQL(hql, new Object[]{thirdOrderNo,applyId});
 	}
 	
 	/**

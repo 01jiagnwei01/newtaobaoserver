@@ -22,8 +22,8 @@ import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
  *
  */
 @Entity
-@Table(name = "deposit_apply")
-public class DepositApply implements Serializable {
+@Table(name = "deposit_apply_log")
+public class DepositAppLog implements Serializable {
 	
 	/**
 	 * 

@@ -48,7 +48,12 @@ public enum BusinessExceptionInfos {
 	NEW_EMAIL_IS_EQUAL_USER_EMAIL("45","新邮箱与已绑定邮箱一致，请重置新邮箱"),
 	NEW_EMAIL_IS_BLANK("46","新邮箱为空"),
 	CAO_ZUO_MA_IS_ERROR("47","操作码输入错误"),
-	REPASSWORD_NOT_EQUAL_PASSOWRD("48","确认密码与新密码不一致") ;
+	REPASSWORD_NOT_EQUAL_PASSOWRD("48","确认密码与新密码不一致"),
+	ORDER_IS_BLANK("49","商户订单号不能为空"),
+	ORDER_IS_ERROR("50","请输入正确商户订单号"),
+	ORDER_SHOULD_BE_VALID_LENGTH("51","请输入正确填写交易号\\商务订单号，长度应该为17，18，19，28，30或32"),
+	AMOUNT_SHOULD_BE_POSITIVE("52","金额需要是正数"),
+	ORDERNO_IS_USED("53","该订单号已经被使用");
 	private String errorCode; 
 	
 	private String errorMsg;

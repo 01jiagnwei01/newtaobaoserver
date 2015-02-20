@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.gxkj.common.util.SessionUtil;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
-import com.gxkj.taobaoservice.entitys.ApplyDraw;
+import com.gxkj.taobaoservice.entitys.ApplyDrawLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.RechargeApplyResults;
 import com.gxkj.taobaoservice.services.ApplyDrawService;
@@ -37,7 +37,7 @@ public class ApplyDrawController {
 			return ret;
 		}
 		UserBase userBase  = SessionUtil.getSiteUserInSession(request);
-		ApplyDraw apply = applyDrawService.addApplyDraw(amount, userBase);
+		ApplyDrawLog apply = applyDrawService.addApplyDraw(amount, userBase);
 		ret.setResult(true);
 		ret.setEntity(apply);
 		return ret;	

@@ -7,10 +7,10 @@ import java.util.List;
 
 import com.gxkj.common.dao.BaseDAO;
 import com.gxkj.common.util.ListPager;
-import com.gxkj.taobaoservice.entitys.DepositApply;
+import com.gxkj.taobaoservice.entitys.DepositAppLog;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 
-public interface DepositApplyDao extends BaseDAO {
+public interface DepositApplyLogDao extends BaseDAO {
 
 	/**
 	 * 查询id不是参数applyId 但是流水号为thirdOrderNo的申请且已经申请通过的
@@ -19,7 +19,7 @@ public interface DepositApplyDao extends BaseDAO {
 	 * @return List<RechargeApply> 
 	 * @throws SQLException 
 	 */
-	List<DepositApply> getRechargeApplyByThirdOrderNoAndNotIDndPassed(
+	List<DepositAppLog> getRechargeApplyByThirdOrderNoAndNotIDndPassed(
 			String thirdOrderNo, Integer applyId) throws SQLException;
 
 	 /**
@@ -42,5 +42,13 @@ public interface DepositApplyDao extends BaseDAO {
 			BigDecimal amount, Integer userId, RechargeApplyStatus status,
 			Date createBeginTime, Date createEndTime, Date reviewBeginTime,
 			Date reviewEndTime, Integer auditorId) throws SQLException;
+	
+	/**
+	 * 判断订单号是否已经存在
+	 * @param thirdOrderNo
+	 * @return
+	 * @throws SQLException
+	 */
+	boolean orderNoIsExist(String thirdOrderNo)throws SQLException;
 
 }

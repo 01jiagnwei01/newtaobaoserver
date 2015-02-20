@@ -7,7 +7,7 @@ import java.util.Date;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.entitys.AdminUser;
-import com.gxkj.taobaoservice.entitys.DepositApply;
+import com.gxkj.taobaoservice.entitys.DepositAppLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 
@@ -20,7 +20,7 @@ public interface DepositApplyService {
 	 * @param userBase	申请人
 	 * @throws SQLException 
 	 */
-	 public DepositApply addRechargeApply(String thirdOrderNo,BigDecimal  amount,UserBase userBase) throws SQLException;
+	 public DepositAppLog addRechargeApply(String thirdOrderNo,BigDecimal  amount,UserBase userBase) throws SQLException;
 
 	/**
 	  * 
@@ -30,7 +30,7 @@ public interface DepositApplyService {
 	 * @param reason
 	 * @throws SQLException
 	 */
-	 public DepositApply doRefuseRechargeApply(Integer applyId,AdminUser  adminUser,String reason) throws SQLException;
+	 public DepositAppLog doRefuseRechargeApply(Integer applyId,AdminUser  adminUser,String reason) throws SQLException;
 	 
 	 /**
 	  * 审核通过
@@ -39,7 +39,7 @@ public interface DepositApplyService {
 	  * @throws SQLException
 	 * @throws BusinessException 
 	  */
-	 public DepositApply doAgreeRechargeApply(Integer applyId,AdminUser  adminUser) throws SQLException, BusinessException;
+	 public DepositAppLog doAgreeRechargeApply(Integer applyId,AdminUser  adminUser) throws SQLException, BusinessException;
 	 
 	 /**
 	  * 分页查看充值申请

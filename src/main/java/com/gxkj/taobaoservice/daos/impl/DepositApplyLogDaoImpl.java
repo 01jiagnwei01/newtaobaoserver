@@ -4,19 +4,21 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.gxkj.common.dao.BaseDAOImpl;
 import com.gxkj.common.util.ListPager;
-import com.gxkj.taobaoservice.daos.DepositApplyDao;
-import com.gxkj.taobaoservice.entitys.DepositApply;
+import com.gxkj.taobaoservice.daos.DepositApplyLogDao;
+import com.gxkj.taobaoservice.entitys.DepositAppLog;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 @Repository
-public class DepositApplyDaoImpl extends BaseDAOImpl implements
-		DepositApplyDao {
+public class DepositApplyLogDaoImpl extends BaseDAOImpl implements
+		DepositApplyLogDao {
 
 	/**
 	 * 查询id不是参数applyId 但是流水号为thirdOrderNo的申请且已经申请通过的
@@ -26,10 +28,10 @@ public class DepositApplyDaoImpl extends BaseDAOImpl implements
 	 * @throws SQLException 
 	 */
 	@SuppressWarnings("unchecked")
-	public List<DepositApply> getRechargeApplyByThirdOrderNoAndNotIDndPassed(
+	public List<DepositAppLog> getRechargeApplyByThirdOrderNoAndNotIDndPassed(
 			String thirdOrderNo, Integer applyId) throws SQLException {
-		String hql = "from DepositApply where thirdOrderNo = ? and id != ? and status = '"+RechargeApplyStatus.APPROVE+"'";
-		return (List<DepositApply>) this.selectByHQL(hql, new Object[]{thirdOrderNo,applyId});
+		String hql = "from DepositAppLog where thirdOrderNo = ? and id != ? and status = '"+RechargeApplyStatus.APPROVE+"'";
+		return (List<DepositAppLog>) this.selectByHQL(hql, new Object[]{thirdOrderNo,applyId});
 	}
 
 	/**
@@ -53,7 +55,7 @@ public class DepositApplyDaoImpl extends BaseDAOImpl implements
 			Date createBeginTime, Date createEndTime, Date reviewBeginTime,
 			Date reviewEndTime, Integer auditorId) throws SQLException {
 		
-		StringBuffer hql = new StringBuffer("  from DepositApply where 1=1");
+		StringBuffer hql = new StringBuffer("  from DepositAppLog where 1=1");
 		List<Object> params = new ArrayList<Object>();
 		boolean contain = false;
 		if(StringUtils.isNotBlank(thirdOrderNo)){
@@ -114,6 +116,15 @@ public class DepositApplyDaoImpl extends BaseDAOImpl implements
 		pager.setRowsPerPage(pagesize);
 		
 		return this.selectPageByHql(hqlString, params.toArray(), pager);
+	}
+
+	 
+	public boolean orderNoIsExist(String thirdOrderNo) throws SQLException {
+		StringBuffer hql = new StringBuffer("  from DepositAppLog where thirdOrderNo=:thirdOrderNo");
+		Map params = new HashMap<String,Object>();
+		params.put("thirdOrderNo", thirdOrderNo);
+		DepositAppLog log = (DepositAppLog)this.selectOneByHQL(hql.toString(), params);
+		return log == null?false:true;
 	}
 
 }

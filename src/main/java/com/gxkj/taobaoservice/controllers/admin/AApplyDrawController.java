@@ -24,7 +24,7 @@ import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.SessionConstant;
 import com.gxkj.taobaoservice.entitys.AdminUser;
-import com.gxkj.taobaoservice.entitys.ApplyDraw;
+import com.gxkj.taobaoservice.entitys.ApplyDrawLog;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 import com.gxkj.taobaoservice.services.ApplyDrawService;
 /**
@@ -123,7 +123,7 @@ public class AApplyDrawController {
 			ret.setResult(true);
 			 
 			AdminUser adminUser = SessionConstant.getAdminUserInSession(request);
-			ApplyDraw entity =applyDrawService.doAgreeApplyDraw(applyId, adminUser, thirdOrderNo);
+			ApplyDrawLog entity =applyDrawService.doAgreeApplyDraw(applyId, adminUser, thirdOrderNo);
 			ret.setEntity(entity);
 			 
 			return ret;
@@ -149,7 +149,7 @@ public class AApplyDrawController {
 			ret.setResult(true);
 			
 			AdminUser adminUser = SessionConstant.getAdminUserInSession(request);
-			ApplyDraw entity =applyDrawService.doRefuseApplyDraw(applyId, adminUser, reason);
+			ApplyDrawLog entity =applyDrawService.doRefuseApplyDraw(applyId, adminUser, reason);
 			ret.setEntity(entity);
 			return ret;
 	}

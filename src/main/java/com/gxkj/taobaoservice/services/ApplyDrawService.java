@@ -7,7 +7,7 @@ import java.util.Date;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.entitys.AdminUser;
-import com.gxkj.taobaoservice.entitys.ApplyDraw;
+import com.gxkj.taobaoservice.entitys.ApplyDrawLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 
@@ -19,7 +19,7 @@ public interface ApplyDrawService {
 	 * @param userBase	申请人
 	 * @throws SQLException 
 	 */
-	 public ApplyDraw addApplyDraw( BigDecimal  amount,UserBase userBase) throws SQLException;
+	 public ApplyDrawLog addApplyDraw( BigDecimal  amount,UserBase userBase) throws SQLException;
 
 	/**
 	  * 
@@ -29,7 +29,7 @@ public interface ApplyDrawService {
 	 * @param reason
 	 * @throws SQLException
 	 */
-	 public ApplyDraw doRefuseApplyDraw(Integer applyId,AdminUser  adminUser,String reason) throws SQLException;
+	 public ApplyDrawLog doRefuseApplyDraw(Integer applyId,AdminUser  adminUser,String reason) throws SQLException;
 	 
 	 /**
 	  * 审核通过
@@ -38,7 +38,7 @@ public interface ApplyDrawService {
 	  * @throws SQLException
 	 * @throws BusinessException 
 	  */
-	 public ApplyDraw doAgreeApplyDraw(Integer applyId,AdminUser  adminUser,String thirdOrderNo) throws Exception;
+	 public ApplyDrawLog doAgreeApplyDraw(Integer applyId,AdminUser  adminUser,String thirdOrderNo) throws Exception;
 	 
 	 /**
 	  * 分页查看充值申请

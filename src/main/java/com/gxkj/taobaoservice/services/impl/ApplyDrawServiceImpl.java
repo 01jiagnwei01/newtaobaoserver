@@ -18,7 +18,7 @@ import com.gxkj.taobaoservice.daos.UserAccountDao;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.daos.UserBaseDao;
 import com.gxkj.taobaoservice.entitys.AdminUser;
-import com.gxkj.taobaoservice.entitys.ApplyDraw;
+import com.gxkj.taobaoservice.entitys.ApplyDrawLog;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserAccountLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
@@ -43,8 +43,8 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 	/**
 	 *	取款申请
 	 */
-	 public ApplyDraw addApplyDraw( BigDecimal  amount,UserBase userBase) throws SQLException{
-		 ApplyDraw apply = new ApplyDraw();
+	 public ApplyDrawLog addApplyDraw( BigDecimal  amount,UserBase userBase) throws SQLException{
+		 ApplyDrawLog apply = new ApplyDrawLog();
 		 apply.setAmount(amount); 
 		 Date now = new Date();
 		 apply.setCreateTime(now);
@@ -57,10 +57,10 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 	 /**
 	  * 审核拒绝
 	  */
-	public ApplyDraw doRefuseApplyDraw(Integer applyId, AdminUser adminUser,
+	public ApplyDrawLog doRefuseApplyDraw(Integer applyId, AdminUser adminUser,
 			String reason) throws SQLException {
 		 
-		ApplyDraw apply = (ApplyDraw) applyDrawDao.selectById(applyId, ApplyDraw.class);
+		ApplyDrawLog apply = (ApplyDrawLog) applyDrawDao.selectById(applyId, ApplyDrawLog.class);
 		apply.setRefuseReason(reason);
 		apply.setAuditorId(adminUser.getId());
 		apply.setAuditorName(adminUser.getRealName());
@@ -76,10 +76,10 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 	/**
 	 * 审核通过
 	 */
-	public ApplyDraw doAgreeApplyDraw(Integer applyId, AdminUser adminUser,String thirdOrderNo)
+	public ApplyDrawLog doAgreeApplyDraw(Integer applyId, AdminUser adminUser,String thirdOrderNo)
 			throws Exception {
 		 
-		ApplyDraw apply = (ApplyDraw) applyDrawDao.selectById(applyId, ApplyDraw.class);
+		ApplyDrawLog apply = (ApplyDrawLog) applyDrawDao.selectById(applyId, ApplyDrawLog.class);
 		/**
 		 * 状态需要是待审核
 		 */
@@ -106,7 +106,7 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		/**
 		 * 流水号不能重复
 		 */
-		List<ApplyDraw> rechargeApplys =  applyDrawDao.getApplyDrawByThirdOrderNoAndNotIDndPassed(thirdOrderNo,applyId);
+		List<ApplyDrawLog> rechargeApplys =  applyDrawDao.getApplyDrawByThirdOrderNoAndNotIDndPassed(thirdOrderNo,applyId);
 		if(CollectionUtils.isNotEmpty(rechargeApplys)){
 			throw new BusinessException(BusinessExceptionInfos.DRAWPAPPLY_THIRDORDERNO_IS_USED);
 		}

@@ -103,10 +103,10 @@ $(function(){
 			{field:'id',title:'id'},
 			{field:'userId',title:'申请用户ID' ,width:80},
 			{field:'createTime',title:'申请日期',width:120,formatter:dateFormat},
-			{field:'amount',title:'申请金额' ,width:100},
-			{field:'thirdOrderNo',title:'支付宝流水号' ,width:100},
-			{field:'status',title:'状态',width:100,formatter:statusFormat},
-			{field:'auditorName',title:'审核人' ,width:100,formatter:auditorNameFormat},
+			{field:'amount',title:'申请金额' ,width:80},
+			{field:'thirdOrderNo',title:'支付宝流水号' ,width:200},
+			{field:'status',title:'状态',width:80,formatter:statusFormat},
+			{field:'auditorName',title:'审核人' ,width:80,formatter:auditorNameFormat},
 			{field:'reviewTime',title:'审核日期',width:100,formatter:dateFormat},
 			{field:'refuseReason',title:'拒绝理由',width:100},
 			{field:'opt',title:'操作' ,width:100,formatter:optFormat} 
@@ -155,10 +155,10 @@ function optFormat(value,row,index){
 	if(row['status'] == 'WAIT_FOR_AUDIT') {
 		var btns = [];
 		 if(admin_deposit_doagree){
-			btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="passFn(\''+row['id']+'\')" href="#" plain="true" iconCls="update_btn"><span class="l-btn-left"><span class="l-btn-text update_btn l-btn-icon-left">通过</span></span></a>');
+			btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="passFn(this,\''+row['id']+'\')" href="#" plain="true" iconCls="update_btn"><span class="l-btn-left"><span class="l-btn-text update_btn l-btn-icon-left">通过</span></span></a>');
 		 }
 		 if(admin_deposit_doarefuse){
-			btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="disPassFn(\''+row['id']+'\')" href="#" plain="true" iconCls="del_btn"><span class="l-btn-left"><span class="l-btn-text del_btn l-btn-icon-left">拒绝</span></span></a>');
+			btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="disPassFn(this,\''+row['id']+'\')" href="#" plain="true" iconCls="del_btn"><span class="l-btn-left"><span class="l-btn-text del_btn l-btn-icon-left">拒绝</span></span></a>');
 		 }
 			return btns.join("&nbsp;");
 	}else if(value == 'APPROVE') {
@@ -209,7 +209,7 @@ function closeWinFn(){
 }
 
  
-function passFn(id){
+function passFn(zthis,id){
 	 
 	var rows = $("#dg").datagrid("getRows");
 	var row = null;
@@ -229,6 +229,9 @@ function passFn(id){
 		method:'POST',
 		data:{applyId:id},
 		context: document.body, 
+		beforeSend:function(){
+			  $(zthis).attr("disabled",true);  
+		 },
 		success: function(json){
 	    	//$(this).addClass("done");
 	    	 

@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.gxkj.common.dao.BaseDAO;
 import com.gxkj.common.util.ListPager;
-import com.gxkj.taobaoservice.entitys.ApplyDraw;
+import com.gxkj.taobaoservice.entitys.ApplyDrawLog;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 
 public interface ApplyDrawDao extends BaseDAO {
@@ -19,7 +19,7 @@ public interface ApplyDrawDao extends BaseDAO {
 	 * @return List<RechargeApply> 
 	 * @throws SQLException 
 	 */
-	List<ApplyDraw> getApplyDrawByThirdOrderNoAndNotIDndPassed(
+	List<ApplyDrawLog> getApplyDrawByThirdOrderNoAndNotIDndPassed(
 			String thirdOrderNo, Integer applyId) throws SQLException;
 
 	 /**

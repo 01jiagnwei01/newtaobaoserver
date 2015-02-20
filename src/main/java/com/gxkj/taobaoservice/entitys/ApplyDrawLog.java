@@ -19,11 +19,11 @@ import org.hibernate.annotations.GenericGenerator;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 
 /**
- * 申请取款
+ * 取款申请
  */
 @Entity
-@Table(name = "apply_draw")
-public class ApplyDraw implements Serializable{
+@Table(name = "apply_draw_log")
+public class ApplyDrawLog implements Serializable{
 
 	/**
 	 * 

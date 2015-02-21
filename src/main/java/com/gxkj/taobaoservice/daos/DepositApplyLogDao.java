@@ -50,5 +50,18 @@ public interface DepositApplyLogDao extends BaseDAO {
 	 * @throws SQLException
 	 */
 	boolean orderNoIsExist(String thirdOrderNo)throws SQLException;
+	
+	/**
+	 * 前台分页查看查询数量
+	 * @param pageno
+	 * @param pagesize
+	 * @param userId
+	 * @param createBeginTime
+	 * @param createEndTime
+	 * @return
+	 * @throws SQLException
+	 */
+	ListPager doPageFoeFront(int pageno, int pagesize, Integer userId ,
+			Date createBeginTime, Date createEndTime) throws SQLException;
 
 }

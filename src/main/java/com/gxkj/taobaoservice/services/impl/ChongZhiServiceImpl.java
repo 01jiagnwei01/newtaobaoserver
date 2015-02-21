@@ -11,6 +11,7 @@ import org.springframework.validation.BindException;
 
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
+import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.DepositApplyLogDao;
 import com.gxkj.taobaoservice.entitys.DepositAppLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
@@ -63,6 +64,12 @@ public class ChongZhiServiceImpl implements ChongZhiService {
 		depositAppLog.setUserId(userBase.getId());
 		depositApplyLogDao.insert(depositAppLog);
 
+	}
+
+	public ListPager doPage(UserBase userBase,int pageno, int pagesize, Date startTime,
+			Date endTime) throws SQLException {
+		 
+		return depositApplyLogDao.doPageFoeFront(pageno, pagesize, userBase.getId(), startTime, endTime);
 	}
 
 }

@@ -93,7 +93,11 @@ public class MoneyChongZhiController {
 					starttime += " 00:00:00";
 					startTime = formatter.parse(starttime);
 				}
-				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			try{
+				 
 				if(StringUtils.isNotBlank(endtime)){
 					endtime += " 23:59:59";
 					endTime = formatter.parse(endtime);
@@ -101,7 +105,6 @@ public class MoneyChongZhiController {
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-			
 			ListPager paper = chongZhiService.doPage(userBase,pageno, pagesize, startTime, endTime);
 			modelMap.put("starttime", starttime);
 			modelMap.put("endtime", endtime);

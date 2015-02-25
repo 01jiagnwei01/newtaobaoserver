@@ -126,6 +126,12 @@ public class UserAccountLog  implements Serializable{
 	@Column(name="task_id")
 	private Integer taskId;
 	
+	/**
+	 * 取款申请表ID
+	 */
+	@Column(name="draw_log_id")
+	private Integer drawLogId;
+	
 	
 	@Transient
 	private String adminName;
@@ -277,6 +283,14 @@ public class UserAccountLog  implements Serializable{
 
 	public void setUserName(String userName) {
 		this.userName = userName;
+	}
+
+	public Integer getDrawLogId() {
+		return drawLogId;
+	}
+
+	public void setDrawLogId(Integer drawLogId) {
+		this.drawLogId = drawLogId;
 	}
 	
 	

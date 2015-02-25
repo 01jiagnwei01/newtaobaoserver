@@ -40,19 +40,6 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 	@Autowired
 	private UserAccountLogDao userAccountLogDao;
 	
-	/**
-	 *	取款申请
-	 */
-	 public ApplyDrawLog addApplyDraw( BigDecimal  amount,UserBase userBase) throws SQLException{
-		 ApplyDrawLog apply = new ApplyDrawLog();
-		 apply.setAmount(amount); 
-		 Date now = new Date();
-		 apply.setCreateTime(now);
-		 apply.setStatus(RechargeApplyStatus.WAIT_FOR_AUDIT);
-		 apply.setUserId(userBase.getId());
-		 applyDrawDao.insert(apply);
-		 return apply;
-	 }
 
 	 /**
 	  * 审核拒绝
@@ -70,6 +57,37 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		
 		applyDrawDao.update(apply);
 		
+		
+		/**
+		 * 将钱回退到用户账户并记录日志
+		 */
+		UserAccount uerAccount = userAccountDao.getUserAccountByUserId(apply.getUserId());
+		BigDecimal beforeLockedAmount = uerAccount.getLockedBalance();
+		BigDecimal beforeRestAmount = uerAccount.getCurrentBalance();
+		
+		uerAccount.setCurrentBalance(uerAccount.getCurrentBalance().add(apply.getAmount()));
+		uerAccount.setLockedBalance(uerAccount.getLockedBalance().subtract(apply.getAmount()));
+		userAccountDao.update(uerAccount);
+		
+		UserBase userBase = (UserBase) userBaseDao.selectById(apply.getUserId(), UserBase.class);
+		
+		//记录用户账户变化
+		UserAccountLog userAccountLog = new UserAccountLog();
+		userAccountLog.setAfterLockedAmount(uerAccount.getLockedBalance());
+		userAccountLog.setAfterLockedPoints(uerAccount.getLockedPoints());
+		userAccountLog.setAfterRestAmount(uerAccount.getCurrentBalance());
+		userAccountLog.setAfterRestPoints(uerAccount.getCurrentRestPoints());
+		userAccountLog.setAmount(apply.getAmount());
+		userAccountLog.setBeforeLockedAmount(beforeLockedAmount);
+		userAccountLog.setBeforeLockedPoints(uerAccount.getLockedPoints());
+		userAccountLog.setBeforeRestAmount(beforeRestAmount);
+		userAccountLog.setBeforeRestPoints(uerAccount.getCurrentRestPoints());
+		userAccountLog.setCreateTime(now);
+		userAccountLog.setType(UserAccountTypes.WITHDRAW_FAILURE);
+		userAccountLog.setUserId(apply.getUserId());
+		userAccountLog.setUserName(userBase.getUserName());
+		userAccountLog.setDrawLogId(apply.getId());
+		userAccountLogDao.insert(userAccountLog);
 		return apply;
 	}
 
@@ -126,9 +144,8 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		 */
 		
 		 
-		//取款前金额
-		BigDecimal beforeBalance =  userAccount.getCurrentBalance();
-		userAccount.setCurrentBalance(beforeBalance.subtract(apply.getAmount()));
+		//锁定金额减少
+		userAccount.setLockedBalance(userAccount.getLockedBalance().subtract(apply.getAmount()));
 		userAccountDao.update(userAccount);
 		
 		/**
@@ -141,9 +158,9 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		log.setAfterRestAmount(userAccount.getCurrentBalance() );
 		log.setAfterRestPoints( userAccount.getCurrentRestPoints());
 		log.setAmount(apply.getAmount());
-		log.setBeforeLockedAmount(userAccount.getLockedBalance());
+		log.setBeforeLockedAmount(userAccount.getLockedBalance().add(apply.getAmount()));
 		log.setBeforeLockedPoints(userAccount.getLockedPoints());
-		log.setBeforeRestAmount(beforeBalance);
+		log.setBeforeRestAmount(userAccount.getCurrentBalance());
 		log.setBeforeRestPoints(userAccount.getLockedPoints());
 		log.setCreateTime(now);
 		log.setType(UserAccountTypes.WITHDRAW);

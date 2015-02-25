@@ -27,7 +27,7 @@ public class ApplyDrawDaoImpl  extends BaseDAOImpl implements ApplyDrawDao {
 	@SuppressWarnings("unchecked")
 	public List<ApplyDrawLog> getApplyDrawByThirdOrderNoAndNotIDndPassed(
 			String thirdOrderNo, Integer applyId) throws SQLException {
-		String hql = "from ApplyDraw where thirdOrderNo = ? and id != ? and status = '"+RechargeApplyStatus.APPROVE+"'";
+		String hql = "from ApplyDrawLog where thirdOrderNo = ? and id != ? and status = '"+RechargeApplyStatus.APPROVE+"'";
 		return (List<ApplyDrawLog>) this.selectByHQL(hql, new Object[]{thirdOrderNo,applyId});
 	}
 	
@@ -52,7 +52,7 @@ public class ApplyDrawDaoImpl  extends BaseDAOImpl implements ApplyDrawDao {
 			Date createBeginTime, Date createEndTime, Date reviewBeginTime,
 			Date reviewEndTime, Integer auditorId) throws SQLException {
 		
-		StringBuffer hql = new StringBuffer("  from ApplyDraw where 1=1 ");
+		StringBuffer hql = new StringBuffer("  from ApplyDrawLog where 1=1 ");
 		List<Object> params = new ArrayList<Object>();
 		boolean contain = false;
 		if(StringUtils.isNotBlank(thirdOrderNo)){

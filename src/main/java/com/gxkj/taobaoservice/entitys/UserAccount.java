@@ -32,7 +32,7 @@ public class UserAccount implements Serializable{
 	private int userId;
 	
 	/**
-	 * 当前余额
+	 * 当前可用余额
 	 */
 	@Column(name = "current_balance")
 	private BigDecimal currentBalance = BigDecimal.ZERO;

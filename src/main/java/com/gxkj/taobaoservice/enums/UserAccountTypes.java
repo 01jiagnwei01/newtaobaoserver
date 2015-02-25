@@ -1,7 +1,7 @@
 package com.gxkj.taobaoservice.enums;
 
 public enum UserAccountTypes {
-	DEPOSIT("充值"),WITHDRAW("取款"),BUYPOINTS("买点"),POINTS2MONEY("点兑钱"),
+	DEPOSIT("充值"),WITHDRAW("取款"),WITHDRAW_APPLY("取款申请"),WITHDRAW_FAILURE("取款失败"),BUYPOINTS("买点"),POINTS2MONEY("点兑钱"),
 	PUBLISH_TASK ("发布任务"),FINISH_TASK("发布任务"),CANCLE_TASK("任务取消"),
 	ADMINISTRATOR_INTERVENTION("管理员干预"),COMPANY_SUPPLY("平台赞助");
 	

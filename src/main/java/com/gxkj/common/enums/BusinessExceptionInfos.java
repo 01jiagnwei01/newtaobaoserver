@@ -53,7 +53,13 @@ public enum BusinessExceptionInfos {
 	ORDER_IS_ERROR("50","请输入正确商户订单号"),
 	ORDER_SHOULD_BE_VALID_LENGTH("51","请输入正确填写交易号\\商务订单号，长度应该为17，18，19，28，30或32"),
 	AMOUNT_SHOULD_BE_POSITIVE("52","金额需要是正数"),
-	ORDERNO_IS_USED("53","该订单号已经被使用");
+	ORDERNO_IS_USED("53","该订单号已经被使用"),
+	DEVELOP_PARAM_SESSION_YANZHENGMA_ERROR("54","开发者传验证码错误"),
+	AMOUNT_IS_BlANK("55","取款金额为空"),
+	AMOUNT_MUST_IS_POSITIVE("56","取款金额必须为正的"),
+	AMOUNT_MONEY_NOT_ENOUGH("57","账户金额不足"),
+	ALIPAY_ACCOUNT_IS_BLANK("58","支付宝账户为空"),
+	USER_IS_BLANK("60","用户为空") ;
 	private String errorCode; 
 	
 	private String errorMsg;

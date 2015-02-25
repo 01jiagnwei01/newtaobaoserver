@@ -13,13 +13,6 @@ import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 
 public interface ApplyDrawService {
 	
-	/**
-	 * 
-	 * @param amount	取款金额
-	 * @param userBase	申请人
-	 * @throws SQLException 
-	 */
-	 public ApplyDrawLog addApplyDraw( BigDecimal  amount,UserBase userBase) throws SQLException;
 
 	/**
 	  * 

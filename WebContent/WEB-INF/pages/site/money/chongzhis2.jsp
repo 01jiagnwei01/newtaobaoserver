@@ -53,10 +53,11 @@ table td{padding:5px; font-size:14px;}
 						<td><input type="text" name="orderno" id="orderno" style="width: 200px"></td>
 						<td submitFn><span style="font-size:12px; color:#F00;" id="orderno_error"></span></td>
 					</tr>
+					<!-- 
 					<tr>
 						<td>&nbsp;</td>
 						<td>订单在哪儿？<a href="#">手机</a>&nbsp;/&nbsp;<a href="#">网页版</a>&nbsp;</td>
-					</tr>
+					</tr> -->
 					<tr>
 							<td align="right">填写充值金额：</td>
 							<td><input type="number" name="money" id="money" style="width: 200px">元</td>

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-02-13 16:09:32
+Date: 2015-02-25 19:56:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -152,10 +152,10 @@ CREATE TABLE `admin_user` (
 INSERT INTO `admin_user` VALUES ('1', '01jiangwei01', '96e79218965eb72c92a549dd5a330112', '管理员', '1');
 
 -- ----------------------------
--- Table structure for `apply_draw`
+-- Table structure for `apply_draw_log`
 -- ----------------------------
-DROP TABLE IF EXISTS `apply_draw`;
-CREATE TABLE `apply_draw` (
+DROP TABLE IF EXISTS `apply_draw_log`;
+CREATE TABLE `apply_draw_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `third_order_no` varchar(50) DEFAULT NULL,
   `amount` decimal(16,2) NOT NULL,
@@ -167,14 +167,11 @@ CREATE TABLE `apply_draw` (
   `review_time` datetime DEFAULT NULL,
   `refuse_reason` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of apply_draw
+-- Records of apply_draw_log
 -- ----------------------------
-INSERT INTO `apply_draw` VALUES ('1', '', '1.00', '1', '2014-12-03 21:57:32', 'REFUSE', '1', '管理员', '2014-12-06 08:51:47', '1111');
-INSERT INTO `apply_draw` VALUES ('2', '1', '1.00', '1', '2014-12-06 09:20:08', 'APPROVE', '1', '管理员', '2014-12-06 09:42:38', null);
-INSERT INTO `apply_draw` VALUES ('3', null, '1.00', '1', '2014-12-06 09:44:14', 'REFUSE', '1', '管理员', '2014-12-06 09:54:29', '1111');
 
 -- ----------------------------
 -- Table structure for `business_exception`
@@ -210,11 +207,12 @@ CREATE TABLE `caozuoma_log` (
   `exp_time` datetime NOT NULL,
   `enabled` int(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of caozuoma_log
 -- ----------------------------
+INSERT INTO `caozuoma_log` VALUES ('1', '1', 'email', '01jiangwei01@163.com', '381549', '2015-02-14 21:41:27', null, '2015-02-14 21:41:27', '1');
 
 -- ----------------------------
 -- Table structure for `company_account`
@@ -234,10 +232,10 @@ CREATE TABLE `company_account` (
 INSERT INTO `company_account` VALUES ('1', '0.00', '0.00', '4.00');
 
 -- ----------------------------
--- Table structure for `deposit_apply`
+-- Table structure for `deposit_apply_log`
 -- ----------------------------
-DROP TABLE IF EXISTS `deposit_apply`;
-CREATE TABLE `deposit_apply` (
+DROP TABLE IF EXISTS `deposit_apply_log`;
+CREATE TABLE `deposit_apply_log` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `third_order_no` varchar(50) NOT NULL,
   `amount` decimal(16,2) NOT NULL,
@@ -248,16 +246,16 @@ CREATE TABLE `deposit_apply` (
   `auditor_name` varchar(30) DEFAULT NULL,
   `review_time` datetime DEFAULT NULL,
   `refuse_reason` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `orderNo` (`third_order_no`) USING HASH,
+  KEY `admin_user_id` (`auditor_id`),
+  KEY `userId` (`user_id`) USING HASH,
+  CONSTRAINT `admin_user_id` FOREIGN KEY (`auditor_id`) REFERENCES `admin_user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of deposit_apply
+-- Records of deposit_apply_log
 -- ----------------------------
-INSERT INTO `deposit_apply` VALUES ('1', '1', '10.00', '1', '2014-12-05 23:13:53', 'APPROVE', '1', '管理员', '2014-12-05 23:21:38', null);
-INSERT INTO `deposit_apply` VALUES ('2', '1', '10.00', '1', '2014-12-05 23:22:14', 'REFUSE', '1', '管理员', '2014-12-05 23:38:49', 'ffffffffffff');
-INSERT INTO `deposit_apply` VALUES ('3', '1', '10.00', '1', '2014-12-06 08:19:24', 'REFUSE', '1', '管理员', '2014-12-06 08:35:13', '111');
-INSERT INTO `deposit_apply` VALUES ('4', '2', '10.00', '1', '2014-12-06 08:35:34', 'APPROVE', '1', '管理员', '2014-12-06 08:38:03', null);
 
 -- ----------------------------
 -- Table structure for `log4j_log`
@@ -444,14 +442,11 @@ CREATE TABLE `operate_log` (
   `ip` varchar(30) DEFAULT NULL,
   `isused` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of operate_log
 -- ----------------------------
-INSERT INTO `operate_log` VALUES ('14', '2', '2015-02-08 13:50:51', 'REG_EMAIL', null, '01jiangwei01@163.com', null, '0');
-INSERT INTO `operate_log` VALUES ('15', '1', '2015-02-11 14:19:38', 'REG_EMAIL', null, '01jiangwei01@163.com', null, '0');
-INSERT INTO `operate_log` VALUES ('16', '1', '2015-02-13 14:36:22', 'REG_EMAIL', null, '01jiangwei01@163.com', null, '0');
 
 -- ----------------------------
 -- Table structure for `pics`
@@ -472,27 +467,6 @@ CREATE TABLE `pics` (
 -- Records of pics
 -- ----------------------------
 INSERT INTO `pics` VALUES ('3', 'http://001taobaoservice.oss-cn-beijing.aliyuncs.com/img/20150116174648995.jpg', 'NORMAL', '阿里测试', '阿里测试', '2015-01-16 17:46:49', '1');
-
--- ----------------------------
--- Table structure for `reg_log`
--- ----------------------------
-DROP TABLE IF EXISTS `reg_log`;
-CREATE TABLE `reg_log` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `code` varchar(10) NOT NULL,
-  `type` varchar(10) NOT NULL,
-  `value` varchar(50) NOT NULL,
-  `create_time` datetime NOT NULL,
-  `active_time` datetime DEFAULT NULL,
-  `exp_time` datetime NOT NULL,
-  `enabled` int(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of reg_log
--- ----------------------------
-INSERT INTO `reg_log` VALUES ('1', '248936', 'email', '01jiangwei01@163.com', '2015-02-13 14:35:04', '2015-02-13 14:36:22', '2015-02-13 14:35:04', '1');
 
 -- ----------------------------
 -- Table structure for `rel_admin_user_role`
@@ -767,8 +741,11 @@ CREATE TABLE `user_account_log` (
   `after_locked_points` double(10,2) NOT NULL DEFAULT '0.00',
   `admin_user_id` int(10) DEFAULT NULL,
   `task_id` int(10) DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `draw_log_id` int(10) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `draw_id` (`draw_log_id`),
+  CONSTRAINT `draw_id` FOREIGN KEY (`draw_log_id`) REFERENCES `apply_draw_log` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_account_log
@@ -793,7 +770,7 @@ CREATE TABLE `user_base` (
 -- ----------------------------
 -- Records of user_base
 -- ----------------------------
-INSERT INTO `user_base` VALUES ('1', '01jiangwei01@163.com', 'cd0061c62d8221fef2bc83f38653e785', '2015-02-13 14:36:22', 'NORMAL', 'c81e728d9d4c2f636f067f89cc14862c', '01jiangwei01@163.com', null);
+INSERT INTO `user_base` VALUES ('1', '01jiangwei01@163.com', 'cd0061c62d8221fef2bc83f38653e785', '2015-02-13 14:36:22', 'NORMAL', '6dbf9ac2da09ee1d3debf5a51873ec6d', '346745719@qq.com', null);
 
 -- ----------------------------
 -- Table structure for `user_link`
@@ -806,7 +783,7 @@ CREATE TABLE `user_link` (
   `link_value` varchar(50) NOT NULL,
   `status` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_link
@@ -831,3 +808,30 @@ CREATE TABLE `valid_info` (
 -- ----------------------------
 -- Records of valid_info
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `yanzhengma_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `yanzhengma_log`;
+CREATE TABLE `yanzhengma_log` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `value` varchar(50) NOT NULL,
+  `create_time` datetime NOT NULL,
+  `active_time` datetime DEFAULT NULL,
+  `exp_time` datetime NOT NULL,
+  `enabled` int(1) NOT NULL,
+  `user_id` int(10) DEFAULT NULL,
+  `tran_type` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of yanzhengma_log
+-- ----------------------------
+INSERT INTO `yanzhengma_log` VALUES ('1', '248936', 'email', '01jiangwei01@163.com', '2015-02-13 14:35:04', '2015-02-13 14:36:22', '2015-02-13 14:35:04', '0', null, '1');
+INSERT INTO `yanzhengma_log` VALUES ('2', '986403', 'email', '01jiangwei01@163.com', '2015-02-14 21:23:09', null, '2015-02-14 21:23:09', '0', null, '1');
+INSERT INTO `yanzhengma_log` VALUES ('4', '921853', 'email', '01jiangwei01@163.com', '2015-02-14 21:43:12', null, '2015-02-14 21:43:12', '0', null, '1');
+INSERT INTO `yanzhengma_log` VALUES ('5', '629130', 'email', '01jiangwei01@163.com', '2015-02-15 11:50:25', '2015-02-15 13:21:39', '2015-02-15 11:50:25', '1', '1', 'Update_bind');
+INSERT INTO `yanzhengma_log` VALUES ('6', '502941', 'email', '346745719@qq.com', '2015-02-15 16:23:50', '2015-02-15 16:24:14', '2015-02-15 16:23:50', '0', '1', 'Update_bind');

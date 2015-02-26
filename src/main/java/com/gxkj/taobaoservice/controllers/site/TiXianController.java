@@ -18,11 +18,9 @@ import com.gxkj.common.util.RandomValidateCode;
 import com.gxkj.common.util.SessionUtil;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.entitys.UserBase;
-import com.gxkj.taobaoservice.enums.LoginProcessResults;
 import com.gxkj.taobaoservice.services.TiXianService;
 /**
  * 提现
- * @author admin
  *
  */
 @Controller

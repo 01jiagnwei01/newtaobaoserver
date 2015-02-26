@@ -59,7 +59,10 @@ public enum BusinessExceptionInfos {
 	AMOUNT_MUST_IS_POSITIVE("56","取款金额必须为正的"),
 	AMOUNT_MONEY_NOT_ENOUGH("57","账户金额不足"),
 	ALIPAY_ACCOUNT_IS_BLANK("58","支付宝账户为空"),
-	USER_IS_BLANK("60","用户为空") ;
+	USER_IS_BLANK("60","用户为空") ,
+	PARAMETER_ERROR("61","参数错误"),
+	UserAccountTypes_IS_NULL("62","操作方式为空"),
+	undo("63","还没有开发") ;
 	private String errorCode; 
 	
 	private String errorMsg;

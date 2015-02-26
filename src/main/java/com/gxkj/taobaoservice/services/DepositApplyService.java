@@ -8,19 +8,10 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.entitys.AdminUser;
 import com.gxkj.taobaoservice.entitys.DepositAppLog;
-import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 
 public interface DepositApplyService {
 	
-	/**
-	 * 
-	 * @param thirdOrderNo  第三方流水号
-	 * @param amount	充值金额
-	 * @param userBase	申请人
-	 * @throws SQLException 
-	 */
-	 public DepositAppLog addRechargeApply(String thirdOrderNo,BigDecimal  amount,UserBase userBase) throws SQLException;
 
 	/**
 	  * 

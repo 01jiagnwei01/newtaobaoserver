@@ -18,12 +18,16 @@ import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.daos.UserBaseDao;
 import com.gxkj.taobaoservice.entitys.AdminUser;
 import com.gxkj.taobaoservice.entitys.DepositAppLog;
-import com.gxkj.taobaoservice.entitys.UserAccount;
-import com.gxkj.taobaoservice.entitys.UserAccountLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 import com.gxkj.taobaoservice.enums.UserAccountTypes;
 import com.gxkj.taobaoservice.services.DepositApplyService;
+import com.gxkj.taobaoservice.services.UserAccountService;
+/**
+ * 
+ *充值审核
+ *
+ */
 @Service
 public class DepositApplyServiceImpl implements DepositApplyService {
 
@@ -39,21 +43,8 @@ public class DepositApplyServiceImpl implements DepositApplyService {
 	@Autowired
 	private UserAccountLogDao userAccountLogDao;
 	
-	/**
-	 * 充值申请
-	 */
-	 public DepositAppLog addRechargeApply(String thirdOrderNo,BigDecimal  amount,UserBase userBase) throws SQLException{
-		 DepositAppLog apply = new DepositAppLog();
-		 apply.setAmount(amount);
-		 apply.setThirdOrderNo(thirdOrderNo);
-		 Date now = new Date();
-		 apply.setCreateTime(now);
-		 apply.setStatus(RechargeApplyStatus.WAIT_FOR_AUDIT);
-		 apply.setUserId(userBase.getId());
-		 rechargeApplyDao.insert(apply);
-		 return apply;
-	 }
-
+	@Autowired
+	private UserAccountService userAccountService;
 	 /**
 	  * 审核拒绝
 	  */
@@ -101,32 +92,8 @@ public class DepositApplyServiceImpl implements DepositApplyService {
 		/**
 		 * 充值资金到用户账户
 		 */
-		
-		UserAccount userAccount = userAccountDao.getUserAccountByUserId(apply.getUserId());
-		//充值前金额
-		BigDecimal beforeBalance =  userAccount.getCurrentBalance();
-		userAccount.setCurrentBalance(beforeBalance.add(apply.getAmount()));
-		userAccountDao.update(userAccount);
-		
-		/**
-		 * 记录充值日志
-		 */
-		UserAccountLog log = new UserAccountLog();
-		log.setAdminUserId(adminUser.getId());
-		log.setAfterLockedAmount(userAccount.getLockedBalance());
-		log.setAfterLockedPoints(userAccount.getLockedPoints());
-		log.setAfterRestAmount(userAccount.getCurrentBalance() );
-		log.setAfterRestPoints( userAccount.getCurrentRestPoints());
-		log.setAmount(apply.getAmount());
-		log.setBeforeLockedAmount(userAccount.getLockedBalance());
-		log.setBeforeLockedPoints(userAccount.getLockedPoints());
-		log.setBeforeRestAmount(beforeBalance);
-		log.setBeforeRestPoints(userAccount.getLockedPoints());
-		log.setCreateTime(now);
-		log.setType(UserAccountTypes.DEPOSIT);
-		log.setUserId(apply.getUserId());
-		
- 		userAccountLogDao.insert(log);
+ 		UserBase userBase = (UserBase) userBaseDao.selectById(apply.getUserId(), UserBase.class);
+ 		userAccountService.updateUserAccount(userBase, apply.getAmount(), null, UserAccountTypes.DEPOSIT, apply.getId(), adminUser.getId());
  		return apply;
 		
 		

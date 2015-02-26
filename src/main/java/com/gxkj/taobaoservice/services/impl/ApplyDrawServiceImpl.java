@@ -19,12 +19,15 @@ import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.daos.UserBaseDao;
 import com.gxkj.taobaoservice.entitys.AdminUser;
 import com.gxkj.taobaoservice.entitys.ApplyDrawLog;
-import com.gxkj.taobaoservice.entitys.UserAccount;
-import com.gxkj.taobaoservice.entitys.UserAccountLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 import com.gxkj.taobaoservice.enums.UserAccountTypes;
 import com.gxkj.taobaoservice.services.ApplyDrawService;
+import com.gxkj.taobaoservice.services.UserAccountService;
+/**
+ * 取款申请
+ *
+ */
 @Service
 public class ApplyDrawServiceImpl implements ApplyDrawService {
 
@@ -40,12 +43,15 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 	@Autowired
 	private UserAccountLogDao userAccountLogDao;
 	
+	@Autowired
+	private UserAccountService userAccountService;
 
 	 /**
-	  * 审核拒绝
+	  * 取款审核拒绝
+	 * @throws BusinessException 
 	  */
 	public ApplyDrawLog doRefuseApplyDraw(Integer applyId, AdminUser adminUser,
-			String reason) throws SQLException {
+			String reason) throws SQLException, BusinessException {
 		 
 		ApplyDrawLog apply = (ApplyDrawLog) applyDrawDao.selectById(applyId, ApplyDrawLog.class);
 		apply.setRefuseReason(reason);
@@ -61,38 +67,14 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		/**
 		 * 将钱回退到用户账户并记录日志
 		 */
-		UserAccount uerAccount = userAccountDao.getUserAccountByUserId(apply.getUserId());
-		BigDecimal beforeLockedAmount = uerAccount.getLockedBalance();
-		BigDecimal beforeRestAmount = uerAccount.getCurrentBalance();
-		
-		uerAccount.setCurrentBalance(uerAccount.getCurrentBalance().add(apply.getAmount()));
-		uerAccount.setLockedBalance(uerAccount.getLockedBalance().subtract(apply.getAmount()));
-		userAccountDao.update(uerAccount);
-		
 		UserBase userBase = (UserBase) userBaseDao.selectById(apply.getUserId(), UserBase.class);
-		
-		//记录用户账户变化
-		UserAccountLog userAccountLog = new UserAccountLog();
-		userAccountLog.setAfterLockedAmount(uerAccount.getLockedBalance());
-		userAccountLog.setAfterLockedPoints(uerAccount.getLockedPoints());
-		userAccountLog.setAfterRestAmount(uerAccount.getCurrentBalance());
-		userAccountLog.setAfterRestPoints(uerAccount.getCurrentRestPoints());
-		userAccountLog.setAmount(apply.getAmount());
-		userAccountLog.setBeforeLockedAmount(beforeLockedAmount);
-		userAccountLog.setBeforeLockedPoints(uerAccount.getLockedPoints());
-		userAccountLog.setBeforeRestAmount(beforeRestAmount);
-		userAccountLog.setBeforeRestPoints(uerAccount.getCurrentRestPoints());
-		userAccountLog.setCreateTime(now);
-		userAccountLog.setType(UserAccountTypes.WITHDRAW_FAILURE);
-		userAccountLog.setUserId(apply.getUserId());
-		userAccountLog.setUserName(userBase.getUserName());
-		userAccountLog.setDrawLogId(apply.getId());
-		userAccountLogDao.insert(userAccountLog);
+		userAccountService.updateUserAccount(userBase, apply.getAmount(), null, UserAccountTypes.WITHDRAW_FAILURE, apply.getId(), adminUser.getId());
+		 
 		return apply;
 	}
 
 	/**
-	 * 审核通过
+	 * 取款申请审核通过
 	 */
 	public ApplyDrawLog doAgreeApplyDraw(Integer applyId, AdminUser adminUser,String thirdOrderNo)
 			throws Exception {
@@ -110,16 +92,13 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		 if(StringUtils.isBlank( thirdOrderNo)){
 			 throw new BusinessException(BusinessExceptionInfos.THIRD_ORDER_NO_IS_NULL);
 		 }
-		 /**
-		  * 账户金额要足够
-		  */
-		 Integer userId =  apply.getUserId();
-		 BigDecimal amount = apply.getAmount();
-		 UserAccount userAccount = userAccountDao.getUserAccountByUserId(userId);
-		 BigDecimal accountAmount = userAccount.getCurrentBalance();
-		 if(accountAmount.compareTo(amount)<0){
-			 throw new BusinessException(BusinessExceptionInfos.ACCOUNT_MONEY_NO_ENOUGH);
-		 }
+		 int length = thirdOrderNo.length();
+		if (length!= 17 && length!= 19 &&
+			         length!= 18 && length!= 30 &&
+			         length!= 28 && length!= 32
+			        ) {
+			        throw new BusinessException(BusinessExceptionInfos.ORDER_SHOULD_BE_VALID_LENGTH,"orderno");
+		}
 		 
 		/**
 		 * 流水号不能重复
@@ -142,31 +121,8 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		/**
 		 *  用户账户扣除资金 
 		 */
-		
-		 
-		//锁定金额减少
-		userAccount.setLockedBalance(userAccount.getLockedBalance().subtract(apply.getAmount()));
-		userAccountDao.update(userAccount);
-		
-		/**
-		 * 记录充值日志
-		 */
-		UserAccountLog log = new UserAccountLog();
-		log.setAdminUserId(adminUser.getId());
-		log.setAfterLockedAmount(userAccount.getLockedBalance());
-		log.setAfterLockedPoints(userAccount.getLockedPoints());
-		log.setAfterRestAmount(userAccount.getCurrentBalance() );
-		log.setAfterRestPoints( userAccount.getCurrentRestPoints());
-		log.setAmount(apply.getAmount());
-		log.setBeforeLockedAmount(userAccount.getLockedBalance().add(apply.getAmount()));
-		log.setBeforeLockedPoints(userAccount.getLockedPoints());
-		log.setBeforeRestAmount(userAccount.getCurrentBalance());
-		log.setBeforeRestPoints(userAccount.getLockedPoints());
-		log.setCreateTime(now);
-		log.setType(UserAccountTypes.WITHDRAW);
-		log.setUserId(apply.getUserId());
-		
- 		userAccountLogDao.insert(log);
+		UserBase userBase = (UserBase) userBaseDao.selectById(apply.getUserId(), UserBase.class);
+		userAccountService.updateUserAccount(userBase, apply.getAmount(), null, UserAccountTypes.WITHDRAW_SUCCESS, apply.getId(), adminUser.getId());
  		return apply;
 		
 		

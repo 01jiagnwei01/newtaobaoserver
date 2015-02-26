@@ -15,11 +15,11 @@ import com.gxkj.taobaoservice.daos.UserAccountDao;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.entitys.ApplyDrawLog;
 import com.gxkj.taobaoservice.entitys.UserAccount;
-import com.gxkj.taobaoservice.entitys.UserAccountLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 import com.gxkj.taobaoservice.enums.UserAccountTypes;
 import com.gxkj.taobaoservice.services.TiXianService;
+import com.gxkj.taobaoservice.services.UserAccountService;
 
 @Service
 public class TiXianServiceImpl implements TiXianService {
@@ -33,9 +33,13 @@ public class TiXianServiceImpl implements TiXianService {
 	@Autowired
 	private UserAccountLogDao userAccountLogDao;
 	
+	@Autowired
+	private UserAccountService userAccountService;
+	
 	/**
 	 * @throws BusinessException 
 	 * @throws SQLException 
+	 * 取款申请
 	 * 
 	 */
 	public UserBase doapply(UserBase userBase, String alipyAccount,
@@ -90,31 +94,8 @@ public class TiXianServiceImpl implements TiXianService {
 		applyDrawDao.insert(applyDrawLog);
 		
 		
-		BigDecimal beforeLockedAmount = uerAccount.getLockedBalance();
-		BigDecimal beforeRestAmount = currentBalance;
-		//锁定用户金额  可用金额减少，锁定金额增加
-		uerAccount.setCurrentBalance(beforeRestAmount.subtract(amount));
-		uerAccount.setLockedBalance(uerAccount.getLockedBalance().add(amount));
-		userAccountDao.update(uerAccount);
-		userBase.setUerAccount(uerAccount);
-		
-		//记录用户账户变化
-		UserAccountLog userAccountLog = new UserAccountLog();
-		userAccountLog.setAfterLockedAmount(uerAccount.getLockedBalance());
-		userAccountLog.setAfterLockedPoints(uerAccount.getLockedPoints());
-		userAccountLog.setAfterRestAmount(uerAccount.getCurrentBalance());
-		userAccountLog.setAfterRestPoints(uerAccount.getCurrentRestPoints());
-		userAccountLog.setAmount(amount);
-		userAccountLog.setBeforeLockedAmount(beforeLockedAmount);
-		userAccountLog.setBeforeLockedPoints(uerAccount.getLockedPoints());
-		userAccountLog.setBeforeRestAmount(beforeRestAmount);
-		userAccountLog.setBeforeRestPoints(uerAccount.getCurrentRestPoints());
-		userAccountLog.setCreateTime(now);
-		userAccountLog.setType(UserAccountTypes.WITHDRAW_APPLY);
-		userAccountLog.setUserId(userBase.getId());
-		userAccountLog.setUserName(userBase.getUserName());
-		userAccountLogDao.insert(userAccountLog);
-		
+		userAccountService.updateUserAccount(userBase, amount, null, UserAccountTypes.WITHDRAW_APPLY, applyDrawLog.getId(),null);
+		 
 		return userBase;
 		 
 	}

@@ -8,7 +8,6 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.entitys.AdminUser;
 import com.gxkj.taobaoservice.entitys.ApplyDrawLog;
-import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.RechargeApplyStatus;
 
 public interface ApplyDrawService {
@@ -21,8 +20,9 @@ public interface ApplyDrawService {
 	 * @param adminUser
 	 * @param reason
 	 * @throws SQLException
+	 * @throws BusinessException 
 	 */
-	 public ApplyDrawLog doRefuseApplyDraw(Integer applyId,AdminUser  adminUser,String reason) throws SQLException;
+	 public ApplyDrawLog doRefuseApplyDraw(Integer applyId,AdminUser  adminUser,String reason) throws SQLException, BusinessException;
 	 
 	 /**
 	  * 审核通过

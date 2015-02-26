@@ -47,7 +47,7 @@ public class LoginController {
 			@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("yanzhengma") String yanzhengma) throws BusinessException, SQLException {
  
 		EntityReturnData ret = new EntityReturnData();
-		String yanzhengMaInSession = (String) request.getSession().getAttribute(RandomValidateCode.RANDOMCODEKEY); 
+		String yanzhengMaInSession = RandomValidateCode.getRandcode(request); 
 		ret.setResult(true);
 		ret.setMsg(LoginProcessResults.SUCCESS.getName());
 		UserBase userBase =	userBaseService.doLogin(username,password,yanzhengma, yanzhengMaInSession);

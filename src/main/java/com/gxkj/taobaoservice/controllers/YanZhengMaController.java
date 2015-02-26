@@ -24,7 +24,7 @@ public class YanZhengMaController {
 	        response.setDateHeader("Expire", 0);
 	        RandomValidateCode randomValidateCode = new RandomValidateCode();
 	        try {
-	            randomValidateCode.getRandcode(request, response);//输出图片方法
+	            randomValidateCode.drawRandcode(request, response);//输出图片方法
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }

@@ -65,7 +65,7 @@ public class DepositApplyServiceImpl implements DepositApplyService {
 	}
 
 	/**
-	 * 审核通过
+	 * 充值审核通过
 	 */
 	public DepositAppLog doAgreeRechargeApply(Integer applyId, AdminUser adminUser)
 			throws SQLException, BusinessException {

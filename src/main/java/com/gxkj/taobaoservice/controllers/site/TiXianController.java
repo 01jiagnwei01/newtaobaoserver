@@ -53,7 +53,7 @@ public class TiXianController {
 	public EntityReturnData doapply(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,
 			String alipyAccount,BigDecimal amount,String yanzhengma,String caozuoma) throws BusinessException, SQLException{
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
-		String yanzhengmaInsession = (String) request.getSession().getAttribute(RandomValidateCode.RANDOMCODEKEY); 
+		String yanzhengmaInsession = RandomValidateCode.getRandcode(request); 
 		userBase = tiXianService.doapply(userBase, alipyAccount, amount, yanzhengma, yanzhengmaInsession, caozuoma);
 		EntityReturnData ret = new EntityReturnData();
 		ret.setResult(true);

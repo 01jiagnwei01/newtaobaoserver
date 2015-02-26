@@ -219,12 +219,12 @@ function disPassFn(id){
 function closeWinFn(){
 	$('#win').window('close');
 	$('#refBtn').linkbutton('enable');
-	  $('#refBtn').text("提交");
+	 // $('#refBtn').text("提交");
 }
 function closeAgreeWinFn(){
 	$('#agreewin').window('close');
 	 $('#agreebtn').linkbutton('enable');
-	 $('#agreebtn').text("提交");
+	 //$('#agreebtn').text("提交");
 }
 function passFn(id){
 	$('#agreeId').val(id); 
@@ -254,7 +254,7 @@ function refuseSubmitFormFn(btn){
 		data:{applyId:reasonId,reason:reason},
 		 beforeSend:function(){
 			  $(btn).linkbutton('disable');
-			  $(btn).text("正在提交中。。。");
+			 // $(btn).text("正在提交中。。。");
 		 },
 		context: document.body, 
 		success: function(json){
@@ -310,7 +310,7 @@ function submitAgreeFormFn(btn){
 		data:{thirdOrderNo:agreeThirdNo ,applyId:agreeId},
 		beforeSend:function(){
 			  $(btn).linkbutton('disable');
-			  $(btn).text("正在提交中。。。");
+			  //$(btn).text("正在提交中。。。");
 		 },
 		context: document.body, 
 		success: function(json){

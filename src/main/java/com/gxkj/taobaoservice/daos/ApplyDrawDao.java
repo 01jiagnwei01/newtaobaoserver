@@ -19,7 +19,7 @@ public interface ApplyDrawDao extends BaseDAO {
 	 * @return List<RechargeApply> 
 	 * @throws SQLException 
 	 */
-	List<ApplyDrawLog> getApplyDrawByThirdOrderNoAndNotIDndPassed(
+	ApplyDrawLog getApplyDrawByThirdOrderNoAndNotIDndPassed(
 			String thirdOrderNo, Integer applyId) throws SQLException;
 
 	 /**

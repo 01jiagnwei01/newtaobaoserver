@@ -3,9 +3,7 @@ package com.gxkj.taobaoservice.services.impl;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,8 +105,8 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		/**
 		 * 流水号不能重复
 		 */
-		List<ApplyDrawLog> rechargeApplys =  applyDrawDao.getApplyDrawByThirdOrderNoAndNotIDndPassed(thirdOrderNo,applyId);
-		if(CollectionUtils.isNotEmpty(rechargeApplys)){
+		ApplyDrawLog rechargeApplys =  applyDrawDao.getApplyDrawByThirdOrderNoAndNotIDndPassed(thirdOrderNo,applyId);
+		if(rechargeApplys != null){
 			throw new BusinessException(BusinessExceptionInfos.DRAWPAPPLY_THIRDORDERNO_IS_USED);
 		}
 		/**

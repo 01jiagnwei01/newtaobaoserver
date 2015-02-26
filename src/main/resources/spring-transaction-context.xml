@@ -31,6 +31,11 @@
             <tx:method name="delete*" propagation="REQUIRED" isolation="DEFAULT" />
             <tx:method name="active*" propagation="REQUIRED" isolation="DEFAULT" />
             <tx:method name="do*" propagation="REQUIRED" isolation="DEFAULT" />
+            
+            <tx:method name="doRefuseApplyDraw" propagation="REQUIRED" isolation="SERIALIZABLE" /><!-- 取款审核拒绝 -->
+            <tx:method name="doAgreeApplyDraw" propagation="REQUIRED" isolation="SERIALIZABLE" /><!-- 取款申请审核通过 -->
+            <tx:method name="doAgreeRechargeApply" propagation="REQUIRED" isolation="SERIALIZABLE" /><!-- 充值审核通过 -->
+            
             <tx:method name="get*" propagation="REQUIRED"  read-only="true"    isolation="DEFAULT"/>
             <tx:method name="*" propagation="REQUIRED"  read-only="true"    isolation="DEFAULT"/>
         </tx:attributes>

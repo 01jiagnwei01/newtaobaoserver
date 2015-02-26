@@ -62,7 +62,7 @@
 					</table>
 				</div>
 				 <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
-					<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="javascript:refuseSubmitFormFn(this)">保存</a>
+					<a id="refBtn" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="javascript:refuseSubmitFormFn(this)">保存</a>
 					<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:closeWinFn()">取消</a>
 				</div>
 			</div>
@@ -78,7 +78,7 @@
 					</div>
 				</div>
 				 <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
-					<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="javascript:submitAgreeFormFn(this)">保存</a>
+					<a  id = 'agreebtn' class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="javascript:submitAgreeFormFn(this)">保存</a>
 					<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:closeAgreeWinFn()">取消</a>
 				</div>
 			</div>
@@ -218,13 +218,17 @@ function disPassFn(id){
 }
 function closeWinFn(){
 	$('#win').window('close');
+	$('#refBtn').linkbutton('enable');
+	  $('#refBtn').text("提交");
 }
 function closeAgreeWinFn(){
 	$('#agreewin').window('close');
+	 $('#agreebtn').linkbutton('enable');
+	 $('#agreebtn').text("提交");
 }
 function passFn(id){
-	$('#agreeId').val(id);
-	$('#agreeThirdNo').val(''); 
+	$('#agreeId').val(id); 
+	$('#agreeThirdNo').textbox('reset');	
 	$('#agreewin').window('open');  
 	$('#agreewin').window('center'); 
 }
@@ -249,8 +253,8 @@ function refuseSubmitFormFn(btn){
 		method:'POST',
 		data:{applyId:reasonId,reason:reason},
 		 beforeSend:function(){
-			  $(btn).attr("disabled",true); 
-			  $(btn).html("正在提交中。。。");
+			  $(btn).linkbutton('disable');
+			  $(btn).text("正在提交中。。。");
 		 },
 		context: document.body, 
 		success: function(json){
@@ -265,8 +269,7 @@ function refuseSubmitFormFn(btn){
 	    	}else{
 	    		 $.messager.alert('系统提示','保存失败!'+json.msg,'error',closeWinFn);
 	    	}
-	    	 $(btn).attr("disabled",false); 
-			  $(btn).html("提交");
+	    	 
 		},
 		error:function (XMLHttpRequest, textStatus, errorThrown) {
 			var msg = XMLHttpRequest.responseText;
@@ -306,8 +309,8 @@ function submitAgreeFormFn(btn){
 		method:'POST',
 		data:{thirdOrderNo:agreeThirdNo ,applyId:agreeId},
 		beforeSend:function(){
-			  $(btn).attr("disabled",true); 
-			  $(btn).html("正在提交中。。。");
+			  $(btn).linkbutton('disable');
+			  $(btn).text("正在提交中。。。");
 		 },
 		context: document.body, 
 		success: function(json){
@@ -322,8 +325,7 @@ function submitAgreeFormFn(btn){
 	    	}else{
 	    		 $.messager.alert('系统提示','保存失败!  '+json.msg,'error');
 	    	}
-	    	 $(btn).attr("disabled",false); 
-			  $(btn).html("提交");
+	    	
 		},
 		error:function (XMLHttpRequest, textStatus, errorThrown) {
 			var msg = XMLHttpRequest.responseText;
@@ -336,7 +338,7 @@ function submitAgreeFormFn(btn){
 		    // 只有一个会包含信息
 		    this; // 调用本次AJAX请求时传递的options参数
 		    $(btn).attr("disabled",false); 
-			  $(btn).html("提交");
+			  $(btn).text("提交");
 		   
 		}
 	});

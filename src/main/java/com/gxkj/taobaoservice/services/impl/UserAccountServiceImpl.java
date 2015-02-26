@@ -116,8 +116,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 					log.info(String.format("参数错误,关联取款申请记录表ID需要是正数,refTableId=%d",refTableId));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
 				}
-				if(currentBalance.compareTo(amount)<=0){
-					log.info(String.format("余额不足，取款金额是：%d,当前余额是:%d",amount,currentBalance));
+				if(currentBalance.compareTo(amount)<0){
+					log.info(String.format("余额不足，取款金额是：%d,当前余额是:%d",amount.doubleValue(),currentBalance.doubleValue()));
 					 throw new BusinessException(BusinessExceptionInfos.AMOUNT_MONEY_NOT_ENOUGH,"amount");
 				}
 				/**

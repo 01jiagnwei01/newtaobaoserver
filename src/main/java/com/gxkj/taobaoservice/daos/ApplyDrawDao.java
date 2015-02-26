@@ -43,4 +43,17 @@ public interface ApplyDrawDao extends BaseDAO {
 			Date createBeginTime, Date createEndTime, Date reviewBeginTime,
 			Date reviewEndTime, Integer auditorId) throws SQLException;
 
+	/**
+	 * 分页查看取款申请
+	 * @param pageno
+	 * @param pagesize
+	 * @param id
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 * @throws SQLException
+	 */
+	ListPager doPageFoeFront(int pageno, int pagesize, Integer id,
+			Date startTime, Date endTime)throws SQLException;
+
 }

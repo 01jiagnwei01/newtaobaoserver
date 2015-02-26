@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
+import com.gxkj.common.util.ListPager;
 import com.gxkj.common.util.PWDGenter;
 import com.gxkj.taobaoservice.daos.ApplyDrawDao;
 import com.gxkj.taobaoservice.daos.UserAccountDao;
@@ -89,7 +90,7 @@ public class TiXianServiceImpl implements TiXianService {
 		applyDrawLog.setAmount(amount);
 		applyDrawLog.setCreateTime(now);
 		applyDrawLog.setStatus(RechargeApplyStatus.WAIT_FOR_AUDIT);
-		applyDrawLog.setThirdOrderNo(alipyAccount);
+		applyDrawLog.setAccountNo(alipyAccount);
 		applyDrawLog.setUserId(userBase.getId());
 		applyDrawDao.insert(applyDrawLog);
 		
@@ -98,6 +99,16 @@ public class TiXianServiceImpl implements TiXianService {
 		 
 		return userBase;
 		 
+	}
+
+	/**
+	 * 分页查看提现申请记录
+	 */
+	public ListPager doPage(UserBase userBase, int pageno, int pagesize,
+			Date startTime, Date endTime) throws BusinessException,
+			SQLException {
+		 
+		return applyDrawDao.doPageFoeFront(pageno, pagesize, userBase.getId(), startTime, endTime);
 	}
 
 }

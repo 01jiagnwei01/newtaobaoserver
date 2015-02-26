@@ -122,7 +122,7 @@ public class DepositApplyLogDaoImpl extends BaseDAOImpl implements
 	 
 	public boolean orderNoIsExist(String thirdOrderNo) throws SQLException {
 		StringBuffer hql = new StringBuffer("  from DepositAppLog where thirdOrderNo=:thirdOrderNo");
-		Map params = new HashMap<String,Object>();
+		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("thirdOrderNo", thirdOrderNo);
 		DepositAppLog log = (DepositAppLog)this.selectOneByHQL(hql.toString(), params);
 		return log == null?false:true;

@@ -36,6 +36,14 @@ public class ApplyDrawLog implements Serializable{
 	@Column(name = "id", unique = true, nullable = false) 
 	private Integer  id;
 	
+	
+	
+	/**
+	 * 收款账号
+	 */
+	@Column(name = "account_no",  nullable = true) 
+	private String  accountNo;
+	
 	/**
 	 * 第三方订单号
 	 */
@@ -173,6 +181,14 @@ public class ApplyDrawLog implements Serializable{
 
 	public void setRefuseReason(String refuseReason) {
 		this.refuseReason = refuseReason;
+	}
+
+	public String getAccountNo() {
+		return accountNo;
+	}
+
+	public void setAccountNo(String accountNo) {
+		this.accountNo = accountNo;
 	}
 	
 	

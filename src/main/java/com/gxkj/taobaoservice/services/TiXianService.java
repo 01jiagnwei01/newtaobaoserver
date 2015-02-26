@@ -2,8 +2,10 @@ package com.gxkj.taobaoservice.services;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Date;
 
 import com.gxkj.common.exceptions.BusinessException;
+import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.entitys.UserBase;
 
 public interface TiXianService {
@@ -21,5 +23,19 @@ public interface TiXianService {
 	public UserBase doapply(UserBase userBase, String alipyAccount,
 			BigDecimal amount, String yanzhengma, String yanzhengmaInsession,
 			String caozuoma) throws BusinessException, SQLException;
+
+	/**
+	 * 分页查看提现申请
+	 * @param userBase
+	 * @param pageno
+	 * @param pagesize
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 * @throws BusinessException
+	 * @throws SQLException
+	 */
+	public ListPager doPage(UserBase userBase, int pageno, int pagesize,
+			Date startTime, Date endTime)throws BusinessException, SQLException;
 
 }

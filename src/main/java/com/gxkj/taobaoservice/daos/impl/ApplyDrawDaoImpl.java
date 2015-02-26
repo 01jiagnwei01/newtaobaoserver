@@ -115,4 +115,37 @@ public class ApplyDrawDaoImpl  extends BaseDAOImpl implements ApplyDrawDao {
 		return this.selectPageByHql(hqlString, params.toArray(), pager);
 	}
 
+	 
+	public ListPager doPageFoeFront(int pageno, int pagesize, Integer userId,
+			Date createBeginTime, Date createEndTime) throws SQLException {
+		StringBuffer hql = new StringBuffer("  from ApplyDrawLog where 1=1");
+		List<Object> params = new ArrayList<Object>();
+		boolean contain = false;
+		 
+		if(userId != null && userId.intValue() != 0){
+			hql.append( " and userId = ?" );
+			params.add(userId);
+			contain = true;
+		}
+		if(createBeginTime != null ){
+			hql.append( " and createTime >= ?" );
+			params.add(createBeginTime);
+			contain = true;
+		}
+		
+		if(createEndTime != null ){
+			hql.append( " and createTime <= ?" );
+			params.add(createEndTime);
+			contain = true;
+		}
+		hql.append(" order by id desc ");
+		  
+		String hqlString = hql.toString();
+		if(!contain) hqlString = hqlString.replace("where 1=1", "");
+		ListPager pager = new ListPager();
+		pager.setPageNo(pageno);
+		pager.setRowsPerPage(pagesize);
+		return this.selectPageByHql(hqlString, params.toArray(), pager);
+	}
+
 }

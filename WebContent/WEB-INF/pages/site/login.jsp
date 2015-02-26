@@ -115,6 +115,7 @@ function loginfn(btn){
 				 	 	log.info("登录失败："+json); 
 				 	 }
 				 	  $("#loginBtn").attr("disabled",false); 
+				 	 refreshYanZhengMa(document.getElementById("yanzhengmaBtn") ) ;
 				 	  
 			  },
 		      error:function(xhr,textStatus,errorThrown){
@@ -135,6 +136,7 @@ function loginfn(btn){
 				} else if(errortype == 'yanzhengma'){
 					$("#yanzhengma_error").html(msg);
 				}
+				 refreshYanZhengMa(document.getElementById("yanzhengmaBtn") ) ;
 		  } 
   })
  }

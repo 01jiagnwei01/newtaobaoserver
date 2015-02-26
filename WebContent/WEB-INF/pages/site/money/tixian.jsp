@@ -196,6 +196,7 @@ function submitFn(){
 	      error:function(xhr,textStatus,errorThrown){
 	    	  $("#sutmitBtn").attr("disabled",false);
 	    	  $("#sutmitBtn").html("提交");
+	    	  refreshYanZhengMa(document.getElementById("yanzhengmaBtn") ) ;
 	  		var responseText = xhr.responseText;
 	  		var obj = jQuery.parseJSON(responseText);
 			var errortype = obj.errortype

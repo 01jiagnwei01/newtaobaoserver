@@ -132,7 +132,7 @@ $(function(){
                 },
                 pageUrl: function(type, page, current){
 					   if(page == current) return "###";
-					  return "<%=request.getContextPath() %>/site/money/chongzhi/topage?pageno="+(page-1)+"&limit="+pageSize
+					  return "<%=request.getContextPath() %>/site/money/tixian/topage?pageno="+(page-1)+"&limit="+pageSize
             //        return "http://example.com/list/page/"+page;
 
                 },

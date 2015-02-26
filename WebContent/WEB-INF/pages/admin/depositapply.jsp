@@ -231,11 +231,12 @@ function passFn(zthis,id){
 		data:{applyId:id},
 		context: document.body, 
 		beforeSend:function(){
-			  $(zthis).attr("disabled",true);  
+			  
+			  jQuery.showMask($(document.body),"正在保存中 ....");
 		 },
 		success: function(json){
 	    	//$(this).addClass("done");
-	    	 
+	    	  jQuery.hideMask($(document.body));
 	    	if(json.result){
 	    		var  entity = json.entity;
 			 	 $('#dg').datagrid('updateRow',{
@@ -258,6 +259,7 @@ function passFn(zthis,id){
 		    // 只有一个会包含信息
 		    this; // 调用本次AJAX请求时传递的options参数
 		    $(zthis).attr("disabled",false);
+		    jQuery.hideMask($(document.body));
 		   
 		}
 	});
@@ -287,7 +289,7 @@ function refuseFormFn(){
 		context: document.body, 
 		beforeSend:function(){
 			  $("#sutmitBtn").attr("disabled",true); 
-			  $("#sutmitBtn").html("正在提交中。。。");
+			  jQuery.showMask($("#win")[0],"正在保存中 ....");
 		 },
 		success: function(json){
 	    	
@@ -302,7 +304,7 @@ function refuseFormFn(){
 	    		 $.messager.alert('系统提示','保存失败!  '+json.msg,'error');
 	    	}
 	    	 $("#sutmitBtn").attr("disabled",false);
-			  $("#sutmitBtn").html("提交");
+	    	 jQuery.hideMask($("#win")[0]);
 		},
 		error:function (XMLHttpRequest, textStatus, errorThrown) {
 			var msg = XMLHttpRequest.responseText;
@@ -313,7 +315,7 @@ function refuseFormFn(){
 		    // 只有一个会包含信息
 		    this; // 调用本次AJAX请求时传递的options参数
 		    $("#sutmitBtn").attr("disabled",false);
-			  $("#sutmitBtn").html("提交");
+		    jQuery.hideMask($("#win")[0]);
 		   
 		}
 	});

@@ -255,10 +255,12 @@ function refuseSubmitFormFn(btn){
 		 beforeSend:function(){
 			  $(btn).linkbutton('disable');
 			 // $(btn).text("正在提交中。。。");
+			  jQuery.showMask($("#win")[0],"正在保存中 ....");
 		 },
 		context: document.body, 
 		success: function(json){
 	    	//$(this).addClass("done");
+	    	 jQuery.hideMask($("#win")[0]);
 	    	if(json.result){
 	    		var  entity = json.entity;
 			 	 $('#dg').datagrid('updateRow',{
@@ -281,7 +283,7 @@ function refuseSubmitFormFn(btn){
 		    // 只有一个会包含信息
 		    this; // 调用本次AJAX请求时传递的options参数
 		    $(btn).attr("disabled",false); 
-			  $(btn).html("提交");
+		    jQuery.hideMask($("#win")[0]);
 		   
 		}
 	});
@@ -310,11 +312,11 @@ function submitAgreeFormFn(btn){
 		data:{thirdOrderNo:agreeThirdNo ,applyId:agreeId},
 		beforeSend:function(){
 			  $(btn).linkbutton('disable');
-			  //$(btn).text("正在提交中。。。");
+			  jQuery.showMask($("#agreewin")[0],"正在保存中 ....");
 		 },
 		context: document.body, 
 		success: function(json){
-	    	//$(this).addClass("done");
+			 jQuery.hideMask($("#agreewin")[0]);
 	    	if(json.result){
 	    		var  entity = json.entity;
 			 	 $('#dg').datagrid('updateRow',{
@@ -338,7 +340,7 @@ function submitAgreeFormFn(btn){
 		    // 只有一个会包含信息
 		    this; // 调用本次AJAX请求时传递的options参数
 		    $(btn).attr("disabled",false); 
-			  $(btn).text("提交");
+		    jQuery.hideMask($("#agreewin")[0]);
 		   
 		}
 	});

@@ -54,6 +54,10 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 			String reason) throws SQLException, BusinessException {
 		 
 		ApplyDrawLog apply = (ApplyDrawLog) applyDrawDao.selectById(applyId, ApplyDrawLog.class);
+		if(apply.getStatus() != RechargeApplyStatus.WAIT_FOR_AUDIT){
+			throw new BusinessException(BusinessExceptionInfos.STATUS_NOT_WAIT_FOR);
+		}
+			
 		apply.setRefuseReason(reason);
 		apply.setAuditorId(adminUser.getId());
 		apply.setAuditorName(adminUser.getRealName());
@@ -84,7 +88,7 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		 * 状态需要是待审核
 		 */
 		if (apply.getStatus() != RechargeApplyStatus.WAIT_FOR_AUDIT){
-			throw new BusinessException(BusinessExceptionInfos.DRAWPAPPLY_STATUS_NOT_WAIT_FOR);
+			throw new BusinessException(BusinessExceptionInfos.STATUS_NOT_WAIT_FOR);
 		}
 		/**
 		 * 流水号不能为空

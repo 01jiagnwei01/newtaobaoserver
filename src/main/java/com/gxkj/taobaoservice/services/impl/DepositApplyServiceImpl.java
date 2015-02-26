@@ -72,7 +72,7 @@ public class DepositApplyServiceImpl implements DepositApplyService {
 		 
 		DepositAppLog apply = (DepositAppLog) rechargeApplyDao.selectById(applyId, DepositAppLog.class);
 		if (apply.getStatus() != RechargeApplyStatus.WAIT_FOR_AUDIT){
-			throw new BusinessException(BusinessExceptionInfos.RECHARDAPPLY_STATUS_NOT_WAIT_FOR);
+			throw new BusinessException(BusinessExceptionInfos.STATUS_NOT_WAIT_FOR);
 		}
 		String thirdOrderNo = apply.getThirdOrderNo();
 		List<DepositAppLog> rechargeApplys =  rechargeApplyDao.getRechargeApplyByThirdOrderNoAndNotIDndPassed(thirdOrderNo,applyId);

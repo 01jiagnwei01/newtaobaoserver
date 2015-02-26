@@ -50,7 +50,7 @@ table td{padding:5px; font-size:14px;}
 				<table   cellspacing="0" cellpadding="0" style="width: 80%;border:0">
 					<tr>
 						<td align="right">交易号或商户订单号：</td>
-						<td><input type="text" name="orderno" id="orderno" style="width: 200px"></td>
+						<td><input type="text" name="orderno" id="orderno" style="width: 260px"></td>
 						<td submitFn><span style="font-size:12px; color:#F00;" id="orderno_error"></span></td>
 					</tr>
 					<!-- 
@@ -60,7 +60,7 @@ table td{padding:5px; font-size:14px;}
 					</tr> -->
 					<tr>
 							<td align="right">填写充值金额：</td>
-							<td><input type="number" name="money" id="money" style="width: 200px">元</td>
+							<td><input type="number" name="money" id="money" style="width: 260px">元</td>
 							<td align="left"><span style="font-size:12px; color:#F00;" id="money_error"></span></td>
 					</tr>
 					<tr>

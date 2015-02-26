@@ -69,6 +69,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 		userAccountLog.setBeforeRestPoints(currentPoints);
 		
 		userAccountLog.setAdminUserId(adminUserId);
+		userAccountLog.setUserId(userBase.getId());
 		Date now = new Date();
 		userAccountLog.setCreateTime(now);
 		

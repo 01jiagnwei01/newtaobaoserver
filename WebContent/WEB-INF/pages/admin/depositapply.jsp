@@ -62,7 +62,7 @@
 					</table>
 				</div>
 				 <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
-					<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="javascript:refuseFormFn()">保存</a>
+					<a id="sutmitBtn" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="javascript:refuseFormFn()">提交</a>
 					<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:closeWinFn()">取消</a>
 				</div>
 			</div>
@@ -198,8 +198,9 @@ function searchFn(){
 		d:new Date().getTime()
 	});
 }
-function disPassFn(id){
+function disPassFn(zthis,id){
 	$('#reasonId').val(id);
+	 ;
 	$('#reason').val('');
 	$('#win').window('open');  
 	$('#win').window('center');
@@ -221,7 +222,7 @@ function passFn(zthis,id){
 	}
 	var updateRowIndex = 	$('#dg').datagrid("getRowIndex",row);
 	if(updateRowIndex <0){
-		alert("错误");
+		alert("错误，updateRowIndex="+updateRowIndex);
 		return;
 	}
 	$.ajax({ 
@@ -245,6 +246,7 @@ function passFn(zthis,id){
 	    	}else{
 	    		 $.messager.alert('系统提示','保存失败!'+json.msg,'error',closeWinFn);
 	    	}
+	    	$(zthis).attr("disabled",false);
 		},
 		error:function (XMLHttpRequest, textStatus, errorThrown) {
 			var msg = XMLHttpRequest.responseText;
@@ -255,6 +257,7 @@ function passFn(zthis,id){
 		    // 通常 textStatus 和 errorThrown 之中
 		    // 只有一个会包含信息
 		    this; // 调用本次AJAX请求时传递的options参数
+		    $(zthis).attr("disabled",false);
 		   
 		}
 	});
@@ -274,7 +277,7 @@ function refuseFormFn(){
 	}
 	var updateRowIndex = 	$('#dg').datagrid("getRowIndex",row);
 	if(updateRowIndex <0){
-		alert("错误");
+		alert("错误,updateRowIndex="+updateRowIndex);
 		return;
 	}
 	$.ajax({ 
@@ -282,6 +285,10 @@ function refuseFormFn(){
 		method:'POST',
 		data:{applyId:reasonId  ,reason:reason},
 		context: document.body, 
+		beforeSend:function(){
+			  $("#sutmitBtn").attr("disabled",true); 
+			  $("#sutmitBtn").html("正在提交中。。。");
+		 },
 		success: function(json){
 	    	
 	    	if(json.result){
@@ -294,6 +301,8 @@ function refuseFormFn(){
 	    	}else{
 	    		 $.messager.alert('系统提示','保存失败!  '+json.msg,'error');
 	    	}
+	    	 $("#sutmitBtn").attr("disabled",false);
+			  $("#sutmitBtn").html("提交");
 		},
 		error:function (XMLHttpRequest, textStatus, errorThrown) {
 			var msg = XMLHttpRequest.responseText;
@@ -303,6 +312,8 @@ function refuseFormFn(){
 		    // 通常 textStatus 和 errorThrown 之中
 		    // 只有一个会包含信息
 		    this; // 调用本次AJAX请求时传递的options参数
+		    $("#sutmitBtn").attr("disabled",false);
+			  $("#sutmitBtn").html("提交");
 		   
 		}
 	});

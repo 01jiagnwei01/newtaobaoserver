@@ -2,15 +2,18 @@ package com.gxkj.taobaoservice.daos.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.gxkj.common.dao.BaseDAOImpl;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.entitys.UserAccountLog;
+import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.UserAccountTypes;
 @Repository
 public class UserAccountLogDaoImpl extends BaseDAOImpl implements
@@ -49,4 +52,34 @@ public class UserAccountLogDaoImpl extends BaseDAOImpl implements
 		return this.selectPageBySQL(sql, param.toArray(),UserAccountLog.class, pager);
 	}
 
+	public ListPager doPageForSite(UserBase userBase, int pageno, int pagesize,
+			Date startTime, Date endTime) throws SQLException {
+	 
+		 StringBuffer hql = new StringBuffer("from UserAccountLog  where userId = ? ");
+		 List<Object> params = new ArrayList<Object>();
+		 params.add(userBase.getId());
+		 if(startTime != null ){
+				hql.append( " and createTime >= ?" );
+				params.add(startTime);
+				 
+		}
+		if(endTime != null ){
+			hql.append( " and createTime <= ?" );
+			params.add(endTime);
+		 
+		}
+		hql.append(" order by id desc ");
+		String hqlString = hql.toString();
+		ListPager pager = new ListPager();
+		pager.setPageNo(pageno);
+		pager.setRowsPerPage(pagesize);
+		
+		this.selectPageByHql(hqlString, params.toArray(), pager);
+		if(CollectionUtils.isNotEmpty(pager.getPageData())){
+			//List<UserAccountLog> datas = (List<UserAccountLog>)pager.getPageData();
+			Collections.reverse(pager.getPageData());
+			//pager.setPageData(datas);
+		}
+		return pager;
+	}
 }

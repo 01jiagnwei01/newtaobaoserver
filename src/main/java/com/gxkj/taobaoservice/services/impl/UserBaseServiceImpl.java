@@ -269,55 +269,6 @@ public class UserBaseServiceImpl implements UserBaseService {
 		return result;
 	}
 
-	 /**
-	  * 兑换平台币
-	 * @throws BusinessException 
-	  */
-	public EntityReturnData exchangePublishMoney(UserBase userBase,
-			BigDecimal amount) throws SQLException, BusinessException {
-		EntityReturnData ret = new EntityReturnData();
-		UserAccount userAccount = userAccountDao.getUserAccountByUserId(userBase.getId()); 
-		/**
-		 * 当前余额
-		 */
-		BigDecimal currentBalance = userAccount.getCurrentBalance();
-		if(currentBalance.compareTo(amount )<0){
-			throw  new BusinessException(BusinessExceptionInfos.ACCOUNT_MONEY_NO_ENOUGH);
-		}
-		BigDecimal currentRestPoints  = userAccount.getCurrentRestPoints();
-		//修改帐户余额及广告币的数量 1:1兑换
-		userAccount.setCurrentBalance(currentBalance.subtract(amount));
-		userAccount.setCurrentRestPoints(currentRestPoints.add(amount));
-		this.userAccountDao.update(userAccount);
-		//记录日志
-		UserAccountLog userAccountLog = new UserAccountLog();
-		userAccountLog.setAfterLockedAmount(userAccount.getLockedBalance());
-		userAccountLog.setAfterLockedPoints(userAccount.getLockedPoints());
-		userAccountLog.setAfterRestAmount( userAccount.getCurrentBalance());
-		userAccountLog.setAfterRestPoints(userAccount.getCurrentRestPoints());
-		userAccountLog.setPoints(amount);
-		userAccountLog.setBeforeLockedAmount(userAccount.getLockedBalance());
-		userAccountLog.setBeforeLockedPoints(userAccount.getLockedPoints());
-		userAccountLog.setBeforeRestAmount(currentBalance);
-		userAccountLog.setBeforeRestPoints(currentRestPoints);
-		userAccountLog.setCreateTime(new Date());
-		userAccountLog.setUserId(userBase.getId());
-		userAccountLog.setType(UserAccountTypes.BUYPOINTS);
-		this.userAccountLogDao.insert(userAccountLog);
-		//记录公司帐户信息
-		
-		
-		CompanyAccount companyAccount = (CompanyAccount) companyAccountDao.selectById(1, CompanyAccount.class);
-		if(companyAccount == null){
-			throw  new BusinessException(BusinessExceptionInfos.NO_SET_COMPANY_ACCOUNT);
-		}
-		companyAccount.setGetPoints(companyAccount.getSellPoint().add(amount));
-		this.companyAccountDao.update(companyAccount);
-	 
-		ret.setResult(true);
-		ret.setEntity(userAccountLog);
-		return ret;
-	}
 
 	/**
 	 * 设置公司对某个用户赞助点数

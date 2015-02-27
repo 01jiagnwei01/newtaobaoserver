@@ -15,4 +15,6 @@ public interface UserAccountDao  extends BaseDAO{
 	 */
 	UserAccount getUserAccountByUserId(Integer id) throws SQLException;
 
+
+
 }

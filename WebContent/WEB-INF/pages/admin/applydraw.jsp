@@ -262,6 +262,7 @@ function refuseSubmitFormFn(btn){
 		success: function(json){
 	    	//$(this).addClass("done");
 	    	 jQuery.hideMask($("#win")[0]);
+	    	 $(btn).linkbutton('enable');
 	    	if(json.result){
 	    		var  entity = json.entity;
 			 	 $('#dg').datagrid('updateRow',{
@@ -283,7 +284,7 @@ function refuseSubmitFormFn(btn){
 		    // 通常 textStatus 和 errorThrown 之中
 		    // 只有一个会包含信息
 		    this; // 调用本次AJAX请求时传递的options参数
-		    $(btn).attr("disabled",false); 
+		    $(btn).linkbutton('enable');
 		    jQuery.hideMask($("#win")[0]);
 		   
 		}

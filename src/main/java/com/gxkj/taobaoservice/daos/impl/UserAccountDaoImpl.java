@@ -16,4 +16,7 @@ public class UserAccountDaoImpl extends BaseDAOImpl implements UserAccountDao {
 		return (UserAccount) this.selectOneByHQL(hql, new Object[]{userid});
 	}
 
+	 
+	
+
 }

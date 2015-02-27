@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-02-25 19:56:32
+Date: 2015-02-27 15:17:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `admin_menu` (
   `btnflag` varchar(64) DEFAULT NULL,
   `pid` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of admin_menu
@@ -52,8 +52,8 @@ INSERT INTO `admin_menu` VALUES ('16', '分页查看角色', '/admin/role/dopage
 INSERT INTO `admin_menu` VALUES ('17', '查看某个角色', '/admin/role/get', null, '1', 'roleget', '3');
 INSERT INTO `admin_menu` VALUES ('18', '密码重置', '/admin/user/setpassword', null, '1', 'usersetpassword', '4');
 INSERT INTO `admin_menu` VALUES ('19', '账单管理', '', null, '0', '', '0');
-INSERT INTO `admin_menu` VALUES ('20', '充值管理', '/admin/deposit', null, '0', '', '19');
-INSERT INTO `admin_menu` VALUES ('21', '取款管理', '/admin/applydraw', null, '0', '', '19');
+INSERT INTO `admin_menu` VALUES ('20', '充值申请管理', '/admin/deposit', null, '0', '', '19');
+INSERT INTO `admin_menu` VALUES ('21', '取款申请管理', '/admin/applydraw', null, '0', '', '19');
 INSERT INTO `admin_menu` VALUES ('22', '取款分页查询', '/admin/applydraw/dopage', null, '1', 'admin_applydraw_dopage', '21');
 INSERT INTO `admin_menu` VALUES ('23', '充值管理分页查询', '/admin/deposit/dopage', null, '1', 'admin_deposit_dopage', '20');
 INSERT INTO `admin_menu` VALUES ('24', '取款拒绝', '/admin/applydraw/doarefuse', null, '1', 'admin_applydraw_doarefuse', '21');
@@ -109,6 +109,12 @@ INSERT INTO `admin_menu` VALUES ('76', '获取任务数据', '/admin/mail/sender
 INSERT INTO `admin_menu` VALUES ('77', '分页查看有效的通讯录', '/admin/mail/addresslist/dopage', null, '1', 'admin_mail_addresslist_dopage_valid', '68');
 INSERT INTO `admin_menu` VALUES ('78', '分页查看有效内容', '/admin/mail/content/dopage', null, '1', 'admin_mail_content_dopage_valid', '68');
 INSERT INTO `admin_menu` VALUES ('79', '分页查看有效邮件模板', '/admin/mail/templete/dopage', null, '1', 'admin_mail_templete_dopage_valid', '45');
+INSERT INTO `admin_menu` VALUES ('80', '产品管理', '', null, '0', '', '0');
+INSERT INTO `admin_menu` VALUES ('81', '任务点卡管理', '/admin/products/point_card', '10.00', '0', '', '80');
+INSERT INTO `admin_menu` VALUES ('82', '分页查看点卡', '/admin/products/point_card/dopage', null, '1', 'adminProductsPoint_cardDopage', '81');
+INSERT INTO `admin_menu` VALUES ('83', '增加点卡', '/admin/products/point_card/doadd', null, '1', 'adminProductsPoint_cardDoadd', '81');
+INSERT INTO `admin_menu` VALUES ('84', '修改点卡', '/admin/products/point_card/doupdate', null, '1', 'adminProductsPoint_cardDoupdate', '81');
+INSERT INTO `admin_menu` VALUES ('85', '删除点卡', '/admin/products/point_card/dodel', null, '1', 'adminProductsPoint_cardDodel', '81');
 
 -- ----------------------------
 -- Table structure for `admin_role`
@@ -166,12 +172,18 @@ CREATE TABLE `apply_draw_log` (
   `auditor_name` varchar(30) DEFAULT NULL,
   `review_time` datetime DEFAULT NULL,
   `refuse_reason` varchar(100) DEFAULT NULL,
+  `account_no` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of apply_draw_log
 -- ----------------------------
+INSERT INTO `apply_draw_log` VALUES ('1', '', '1.00', '1', '2015-02-26 16:06:45', 'REFUSE', '1', '管理员', '2015-02-26 16:08:22', '我就是拒绝了，怎么地吧', '1@');
+INSERT INTO `apply_draw_log` VALUES ('2', '20150225000040011100090075168474', '1.00', '1', '2015-02-26 16:06:46', 'APPROVE', '1', '管理员', '2015-02-26 16:09:49', null, '1@');
+INSERT INTO `apply_draw_log` VALUES ('3', '', '1.00', '1', '2015-02-26 16:06:47', 'WAIT_FOR_AUDIT', null, null, null, null, '1@');
+INSERT INTO `apply_draw_log` VALUES ('4', '', '1.00', '1', '2015-02-26 16:06:47', 'WAIT_FOR_AUDIT', null, null, null, null, '1@');
+INSERT INTO `apply_draw_log` VALUES ('5', '', '1.00', '1', '2015-02-26 16:06:47', 'WAIT_FOR_AUDIT', null, null, null, null, '1@');
 
 -- ----------------------------
 -- Table structure for `business_exception`
@@ -251,11 +263,13 @@ CREATE TABLE `deposit_apply_log` (
   KEY `admin_user_id` (`auditor_id`),
   KEY `userId` (`user_id`) USING HASH,
   CONSTRAINT `admin_user_id` FOREIGN KEY (`auditor_id`) REFERENCES `admin_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of deposit_apply_log
 -- ----------------------------
+INSERT INTO `deposit_apply_log` VALUES ('1', '20150225000040011100090075168474', '15.00', '1', '2015-02-26 16:04:36', 'APPROVE', '1', '管理员', '2015-02-26 16:05:48', null);
+INSERT INTO `deposit_apply_log` VALUES ('2', '20150227000040011100090086513156', '2000.00', '1', '2015-02-27 13:32:01', 'APPROVE', '1', '管理员', '2015-02-27 13:32:50', null);
 
 -- ----------------------------
 -- Table structure for `log4j_log`
@@ -469,6 +483,32 @@ CREATE TABLE `pics` (
 INSERT INTO `pics` VALUES ('3', 'http://001taobaoservice.oss-cn-beijing.aliyuncs.com/img/20150116174648995.jpg', 'NORMAL', '阿里测试', '阿里测试', '2015-01-16 17:46:49', '1');
 
 -- ----------------------------
+-- Table structure for `point_card`
+-- ----------------------------
+DROP TABLE IF EXISTS `point_card`;
+CREATE TABLE `point_card` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `points` int(10) NOT NULL,
+  `money` double(10,2) NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `url` varchar(100) DEFAULT NULL,
+  `orders` double(10,0) DEFAULT '0',
+  `status` varchar(10) NOT NULL,
+  `admin_user_id` int(11) NOT NULL,
+  `update_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of point_card
+-- ----------------------------
+INSERT INTO `point_card` VALUES ('1', '10', '10.00', '10元卡', null, '99', 'NORMAL', '0', '2015-02-27 14:12:33');
+INSERT INTO `point_card` VALUES ('2', '55', '50.00', '50元卡', null, '98', 'NORMAL', '1', '2015-02-27 15:15:00');
+INSERT INTO `point_card` VALUES ('3', '120', '100.00', '100元卡', null, '97', 'NORMAL', '1', '2015-02-27 15:16:03');
+INSERT INTO `point_card` VALUES ('4', '1100', '1000.00', '1000元卡', null, '100', 'DELERATE', '1', '2015-02-27 15:16:38');
+INSERT INTO `point_card` VALUES ('5', '100', '100.00', '1000', null, '100', 'DELERATE', '1', '2015-02-27 15:16:59');
+
+-- ----------------------------
 -- Table structure for `rel_admin_user_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `rel_admin_user_role`;
@@ -493,7 +533,7 @@ CREATE TABLE `rel_role_menu` (
   `roleid` int(10) DEFAULT NULL,
   `menuid` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=249 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of rel_role_menu
@@ -597,24 +637,30 @@ INSERT INTO `rel_role_menu` VALUES ('221', '8', '57');
 INSERT INTO `rel_role_menu` VALUES ('222', '8', '58');
 INSERT INTO `rel_role_menu` VALUES ('223', '8', '59');
 INSERT INTO `rel_role_menu` VALUES ('224', '8', '60');
-INSERT INTO `rel_role_menu` VALUES ('225', '8', '1');
-INSERT INTO `rel_role_menu` VALUES ('226', '8', '2');
-INSERT INTO `rel_role_menu` VALUES ('227', '8', '9');
-INSERT INTO `rel_role_menu` VALUES ('228', '8', '10');
-INSERT INTO `rel_role_menu` VALUES ('229', '8', '11');
-INSERT INTO `rel_role_menu` VALUES ('230', '8', '12');
-INSERT INTO `rel_role_menu` VALUES ('231', '8', '3');
-INSERT INTO `rel_role_menu` VALUES ('232', '8', '13');
-INSERT INTO `rel_role_menu` VALUES ('233', '8', '14');
-INSERT INTO `rel_role_menu` VALUES ('234', '8', '15');
-INSERT INTO `rel_role_menu` VALUES ('235', '8', '16');
-INSERT INTO `rel_role_menu` VALUES ('236', '8', '17');
-INSERT INTO `rel_role_menu` VALUES ('237', '8', '4');
-INSERT INTO `rel_role_menu` VALUES ('238', '8', '5');
-INSERT INTO `rel_role_menu` VALUES ('239', '8', '6');
-INSERT INTO `rel_role_menu` VALUES ('240', '8', '7');
-INSERT INTO `rel_role_menu` VALUES ('241', '8', '8');
-INSERT INTO `rel_role_menu` VALUES ('242', '8', '18');
+INSERT INTO `rel_role_menu` VALUES ('225', '8', '80');
+INSERT INTO `rel_role_menu` VALUES ('226', '8', '81');
+INSERT INTO `rel_role_menu` VALUES ('227', '8', '82');
+INSERT INTO `rel_role_menu` VALUES ('228', '8', '83');
+INSERT INTO `rel_role_menu` VALUES ('229', '8', '84');
+INSERT INTO `rel_role_menu` VALUES ('230', '8', '85');
+INSERT INTO `rel_role_menu` VALUES ('231', '8', '1');
+INSERT INTO `rel_role_menu` VALUES ('232', '8', '2');
+INSERT INTO `rel_role_menu` VALUES ('233', '8', '9');
+INSERT INTO `rel_role_menu` VALUES ('234', '8', '10');
+INSERT INTO `rel_role_menu` VALUES ('235', '8', '11');
+INSERT INTO `rel_role_menu` VALUES ('236', '8', '12');
+INSERT INTO `rel_role_menu` VALUES ('237', '8', '3');
+INSERT INTO `rel_role_menu` VALUES ('238', '8', '13');
+INSERT INTO `rel_role_menu` VALUES ('239', '8', '14');
+INSERT INTO `rel_role_menu` VALUES ('240', '8', '15');
+INSERT INTO `rel_role_menu` VALUES ('241', '8', '16');
+INSERT INTO `rel_role_menu` VALUES ('242', '8', '17');
+INSERT INTO `rel_role_menu` VALUES ('243', '8', '4');
+INSERT INTO `rel_role_menu` VALUES ('244', '8', '5');
+INSERT INTO `rel_role_menu` VALUES ('245', '8', '6');
+INSERT INTO `rel_role_menu` VALUES ('246', '8', '7');
+INSERT INTO `rel_role_menu` VALUES ('247', '8', '8');
+INSERT INTO `rel_role_menu` VALUES ('248', '8', '18');
 
 -- ----------------------------
 -- Table structure for `task_appreciation`
@@ -718,7 +764,7 @@ CREATE TABLE `user_account` (
 -- ----------------------------
 -- Records of user_account
 -- ----------------------------
-INSERT INTO `user_account` VALUES ('1', '0.00', '0.00', '0.00', '0.00', '1');
+INSERT INTO `user_account` VALUES ('1', '1991.00', '20.00', '3.00', '0.00', '1');
 
 -- ----------------------------
 -- Table structure for `user_account_log`
@@ -742,14 +788,26 @@ CREATE TABLE `user_account_log` (
   `admin_user_id` int(10) DEFAULT NULL,
   `task_id` int(10) DEFAULT '0',
   `draw_log_id` int(10) DEFAULT NULL,
+  `deposit_apply_log_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `draw_id` (`draw_log_id`),
   CONSTRAINT `draw_id` FOREIGN KEY (`draw_log_id`) REFERENCES `apply_draw_log` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_account_log
 -- ----------------------------
+INSERT INTO `user_account_log` VALUES ('1', '2015-02-26 16:05:48', '1', 'DEPOSIT', '15.00', null, '0.00', '0.00', '0.00', '0.00', '15.00', '0.00', '0.00', '0.00', '1', null, null, '1');
+INSERT INTO `user_account_log` VALUES ('2', '2015-02-26 16:06:45', '1', 'WITHDRAW_APPLY', '1.00', null, '15.00', '0.00', '0.00', '0.00', '14.00', '0.00', '1.00', '0.00', null, null, '1', null);
+INSERT INTO `user_account_log` VALUES ('3', '2015-02-26 16:06:46', '1', 'WITHDRAW_APPLY', '1.00', null, '14.00', '0.00', '1.00', '0.00', '13.00', '0.00', '2.00', '0.00', null, null, '2', null);
+INSERT INTO `user_account_log` VALUES ('4', '2015-02-26 16:06:47', '1', 'WITHDRAW_APPLY', '1.00', null, '13.00', '0.00', '2.00', '0.00', '12.00', '0.00', '3.00', '0.00', null, null, '3', null);
+INSERT INTO `user_account_log` VALUES ('5', '2015-02-26 16:06:47', '1', 'WITHDRAW_APPLY', '1.00', null, '12.00', '0.00', '3.00', '0.00', '11.00', '0.00', '4.00', '0.00', null, null, '4', null);
+INSERT INTO `user_account_log` VALUES ('6', '2015-02-26 16:06:47', '1', 'WITHDRAW_APPLY', '1.00', null, '11.00', '0.00', '4.00', '0.00', '10.00', '0.00', '5.00', '0.00', null, null, '5', null);
+INSERT INTO `user_account_log` VALUES ('7', '2015-02-26 16:08:22', '1', 'WITHDRAW_FAILURE', '1.00', null, '10.00', '0.00', '5.00', '0.00', '11.00', '0.00', '4.00', '0.00', '1', null, '1', null);
+INSERT INTO `user_account_log` VALUES ('8', '2015-02-26 16:09:49', '1', 'WITHDRAW_SUCCESS', '1.00', null, '11.00', '0.00', '4.00', '0.00', '11.00', '0.00', '3.00', '0.00', '1', null, '2', null);
+INSERT INTO `user_account_log` VALUES ('9', '2015-02-27 13:28:48', '1', 'BUY_POINTS', '10.00', null, '11.00', '0.00', '3.00', '0.00', '1.00', '10.00', '3.00', '0.00', null, null, null, null);
+INSERT INTO `user_account_log` VALUES ('10', '2015-02-27 13:32:50', '1', 'DEPOSIT', '2000.00', null, '1.00', '10.00', '3.00', '0.00', '2001.00', '10.00', '3.00', '0.00', '1', null, null, '2');
+INSERT INTO `user_account_log` VALUES ('11', '2015-02-27 13:33:08', '1', 'BUY_POINTS', '10.00', null, '2001.00', '10.00', '3.00', '0.00', '1991.00', '20.00', '3.00', '0.00', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `user_base`

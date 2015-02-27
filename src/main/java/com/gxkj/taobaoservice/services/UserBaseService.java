@@ -60,15 +60,6 @@ public interface UserBaseService {
 	@Deprecated
 	EntityReturnData doClearSupplyMone(AdminUser adminUser) throws SQLException;
 
-	/**
-	 * 兑换平台币
-	 * @param userBase
-	 * @param amount
-	 * @return
-	 * @throws SQLException
-	 * @throws BusinessException 
-	 */
-	EntityReturnData exchangePublishMoney(UserBase userBase, BigDecimal amount)throws SQLException, BusinessException;
 
 	/**
 	 * 设置支持用户点数

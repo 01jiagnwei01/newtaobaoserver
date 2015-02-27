@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
+import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.UserAccountDao;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.entitys.UserAccount;
@@ -169,6 +170,29 @@ public class UserAccountServiceImpl implements UserAccountService {
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
 				break;
+			case BUY_POINTS:
+				/**
+				 * 买点卡
+				 */
+				if(amount.compareTo(BigDecimal.ZERO)<=0){
+					log.info(String.format("参数错误,amount需要是正数,amount=%d",amount));
+					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
+				}
+				if(points.compareTo(BigDecimal.ZERO)<=0){
+					log.info(String.format("参数错误,points需要是正数,points=%d",points));
+					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
+				}
+				if(currentBalance.compareTo(amount)<0){
+					log.info(String.format("余额不足，取款金额是：%d,当前余额是:%d",amount.doubleValue(),currentBalance.doubleValue()));
+					 throw new BusinessException(BusinessExceptionInfos.AMOUNT_MONEY_NOT_ENOUGH,"amount");
+				}
+				/**
+				 * 可用金额减少,可用点数增加
+				 */
+				afterAmount = currentBalance.subtract(amount);
+				afterPoints = currentPoints.add(points);
+				
+				break;
 				
 			
 		
@@ -176,11 +200,33 @@ public class UserAccountServiceImpl implements UserAccountService {
 		if( operateType != UserAccountTypes.DEPOSIT 
 				&&  operateType != UserAccountTypes.WITHDRAW_APPLY 
 				&&  operateType != UserAccountTypes.WITHDRAW_FAILURE 
-				&&  operateType != UserAccountTypes.WITHDRAW_SUCCESS ){
+				&&  operateType != UserAccountTypes.WITHDRAW_SUCCESS
+				&&  operateType != UserAccountTypes.BUY_POINTS){
 			/**
 			 * 标识出支持的
 			 */
 			 throw new BusinessException(BusinessExceptionInfos.undo,"operateType");
+		}
+		/**
+		 * 操作后验证
+		 */
+		if(afterAmount.compareTo(BigDecimal.ZERO)<0){
+			log.error(String.format("参数错误,可用金额不能为负数,操作金额为amount=%ld，操作前金额为：%ld",amount.doubleValue(),currentBalance.doubleValue()));
+			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
+		}
+		if(afterPoints.compareTo(BigDecimal.ZERO)<0){
+			log.error(String.format("参数错误,可用点数不能为负数,操作点数为points=%ld，操作前点数为：%ld",points.doubleValue(),currentPoints.doubleValue()));
+			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
+		}
+		
+		if(afterLockedAmount.compareTo(BigDecimal.ZERO)<0){
+			log.error(String.format("参数错误,锁定金额不能为负数,操作金额=%ld，操作前锁定金额为：%ld",amount.doubleValue(),currentLockedBalance.doubleValue()));
+			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
+		}
+		
+		if(afterLockedPoints.compareTo(BigDecimal.ZERO)<0){
+			log.error(String.format("参数错误,锁定点数不能为负数,操作点数为points=%ld，操作前锁定点数为：%ld",points.doubleValue(),currentLockedPoints.doubleValue()));
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
 		}
 		uerAccount.setCurrentBalance(afterAmount);
 		uerAccount.setCurrentRestPoints(afterPoints);
@@ -203,6 +249,15 @@ public class UserAccountServiceImpl implements UserAccountService {
 		
 		userBase.setUerAccount(uerAccount);
 		return true;
+	}
+
+	 
+	public ListPager doPage(UserBase userBase, int pageno, int pagesize,
+			Date startTime, Date endTime) throws BusinessException,
+			SQLException {
+		 
+		return userAccountLogDao.doPageForSite( userBase,  pageno,  pagesize,
+				 startTime,  endTime);
 	}
 
 }

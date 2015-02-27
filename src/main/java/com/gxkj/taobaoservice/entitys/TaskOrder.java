@@ -104,6 +104,11 @@ public class TaskOrder implements Serializable{
 	@Min(value=5,message="担保金最低为5元")
 	private BigDecimal guaranteePrice ;
 	
+	/**
+	 * 奖励金额
+	 */
+	@Column(name="encourage" )
+	private BigDecimal encourage ;
 	
 	/**
 	 * 任务类型
@@ -135,10 +140,10 @@ public class TaskOrder implements Serializable{
 	private  BigDecimal payedDot;
 	
 	/**
-	 * 接手人获利金额
+	 * 完成基本任务，接手方受益点数
 	 */
 	@Column(name="remuneration" )
-	@NotNull(message="接手人获利金额不能为空")
+	@NotNull(message="佣金不能为空")
 	private BigDecimal remuneration; 
 
 	
@@ -174,7 +179,7 @@ public class TaskOrder implements Serializable{
 	private  BigDecimal zengzhiPingtaiGain_points = BigDecimal.ZERO;
 	
 	/**
-	 * 完成基本任务，接收方受益点数
+	 * 完成基本任务，接手方受益点数
 	 */
 	@Column(name="basic_receiver_gain_point" )
 	private  BigDecimal basicReceiverGainPoint = BigDecimal.ZERO;
@@ -384,6 +389,22 @@ public class TaskOrder implements Serializable{
 
 	public void setPayedDot(BigDecimal payedDot) {
 		this.payedDot = payedDot;
+	}
+
+	public BigDecimal getEncourage() {
+		return encourage;
+	}
+
+	public void setEncourage(BigDecimal encourage) {
+		this.encourage = encourage;
+	}
+
+	public BigDecimal getRemuneration() {
+		return remuneration;
+	}
+
+	public void setRemuneration(BigDecimal remuneration) {
+		this.remuneration = remuneration;
 	}
 	
 	

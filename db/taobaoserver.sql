@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-02-27 15:17:28
+Date: 2015-02-27 19:32:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -738,6 +738,7 @@ CREATE TABLE `task_order` (
   `status` varchar(20) NOT NULL,
   `repeate_times` int(10) NOT NULL,
   `remuneration` double(11,2) NOT NULL,
+  `encourage` double(11,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

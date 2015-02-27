@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+			<!-- 
 			<div style="height:50px; line-height:50px;">
 				<a href="<%=request.getContextPath() %>">首页</a>&nbsp;>&nbsp;<a href="#">我的账户</a>&nbsp;>&nbsp;<a href="#">安全中心</a>
 			</div>
+			 -->
 			<div style="width:190px; margin-right:20px; background-color:#e1e1e1;" class="fl" >
 				<div class="tac" style="color:#fff; font-size:20px; letter-spacing:10px; font-weight:bold; background-color:#025CA8; height:50px; line-height:50px;">我的账户</div>
 				<ul>
@@ -11,8 +13,8 @@
 						</a>
 						<ul>
 							<li><a href="<%=request.getContextPath() %>/site/bind/password" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;任务大厅</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/useraccount" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;发布新任务</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我发布的任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/order/create" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;发布新任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我发布的任务</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我未完成的任务</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我已完成的任务</span></a></li>
 						</ul>

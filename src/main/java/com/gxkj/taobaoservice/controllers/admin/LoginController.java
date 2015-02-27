@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gxkj.common.constants.StatusConstant;
 import com.gxkj.common.util.PWDGenter;
+import com.gxkj.common.util.RandomValidateCode;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.SessionConstant;
 import com.gxkj.taobaoservice.entitys.AdminMenu;
@@ -65,12 +66,18 @@ public class LoginController {
 	public EntityReturnData dologin( @RequestParam(value="flag",defaultValue="0")int flag, 
 			@RequestParam(value="name",defaultValue="")String username,
 			@RequestParam(value="pass",defaultValue="")String password, 
+			@RequestParam(value="yanzhengma",defaultValue="")String yanzhengma, 
 			HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws Exception{
 		String pass = PWDGenter.generateKen(password);
 		EntityReturnData data = new EntityReturnData();
 		data.setResult(false);
 		data.setMsg("登陆失败");
- 
+		String yanzhengmaInSession = (String)RandomValidateCode.getRandcode(request);
+		if(!yanzhengmaInSession.equalsIgnoreCase(yanzhengma)){
+			data.setMsg("验证码错误");
+			return data;
+		}
+		
 		 List<AdminUser> users = adminUserService.getAdminUserByName(username);
 		 AdminUser sessionUser = null;
 		 if(CollectionUtils.isNotEmpty( users)){
@@ -81,46 +88,54 @@ public class LoginController {
 				 }
 			 }
 		 }
-		 if(sessionUser != null && sessionUser.getStatus() == StatusConstant.isvalid){
-			 /***
-			  * 查看系统管理员的权限菜单和权限按钮
-			  */
-			 AdminRole role = relAdminUserRoleService.getRoleByUserId(sessionUser.getId());
-			 if(role!=null){
-				 role = roleService.getRoleById(role.getId());
-				 sessionUser.setRole(role);
+		 if(sessionUser != null  ){
+			 
+			 if(sessionUser.getStatus() == StatusConstant.isvalid){
 				 
-				 //菜单列表
-				 List<AdminMenu> menus = role.getRelMenus();
 				 
-				 Map<String ,Boolean> btnMap = new HashMap<String ,Boolean>();
-				 StringBuffer menuPath = new StringBuffer();
-				 if(menus != null){
-					 sessionUser.setMenus( menus);
-				 }
-				 
-				 for(AdminMenu menu :menus){
-					 if(StringUtils.isNotBlank(menu.getPath() )){
-						 menuPath.append(";").append(menu.getPath());
+				 /***
+				  * 查看系统管理员的权限菜单和权限按钮
+				  */
+				 AdminRole role = relAdminUserRoleService.getRoleByUserId(sessionUser.getId());
+				 if(role!=null){
+					 role = roleService.getRoleById(role.getId());
+					 sessionUser.setRole(role);
+					 
+					 //菜单列表
+					 List<AdminMenu> menus = role.getRelMenus();
+					 
+					 Map<String ,Boolean> btnMap = new HashMap<String ,Boolean>();
+					 StringBuffer menuPath = new StringBuffer();
+					 if(menus != null){
+						 sessionUser.setMenus( menus);
 					 }
-					 //按钮
-					 if(menu.getIsbutton() == 1){
-						 if(StringUtils.isNotBlank(menu.getBtnflag() )){
-							 btnMap.put(menu.getBtnflag() , true);
+					 
+					 for(AdminMenu menu :menus){
+						 if(StringUtils.isNotBlank(menu.getPath() )){
+							 menuPath.append(";").append(menu.getPath());
+						 }
+						 //按钮
+						 if(menu.getIsbutton() == 1){
+							 if(StringUtils.isNotBlank(menu.getBtnflag() )){
+								 btnMap.put(menu.getBtnflag() , true);
+							 }
 						 }
 					 }
+					 sessionUser.setBtnMap(btnMap);
+					 if(menuPath.length()>0){
+						 sessionUser.setMenupaths(menuPath.append(";").toString());
+					 }
 				 }
-				 sessionUser.setBtnMap(btnMap);
-				 if(menuPath.length()>0){
-					 sessionUser.setMenupaths(menuPath.append(";").toString());
-				 }
+				 SessionConstant.setAdminUserToSession(request, sessionUser);
+				 data.setResult(true);
+				 data.setMsg("登陆成功");
+				 data.setEntity( sessionUser);
+			 }else{
+				 data.setMsg("您的状态发生变化，请找管理员联系");
 			 }
-			 SessionConstant.setAdminUserToSession(request, sessionUser);
-			 data.setResult(true);
-			 data.setMsg("登陆成功");
-			 data.setEntity( sessionUser);
 		 }else{
 			 data.setEntity( sessionUser);
+			 data.setMsg("用户名或者密码错误");
 		 }
 		return data;
 	}

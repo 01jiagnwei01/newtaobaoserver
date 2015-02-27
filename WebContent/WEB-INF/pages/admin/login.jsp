@@ -24,23 +24,28 @@
 	  .llwidth{
 	  	width:200px;
 	  }
+	  .yzwidth{
+	  	width:110px;
+	  }
 	</style>
 	<script type="text/javascript">
-
+	function refreshYanZhengMa(obj) {  $(obj).attr("src","<%=request.getContextPath()%>/yanzhengma?"+Math.random());  }
   function loginfn(btn){
   
   	var name = $("#username").val();
   	var pass = $("#password").val();
+  	var yanzhengma = $("#yanzhengma").val();
   	var url = "<%=request.getContextPath()%>/admin/dologin";
 	$.ajax({
 			  type:'post',
 			  url: url,
 			  context: document.body,
 			  beforeSend:function(){
-			  		// $(btn).attr('disabled','disabled');
+			  		 $(btn).attr('disabled',true);
+			  		 $(btn).text('正在登陆');
 				 },
 			  data:{
-				  name: name,pass:pass
+				  name: name,pass:pass,yanzhengma:yanzhengma
 			  },
 			  success:function(json){
 				 
@@ -50,19 +55,18 @@
 				 	 	window.location = "<%=request.getContextPath()%>/admin/index";
 				 	 }else{
 				 	 	 var user = json.entity;
-				 	 	 if(!user){
-				 	 	 	alert("用户名或者密码错误");
-				 	 	 }else {
-				 	 	 	var status = user.status;
-				 	 	 	if(status != 1){
-				 	 	 		alert("您已经被锁定,请与管理员联系");
-				 	 	 	}
-				 	 	 }
+				 	 	 var  msg  = json.msg;
+				 	 	 	alert(msg);
+				 	 	 
 				 	 }
+				 	 $(btn).attr('disabled',false);
+				 	 $(btn).text('登陆');
 				 	  
 			  },
 		      error:function(xhr,textStatus,errorThrown){
 		  		var responseText = xhr.responseText;
+		  		$(btn).attr('disabled',false);
+			 	 $(btn).text('登陆');
 		  		// $(btn)).removeAttr("disabled");
 		  } 
   })
@@ -103,15 +107,7 @@
 					
 					<form class="form-horizontal" action="" method="post">
 						<fieldset>
-						<!-- 
-							<div class="input-prepend" >
-								<span class="add-on"><i class="icon-road"></i></span>
-								<select name="flag"  class="input-large llwidth"   title="用户角色" data-rel="tooltip">
-									<option value="1">教师</option>
-									<option value="2">学生</option>
-								  </select>
-							 </div>
-						 -->
+						
 							<div class="clearfix"></div>
 							<div class="input-prepend" title="用户名" data-rel="tooltip">
 								<span class="add-on"><i class="icon-user"></i></span><input autofocus class="input-large llwidth" name="username" id="username" type="text" value="" />
@@ -121,6 +117,12 @@
 							<div class="input-prepend" title="密码" data-rel="tooltip">
 								<span class="add-on"><i class="icon-lock"></i></span>
 								<input class="input-large llwidth" name="password" id="password" type="password" value="" />
+							</div>
+							<div class="clearfix"></div>
+							<div class="input-prepend" title="验证码" data-rel="tooltip">
+								<span class="add-on"><i class="icon-envelope"></i></span>
+								<input class="input-large yzwidth" name="yanzhengma" id="yanzhengma" type="text" value="" />
+								<img title="点击更换" id="yanzhengmaBtn" style="width:80px;" onclick="javascript:refreshYanZhengMa(this);" src="<%=request.getContextPath()%>/yanzhengma">
 							</div>
 							<div class="clearfix"></div>
 							<p class="center span5">

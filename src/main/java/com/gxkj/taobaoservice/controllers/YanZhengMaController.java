@@ -34,7 +34,7 @@ public class YanZhengMaController {
 	@ResponseBody
 	public EntityReturnData getYanZhengma(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
 		EntityReturnData ret = new EntityReturnData();
-		String yanzhengma = (String) request.getSession().getAttribute(RandomValidateCode.RANDOMCODEKEY);
+		String yanzhengma = (String)RandomValidateCode.getRandcode(request);
 		ret.setEntity(yanzhengma);
 		ret.setResult(true);
 		 return ret;

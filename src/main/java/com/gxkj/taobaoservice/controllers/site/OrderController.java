@@ -2,10 +2,12 @@ package com.gxkj.taobaoservice.controllers.site;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.SessionUtil;
+import com.gxkj.taobaoservice.entitys.SubTaskInfo;
 import com.gxkj.taobaoservice.entitys.TaskOrder;
+import com.gxkj.taobaoservice.entitys.TaskOrderSubTaskInfo;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.TaskOrderService;
 
@@ -178,6 +182,12 @@ public class OrderController {
 					encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount);
 			modelMap.put("order", order);
 			
+			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = order.getTaskOrderSubTaskInfos();
+			if(CollectionUtils.isNotEmpty(taskOrderSubTaskInfos)){
+				for(TaskOrderSubTaskInfo item:taskOrderSubTaskInfos){
+					modelMap.put(item.getKey(), item);
+				}
+			}
 			String mv = "site/order/order_sure_page";
 			return mv;
 		} catch (BusinessException e) {

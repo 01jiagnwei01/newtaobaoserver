@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
  <%@ page import="com.gxkj.common.util.SystemGlobals,com.gxkj.taobaoservice.util.*"%>
- <%@ page import="static com.gxkj.taobaoservice.util.SystemDbData.subTaskInfoMap"%>
+ <%@ page import="static com.gxkj.taobaoservice.util.SystemDbData.subTaskInfoMap, com.gxkj.common.exceptions.*"%>
+ <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <!DOCTYPE html>
 <html lang="zh">
 <head><%--  --%>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" content="ie=edge"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>新建任务 </title>
+<title>任务确认</title>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include> 
 <style type="text/css">
@@ -19,7 +20,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 
 .inputwidth {width:360px;height:50px;line-height: 50px;}
 </style>
-
+ 
 <body>
 	<jsp:include page="../common/head.jsp" flush="true">
 		<jsp:param name="showlogin" value="true"></jsp:param>
@@ -40,49 +41,58 @@ table td{padding:5px; height:25px; font-size:14px;}
 
 			 
 			<div style="width:910px; padding:0 10px; background-color:#FFF;" class="fr">
-				 	<form method="post" action="/site/order/create">
+				 	<form method="post" action="<%=request.getContextPath() %>/site/order/sure">
 					<table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">
+							<tr  >
+									<td colspan="3"  align="center"><b>请确认您的订单</b></td>
+							</tr>
+							<tr style="display: none" >
+									<td colspan="3"  align="center">
+										<input type="hidden" name="orderId" value="${order.id }">
+										<input type="hidden" name="goodCommentTimeLimit" value="${goodCommentTimeLimit}">
+										<input type="hidden" name="goodCommentContent" value="${goodCommentContent }">
+										<input type="hidden" name="orderId" value="${order.id }">
+									</td>
+							</tr>
 							<tr>
 									<td width="150" align="right">商家淘宝小号</td>
-									<td width="260"><input type="text" id="taobaoXiaohao" name="taobaoXiaohao" class="inputwidth" placeholder="商家淘宝小号"></td>
+									<td width="260">${order.taobaoXiaohao}</td>
 									<td align="left"></td>
 							</tr>
 							<tr>
 									<td align="right">商家QQ</td>
-									<td>
-									<input type="text" class="inputwidth" id="userQq" name="userQq"  placeholder="商家QQ"/>
-									</td>
+									<td>${order.userQq}</td>
 									<td></td>
 							</tr>
 							<tr>
 									<td align="right">商品标题</td>
-									<td> <input type="text" class="inputwidth" id="productTitle" name="productTitle" placeholder="商品标题"/></td>
+									<td>${order.productTitle}</td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
 									<td align="right">商品网址</td>
-									<td><input type="text" class="inputwidth" id="productLink"  name="productLink" placeholder="商品网址"/></td>
+									<td>${order.productLink}</td>
 									<td>&nbsp;</td>
 							</tr>
 							
 							<tr>
 									<td align="right">担保价格</td>
-									<td><input type="number" class="inputwidth" id="guaranteePrice" name="guaranteePrice" placeholder="担保价格" min="0"/></td>
+									<td>${order.guaranteePrice}</td>
 									<td>担保价格 = 你淘宝的宝贝价格(或改价后价格) + 邮费的总价 <a href="<%=request.getContextPath() %>/site/money/chongzhi" target="_blank"  class="easyui-linkbutton"  >我要充值</a></td>
 							</tr>
 							<tr>
 									<td align="right">基本佣金</td>
-									<td><input readonly="readonly" type="text" class="inputwidth" id="basicReceiverGainMoney" name="basicReceiverGainMoney" placeholder="基本佣金" min="0"/></td>
+									<td>${order.basicReceiverGainMoney}</td>
 									<td>佣金标准：100元以下的5元（包含100元）;100-200元的8元（包含200元）;200-500元的15元（包含500元）;500元以上20元</td>
 							</tr>
 							<tr>
 									<td align="right">奖励接手人</td>
-									<td><input class="inputwidth"  name="encourage"  name="encourage"  type="number" min="0"/></td>
+									<td>${order.encourage}</td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
 									<td align="right">支付平台发布点</td>
-									<td><input class="inputwidth"  id="basicPingtaiGainPoint"  name="basicPingtaiGainPoint" value='0.5' readonly /></td>
+									<td>0.5</td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr align="right">
@@ -90,9 +100,10 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td align="right">好评时限要求</td>
-									<td><select class="inputwidth"   name="goodCommentTimeLimit" id="goodCommentTimeLimit">
-											<option value="IMMEDIATELY">立刻好评</option>
-											<option value="THIRTYMMinuteLater" selected="selected">30分钟后好评</option>
+									<td>
+									<select class="inputwidth"   name="goodCommentTimeLimit" id="goodCommentTimeLimit"  value="${goodCommentTimeLimit}">
+											<option value="">立刻好评</option>
+											<option value="THIRTYMMinuteLater"  >30分钟后好评</option>
 											<option value="ONE_DAY_LATER">1天后好评</option>
 											<option value="TWO_DAY_LATER">2天后好评</option>
 											<option value="THREE_DAY_LATER">3天后好评</option>
@@ -105,8 +116,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td align="right">指定好评内容</td>
-									<td><textarea name="goodCommentContent" id="goodCommentContent" class="inputwidth"
-								  style="width: 320px; height: 50px;" rows="4"></textarea></td>
+									<td>${goodCommentContent }</td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
@@ -119,51 +129,59 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td align="right">需要旺旺聊天</td>
-									<td><select class="inputwidth"   id="NEED_WANGWANG_TALK" name="NEED_WANGWANG_TALK">
-											<option value="1">需要</option>
-											<option value="0" selected="selected">不需要</option> 
-									</select></td>
+									<td><c:choose>
+												<c:when test="${ NEED_WANGWANG_TALK == null }">不需要</c:when>
+												<c:otherwise>需要</c:otherwise> 
+											</c:choose></td>
 									<td>奖励接手方<%=subTaskInfoMap.get("NEED_WANGWANG_TALK").getAmount() %>个发布点</td>
 							</tr>
 							<tr>
 									<td align="right">限制重复接任务</td>
-									<td><select class="inputwidth"   id="NO_REPEAT_TASK" name="NO_REPEAT_TASK">
-											<option value="1">需要</option>
-											<option value="0" selected="selected">不需要</option> 
-									</select></td>
+									<td><c:choose>
+												<c:when test="${ NO_REPEAT_TASK == null }">不需要</c:when>
+												<<c:otherwise>需要</c:otherwise>
+											</c:choose></td>
 									<td>奖励接手方<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</td>
 							</tr>
 							<tr>
 									<td align="right">指定接手人</td>
-									<td>
-										<select class="inputwidth" style="width:100px;"  id="ZHI_DING_JIE_SHOU_REN" name="ZHI_DING_JIE_SHOU_REN">
-											<option value="1">需要</option>
-											<option value="0" selected="selected">不需要</option>
-										</select>
-										<input class="easyui-textbox zengzhiinputwidth" type="text" id="ZHI_DING_JIE_SHOU_REN_ID" id="ZHI_DING_JIE_SHOU_REN_ID" style="width:190px;height:50px;line-height: 50px;"  placeholder="接手人ID"/> 
+									<td><c:choose>
+												<c:when test="${ ZHI_DING_JIE_SHOU_REN == null  }">不需要</c:when>
+												<c:otherwise>需要</c:otherwise>
+											</c:choose> 
+										<input class="easyui-textbox zengzhiinputwidth" type="text" name="ZHI_DING_JIE_SHOU_REN_ID" id="ZHI_DING_JIE_SHOU_REN_ID"   value="${ZHI_DING_JIE_SHOU_REN_ID }" style="width:190px;height:50px;line-height: 50px;"  placeholder="接手人ID"/> 
 									</td>
 									<td>支付平台<%=subTaskInfoMap.get("ZHI_DING_JIE_SHOU_REN").getAmount() %>个发布点</td>
 							</tr>
 							<tr>
 									<td align="right">指定收货地址</td>
-									<td><select class="inputwidth"   style="width:100px;"id="ZHI_DING_SHOU_HUO_DI_ZHI" name="ZHI_DING_SHOU_HUO_DI_ZHI">
-											<option value="1">需要</option>
-											<option value="0" selected="selected">不需要</option>
-									
-									</select>
-											<input class="zengzhiinputwidth" type="text" id="ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS" style="width:190px;height:50px;line-height: 50px;" placeholder="收货人地址"/> 
-											</td>
+									<td><c:choose>
+												<c:when test="${ ZHI_DING_SHOU_HUO_DI_ZHI  == null  }">不需要</c:when>
+												<c:otherwise>需要</c:otherwise>
+											</c:choose>
+											<c:choose>
+												<c:when test="${empty ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS }">&nbsp;</c:when>
+												<c:otherwise>>&nbsp;${ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS }</c:otherwise>
+											</c:choose>
+									</td>
 									<td>奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</td>
 							</tr>
 						<tr>
 								<td align="right">批量发布</td>
-								<td><select class="inputwidth"   style="width:100px;" id="PI_LIANG_FA_BU" name="PI_LIANG_FA_BU">
-										<option value="1">需要</option>
-										<option value="0" selected="selected">不需要</option> 
-								</select>
-										<input class="zengzhiinputwidth" style="width:100px;height:50px;line-height: 50px;" id="PI_LIANG_FA_BU_input" type="number" min="1" placeholder="发布条数"/>
+								<td>
+								<c:choose>
+												<c:when test="${ PI_LIANG_FA_BU == null }">不需要</c:when>
+												<<c:otherwise>需要 ${PI_LIANG_FA_BU_input }条</c:otherwise>
+											</c:choose> 
 										</td>
-								<td> 批量发布，上限50条,需要支付平台<%=subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount() %>个发布点 </td>
+								<td>  </td>
+						</tr>
+						<tr>
+								<td align="right">统计</td>
+								<td align="center">
+									需要金额：${order.countPayMoney}，需要发布点：${order.countPayPoints}
+								</td>
+								 
 						</tr>
 						<tr>
 							<td colspan="3" align="center">
@@ -182,4 +200,10 @@ table td{padding:5px; height:25px; font-size:14px;}
 	<div style="clear:both;"></div>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
+<script type="text/javascript">
+
+	$(function(){ 
+	})
+</script>
+
 </html> 

@@ -175,6 +175,12 @@ public class TaskOrder implements Serializable{
 	private List<SubTaskInfo> tasks;
 	
 	/**
+	 * 实际选中的任务
+	 */
+	@Transient
+	private List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos;
+	
+	/**
 	 * 合计支付金额
 	 */
 	@Transient
@@ -353,6 +359,15 @@ public class TaskOrder implements Serializable{
 
 	public void setCountPayPoints(BigDecimal countPayPoints) {
 		this.countPayPoints = countPayPoints;
+	}
+
+	public List<TaskOrderSubTaskInfo> getTaskOrderSubTaskInfos() {
+		return taskOrderSubTaskInfos;
+	}
+
+	public void setTaskOrderSubTaskInfos(
+			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos) {
+		this.taskOrderSubTaskInfos = taskOrderSubTaskInfos;
 	}
 	
 	

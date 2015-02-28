@@ -310,6 +310,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			 taskOrderSubTaskInfoDao.insert(item);
 		}
 		order.setTasks(subTaskInfos);
+		order.setTaskOrderSubTaskInfos(taskOrderSubTaskInfos);
 		MoneyCalculateUtil.caculateOrderAccount(order);
 		
 		return order;

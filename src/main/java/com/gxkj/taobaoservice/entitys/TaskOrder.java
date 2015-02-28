@@ -21,10 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.gxkj.taobaoservice.enums.GoodCommentTimeLimits;
-import com.gxkj.taobaoservice.enums.PayMethods;
 import com.gxkj.taobaoservice.enums.TaskOrderStatus;
-import com.gxkj.taobaoservice.enums.TaskTypes;
 
 /**
  * 创建任务订单 
@@ -73,79 +70,52 @@ public class TaskOrder implements Serializable{
 	private String userQq;
 	
 	/**
-	 * 商品地址
-	 */
-	@Column(name="product_link" )
-	@NotEmpty(message="商品地址不能为空")
-	@Length(min=10,message="请填入正确的商品地址")
-	private String productLink;
-	
-	/**
 	 * 商品标题
 	 */
 	@Column(name="product_title" )
 	@NotEmpty(message="商品标题不能为空")
-	@Length(min=5,message="请填入正确的商品标题")
+	@Length(min=5,max=100,  message="商品标题长度需要为5-100")
 	private String productTitle ;
 	
 	/**
-	 * 付款方式
+	 * 商品地址
 	 */
-	@Column(name="pay_method" )
-	@Enumerated(EnumType.STRING)
-	@NotNull
-	private PayMethods payMethod ;
+	@Column(name="product_link" )
+	@NotEmpty(message="商品网址不能为空")
+	@Length(min=10,max=100,message="商品网址长度需要为5-100")
+	private String productLink;
 	
 	/**
-	 * 担保金
+	 *  每单担保金
 	 */
 	@Column(name="guarantee_price" )
 	@NotNull(message="担保金不能为空")
 	@Min(value=5,message="担保金最低为5元")
 	private BigDecimal guaranteePrice ;
 	
+	
 	/**
-	 * 奖励金额
+	 *  每单完成基本任务，接手方受益金额
+	 */
+	@Column(name="basic_receiver_gain_money" )
+	@NotNull(message="佣金不能为空")
+	private BigDecimal basicReceiverGainMoney; 
+	
+	
+	/**
+	 *  每单奖励金额
 	 */
 	@Column(name="encourage" )
 	private BigDecimal encourage ;
-	
-	/**
-	 * 任务类型
-	 */
-	@Column(name="task_type" )
-	@Enumerated(EnumType.STRING)
-	@NotNull(message="任务类型不能为空")
-	private  TaskTypes taskType;
-	
-	/**
-	 * 产品好评内容
-	 */
-	@Column(name="good_comment" )
-	private  String goodComment;
-	
-	/**
-	 * 好评时限
-	 */
-	@Column(name="good_comment_time_limit" )
-	@Enumerated(EnumType.STRING)
-	@NotNull(message="好评时限不能为空")
-	private  GoodCommentTimeLimits goodCommentTimeLimit;
-	
-	/**
-	 * 付给平台金额
-	 */
-	@Column(name="payed_dot" )
-	@NotNull(message="付给平台金额不能为空")
-	private  BigDecimal payedDot;
-	
-	/**
-	 * 完成基本任务，接手方受益点数
-	 */
-	@Column(name="remuneration" )
-	@NotNull(message="佣金不能为空")
-	private BigDecimal remuneration; 
 
+	/**
+	 *  每单完成基本任务，平台受益点数
+	 */
+	@Column(name="basic_pingtai_gain_point" )
+	@NotNull
+	@Min(value=0)
+	private  BigDecimal basicPingtaiGainPoint = BigDecimal.ZERO;
+	 
 	
 	/**
 	 * 订单状态
@@ -155,42 +125,40 @@ public class TaskOrder implements Serializable{
 	@NotNull(message="订单状态不能为空")
 	private TaskOrderStatus status = TaskOrderStatus.WAIT_FOR_SURE;
 	
-	
+	 
 	/**
-	 * 好评需要发布点数
+	 *  每单完成基本任务，接手方受益点数
 	 */
-	@Column(name="good_comment_time_dot" )
-	@NotNull
-	private  BigDecimal goodCommentTimeDot;
+	@Column(name="basic_receiver_gain_point" )
+	private  BigDecimal basicReceiverGainPoint = BigDecimal.ZERO;
+	
 	
 	/**
-	 * 完成增值任务，接收方受益点数
+	 *  每单完成增值任务，接手方受益点数
 	 */
 	@Column(name="zengzhi_receiver_gain_points" )
 	@NotNull
 	@Min(value=0)
-	private  BigDecimal zengzhiReceiverGain_points = BigDecimal.ZERO;
+	private  BigDecimal zengzhiReceiverGainPoints = BigDecimal.ZERO;
+	
 	/**
-	 * 完成增值任务，平台受益点数
+	 *  每单完成增值任务，接手方受益金额
+	 */
+	@Column(name="zengzhi_receiver_gain_money" )
+	@NotNull
+	@Min(value=0)
+	private  BigDecimal zengzhiReceiverGainMoney = BigDecimal.ZERO;
+	
+	
+	/**
+	 * 每单完成增值任务，平台受益点数
 	 */
 	@Column(name="zengzhi_pingtai_gain_points" )
 	@NotNull
 	@Min(value=0)
-	private  BigDecimal zengzhiPingtaiGain_points = BigDecimal.ZERO;
+	private  BigDecimal zengzhiPingtaiGainPoints = BigDecimal.ZERO;
 	
-	/**
-	 * 完成基本任务，接手方受益点数
-	 */
-	@Column(name="basic_receiver_gain_point" )
-	private  BigDecimal basicReceiverGainPoint = BigDecimal.ZERO;
-	/**
-	 * 完成基本任务，平台受益点数
-	 */
-	@Column(name="basic_pingtai_gain_point" )
-	@NotNull
-	@Min(value=0)
-	private  BigDecimal basicPingtaiGainPoint = BigDecimal.ZERO;
-	
+	 
 	/**
 	 * 重复次数
 	 */
@@ -207,11 +175,11 @@ public class TaskOrder implements Serializable{
 	private List<TaskAppreciation> taskAppreciations;
 	
 	/**
-	 * 基本发布点
+	 * 基本任务
 	 */
-	@Column(name="basic_publish_dot" )
-	@NotNull(message="基本发布点不能为空")
-	private BigDecimal basicPublishDot;
+	@Transient
+	private List<TaskAppreciation> taskBasics;
+	
 	
 	
 
@@ -271,13 +239,7 @@ public class TaskOrder implements Serializable{
 		this.productTitle = productTitle;
 	}
 
-	public PayMethods getPayMethod() {
-		return payMethod;
-	}
-
-	public void setPayMethod(PayMethods payMethod) {
-		this.payMethod = payMethod;
-	}
+ 
 
 	public BigDecimal getGuaranteePrice() {
 		return guaranteePrice;
@@ -287,45 +249,6 @@ public class TaskOrder implements Serializable{
 		this.guaranteePrice = guaranteePrice;
 	}
 
-	public BigDecimal getBasicPublishDot() {
-		return basicPublishDot;
-	}
-
-	public void setBasicPublishDot(BigDecimal basicPublishDot) {
-		this.basicPublishDot = basicPublishDot;
-	}
-
-	public TaskTypes getTaskType() {
-		return taskType;
-	}
-
-	public void setTaskType(TaskTypes taskType) {
-		this.taskType = taskType;
-	}
-
-	public String getGoodComment() {
-		return goodComment;
-	}
-
-	public void setGoodComment(String goodComment) {
-		this.goodComment = goodComment;
-	}
-
-	public GoodCommentTimeLimits getGoodCommentTimeLimit() {
-		return goodCommentTimeLimit;
-	}
-
-	public void setGoodCommentTimeLimit(GoodCommentTimeLimits goodCommentTimeLimit) {
-		this.goodCommentTimeLimit = goodCommentTimeLimit;
-	}
-
-	public BigDecimal getGoodCommentTimeDot() {
-		return goodCommentTimeDot;
-	}
-
-	public void setGoodCommentTimeDot(BigDecimal goodCommentTimeDot) {
-		this.goodCommentTimeDot = goodCommentTimeDot;
-	}
 
 	public List<TaskAppreciation> getTaskAppreciations() {
 		return taskAppreciations;
@@ -343,21 +266,7 @@ public class TaskOrder implements Serializable{
 		this.status = status;
 	}
 
-	public BigDecimal getZengzhiReceiverGain_points() {
-		return zengzhiReceiverGain_points;
-	}
-
-	public void setZengzhiReceiverGain_points(BigDecimal zengzhiReceiverGain_points) {
-		this.zengzhiReceiverGain_points = zengzhiReceiverGain_points;
-	}
-
-	public BigDecimal getZengzhiPingtaiGain_points() {
-		return zengzhiPingtaiGain_points;
-	}
-
-	public void setZengzhiPingtaiGain_points(BigDecimal zengzhiPingtaiGain_points) {
-		this.zengzhiPingtaiGain_points = zengzhiPingtaiGain_points;
-	}
+	 
 
 	public BigDecimal getBasicReceiverGainPoint() {
 		return basicReceiverGainPoint;
@@ -383,13 +292,7 @@ public class TaskOrder implements Serializable{
 		this.repeateTimes = repeateTimes;
 	}
 
-	public BigDecimal getPayedDot() {
-		return payedDot;
-	}
-
-	public void setPayedDot(BigDecimal payedDot) {
-		this.payedDot = payedDot;
-	}
+	
 
 	public BigDecimal getEncourage() {
 		return encourage;
@@ -399,13 +302,46 @@ public class TaskOrder implements Serializable{
 		this.encourage = encourage;
 	}
 
-	public BigDecimal getRemuneration() {
-		return remuneration;
+	public BigDecimal getBasicReceiverGainMoney() {
+		return basicReceiverGainMoney;
 	}
 
-	public void setRemuneration(BigDecimal remuneration) {
-		this.remuneration = remuneration;
+	public void setBasicReceiverGainMoney(BigDecimal basicReceiverGainMoney) {
+		this.basicReceiverGainMoney = basicReceiverGainMoney;
 	}
+
+	public List<TaskAppreciation> getTaskBasics() {
+		return taskBasics;
+	}
+
+	public void setTaskBasics(List<TaskAppreciation> taskBasics) {
+		this.taskBasics = taskBasics;
+	}
+
+	public BigDecimal getZengzhiReceiverGainPoints() {
+		return zengzhiReceiverGainPoints;
+	}
+
+	public void setZengzhiReceiverGainPoints(BigDecimal zengzhiReceiverGainPoints) {
+		this.zengzhiReceiverGainPoints = zengzhiReceiverGainPoints;
+	}
+
+	public BigDecimal getZengzhiReceiverGainMoney() {
+		return zengzhiReceiverGainMoney;
+	}
+
+	public void setZengzhiReceiverGainMoney(BigDecimal zengzhiReceiverGainMoney) {
+		this.zengzhiReceiverGainMoney = zengzhiReceiverGainMoney;
+	}
+
+	public BigDecimal getZengzhiPingtaiGainPoints() {
+		return zengzhiPingtaiGainPoints;
+	}
+
+	public void setZengzhiPingtaiGainPoints(BigDecimal zengzhiPingtaiGainPoints) {
+		this.zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints;
+	}
+	
 	
 	
 	

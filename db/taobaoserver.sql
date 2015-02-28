@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-02-27 19:32:22
+Date: 2015-02-28 11:30:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -663,6 +663,26 @@ INSERT INTO `rel_role_menu` VALUES ('247', '8', '8');
 INSERT INTO `rel_role_menu` VALUES ('248', '8', '18');
 
 -- ----------------------------
+-- Table structure for `sub_task_info`
+-- ----------------------------
+DROP TABLE IF EXISTS `sub_task_info`;
+CREATE TABLE `sub_task_info` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `key` varchar(30) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `status` varchar(10) NOT NULL,
+  `priority` double(10,0) NOT NULL DEFAULT '0',
+  `benefit_persion` varchar(10) NOT NULL,
+  `benefit_type` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sub_task_info
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `task_appreciation`
 -- ----------------------------
 DROP TABLE IF EXISTS `task_appreciation`;
@@ -722,23 +742,18 @@ CREATE TABLE `task_order` (
   `create_time` datetime NOT NULL,
   `taobao_xiaohao` varchar(50) NOT NULL,
   `user_qq` varchar(255) NOT NULL,
-  `product_link` varchar(500) NOT NULL,
   `product_title` varchar(100) NOT NULL,
-  `pay_method` int(10) NOT NULL,
+  `product_link` varchar(500) NOT NULL,
   `guarantee_price` double(10,2) NOT NULL,
-  `basic_publish_dot` double(10,2) NOT NULL,
-  `task_type` varchar(20) NOT NULL,
-  `good_comment` varchar(500) NOT NULL,
-  `good_comment_time_limit` varchar(255) NOT NULL,
-  `good_comment_time_dot` double(10,2) NOT NULL,
-  `zengzhi_receiver_gain_points` double(11,2) NOT NULL,
-  `zengzhi_pingtai_gain_points` double(11,2) NOT NULL,
+  `encourage` double(11,2) NOT NULL DEFAULT '0.00',
+  `basic_receiver_gain_money` double(11,2) NOT NULL,
   `basic_receiver_gain_point` double(11,2) NOT NULL,
   `basic_pingtai_gain_point` double(11,2) NOT NULL,
+  `zengzhi_receiver_gain_points` double(11,2) NOT NULL,
+  `zengzhi_receiver_gain_money` double(11,2) NOT NULL,
+  `zengzhi_pingtai_gain_points` double(11,2) NOT NULL,
   `status` varchar(20) NOT NULL,
   `repeate_times` int(10) NOT NULL,
-  `remuneration` double(11,2) NOT NULL,
-  `encourage` double(11,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

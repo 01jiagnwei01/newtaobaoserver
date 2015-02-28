@@ -39,48 +39,49 @@ table td{padding:5px; height:25px; font-size:14px;}
 
 			 
 			<div style="width:910px; padding:0 10px; background-color:#FFF;" class="fr">
+				 
 					<table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">
 							<tr>
 									<td width="150" align="right">商家淘宝小号</td>
-									<td width="260"><input type="text" id="taobaoXiaohao" class="inputwidth" placeholder="商家淘宝小号"></td>
+									<td width="260"><input type="text" id="taobaoXiaohao" name="taobaoXiaohao" class="inputwidth" placeholder="商家淘宝小号"></td>
 									<td align="left"></td>
 							</tr>
 							<tr>
 									<td align="right">商家QQ</td>
 									<td>
-									<input type="text" class="inputwidth" id="userQq" placeholder="商家QQ"/>
+									<input type="text" class="inputwidth" id="userQq" name="userQq"  placeholder="商家QQ"/>
 									</td>
 									<td></td>
 							</tr>
 							<tr>
 									<td align="right">商品标题</td>
-									<td> <input type="text" class="inputwidth" id="productTitle" placeholder="商品标题"/></td>
+									<td> <input type="text" class="inputwidth" id="productTitle" name="productTitle" placeholder="商品标题"/></td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
 									<td align="right">商品网址</td>
-									<td><input type="text" class="inputwidth" id="productLink" placeholder="商品网址"/></td>
+									<td><input type="text" class="inputwidth" id="productLink"  name="productLink" placeholder="商品网址"/></td>
 									<td>&nbsp;</td>
 							</tr>
 							
 							<tr>
 									<td align="right">担保价格</td>
-									<td><input type="number" class="inputwidth" id="guaranteePrice" placeholder="担保价格" min="0"/></td>
+									<td><input type="number" class="inputwidth" id="guaranteePrice" name="guaranteePrice" placeholder="担保价格" min="0"/></td>
 									<td>担保价格 = 你淘宝的宝贝价格(或改价后价格) + 邮费的总价 <a href="<%=request.getContextPath() %>/site/money/chongzhi" target="_blank"  class="easyui-linkbutton"  >我要充值</a></td>
 							</tr>
 							<tr>
 									<td align="right">基本佣金</td>
-									<td><input readonly="readonly" type="text" class="inputwidth" id="remuneration" placeholder="基本佣金" min="0"/></td>
+									<td><input readonly="readonly" type="text" class="inputwidth" id="basicReceiverGainMoney" name="basicReceiverGainMoney" placeholder="基本佣金" min="0"/></td>
 									<td>佣金标准：100元以下的5元（包含100元）;100-200元的8元（包含200元）;200-500元的15元（包含500元）;500元以上20元</td>
 							</tr>
 							<tr>
 									<td align="right">奖励接手人</td>
-									<td><input class="inputwidth"  name="encourage" type="number" min="0"/></td>
+									<td><input class="inputwidth"  name="encourage"  name="encourage"  type="number" min="0"/></td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
 									<td align="right">基本发布点</td>
-									<td><input class="inputwidth"  id="basicPublishDot" value='0.5' readonly /></td>
+									<td><input class="inputwidth"  id="basicPingtaiGainPoint"  name="basicPingtaiGainPoint" value='0.5' readonly /></td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr align="right">
@@ -159,7 +160,6 @@ table td{padding:5px; height:25px; font-size:14px;}
 						</tr>
 						<tr>
 							<td colspan="3" align="center">
-							
 								<button class="btn btn-lg btn-success" type="submit">确认提交</button>
 							</td>
 						</tr>

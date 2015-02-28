@@ -48,7 +48,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		/**
 		 * 默认每个订单支付平台0.5个平台币
 		 */
-		taskOrder.setPayedDot(new BigDecimal("0.5"));
+		//taskOrder.setPayedDot(new BigDecimal("0.5"));
 		Set<ConstraintViolation<TaskOrder>> constraintViolations = validator.validate(taskOrder);
 		EntityReturnData result = new EntityReturnData();
 		if(constraintViolations.size() != 0){

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-02-28 11:30:40
+Date: 2015-02-28 19:01:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -669,18 +669,26 @@ DROP TABLE IF EXISTS `sub_task_info`;
 CREATE TABLE `sub_task_info` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `key` varchar(30) NOT NULL,
-  `type` varchar(10) NOT NULL,
+  `type` varchar(20) NOT NULL,
   `amount` double(10,2) NOT NULL,
   `status` varchar(10) NOT NULL,
   `priority` double(10,0) NOT NULL DEFAULT '0',
   `benefit_persion` varchar(10) NOT NULL,
   `benefit_type` varchar(10) NOT NULL,
+  `desc` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sub_task_info
 -- ----------------------------
+INSERT INTO `sub_task_info` VALUES ('1', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'NORMAL', '100', 'FREE', 'POINT', '好评时效');
+INSERT INTO `sub_task_info` VALUES ('2', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'NORMAL', '99', 'FREE', 'POINT', '好评内容');
+INSERT INTO `sub_task_info` VALUES ('3', 'NEED_WANGWANG_TALK', 'APPRECIATION', '0.50', 'NORMAL', '98', 'RECEIVER', 'POINT', '需要旺旺聊天');
+INSERT INTO `sub_task_info` VALUES ('4', 'ZHI_DING_SHOU_HUO_DI_ZHI', 'APPRECIATION', '0.50', 'NORMAL', '97', 'RECEIVER', 'POINT', '指定收货地址');
+INSERT INTO `sub_task_info` VALUES ('5', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'NORMAL', '97', 'PLATFORM', 'POINT', '指定接手人');
+INSERT INTO `sub_task_info` VALUES ('6', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'NORMAL', '96', 'PLATFORM', 'POINT', '批量发布');
+INSERT INTO `sub_task_info` VALUES ('7', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'NORMAL', '95', 'PLATFORM', 'POINT', '一天内禁止重复接手');
 
 -- ----------------------------
 -- Table structure for `task_appreciation`
@@ -741,9 +749,9 @@ CREATE TABLE `task_order` (
   `user_id` int(10) NOT NULL,
   `create_time` datetime NOT NULL,
   `taobao_xiaohao` varchar(50) NOT NULL,
-  `user_qq` varchar(255) NOT NULL,
+  `user_qq` varchar(20) NOT NULL,
   `product_title` varchar(100) NOT NULL,
-  `product_link` varchar(500) NOT NULL,
+  `product_link` varchar(300) NOT NULL,
   `guarantee_price` double(10,2) NOT NULL,
   `encourage` double(11,2) NOT NULL DEFAULT '0.00',
   `basic_receiver_gain_money` double(11,2) NOT NULL,
@@ -760,6 +768,34 @@ CREATE TABLE `task_order` (
 -- ----------------------------
 -- Records of task_order
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for `task_order_sub_task_info`
+-- ----------------------------
+DROP TABLE IF EXISTS `task_order_sub_task_info`;
+CREATE TABLE `task_order_sub_task_info` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `key` varchar(30) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `amount` double(10,2) NOT NULL,
+  `benefit_persion` varchar(10) NOT NULL,
+  `benefit_type` varchar(10) NOT NULL,
+  `desc` varchar(30) NOT NULL,
+  `task_order_id` int(11) NOT NULL,
+  `input_value` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of task_order_sub_task_info
+-- ----------------------------
+INSERT INTO `task_order_sub_task_info` VALUES ('1', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'FREE', 'POINT', '好评时效', '0', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('2', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'FREE', 'POINT', '好评内容', '0', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('3', 'NEED_WANGWANG_TALK', 'APPRECIATION', '0.50', 'RECEIVER', 'POINT', '需要旺旺聊天', '0', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('4', 'ZHI_DING_SHOU_HUO_DI_ZHI', 'APPRECIATION', '0.50', 'RECEIVER', 'POINT', '指定收货地址', '0', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('5', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '指定接手人', '0', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('6', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '批量发布', '0', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('7', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '一天内禁止重复接手', '0', null);
 
 -- ----------------------------
 -- Table structure for `user_account`

@@ -15,16 +15,16 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.gxkj.taobaoservice.enums.SubTaskInfoBenefitPerson;
 import com.gxkj.taobaoservice.enums.SubTaskInfoBenefitTypes;
-import com.gxkj.taobaoservice.enums.SubTaskInfoStatus;
 import com.gxkj.taobaoservice.enums.SubTaskInfoTypes;
 /**
  * 
- *  增值任务和基本任务
+ *  订单关联的增值业务
+ *  
  *
  */
 @Entity
-@Table(name = "sub_task_info")
-public class SubTaskInfo implements Serializable{
+@Table(name = "task_order_sub_task_info")
+public class TaskOrderSubTaskInfo implements Serializable{
 
 	/**
 	 * 
@@ -38,7 +38,12 @@ public class SubTaskInfo implements Serializable{
 		@Id
 		@Column(name = "id", unique = true, nullable = false) 
 		private Integer  id;
-
+		
+		
+		@Column(name = "task_order_id",  nullable = false) 
+		private Integer  taskOrderId;
+		
+		
 		
 		/**
 		 * 关键字标识
@@ -75,18 +80,12 @@ public class SubTaskInfo implements Serializable{
 		@Enumerated(EnumType.STRING)
 		private SubTaskInfoBenefitPerson benefitPersion;
 		
-		/**
-		 * 状态，有效，失效
-		 */
-		@Column(name="status" )
-		@Enumerated(EnumType.STRING)
-		private SubTaskInfoStatus status ;
 		
 		/**
-		 * 优先级
+		 * 收货地址，接手人ID等
 		 */
-		@Column(name="priority" )
-		private double priority;
+		@Column(name = "input_value",  nullable = true) 
+		private String  inputValue;
 
 		public Integer getId() {
 			return id;
@@ -136,21 +135,23 @@ public class SubTaskInfo implements Serializable{
 			this.benefitPersion = benefitPersion;
 		}
 
-		public SubTaskInfoStatus getStatus() {
-			return status;
+		public Integer getTaskOrderId() {
+			return taskOrderId;
 		}
 
-		public void setStatus(SubTaskInfoStatus status) {
-			this.status = status;
+		public void setTaskOrderId(Integer taskOrderId) {
+			this.taskOrderId = taskOrderId;
 		}
 
-		public double getPriority() {
-			return priority;
+		public String getInputValue() {
+			return inputValue;
 		}
 
-		public void setPriority(double priority) {
-			this.priority = priority;
+		public void setInputValue(String inputValue) {
+			this.inputValue = inputValue;
 		}
+
+	 
 		
 		
 	

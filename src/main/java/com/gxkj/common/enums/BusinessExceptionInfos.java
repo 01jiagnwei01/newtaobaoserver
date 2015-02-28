@@ -61,7 +61,20 @@ public enum BusinessExceptionInfos {
 	USER_IS_BLANK("60","用户为空") ,
 	PARAMETER_ERROR("61","参数错误"),
 	UserAccountTypes_IS_NULL("62","操作方式为空"),
-	undo("63","还没有开发");
+	undo("63","还没有开发"),
+	TAO_BAO_XIAO_HAO_IS_BLANK("64","淘宝小号为空"),
+	TAO_BAO_XIAO_HAO_Length_MORE_THAN("65","淘宝小号长度超长"),
+	QQ_IS_BLANK("66","QQ为空"),
+	QQ_Length_MORE_THAN("67","QQ长度超长"),
+	PRODUCT_TITLE_IS_BLANK("67","产品标题为空"),
+	PRODUCT_TITLE_LENGTH_MORE_THAN("68","产品标题太长"),
+	PRODUCT_URL_IS_BLANK("69","产品网址为空"),
+	PRODUCT_URL_LENGTH_MORE_THAN("70","产品网址太长"),
+	guaranteePrice__SHOULD_BE_POSITIVE("71","担保金额应该为正数"),
+	jieShouRenId_ERROR("72","接手人ID错误"),
+	shouHuoDiZhi_IS_BLANK("73","收货地址为空"),
+	PI_LIANG_COUNT_SHOULD_BE_POSITIVE("74","批量发布条数应该为正数"),
+	PI_LIANG_COUNT_MORE_THAN_TIMES("75","批量发布条数超过上限");
 	private String errorCode; 
 	
 	private String errorMsg;

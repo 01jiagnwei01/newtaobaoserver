@@ -169,18 +169,22 @@ public class TaskOrder implements Serializable{
 	
 	
 	/**
-	 * 增值任务
+	 *任务
 	 */
 	@Transient
-	private List<TaskAppreciation> taskAppreciations;
+	private List<SubTaskInfo> tasks;
 	
 	/**
-	 * 基本任务
+	 * 合计支付金额
 	 */
 	@Transient
-	private List<TaskAppreciation> taskBasics;
-	
-	
+	private BigDecimal countPayMoney;
+
+	/**
+	 * 合计支付点数
+	 */
+	@Transient
+	private BigDecimal countPayPoints;
 	
 
 	public Integer getId() {
@@ -248,15 +252,7 @@ public class TaskOrder implements Serializable{
 	public void setGuaranteePrice(BigDecimal guaranteePrice) {
 		this.guaranteePrice = guaranteePrice;
 	}
-
-
-	public List<TaskAppreciation> getTaskAppreciations() {
-		return taskAppreciations;
-	}
-
-	public void setTaskAppreciations(List<TaskAppreciation> taskAppreciations) {
-		this.taskAppreciations = taskAppreciations;
-	}
+ 
 
 	public TaskOrderStatus getStatus() {
 		return status;
@@ -309,14 +305,7 @@ public class TaskOrder implements Serializable{
 	public void setBasicReceiverGainMoney(BigDecimal basicReceiverGainMoney) {
 		this.basicReceiverGainMoney = basicReceiverGainMoney;
 	}
-
-	public List<TaskAppreciation> getTaskBasics() {
-		return taskBasics;
-	}
-
-	public void setTaskBasics(List<TaskAppreciation> taskBasics) {
-		this.taskBasics = taskBasics;
-	}
+ 
 
 	public BigDecimal getZengzhiReceiverGainPoints() {
 		return zengzhiReceiverGainPoints;
@@ -341,7 +330,30 @@ public class TaskOrder implements Serializable{
 	public void setZengzhiPingtaiGainPoints(BigDecimal zengzhiPingtaiGainPoints) {
 		this.zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints;
 	}
-	
+
+	public List<SubTaskInfo> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(List<SubTaskInfo> tasks) {
+		this.tasks = tasks;
+	}
+
+	public BigDecimal getCountPayMoney() {
+		return countPayMoney;
+	}
+
+	public void setCountPayMoney(BigDecimal countPayMoney) {
+		this.countPayMoney = countPayMoney;
+	}
+
+	public BigDecimal getCountPayPoints() {
+		return countPayPoints;
+	}
+
+	public void setCountPayPoints(BigDecimal countPayPoints) {
+		this.countPayPoints = countPayPoints;
+	}
 	
 	
 	

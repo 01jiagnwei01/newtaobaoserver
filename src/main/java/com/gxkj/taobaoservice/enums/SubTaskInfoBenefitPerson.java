@@ -1,7 +1,7 @@
 package com.gxkj.taobaoservice.enums;
 
 public enum SubTaskInfoBenefitPerson {
-	Receiver("接手人"),Platform("平台");
+	RECEIVER("接手人"),PLATFORM("平台"),FREE("免费");
 	
 	private String name; 
 	

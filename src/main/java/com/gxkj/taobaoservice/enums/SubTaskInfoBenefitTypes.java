@@ -2,7 +2,7 @@ package com.gxkj.taobaoservice.enums;
 
 public enum SubTaskInfoBenefitTypes {
 
-Money("现金"),Point("点数");
+Money("现金"),POINT("点数");
 	
 	private String name; 
 	

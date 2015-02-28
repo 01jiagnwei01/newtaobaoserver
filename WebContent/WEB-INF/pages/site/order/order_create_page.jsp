@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
- <%@ page import="com.gxkj.common.util.SystemGlobals"%>
+ <%@ page import="com.gxkj.common.util.SystemGlobals,com.gxkj.taobaoservice.util.*"%>
+ <%@ page import="static com.gxkj.taobaoservice.util.SystemDbData.subTaskInfoMap"%>
  <!DOCTYPE html>
 <html lang="zh">
 <head><%--  --%>
@@ -89,7 +90,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td align="right">好评时限要求</td>
-									<td><select class="inputwidth"   name="goodCommentTimeLimit">
+									<td><select class="inputwidth"   name="goodCommentTimeLimit" id="goodCommentTimeLimit">
 											<option value="IMMEDIATELY">立刻好评</option>
 											<option value="THIRTYMMinuteLater" selected="selected">30分钟后好评</option>
 											<option value="ONE_DAY_LATER">1天后好评</option>
@@ -104,7 +105,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td align="right">指定好评内容</td>
-									<td><textarea name="goodComment" class="inputwidth"
+									<td><textarea name="goodComment" id="goodComment" class="inputwidth"
 								  style="width: 320px; height: 50px;" rows="4"></textarea></td>
 									<td>&nbsp;</td>
 							</tr>
@@ -118,11 +119,19 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td align="right">需要旺旺聊天</td>
-									<td><select class="inputwidth"   id="NEED_WANGWANG_TALK">
+									<td><select class="inputwidth"   id="NEED_WANGWANG_TALK" name="NEED_WANGWANG_TALK">
 											<option value="1">需要</option>
 											<option value="0" selected="selected">不需要</option> 
 									</select></td>
-									<td>奖励接手方0.5个发布点</td>
+									<td>奖励接手方<%=subTaskInfoMap.get("NEED_WANGWANG_TALK").getAmount() %>个发布点</td>
+							</tr>
+							<tr>
+									<td align="right">限制重复接任务</td>
+									<td><select class="inputwidth"   id="NO_REPEAT_TASK" name="NO_REPEAT_TASK">
+											<option value="1">需要</option>
+											<option value="0" selected="selected">不需要</option> 
+									</select></td>
+									<td>奖励接手方<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</td>
 							</tr>
 							<tr>
 									<td align="right">指定接手人</td>
@@ -133,7 +142,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 										</select>
 										<input class="easyui-textbox zengzhiinputwidth" type="text" id="ZHI_DING_JIE_SHOU_REN_input" style="width:190px;height:50px;line-height: 50px;"  placeholder="接手人ID"/> 
 									</td>
-									<td>支付平台0.5个发布点</td>
+									<td>支付平台<%=subTaskInfoMap.get("ZHI_DING_JIE_SHOU_REN").getAmount() %>个发布点</td>
 							</tr>
 							<tr>
 									<td align="right">指定收货地址</td>
@@ -144,10 +153,8 @@ table td{padding:5px; height:25px; font-size:14px;}
 									</select>
 											<input class="zengzhiinputwidth" type="text" id="ZHI_DING_SHOU_HUO_DI_ZHI_input" style="width:190px;height:50px;line-height: 50px;" placeholder="收货人地址"/> 
 											</td>
-									<td>奖励接手方0.5个发布点</td>
+									<td>奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</td>
 							</tr>
-							
-							
 						<tr>
 								<td align="right">批量发布</td>
 								<td><select class="inputwidth"   style="width:100px;" id="PI_LIANG_FA_BU">
@@ -156,7 +163,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 								</select>
 										<input class="zengzhiinputwidth" style="width:100px;height:50px;line-height: 50px;" id="PI_LIANG_FA_BU_input" type="number" min="1" placeholder="发布条数"/>
 										</td>
-								<td> 批量发布，上限50条,需要支付平台1个发布点 </td>
+								<td> 批量发布，上限50条,需要支付平台<%=subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount() %>个发布点 </td>
 						</tr>
 						<tr>
 							<td colspan="3" align="center">

@@ -12,7 +12,7 @@ import com.gxkj.taobaoservice.enums.SubTaskInfoStatus;
 @Repository
 public class SubTaskInfoDaoImpl extends BaseDAOImpl implements SubTaskInfoDao {
 
-	private String getAllEnableSubTaskInfoHql = "from SubTaskInfo where status=:status order by priority desc";
+	private String getAllEnableSubTaskInfoHql = "from SubTaskInfo where status=? order by priority desc";
 	
 	
 	public List<SubTaskInfo> getAllEnableSubTaskInfo() throws SQLException {

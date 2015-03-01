@@ -3,7 +3,6 @@ package com.gxkj.taobaoservice.entitys;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +11,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -20,28 +18,24 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.gxkj.taobaoservice.enums.TaskOrderStatus;
-
-/**
- * 创建任务订单 
- */
+import com.gxkj.taobaoservice.enums.TaskStatus;
 @Entity
-@Table(name="task_order")
-public class TaskOrder implements Serializable{
+@Table(name = "task_basic")
+public class TaskBasic implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3560729988994035043L;
+	private static final long serialVersionUID = 6074676928376368937L;
 	
 	@GenericGenerator(name = "generator", strategy = "increment")
 	@GeneratedValue(generator = "generator")
 	@Id
 	@Column(name = "id", unique = true, nullable = false) 
-	private Integer id;
+	private Integer  id;
 	
 	/**
-	 * 用户ID
+	 * 订单创建用户ID
 	 */
 	@Column(name="user_id" ) 
 	private Integer userId;
@@ -52,6 +46,13 @@ public class TaskOrder implements Serializable{
 	@NotNull(message="创建时间不能为空")
 	@Column(name="create_time" )
 	private  Date createTime;
+	
+	/**
+	 * 订单ID
+	 */
+	@NotNull(message="关联订单不允许为空")
+	@Column(name="task_order_id" )
+	private  Integer taskOrderId;
 	
 	/**
 	 * 任务发布人淘宝号
@@ -86,10 +87,8 @@ public class TaskOrder implements Serializable{
 	 *  每单担保金
 	 */
 	@Column(name="guarantee_price" )
-	@NotNull(message="担保金不能为空")
+	@NotNull(message="担保金不能为空") 
 	private BigDecimal guaranteePrice ;
-	
-	
 	/**
 	 *  每单完成基本任务，接手方受益金额
 	 */
@@ -97,13 +96,12 @@ public class TaskOrder implements Serializable{
 	@NotNull(message="佣金不能为空")
 	private BigDecimal basicReceiverGainMoney = BigDecimal.ZERO; 
 	
-	
 	/**
 	 *  每单奖励金额
 	 */
 	@Column(name="encourage" )
 	private BigDecimal encourage = BigDecimal.ZERO ;
-
+	
 	/**
 	 *  每单完成基本任务，平台受益点数
 	 */
@@ -111,23 +109,20 @@ public class TaskOrder implements Serializable{
 	@NotNull
 	@Min(value=0)
 	private  BigDecimal basicPingtaiGainPoint = BigDecimal.ZERO;
-	 
 	
 	/**
 	 * 订单状态
 	 */
 	@Column(name="status" )
 	@Enumerated(EnumType.STRING)
-	@NotNull(message="订单状态不能为空")
-	private TaskOrderStatus status = TaskOrderStatus.WAIT_FOR_SURE;
+	@NotNull(message="任务状态不能为空")
+	private TaskStatus status = TaskStatus.Wait_For_Receive;
 	
-	 
 	/**
 	 *  每单完成基本任务，接手方受益点数
 	 */
 	@Column(name="basic_receiver_gain_point" )
 	private  BigDecimal basicReceiverGainPoint = BigDecimal.ZERO;
-	
 	
 	/**
 	 *  每单完成增值任务，接手方受益点数
@@ -145,7 +140,6 @@ public class TaskOrder implements Serializable{
 	@Min(value=0)
 	private  BigDecimal zengzhiReceiverGainMoney = BigDecimal.ZERO;
 	
-	
 	/**
 	 * 每单完成增值任务，平台受益点数
 	 */
@@ -154,40 +148,17 @@ public class TaskOrder implements Serializable{
 	@Min(value=0)
 	private  BigDecimal zengzhiPingtaiGainPoints = BigDecimal.ZERO;
 	
-	 
 	/**
-	 * 重复次数
+	 * 接单人ID
 	 */
-	@Column(name="repeate_times" )
-	@NotNull
-	@Min(value=1)
-	private Integer repeateTimes = new Integer("1");
-	
+	@Column(name="receiver_id" ) 
+	private Integer receiverId;
 	
 	/**
-	 *任务
+	 * 接单时间
 	 */
-	@Transient
-	private List<SubTaskInfo> tasks;
-	
-	/**
-	 * 实际选中的任务
-	 */
-	@Transient
-	private List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos;
-	
-	/**
-	 * 合计支付金额
-	 */
-	@Transient
-	private BigDecimal countPayMoney;
-
-	/**
-	 * 合计支付点数
-	 */
-	@Transient
-	private BigDecimal countPayPoints;
-	
+	@Column(name="receiver_time" ) 
+	private Date receiverTime;
 
 	public Integer getId() {
 		return id;
@@ -213,6 +184,14 @@ public class TaskOrder implements Serializable{
 		this.createTime = createTime;
 	}
 
+	public Integer getTaskOrderId() {
+		return taskOrderId;
+	}
+
+	public void setTaskOrderId(Integer taskOrderId) {
+		this.taskOrderId = taskOrderId;
+	}
+
 	public String getTaobaoXiaohao() {
 		return taobaoXiaohao;
 	}
@@ -229,14 +208,6 @@ public class TaskOrder implements Serializable{
 		this.userQq = userQq;
 	}
 
-	public String getProductLink() {
-		return productLink;
-	}
-
-	public void setProductLink(String productLink) {
-		this.productLink = productLink;
-	}
-
 	public String getProductTitle() {
 		return productTitle;
 	}
@@ -245,7 +216,13 @@ public class TaskOrder implements Serializable{
 		this.productTitle = productTitle;
 	}
 
- 
+	public String getProductLink() {
+		return productLink;
+	}
+
+	public void setProductLink(String productLink) {
+		this.productLink = productLink;
+	}
 
 	public BigDecimal getGuaranteePrice() {
 		return guaranteePrice;
@@ -254,24 +231,21 @@ public class TaskOrder implements Serializable{
 	public void setGuaranteePrice(BigDecimal guaranteePrice) {
 		this.guaranteePrice = guaranteePrice;
 	}
- 
 
-	public TaskOrderStatus getStatus() {
-		return status;
+	public BigDecimal getBasicReceiverGainMoney() {
+		return basicReceiverGainMoney;
 	}
 
-	public void setStatus(TaskOrderStatus status) {
-		this.status = status;
+	public void setBasicReceiverGainMoney(BigDecimal basicReceiverGainMoney) {
+		this.basicReceiverGainMoney = basicReceiverGainMoney;
 	}
 
-	 
-
-	public BigDecimal getBasicReceiverGainPoint() {
-		return basicReceiverGainPoint;
+	public BigDecimal getEncourage() {
+		return encourage;
 	}
 
-	public void setBasicReceiverGainPoint(BigDecimal basicReceiverGainPoint) {
-		this.basicReceiverGainPoint = basicReceiverGainPoint;
+	public void setEncourage(BigDecimal encourage) {
+		this.encourage = encourage;
 	}
 
 	public BigDecimal getBasicPingtaiGainPoint() {
@@ -282,32 +256,21 @@ public class TaskOrder implements Serializable{
 		this.basicPingtaiGainPoint = basicPingtaiGainPoint;
 	}
 
-	public Integer getRepeateTimes() {
-		return repeateTimes;
+	public TaskStatus getStatus() {
+		return status;
 	}
 
-	public void setRepeateTimes(Integer repeateTimes) {
-		this.repeateTimes = repeateTimes;
+	public void setStatus(TaskStatus status) {
+		this.status = status;
 	}
 
-	
-
-	public BigDecimal getEncourage() {
-		return encourage;
+	public BigDecimal getBasicReceiverGainPoint() {
+		return basicReceiverGainPoint;
 	}
 
-	public void setEncourage(BigDecimal encourage) {
-		this.encourage = encourage;
+	public void setBasicReceiverGainPoint(BigDecimal basicReceiverGainPoint) {
+		this.basicReceiverGainPoint = basicReceiverGainPoint;
 	}
-
-	public BigDecimal getBasicReceiverGainMoney() {
-		return basicReceiverGainMoney;
-	}
-
-	public void setBasicReceiverGainMoney(BigDecimal basicReceiverGainMoney) {
-		this.basicReceiverGainMoney = basicReceiverGainMoney;
-	}
- 
 
 	public BigDecimal getZengzhiReceiverGainPoints() {
 		return zengzhiReceiverGainPoints;
@@ -333,39 +296,21 @@ public class TaskOrder implements Serializable{
 		this.zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints;
 	}
 
-	public List<SubTaskInfo> getTasks() {
-		return tasks;
+	public Integer getReceiverId() {
+		return receiverId;
 	}
 
-	public void setTasks(List<SubTaskInfo> tasks) {
-		this.tasks = tasks;
+	public void setReceiverId(Integer receiverId) {
+		this.receiverId = receiverId;
 	}
 
-	public BigDecimal getCountPayMoney() {
-		return countPayMoney;
+	public Date getReceiverTime() {
+		return receiverTime;
 	}
 
-	public void setCountPayMoney(BigDecimal countPayMoney) {
-		this.countPayMoney = countPayMoney;
+	public void setReceiverTime(Date receiverTime) {
+		this.receiverTime = receiverTime;
 	}
-
-	public BigDecimal getCountPayPoints() {
-		return countPayPoints;
-	}
-
-	public void setCountPayPoints(BigDecimal countPayPoints) {
-		this.countPayPoints = countPayPoints;
-	}
-
-	public List<TaskOrderSubTaskInfo> getTaskOrderSubTaskInfos() {
-		return taskOrderSubTaskInfos;
-	}
-
-	public void setTaskOrderSubTaskInfos(
-			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos) {
-		this.taskOrderSubTaskInfos = taskOrderSubTaskInfos;
-	}
-	
 	
 	
 

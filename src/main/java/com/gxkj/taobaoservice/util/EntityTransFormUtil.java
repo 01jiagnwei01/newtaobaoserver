@@ -19,8 +19,10 @@ public class EntityTransFormUtil {
 		entity.setAmount(source.getAmount());
 		entity.setBenefitPersion(source.getBenefitPersion());
 		entity.setBenefitType(source.getBenefitType());
-		entity.setKey(source.getKey());
+		entity.setTaskKey(source.getTaskKey());
 		entity.setType(source.getType());
+		
+		 
 		return entity;
 	}
 

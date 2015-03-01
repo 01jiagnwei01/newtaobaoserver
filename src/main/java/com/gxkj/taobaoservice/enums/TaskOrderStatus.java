@@ -2,7 +2,7 @@ package com.gxkj.taobaoservice.enums;
 
 public enum TaskOrderStatus {
 
-	WAIT_FOR_SURE("等待确认"),SURE("已确认");
+	WAIT_FOR_SURE("等待确认"),SURE("已确认"),CANCEL("已取消");
 	private String name; 
 	private TaskOrderStatus(String name ) {  
 		       this.name = name; 

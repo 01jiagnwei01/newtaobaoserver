@@ -2,12 +2,16 @@ package com.gxkj.taobaoservice.controllers.site;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gxkj.common.exceptions.BusinessException;
+import com.gxkj.common.util.ListPager;
 import com.gxkj.common.util.SessionUtil;
-import com.gxkj.taobaoservice.entitys.SubTaskInfo;
+import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.entitys.TaskOrder;
 import com.gxkj.taobaoservice.entitys.TaskOrderSubTaskInfo;
 import com.gxkj.taobaoservice.entitys.UserBase;
@@ -185,7 +192,7 @@ public class OrderController {
 			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = order.getTaskOrderSubTaskInfos();
 			if(CollectionUtils.isNotEmpty(taskOrderSubTaskInfos)){
 				for(TaskOrderSubTaskInfo item:taskOrderSubTaskInfos){
-					modelMap.put(item.getKey(), item);
+					modelMap.put(item.getTaskKey(), item);
 				}
 			}
 			String mv = "site/order/order_sure_page";
@@ -197,7 +204,105 @@ public class OrderController {
 			String mv = "site/order/order_create_page";
 			return mv;
 		}
-
-		
 	}
+	/**
+	 * 从订单确认页取消订单
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @return
+	 * @throws BusinessException 
+	 * @throws SQLException 
+	 */
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	public String order_cancel(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, BusinessException {
+		String mv = "site/order/order_create_page";
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		TaskOrder order  = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(),orderId);
+		return mv;
+	}
+	/**
+	 * 订单列表页异步取消订单
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @param orderId
+	 * @return
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	@RequestMapping(value = "/docancel", method = RequestMethod.POST)
+	@ResponseBody
+	public EntityReturnData docancel(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, BusinessException {
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		  taskOrderService.docancelTaskOrderByOrderIdAndUserId(userBase.getId(),orderId);
+		EntityReturnData ret = new EntityReturnData();
+		ret.setResult(true);
+		ret.setEntity(userBase);
+		return ret;	
+	}
+	/**
+	 * 订单列表页异步订单确认
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @param orderId
+	 * @return
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	@RequestMapping(value = "/doapply", method = RequestMethod.POST)
+	@ResponseBody
+	public EntityReturnData doapply(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, BusinessException {
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		  taskOrderService.doapplyTaskOrderByOrderIdAndUserId(userBase.getId(),orderId);
+		EntityReturnData ret = new EntityReturnData();
+		ret.setResult(true);
+		ret.setEntity(userBase);
+		return ret;	
+	}
+	
+	@RequestMapping(value="/mylist",method={RequestMethod.GET})
+	   public String doPage( HttpServletRequest request,
+				HttpServletResponse response,
+			@RequestParam(value="starttime",defaultValue="") String starttime,
+			@RequestParam(value="endtime",defaultValue="") String endtime, 
+			@RequestParam(value="pageno",defaultValue="0") int pageno,
+	   		@RequestParam(value="limit",defaultValue="20") int pagesize
+	   		,ModelMap modelMap) throws SQLException  {
+				 
+				Date startTime = null;
+				Date endTime = null;
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+				UserBase userBase = SessionUtil.getSiteUserInSession(request);
+				
+				try{
+					if(StringUtils.isNotBlank(starttime)){
+						starttime += " 00:00:00";
+						startTime = formatter.parse(starttime);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				try{
+					 
+					if(StringUtils.isNotBlank(endtime)){
+						endtime += " 23:59:59";
+						endTime = formatter.parse(endtime);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				ListPager paper = taskOrderService.doPage(userBase,pageno, pagesize, startTime, endTime);
+				modelMap.put("starttime", starttime);
+				modelMap.put("endtime", endtime);
+				modelMap.put("pageno", pageno);
+				modelMap.put("pagesize", pagesize);
+				modelMap.put("paper", paper);
+				String mv = "site/order/myorder_page";
+				return mv;	
+		}
 }

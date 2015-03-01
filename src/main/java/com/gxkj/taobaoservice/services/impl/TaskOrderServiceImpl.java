@@ -1,5 +1,7 @@
 package com.gxkj.taobaoservice.services.impl;
 
+import groovy.json.JsonOutput;
+
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,12 +10,16 @@ import java.util.List;
 
 import javax.validation.Validator;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
+import com.gxkj.common.util.ListPager;
 import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.daos.TaskOrderDao;
 import com.gxkj.taobaoservice.daos.TaskOrderSubTaskInfoDao;
@@ -33,6 +39,9 @@ import com.gxkj.taobaoservice.util.SystemDbData;
 @Service
 public class TaskOrderServiceImpl implements TaskOrderService {
 
+	private static final Log log = 
+			LogFactory.getLog(TaskOrderServiceImpl.class);
+	
 	@Autowired
 	private UserAccountDao userAccountDao;
 	
@@ -111,8 +120,10 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if(needZhiDingJieShouRen){
 			
 			if(jieShouRenId == null){
-				userId = 0;
-			}
+				jieShouRenId = 0;
+			} 
+			userId = jieShouRenId;
+			 
 			if(userId == 0){
 				throw new BusinessException(BusinessExceptionInfos.jieShouRenId_ERROR,"jieShouRenId");
 			}
@@ -307,13 +318,93 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 */
 		for(TaskOrderSubTaskInfo item : taskOrderSubTaskInfos){
 			 item.setTaskOrderId(order.getId());
-			 taskOrderSubTaskInfoDao.insert(item);
+			 log.info(JsonOutput.toJson(item));
+			taskOrderSubTaskInfoDao.insert(item);
 		}
 		order.setTasks(subTaskInfos);
 		order.setTaskOrderSubTaskInfos(taskOrderSubTaskInfos);
 		MoneyCalculateUtil.caculateOrderAccount(order);
 		
 		return order;
+	}
+ 
+	@SuppressWarnings("unchecked")
+	public ListPager doPage(UserBase userBase, int pageno, int pagesize,
+			Date startTime, Date endTime) throws SQLException {
+		 
+		ListPager pager = taskOrderDao.doPageForSite( userBase,  pageno,  pagesize,
+				 startTime,  endTime);
+		if(CollectionUtils.isNotEmpty(pager.getPageData())){
+			List <TaskOrder> taskOrders = ((List<TaskOrder>) pager.getPageData());
+			int length = taskOrders.size();
+			TaskOrder order = null;
+			for(int i=0;i<length;i++){
+				order = taskOrders.get(i);
+				List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = taskOrderSubTaskInfoDao.getSubTaskInfoByOrderId(order.getId());
+				order.setTaskOrderSubTaskInfos(taskOrderSubTaskInfos);
+			}
+		}
+		return pager;
+	}
+
+	/**
+	 * 根据订单ID和用户ID查询订单信息
+	 */
+	public TaskOrder getTaskOrderByOrderIdAndUserId(Integer userId, Integer orderId)
+			throws SQLException, BusinessException {
+		TaskOrder taskOrder =  (TaskOrder) taskOrderDao.selectById(orderId, TaskOrder.class);
+		if(taskOrder == null ){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"orderId");
+		}
+		if(taskOrder.getUserId() != userId){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userId");
+		}
+		//查询订单关联的增值任务和基本任务
+		List<TaskOrderSubTaskInfo>  taskOrderSubTaskInfos = taskOrderSubTaskInfoDao.getSubTaskInfoByOrderId(orderId);
+		taskOrder.setTaskOrderSubTaskInfos(taskOrderSubTaskInfos);
+		return taskOrder;
+	}
+
+	 /**
+	  * 前台取消订单
+	  */
+	public void docancelTaskOrderByOrderIdAndUserId(Integer userId,
+			Integer orderId) throws SQLException, BusinessException {
+		 
+		TaskOrder taskOrder =  (TaskOrder) taskOrderDao.selectById(orderId, TaskOrder.class);
+		if(taskOrder == null ){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"orderId");
+		}
+		if(taskOrder.getUserId() != userId){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userId");
+		}
+		if(taskOrder.getStatus() != TaskOrderStatus.WAIT_FOR_SURE){
+			throw new BusinessException(BusinessExceptionInfos.STATUS_NOT_WAIT,"status");
+		}
+		taskOrder.setStatus(TaskOrderStatus.CANCEL);
+		taskOrderDao.update(taskOrder);
+	}
+
+	/**
+	 * 前台确认订单
+	 */
+	public void doapplyTaskOrderByOrderIdAndUserId(Integer userId, Integer orderId)
+			throws SQLException, BusinessException {
+		TaskOrder taskOrder =  (TaskOrder) taskOrderDao.selectById(orderId, TaskOrder.class);
+		if(taskOrder == null ){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"orderId");
+		}
+		if(taskOrder.getUserId() != userId){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userId");
+		}
+		if(taskOrder.getStatus() != TaskOrderStatus.WAIT_FOR_SURE){
+			throw new BusinessException(BusinessExceptionInfos.STATUS_NOT_WAIT,"status");
+		}
+		/**
+		 * 创建任务
+		 */
+
+		
 	}
 	
 	

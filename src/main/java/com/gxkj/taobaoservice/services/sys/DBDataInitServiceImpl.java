@@ -25,7 +25,7 @@ public class DBDataInitServiceImpl {
 		List<SubTaskInfo>  subTaskInfos = subTaskInfoDao.getAllEnableSubTaskInfo();
 		if(CollectionUtils.isNotEmpty(subTaskInfos)){
 			for(SubTaskInfo item:subTaskInfos){
-				SystemDbData.subTaskInfoMap.put(item.getKey(), item);
+				SystemDbData.subTaskInfoMap.put(item.getTaskKey(), item);
 				if(item.getType() == SubTaskInfoTypes.BASIC){
 					/**
 					 * 基本业务

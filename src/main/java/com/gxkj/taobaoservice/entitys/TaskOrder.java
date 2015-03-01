@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -45,7 +44,6 @@ public class TaskOrder implements Serializable{
 	 * 用户ID
 	 */
 	@Column(name="user_id" ) 
-	@DecimalMin(value="100",message="userId最小值是1")
 	private Integer userId;
 	
 	/**
@@ -74,7 +72,6 @@ public class TaskOrder implements Serializable{
 	 */
 	@Column(name="product_title" )
 	@NotEmpty(message="商品标题不能为空")
-	@Length(min=5,max=100,  message="商品标题长度需要为5-100")
 	private String productTitle ;
 	
 	/**
@@ -99,14 +96,14 @@ public class TaskOrder implements Serializable{
 	 */
 	@Column(name="basic_receiver_gain_money" )
 	@NotNull(message="佣金不能为空")
-	private BigDecimal basicReceiverGainMoney; 
+	private BigDecimal basicReceiverGainMoney = BigDecimal.ZERO; 
 	
 	
 	/**
 	 *  每单奖励金额
 	 */
 	@Column(name="encourage" )
-	private BigDecimal encourage ;
+	private BigDecimal encourage = BigDecimal.ZERO ;
 
 	/**
 	 *  每单完成基本任务，平台受益点数

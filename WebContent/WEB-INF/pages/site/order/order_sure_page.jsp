@@ -41,7 +41,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 
 			 
 			<div style="width:910px; padding:0 10px; background-color:#FFF;" class="fr">
-				 	<form method="post" action="<%=request.getContextPath() %>/site/order/sure">
+				 	<form id="submitForm" method="post" action="<%=request.getContextPath() %>/site/order/sure">
 					<table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">
 							<tr  >
 									<td colspan="3"  align="center"><b>请确认您的订单</b></td>
@@ -130,7 +130,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							<tr>
 									<td align="right">需要旺旺聊天</td>
 									<td><c:choose>
-												<c:when test="${ NEED_WANGWANG_TALK == null }">不需要</c:when>
+												<c:when test="${empty NEED_WANGWANG_TALK }">不需要</c:when>
 												<c:otherwise>需要</c:otherwise> 
 											</c:choose></td>
 									<td>奖励接手方<%=subTaskInfoMap.get("NEED_WANGWANG_TALK").getAmount() %>个发布点</td>
@@ -138,72 +138,74 @@ table td{padding:5px; height:25px; font-size:14px;}
 							<tr>
 									<td align="right">限制重复接任务</td>
 									<td><c:choose>
-												<c:when test="${ NO_REPEAT_TASK == null }">不需要</c:when>
-												<<c:otherwise>需要</c:otherwise>
+												<c:when test="${empty NO_REPEAT_TASK  }">不需要</c:when>
+												<c:otherwise>需要</c:otherwise>
 											</c:choose></td>
 									<td>奖励接手方<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</td>
 							</tr>
 							<tr>
 									<td align="right">指定接手人</td>
 									<td><c:choose>
-												<c:when test="${ ZHI_DING_JIE_SHOU_REN == null  }">不需要</c:when>
-												<c:otherwise>需要</c:otherwise>
+												<c:when test="${ empty ZHI_DING_JIE_SHOU_REN   }">不需要</c:when>
+												<c:otherwise>需要 接手人ID：${ZHI_DING_JIE_SHOU_REN_ID }</c:otherwise>
 											</c:choose> 
-										<input class="easyui-textbox zengzhiinputwidth" type="text" name="ZHI_DING_JIE_SHOU_REN_ID" id="ZHI_DING_JIE_SHOU_REN_ID"   value="${ZHI_DING_JIE_SHOU_REN_ID }" style="width:190px;height:50px;line-height: 50px;"  placeholder="接手人ID"/> 
+										
 									</td>
 									<td>支付平台<%=subTaskInfoMap.get("ZHI_DING_JIE_SHOU_REN").getAmount() %>个发布点</td>
 							</tr>
+							
 							<tr>
 									<td align="right">指定收货地址</td>
-									<td><c:choose>
-												<c:when test="${ ZHI_DING_SHOU_HUO_DI_ZHI  == null  }">不需要</c:when>
-												<c:otherwise>需要</c:otherwise>
-											</c:choose>
-											<c:choose>
-												<c:when test="${empty ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS }">&nbsp;</c:when>
-												<c:otherwise>>&nbsp;${ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS }</c:otherwise>
+									<td>
+									<c:choose>
+												<c:when test="${ empty ZHI_DING_SHOU_HUO_DI_ZHI     }">不需要</c:when>
+												<c:otherwise>需要 &nbsp;${ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS} </c:otherwise>
 											</c:choose>
 									</td>
 									<td>奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</td>
 							</tr>
-						<tr>
-								<td align="right">批量发布</td>
-								<td>
-								<c:choose>
-												<c:when test="${ PI_LIANG_FA_BU == null }">不需要</c:when>
-												<<c:otherwise>需要 ${PI_LIANG_FA_BU_input }条</c:otherwise>
-											</c:choose> 
-										</td>
-								<td>  </td>
-						</tr>
-						<tr>
-								<td align="right">统计</td>
-								<td align="center">
-									需要金额：${order.countPayMoney}，需要发布点：${order.countPayPoints}
+							
+							 <tr>
+									<td align="right">批量发布</td>
+									<td><c:choose>
+												<c:when test="${ empty PI_LIANG_FA_BU     }">不需要</c:when>
+												<c:otherwise>需要 ${PI_LIANG_FA_BU_input }条 </c:otherwise>
+											</c:choose>
+									</td>
+									<td>批量发布，上限50条,需要支付平台<%=subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount() %>个发布点</td>
+							</tr>
+							<tr>
+									<td align="right">统计</td>
+									<td align="center">
+										需要金额：${order.countPayMoney}，需要发布点：${order.countPayPoints}
+									</td>
+									 
+							</tr>
+							 
+							<tr>
+								<td colspan="3" align="center">
+									<button class="btn btn-lg btn-success" type="submit">确认订单</button>
+									<button class="btn btn-default" type="button" onclick="cancleBtn(this)">取消订单</button>
 								</td>
-								 
-						</tr>
-						<tr>
-							<td colspan="3" align="center">
-								<button class="btn btn-lg btn-success" type="submit">确认提交</button>
-							</td>
-						</tr>
+							</tr>
 					</table>
 					 </form>
 			</div>
 
 		</div>
 		<div style="clear:both;"></div>
-
 	</div>
-
 	<div style="clear:both;"></div>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript">
-
 	$(function(){ 
 	})
+	function cancleBtn(btn){
+		$(btn).attr("disabled",true); 
+		var path = "<%=request.getContextPath() %>/site/order/cancel";
+		 $('#submitForm').attr("action", path).submit();;
+	}
 </script>
 
 </html> 

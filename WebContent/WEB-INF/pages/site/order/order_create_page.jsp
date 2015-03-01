@@ -9,7 +9,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新建任务 </title>
 <jsp:include page="../common/css.jsp"></jsp:include>
-<jsp:include page="../common/bookstrap.jsp"></jsp:include> 
+<jsp:include page="../common/bookstrap.jsp"></jsp:include>
+<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/appjs/appjs.js"></script>
 <style type="text/css">
 .cbc:hover{background-color:#D3D3D3;}
 table td{padding:5px; height:25px; font-size:14px;}
@@ -75,7 +76,7 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 							
 							<tr>
 									<td align="right">担保价格</td>
-									<td><input type="number" class="inputwidth"  value="${guaranteePrice}"  id="guaranteePrice" name="guaranteePrice" placeholder="担保价格" min="0"/></td>
+									<td><input type="number" class="inputwidth"  value="${guaranteePrice}"  id="guaranteePrice" name="guaranteePrice" placeholder="担保价格" min="0" onkeyup="caculateFn()"/></td>
 									<td>担保价格 = 你淘宝的宝贝价格(或改价后价格) + 邮费的总价 <a href="<%=request.getContextPath() %>/site/money/chongzhi" target="_blank"  class="easyui-linkbutton"  >我要充值</a></td>
 							</tr>
 							<tr>
@@ -139,7 +140,7 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 											<option value="0" <c:if test="${NO_REPEAT_TASK eq '0' }">selected="selected"</c:if>>不需要</option>
 											<option value="1" <c:if test="${NO_REPEAT_TASK eq '1' }">selected="selected"</c:if> >需要</option> 
 									</select></td>
-									<td>奖励接手方<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</td>
+									<td>支付平台<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</td>
 							</tr>
 							<tr>
 									<td align="right">指定接手人</td>

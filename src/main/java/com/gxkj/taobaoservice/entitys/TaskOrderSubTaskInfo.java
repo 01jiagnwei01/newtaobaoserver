@@ -48,8 +48,8 @@ public class TaskOrderSubTaskInfo implements Serializable{
 		/**
 		 * 关键字标识
 		 */
-		@Column(name = "key", unique = true, nullable = false,length=30) 
-		private String key;
+		@Column(name = "task_key", unique = true, nullable = false,length=30) 
+		private String taskKey;
 		
 		/**
 		 * 子任务类型：基本 or 增值
@@ -95,13 +95,7 @@ public class TaskOrderSubTaskInfo implements Serializable{
 			this.id = id;
 		}
 
-		public String getKey() {
-			return key;
-		}
-
-		public void setKey(String key) {
-			this.key = key;
-		}
+		 
 
 		public SubTaskInfoTypes getType() {
 			return type;
@@ -151,8 +145,13 @@ public class TaskOrderSubTaskInfo implements Serializable{
 			this.inputValue = inputValue;
 		}
 
-	 
-		
-		
+		public String getTaskKey() {
+			return taskKey;
+		}
+
+		public void setTaskKey(String taskKey) {
+			this.taskKey = taskKey;
+		}
+ 
 	
 }

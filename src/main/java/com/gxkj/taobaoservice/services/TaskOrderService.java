@@ -2,9 +2,10 @@ package com.gxkj.taobaoservice.services;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.Date;
 
 import com.gxkj.common.exceptions.BusinessException;
-import com.gxkj.taobaoservice.dto.EntityReturnData;
+import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.entitys.TaskOrder;
 import com.gxkj.taobaoservice.entitys.UserBase;
 
@@ -37,5 +38,46 @@ public interface TaskOrderService {
 			String goodCommentContent,boolean needWangWangTalk,boolean  noRepeatTalk,boolean needZhiDingJieShouRen,Integer jieShouRenId,
 			boolean needZhiDingSouHuoDiZhi ,String shouHuoDiZhi,Integer piLiangFabuCount
 			) throws SQLException,BusinessException;
+
+	/**
+	 * 分页查看用户发布的订单
+	 * @param userBase
+	 * @param pageno
+	 * @param pagesize
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 * @throws SQLException
+	 */
+	public ListPager doPage(UserBase userBase, int pageno, int pagesize,
+			Date startTime, Date endTime)throws SQLException;
+
+	/**
+	 * 根据订单id和用户id查询订单信息
+	 * @param userId
+	 * @param orderId
+	 * @return
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	public TaskOrder getTaskOrderByOrderIdAndUserId(Integer userId, Integer orderId)throws SQLException,BusinessException;
+
+	/**
+	 * 取消订单，
+	 * @param userId
+	 * @param orderId
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	public void docancelTaskOrderByOrderIdAndUserId(Integer userId, Integer orderId)throws SQLException,BusinessException;
+
+	/**
+	 * 确认订单
+	 * @param userId
+	 * @param orderId
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	public void doapplyTaskOrderByOrderIdAndUserId(Integer userId, Integer orderId)throws SQLException,BusinessException;
 
 }

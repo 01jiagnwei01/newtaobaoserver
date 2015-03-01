@@ -21,6 +21,8 @@ import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.common.util.SystemGlobals;
+import com.gxkj.taobaoservice.daos.TaskBasicDao;
+import com.gxkj.taobaoservice.daos.TaskBasicLogDao;
 import com.gxkj.taobaoservice.daos.TaskOrderDao;
 import com.gxkj.taobaoservice.daos.TaskOrderSubTaskInfoDao;
 import com.gxkj.taobaoservice.daos.UserAccountDao;
@@ -55,6 +57,12 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 	
 	@Autowired
 	private TaskOrderSubTaskInfoDao taskOrderSubTaskInfoDao;
+	
+	@Autowired
+	private TaskBasicDao taskBasicDao;
+	
+	@Autowired
+	private TaskBasicLogDao taskBasicLogDao;
 	
 	/**
 	 * 创建任务订单
@@ -403,6 +411,8 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		/**
 		 * 创建任务
 		 */
+		
+		//TaskBasic
 		
 
 		

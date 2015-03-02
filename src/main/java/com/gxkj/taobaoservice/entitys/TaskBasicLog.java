@@ -111,4 +111,20 @@ public class TaskBasicLog implements Serializable {
 		this.createTime = createTime;
 	}
 
+	public TaskBasicLog(Integer taskBasicId, Integer userId,
+			TaskBasicLogUserType userType, TaskStatus status, Date createTime) {
+		super();
+		this.taskBasicId = taskBasicId;
+		this.userId = userId;
+		this.userType = userType;
+		this.status = status;
+		this.createTime = createTime;
+	}
+
+	public TaskBasicLog() {
+		super();
+	}
+	
+	
+
 }

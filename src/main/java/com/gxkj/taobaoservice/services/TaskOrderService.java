@@ -78,6 +78,6 @@ public interface TaskOrderService {
 	 * @throws SQLException
 	 * @throws BusinessException
 	 */
-	public void doapplyTaskOrderByOrderIdAndUserId(Integer userId, Integer orderId)throws SQLException,BusinessException;
+	public void doapplyTaskOrderByOrderIdAndUserId(UserBase userBase, Integer orderId)throws SQLException,BusinessException;
 
 }

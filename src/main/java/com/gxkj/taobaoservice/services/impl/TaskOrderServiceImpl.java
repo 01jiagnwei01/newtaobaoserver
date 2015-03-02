@@ -28,13 +28,19 @@ import com.gxkj.taobaoservice.daos.TaskOrderSubTaskInfoDao;
 import com.gxkj.taobaoservice.daos.UserAccountDao;
 import com.gxkj.taobaoservice.daos.UserBaseDao;
 import com.gxkj.taobaoservice.entitys.SubTaskInfo;
+import com.gxkj.taobaoservice.entitys.TaskBasic;
+import com.gxkj.taobaoservice.entitys.TaskBasicLog;
 import com.gxkj.taobaoservice.entitys.TaskOrder;
 import com.gxkj.taobaoservice.entitys.TaskOrderSubTaskInfo;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.SubTaskInfoBenefitPerson;
 import com.gxkj.taobaoservice.enums.SubTaskInfoBenefitTypes;
+import com.gxkj.taobaoservice.enums.TaskBasicLogUserType;
 import com.gxkj.taobaoservice.enums.TaskOrderStatus;
+import com.gxkj.taobaoservice.enums.TaskStatus;
+import com.gxkj.taobaoservice.enums.UserAccountTypes;
 import com.gxkj.taobaoservice.services.TaskOrderService;
+import com.gxkj.taobaoservice.services.UserAccountService;
 import com.gxkj.taobaoservice.util.EntityTransFormUtil;
 import com.gxkj.taobaoservice.util.MoneyCalculateUtil;
 import com.gxkj.taobaoservice.util.SystemDbData;
@@ -63,6 +69,9 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 	
 	@Autowired
 	private TaskBasicLogDao taskBasicLogDao;
+	
+	@Autowired
+	private UserAccountService tserAccountService;
 	
 	/**
 	 * 创建任务订单
@@ -396,13 +405,13 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 	/**
 	 * 前台确认订单
 	 */
-	public void doapplyTaskOrderByOrderIdAndUserId(Integer userId, Integer orderId)
+	public void doapplyTaskOrderByOrderIdAndUserId(UserBase userBase, Integer orderId)
 			throws SQLException, BusinessException {
 		TaskOrder taskOrder =  (TaskOrder) taskOrderDao.selectById(orderId, TaskOrder.class);
 		if(taskOrder == null ){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"orderId");
 		}
-		if(taskOrder.getUserId() != userId){
+		if(taskOrder.getUserId() != userBase.getId()){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userId");
 		}
 		if(taskOrder.getStatus() != TaskOrderStatus.WAIT_FOR_SURE){
@@ -412,10 +421,75 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 * 创建任务
 		 */
 		
-		//TaskBasic
+		TaskBasic taskBasic = new TaskBasic();
+		/**
+		 * 平台受益点数
+		 */
+		taskBasic.setBasicPingtaiGainPoint(taskOrder.getBasicPingtaiGainPoint());
+		/**
+		 * 接手人佣金金额
+		 */
+		taskBasic.setBasicReceiverGainMoney(taskOrder.getBasicReceiverGainMoney());
+		/**
+		 * 接手人受益点数
+		 */
+		taskBasic.setBasicReceiverGainPoint(taskOrder.getBasicReceiverGainPoint());
 		
-
+		Date now = new Date();
+		taskBasic.setCreateTime(now);
 		
+		taskBasic.setEncourage(taskOrder.getEncourage());
+		/**
+		 * 担保金
+		 */
+		taskBasic.setGuaranteePrice(taskOrder.getGuaranteePrice());
+		
+		taskBasic.setProductLink(taskOrder.getProductLink());
+		taskBasic.setProductTitle(taskOrder.getProductTitle());
+		taskBasic.setStatus(TaskStatus.Wait_For_Receive);
+		taskBasic.setTaobaoXiaohao(taskOrder.getTaobaoXiaohao());
+		taskBasic.setTaskOrderId(taskOrder.getId());
+		taskBasic.setUserId( userBase.getId());
+		taskBasic.setUserQq(taskOrder.getUserQq());
+		taskBasic.setZengzhiPingtaiGainPoints(taskOrder.getZengzhiPingtaiGainPoints());
+		
+		/**
+		 * 判断是否重复，重复次数
+		 */
+		Integer repeatTime =  taskOrder.getRepeateTimes();
+		
+		/**
+		 * 确认订单
+		 */
+		taskOrder.setStatus(TaskOrderStatus.SURE);
+		taskOrderDao.update(taskOrder);
+		
+		 
+		/**
+		 * 记录资金变化,把资金判断放在前面,避免了重复创建订单时IO操作
+		 */
+		MoneyCalculateUtil.caculateOrderAccount(taskOrder);
+		tserAccountService.updateUserAccount(userBase, taskOrder.getCountPayMoney(), taskOrder.getCountPayPoints(),
+				UserAccountTypes.Task_Order_SURE, taskOrder.getId(), null);
+		
+		if(repeatTime!=null && repeatTime.intValue()>1){
+			for(int i=0;i<repeatTime.intValue();i++){
+				taskBasicDao.insert(taskBasic);
+				
+				TaskBasicLog taskBasicLog = new TaskBasicLog(taskBasic.getId(),userBase.getId(),TaskBasicLogUserType.CREATER,TaskStatus.Wait_For_Receive,now);
+				taskBasicLogDao.insert(taskBasicLog);
+			}
+			
+		}else {
+			taskBasicDao.insert(taskBasic);
+			
+			TaskBasicLog taskBasicLog = new TaskBasicLog(taskBasic.getId(),userBase.getId(),TaskBasicLogUserType.CREATER,TaskStatus.Wait_For_Receive,now);
+			 
+			taskBasicLogDao.insert(taskBasicLog);
+		} 
+		
+		
+		 
 	}
 	
 	

@@ -193,6 +193,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterPoints = currentPoints.add(points);
 				
 				break;
+			case Task_Order_SURE:
+				/**
+				 * 订单确认
+				 */
+				break;
 				
 			
 		

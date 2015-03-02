@@ -95,7 +95,7 @@ public class TiXianServiceImpl implements TiXianService {
 		applyDrawDao.insert(applyDrawLog);
 		
 		
-		userAccountService.updateUserAccount(userBase, amount, null, UserAccountTypes.WITHDRAW_APPLY, applyDrawLog.getId(),null);
+		userAccountService.updateUserAccount(userBase, amount, BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO  , UserAccountTypes.WITHDRAW_APPLY, applyDrawLog.getId(),null);
 		 
 		return userBase;
 		 

@@ -466,13 +466,32 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		
 		 
 		/**
-		 * 记录资金变化,把资金判断放在前面,避免了重复创建订单时IO操作
+		 * 计算需要支付的费用，需要绑定的费用
+		 * 需要支付的点数，需要绑定的点数
 		 */
 		MoneyCalculateUtil.caculateOrderAccount(taskOrder);
-		tserAccountService.updateUserAccount(userBase, taskOrder.getCountPayMoney(), taskOrder.getCountPayPoints(),
-				UserAccountTypes.Task_Order_SURE, taskOrder.getId(), null);
+		BigDecimal lockMoney = (taskOrder.getGuaranteePrice()
+				.add(taskOrder.getBasicReceiverGainMoney())
+				.add(taskOrder.getEncourage())
+				.add(taskOrder.getZengzhiReceiverGainMoney()))
+				.multiply(new BigDecimal(taskOrder.getRepeateTimes()));
+		
+		BigDecimal payPoint = taskOrder.getBasicPingtaiGainPoint();
+		
+		BigDecimal lockPoint = (taskOrder.getBasicReceiverGainPoint()
+				.add(taskOrder.getZengzhiPingtaiGainPoints())
+				.add(taskOrder.getZengzhiReceiverGainPoints()))
+				.multiply(new BigDecimal(taskOrder.getRepeateTimes()));
+		
+		
+		
 		
 		if(repeatTime!=null && repeatTime.intValue()>1){
+			/**
+			 * 重复任务需要支付的平台费用
+			 */
+			payPoint = payPoint.add(SystemDbData.subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount());
+			
 			for(int i=0;i<repeatTime.intValue();i++){
 				taskBasicDao.insert(taskBasic);
 				
@@ -487,6 +506,8 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			 
 			taskBasicLogDao.insert(taskBasicLog);
 		} 
+		tserAccountService.updateUserAccount(userBase, taskOrder.getCountPayMoney(),lockMoney,payPoint,lockPoint,
+				UserAccountTypes.Task_Order_SURE, taskOrder.getId(), null);
 		
 		
 		 

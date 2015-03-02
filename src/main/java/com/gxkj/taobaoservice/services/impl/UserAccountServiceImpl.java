@@ -31,8 +31,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 	@Autowired
 	private UserAccountLogDao userAccountLogDao;
 	 
-	public boolean updateUserAccount(UserBase userBase, BigDecimal amount,
-			BigDecimal points, UserAccountTypes operateType, Integer refTableId,Integer adminUserId) throws BusinessException, SQLException {
+	public boolean updateUserAccount(UserBase userBase, BigDecimal payamount,BigDecimal lockAmount,
+			BigDecimal payPoints,BigDecimal lockPoints, UserAccountTypes operateType, Integer refTableId,Integer adminUserId) throws BusinessException, SQLException {
 	 
 		if(userBase == null){
 			log.info(String.format("参数错误,userBase=null"));
@@ -42,6 +42,25 @@ public class UserAccountServiceImpl implements UserAccountService {
 			log.info(String.format("参数错误,userBase.getId()=%d",userBase.getId()));
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userBase");
 		}
+		if(payamount.compareTo(BigDecimal.ZERO)<0){
+			log.info(String.format("参数错误,payamount需要是正数,payamount=%d",payamount));
+			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"payamount");
+		}
+		if(lockAmount.compareTo(BigDecimal.ZERO)<0){
+			log.info(String.format("参数错误,lockAmount需要是正数,lockAmount=%d",payamount));
+			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"lockAmount");
+		}
+		
+		if(payPoints.compareTo(BigDecimal.ZERO)<0){
+			log.info(String.format("参数错误,payPoints需要是正数,payPoints=%d",payPoints));
+			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"payamount");
+		}
+		if(lockPoints.compareTo(BigDecimal.ZERO)<0){
+			log.info(String.format("参数错误,lockPoints需要是正数,lockPoints=%d",payamount));
+			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"lockPoints");
+		}
+		
+		
 		if(operateType == null){
 			log.info(String.format("操作方式为空,operateType = null"));
 			throw new BusinessException(BusinessExceptionInfos.UserAccountTypes_IS_NULL,"operateType");
@@ -88,8 +107,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 充值成功,
 				 */
-				if(amount.compareTo(BigDecimal.ZERO)<=0){
-					log.info(String.format("参数错误,amount需要是正数,amount=%d",amount));
+				if(payamount.compareTo(BigDecimal.ZERO)<=0){
+					log.info(String.format("参数错误,amount需要是正数,amount=%d",payamount));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
 				}
 				if(refTableId == null || refTableId.intValue()<=0){
@@ -99,7 +118,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 账户金额增加，其他不变
 				 */
-				afterAmount = currentBalance.add(amount);
+				afterAmount = currentBalance.add(payamount);
 				
 				//关联充值表
 				userAccountLog.setDepositApplyLogId(refTableId);
@@ -109,30 +128,30 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 取款申请,
 				 */
-				if(amount.compareTo(BigDecimal.ZERO)<=0){
-					log.info(String.format("参数错误,amount需要是正数,amount=%d",amount));
+				if(payamount.compareTo(BigDecimal.ZERO)<=0){
+					log.info(String.format("参数错误,amount需要是正数,amount=%d",payamount));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
 				}
 				if(refTableId == null || refTableId.intValue()<=0){
 					log.info(String.format("参数错误,关联取款申请记录表ID需要是正数,refTableId=%d",refTableId));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
 				}
-				if(currentBalance.compareTo(amount)<0){
-					log.info(String.format("余额不足，取款金额是：%d,当前余额是:%d",amount.doubleValue(),currentBalance.doubleValue()));
+				if(currentBalance.compareTo(payamount)<0){
+					log.info(String.format("余额不足，取款金额是：%d,当前余额是:%d",payamount.doubleValue(),currentBalance.doubleValue()));
 					 throw new BusinessException(BusinessExceptionInfos.AMOUNT_MONEY_NOT_ENOUGH,"amount");
 				}
 				/**
 				 * 锁定金额增加，可用余额减少
 				 */
-				afterAmount = currentBalance.subtract(amount);
-				afterLockedAmount = currentLockedBalance.add(amount);
+				afterAmount = currentBalance.subtract(payamount);
+				afterLockedAmount = currentLockedBalance.add(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
 				break;
 			case WITHDRAW_FAILURE:
 				//取款申请失败
-				if(amount.compareTo(BigDecimal.ZERO)<=0){
-					log.info(String.format("参数错误,amount需要是正数,amount=%d",amount));
+				if(payamount.compareTo(BigDecimal.ZERO)<=0){
+					log.info(String.format("参数错误,amount需要是正数,amount=%d",payamount));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
 				}
 				if(refTableId == null || refTableId.intValue()<=0){
@@ -145,18 +164,18 @@ public class UserAccountServiceImpl implements UserAccountService {
 				 * 可用余额增加,锁定金额减少
 				 *
 				 */
-				afterAmount = currentBalance.add(amount);
-				afterLockedAmount = currentLockedBalance.subtract(amount);
+				afterAmount = currentBalance.add(payamount);
+				afterLockedAmount = currentLockedBalance.subtract(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
 				break;
 			case WITHDRAW_SUCCESS:
 				//取款成功
-				if(amount.compareTo(BigDecimal.ZERO)<=0){
-					log.info(String.format("参数错误,amount需要是正数,amount=%d",amount));
+				if(payamount.compareTo(BigDecimal.ZERO)==0){
+					log.info(String.format("参数错误,amount需要是正数,amount=%d",payamount));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
 				}
-				if(refTableId == null || refTableId.intValue()<=0){
+				if(refTableId == null || refTableId.intValue()==0){
 					log.info(String.format("参数错误,关联取款申请记录表ID需要是正数,refTableId=%d",refTableId));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
 				}
@@ -166,7 +185,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				 * 锁定金额减少，其他不变
 				 *
 				 */
-				afterLockedAmount = currentLockedBalance.subtract(amount);
+				afterLockedAmount = currentLockedBalance.subtract(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
 				break;
@@ -174,29 +193,63 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 买点卡
 				 */
-				if(amount.compareTo(BigDecimal.ZERO)<=0){
-					log.info(String.format("参数错误,amount需要是正数,amount=%d",amount));
+				if(payamount.compareTo(BigDecimal.ZERO)<=0){
+					log.info(String.format("参数错误,amount需要是正数,amount=%d",payamount));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
 				}
-				if(points.compareTo(BigDecimal.ZERO)<=0){
-					log.info(String.format("参数错误,points需要是正数,points=%d",points));
+				if(payPoints.compareTo(BigDecimal.ZERO)<=0){
+					log.info(String.format("参数错误,points需要是正数,points=%d",payPoints));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
 				}
-				if(currentBalance.compareTo(amount)<0){
-					log.info(String.format("余额不足，取款金额是：%d,当前余额是:%d",amount.doubleValue(),currentBalance.doubleValue()));
+				if(currentBalance.compareTo(payamount)<0){
+					log.info(String.format("余额不足，取款金额是：%d,当前余额是:%d",payamount.doubleValue(),currentBalance.doubleValue()));
 					 throw new BusinessException(BusinessExceptionInfos.AMOUNT_MONEY_NOT_ENOUGH,"amount");
 				}
 				/**
 				 * 可用金额减少,可用点数增加
 				 */
-				afterAmount = currentBalance.subtract(amount);
-				afterPoints = currentPoints.add(points);
+				afterAmount = currentBalance.subtract(payamount);
+				afterPoints = currentPoints.add(payPoints);
 				
 				break;
 			case Task_Order_SURE:
 				/**
-				 * 订单确认
+				 * 订单确认 
 				 */
+				 
+				if(lockAmount.compareTo(BigDecimal.ZERO)<0 ){
+					log.info(String.format("参数错误,lockAmount需要是正数,lockAmount=%d",lockAmount));
+					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"lockAmount");
+				}
+				 
+				if(payPoints!=null && payPoints.compareTo(BigDecimal.ZERO)<0){
+					log.info(String.format("参数错误,points需要是正数,payPoints=%d",payPoints));
+					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
+				}
+				if( currentPoints.compareTo(lockPoints)<0){
+					log.info(String.format("可用点数不足，当前可用点数是：%d,需要绑定点数:%d",currentPoints.doubleValue(),lockPoints.doubleValue()));
+					 throw new BusinessException(BusinessExceptionInfos.AMOUNT_MONEY_NOT_ENOUGH,"amount");
+				}
+				if(refTableId == null || refTableId.intValue()==0){
+					log.info(String.format("参数错误,关联取款申请记录表ID需要是正数,refTableId=%d",refTableId));
+					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
+				}
+				// 关联订单表
+				userAccountLog.setDrawLogId(refTableId);
+				
+				if(lockAmount != null){
+					//可用金额减少，绑定金额增加
+					afterAmount = currentBalance.subtract(lockAmount);
+					afterLockedAmount = afterLockedAmount.add(lockAmount);
+				}
+				if( lockPoints != null){
+					//可用点数减少，绑定点数增加
+					afterLockedPoints = afterLockedPoints.add(lockPoints);
+					afterPoints = afterPoints.subtract(lockPoints);
+				}
+				//可用点数减少
+				afterPoints = afterPoints.subtract(payPoints);
+				
 				break;
 				
 			
@@ -206,7 +259,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				&&  operateType != UserAccountTypes.WITHDRAW_APPLY 
 				&&  operateType != UserAccountTypes.WITHDRAW_FAILURE 
 				&&  operateType != UserAccountTypes.WITHDRAW_SUCCESS
-				&&  operateType != UserAccountTypes.BUY_POINTS){
+				&&  operateType != UserAccountTypes.BUY_POINTS
+				&&  operateType != UserAccountTypes.Task_Order_SURE){
 			/**
 			 * 标识出支持的
 			 */
@@ -216,21 +270,24 @@ public class UserAccountServiceImpl implements UserAccountService {
 		 * 操作后验证
 		 */
 		if(afterAmount.compareTo(BigDecimal.ZERO)<0){
-			log.error(String.format("参数错误,可用金额不能为负数,操作金额为amount=%ld，操作前金额为：%ld",amount.doubleValue(),currentBalance.doubleValue()));
+			log.error(String.format("参数错误,可用金额不能为负数,操作支付金额为payamount=%ld,锁定金额是lockAmount=%ld，操作前金额为：%ld",payamount.doubleValue(),
+					lockAmount.doubleValue(),currentBalance.doubleValue()));
 			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
 		}
 		if(afterPoints.compareTo(BigDecimal.ZERO)<0){
-			log.error(String.format("参数错误,可用点数不能为负数,操作点数为points=%ld，操作前点数为：%ld",points.doubleValue(),currentPoints.doubleValue()));
+			log.error(String.format("参数错误,可用点数不能为负数,操作点数为payPoints=%ld，锁定点数为lockPoints=%ld，操作前点数为：%ld",payPoints.doubleValue(),lockPoints.doubleValue(),
+					currentPoints.doubleValue()));
 			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
 		}
 		
 		if(afterLockedAmount.compareTo(BigDecimal.ZERO)<0){
-			log.error(String.format("参数错误,锁定金额不能为负数,操作金额=%ld，操作前锁定金额为：%ld",amount.doubleValue(),currentLockedBalance.doubleValue()));
+			log.error(String.format("参数错误,锁定金额不能为负数,操作支付金额为payamount=%ld,锁定金额是lockAmount=%ld，操作前锁定金额为：%ld",payamount.doubleValue(),
+					lockAmount.doubleValue(),currentLockedBalance.doubleValue()));
 			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
 		}
 		
 		if(afterLockedPoints.compareTo(BigDecimal.ZERO)<0){
-			log.error(String.format("参数错误,锁定点数不能为负数,操作点数为points=%ld，操作前锁定点数为：%ld",points.doubleValue(),currentLockedPoints.doubleValue()));
+			log.error(String.format("参数错误,可用点数不能为负数,操作点数为payPoints=%ld，锁定点数为lockPoints=%ld，操作前锁定点数为：%ld",payPoints.doubleValue(),lockPoints.doubleValue(),currentLockedPoints.doubleValue()));
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
 		}
 		uerAccount.setCurrentBalance(afterAmount);
@@ -240,7 +297,9 @@ public class UserAccountServiceImpl implements UserAccountService {
 		userAccountDao.update(uerAccount);
 		
 		//操作金额
-		userAccountLog.setAmount(amount);
+		userAccountLog.setAmount(payamount.add(lockAmount));
+		userAccountLog.setPoints(payPoints.add(lockPoints));
+		
 		//操作后可用金额
 		userAccountLog.setAfterRestAmount(afterAmount);
 		//操作后锁定金额

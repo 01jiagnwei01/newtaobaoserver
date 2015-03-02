@@ -51,7 +51,7 @@ public class PointCardServiceImpl implements PointCardService {
 		BigDecimal points = pointCard.getPoints();
 		BigDecimal amount = pointCard.getMoney();
 		
-		userAccountService.updateUserAccount(userBase, amount, points, UserAccountTypes.BUY_POINTS, null, null);
+		userAccountService.updateUserAccount(userBase, amount, BigDecimal.ZERO,points,BigDecimal.ZERO,   UserAccountTypes.BUY_POINTS, null, null);
 		
 		
 	}

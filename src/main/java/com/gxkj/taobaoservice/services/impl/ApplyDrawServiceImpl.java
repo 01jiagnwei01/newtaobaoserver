@@ -70,7 +70,7 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		 * 将钱回退到用户账户并记录日志
 		 */
 		UserBase userBase = (UserBase) userBaseDao.selectById(apply.getUserId(), UserBase.class);
-		userAccountService.updateUserAccount(userBase, apply.getAmount(), null, UserAccountTypes.WITHDRAW_FAILURE, apply.getId(), adminUser.getId());
+		userAccountService.updateUserAccount(userBase, apply.getAmount(), BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO, UserAccountTypes.WITHDRAW_FAILURE, apply.getId(), adminUser.getId());
 		 
 		return apply;
 	}
@@ -124,7 +124,7 @@ public class ApplyDrawServiceImpl implements ApplyDrawService {
 		 *  用户账户扣除资金 
 		 */
 		UserBase userBase = (UserBase) userBaseDao.selectById(apply.getUserId(), UserBase.class);
-		userAccountService.updateUserAccount(userBase, apply.getAmount(), null, UserAccountTypes.WITHDRAW_SUCCESS, apply.getId(), adminUser.getId());
+		userAccountService.updateUserAccount(userBase, apply.getAmount(),  BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,  UserAccountTypes.WITHDRAW_SUCCESS, apply.getId(), adminUser.getId());
  		return apply;
 		
 		

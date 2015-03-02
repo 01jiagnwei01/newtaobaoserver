@@ -93,7 +93,7 @@ public class DepositApplyServiceImpl implements DepositApplyService {
 		 * 充值资金到用户账户
 		 */
  		UserBase userBase = (UserBase) userBaseDao.selectById(apply.getUserId(), UserBase.class);
- 		userAccountService.updateUserAccount(userBase, apply.getAmount(), null, UserAccountTypes.DEPOSIT, apply.getId(), adminUser.getId());
+ 		userAccountService.updateUserAccount(userBase, apply.getAmount(),   BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,  UserAccountTypes.DEPOSIT, apply.getId(), adminUser.getId());
  		return apply;
 		
 		

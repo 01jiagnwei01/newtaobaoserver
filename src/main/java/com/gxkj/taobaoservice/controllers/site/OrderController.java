@@ -51,7 +51,14 @@ public class OrderController {
 		String mv = "site/order/order_create_page";
 		return mv;
 	}
-
+	/**
+	 * 从订单创建页创建订单
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @return
+	 * @throws SQLException
+	 */
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String order_create_post(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws SQLException {
@@ -206,7 +213,7 @@ public class OrderController {
 		}
 	}
 	/**
-	 * 从订单确认页取消订单
+	 * 从订单确认页返回创建订单页
 	 * @param request
 	 * @param response
 	 * @param modelMap
@@ -214,12 +221,48 @@ public class OrderController {
 	 * @throws BusinessException 
 	 * @throws SQLException 
 	 */
-	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	@RequestMapping(value = "/back", method = RequestMethod.POST)
 	public String order_cancel(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, BusinessException {
 		String mv = "site/order/order_create_page";
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		TaskOrder order  = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(),orderId);
+		modelMap.put("order", order);
+		return mv;
+	}
+	
+	@RequestMapping(value = "/sure", method = RequestMethod.POST)
+	public String order_sure(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException   {
+		String mv = "site/order/order_sure_result";
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		try{
+			taskOrderService.doapplyTaskOrderByOrderIdAndUserId(userBase,orderId);
+		}catch(BusinessException e){
+			mv = "site/order/order_sure_page";
+			modelMap.put("error", e);
+		}
+		return mv;
+	}
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	public String order_detail(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException   {
+		String mv = "site/order/order_detail_page";
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		try{
+			TaskOrder taskOrder = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(), orderId);
+			modelMap.put("order", taskOrder);
+			
+			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = taskOrder.getTaskOrderSubTaskInfos();
+			if(CollectionUtils.isNotEmpty(taskOrderSubTaskInfos)){
+				for(TaskOrderSubTaskInfo item:taskOrderSubTaskInfos){
+					modelMap.put(item.getTaskKey(), item);
+				}
+			}
+		}catch(BusinessException e){
+			modelMap.put("error", e);
+			
+		}
 		return mv;
 	}
 	/**
@@ -258,7 +301,7 @@ public class OrderController {
 	public EntityReturnData doapply(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, BusinessException {
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
-		  taskOrderService.doapplyTaskOrderByOrderIdAndUserId(userBase.getId(),orderId);
+		  taskOrderService.doapplyTaskOrderByOrderIdAndUserId(userBase,orderId);
 		EntityReturnData ret = new EntityReturnData();
 		ret.setResult(true);
 		ret.setEntity(userBase);

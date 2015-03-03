@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
+import com.gxkj.taobaoservice.daos.CompanyAccountDao;
 import com.gxkj.taobaoservice.daos.UserAccountDao;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.entitys.UserAccount;
@@ -30,6 +31,9 @@ public class UserAccountServiceImpl implements UserAccountService {
 	
 	@Autowired
 	private UserAccountLogDao userAccountLogDao;
+	
+	@Autowired
+	private CompanyAccountDao companyAccountDao;
 	 
 	public boolean updateUserAccount(UserBase userBase, BigDecimal payamount,BigDecimal lockAmount,
 			BigDecimal payPoints,BigDecimal lockPoints, UserAccountTypes operateType, Integer refTableId,Integer adminUserId) throws BusinessException, SQLException {
@@ -123,6 +127,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 				//关联充值表
 				userAccountLog.setDepositApplyLogId(refTableId);
 				
+				/**
+				 * 公司账户增加
+				 */
+				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount, BigDecimal.ZERO);
+				
 				break;
 			case WITHDRAW_APPLY:
 				/**
@@ -188,6 +197,12 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.subtract(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
+				
+				/**
+				 * 公司账户增加
+				 */
+				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount);
+				
 				break;
 			case BUY_POINTS:
 				/**
@@ -210,6 +225,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 				 */
 				afterAmount = currentBalance.subtract(payamount);
 				afterPoints = currentPoints.add(payPoints);
+				
+				/**
+				 * 公司账户增加
+				 */
+				companyAccountDao.executeUpdateCompanyAccount(payPoints, payamount,  BigDecimal.ZERO,  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO );
 				
 				break;
 			case Task_Order_SURE:
@@ -249,6 +269,12 @@ public class UserAccountServiceImpl implements UserAccountService {
 				}
 				//可用点数减少
 				afterPoints = afterPoints.subtract(payPoints);
+				
+				
+				/**
+				 * 公司账户增加
+				 */
+				companyAccountDao.executeUpdateCompanyAccount( BigDecimal.ZERO,  BigDecimal.ZERO, payPoints,  BigDecimal.ZERO,  BigDecimal.ZERO,  BigDecimal.ZERO);
 				
 				break;
 				

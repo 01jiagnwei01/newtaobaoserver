@@ -2,6 +2,7 @@ package com.gxkj.taobaoservice.entitys;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,13 +33,39 @@ public class CompanyAccount implements Serializable{
 	private BigDecimal sellPoint;
 	
 	/**
+	 * 售点输入金额
+	 */
+	@Column(name="sell_points_money")
+	private BigDecimal sellPointsMoney;
+	
+	/**
 	 * 平台服务获取点数
 	 */
 	@Column(name="get_points")
 	private BigDecimal getPoints;
 	
+	/**
+	 * 赠送点数
+	 */
 	@Column(name="supply_points")
 	private BigDecimal supplyPoints;
+	
+	/**
+	 * 充值金额
+	 */
+	@Column(name="deposit_money")
+	private BigDecimal depositMoney;
+	
+	/**
+	 * 
+	 * 取款金额
+	 */
+	@Column(name="draw_money")
+	private BigDecimal drawMoney;
+	
+	@Column(name="createtime")
+	private Date createTime;
+	
 
 	public Integer getId() {
 		return id;
@@ -71,5 +98,39 @@ public class CompanyAccount implements Serializable{
 	public void setSupplyPoints(BigDecimal supplyPoints) {
 		this.supplyPoints = supplyPoints;
 	}
+
+	public BigDecimal getSellPointsMoney() {
+		return sellPointsMoney;
+	}
+
+	public void setSellPointsMoney(BigDecimal sellPointsMoney) {
+		this.sellPointsMoney = sellPointsMoney;
+	}
+
+	public BigDecimal getDepositMoney() {
+		return depositMoney;
+	}
+
+	public void setDepositMoney(BigDecimal depositMoney) {
+		this.depositMoney = depositMoney;
+	}
+
+	public BigDecimal getDrawMoney() {
+		return drawMoney;
+	}
+
+	public void setDrawMoney(BigDecimal drawMoney) {
+		this.drawMoney = drawMoney;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	
+	
 
 }

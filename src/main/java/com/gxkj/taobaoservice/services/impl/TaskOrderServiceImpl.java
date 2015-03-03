@@ -230,6 +230,24 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 * 用户QQ
 		 */
 		order.setUserQq(userQq);
+		
+		if(StringUtils.isNotBlank(goodCommentTimeLimit)){
+			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("GOOD_COMMENT_TIME_LIMIT");
+			
+			TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
+			taskOrderSubTaskInfo.setInputValue(goodCommentTimeLimit);
+			taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+			subTaskInfos.add(item4);
+		}
+		
+		if(StringUtils.isNotBlank(goodCommentContent)){
+			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("GOOD_COMMENT_CONTENT");
+			
+			TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
+			taskOrderSubTaskInfo.setInputValue(goodCommentContent);
+			taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+			subTaskInfos.add(item4);
+		}
 		/**
 		 * 每单完成增值任务，平台受益点数
 		 */
@@ -373,7 +391,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if(taskOrder == null ){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"orderId");
 		}
-		if(taskOrder.getUserId() != userId){
+		if(!taskOrder.getUserId().equals(userId) ){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userId");
 		}
 		//查询订单关联的增值任务和基本任务

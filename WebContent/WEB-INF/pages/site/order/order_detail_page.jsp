@@ -7,7 +7,7 @@
 <head><%--  --%>
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" content="ie=edge"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>任务确认</title>
+<title>订单详情页</title>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include> 
 <style type="text/css">
@@ -43,9 +43,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 			<div style="width:910px; padding:0 10px; background-color:#FFF;" class="fr">
 				 	<form id="submitForm" method="post" action="<%=request.getContextPath() %>/site/order/sure">
 					<table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">
-							<tr  >
-									<td colspan="3"  align="center"><b>请确认您的订单</b></td>
-							</tr>
+							 
 							<tr style="display: none" >
 									<td colspan="3"  align="center">
 										<input type="hidden" name="orderId" value="${order.id }">

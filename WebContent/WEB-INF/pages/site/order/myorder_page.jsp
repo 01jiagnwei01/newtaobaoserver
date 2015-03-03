@@ -81,7 +81,9 @@ table td {
 											<button class="btn btn-xs btn-default" id="cancelbtn<%=item.getId() %>" onclick="doCancelOrder(this,<%=item.getId() %>)">删除</button>
 											 </c:when>
 											<c:otherwise></c:otherwise>
-										</c:choose></td>
+										</c:choose>
+										<button class="btn btn-xs btn-primary" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
+										</td>
 								</tr>
 									<%
 									}
@@ -218,6 +220,10 @@ function doCancelOrder(zthis,id){
 	  		// $(btn)).removeAttr("disabled");
 	  } 
 	})
+}
+function detail(zthis,id){
+	var url = "<%=request.getContextPath()%>/site/order/detail?orderId="+id;
+	window.open(url);
 }
 </script>
 </html>

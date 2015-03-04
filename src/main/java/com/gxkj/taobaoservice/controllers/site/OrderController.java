@@ -1,5 +1,6 @@
 package com.gxkj.taobaoservice.controllers.site;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.common.util.SessionUtil;
+import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.entitys.TaskOrder;
 import com.gxkj.taobaoservice.entitys.TaskOrderSubTaskInfo;
@@ -50,6 +52,8 @@ public class OrderController {
 	public String order_create_get(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) {
 		String mv = "site/order/order_create_page";
+		modelMap.put("basicPingtaiGainPoint", SystemGlobals.getPreference("taobao.order.grant.point", "0"));
+		
 		return mv;
 	}
 	/**
@@ -228,13 +232,67 @@ public class OrderController {
 		String mv = "site/order/order_create_page";
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		TaskOrder order  = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(),orderId);
+
+		modelMap.put("taobaoXiaohao", order.getTaobaoXiaohao());
+		modelMap.put("userQq", order.getUserQq());
+		modelMap.put("productTitle", order.getProductTitle());
+		modelMap.put("productLink", order.getProductLink());
+		modelMap.put("guaranteePrice", order.getGuaranteePrice());
+		modelMap.put("encourage", order.getEncourage());
+		
+		List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = order.getTaskOrderSubTaskInfos();
+		String goodCommentTimeLimit = "";
+		String goodCommentContent = "";
+		String NEED_WANGWANG_TALK = "";
+		String NO_REPEAT_TASK = "";
+		String ZHI_DING_JIE_SHOU_REN ="0";
+		String jieShouRenIdB ="";
+		String ZHI_DING_SHOU_HUO_DI_ZHI = "0";
+		String shouHuoDiZhi = "";
+		String PI_LIANG_FA_BU = "0";
+		String PI_LIANG_FA_BU_input = "";
+		BigDecimal basicReceiverGainMoney = order.getBasicReceiverGainMoney();
+		for(TaskOrderSubTaskInfo item : taskOrderSubTaskInfos){
+			if(item.getTaskKey().equals("GOOD_COMMENT_TIME_LIMIT")){
+				goodCommentTimeLimit = item.getInputValue();
+			}else if(item.getTaskKey().equals("GOOD_COMMENT_CONTENT")){
+				goodCommentContent = item.getInputValue();
+			}else if(item.getTaskKey().equals("NEED_WANGWANG_TALK")){
+				NEED_WANGWANG_TALK = item.getInputValue();
+			}else if(item.getTaskKey().equals("NO_REPEAT_TASK")){
+				NO_REPEAT_TASK = item.getInputValue();
+			}else if(item.getTaskKey().equals("ZHI_DING_JIE_SHOU_REN")){
+				ZHI_DING_JIE_SHOU_REN = "1";
+				jieShouRenIdB = item.getInputValue();
+			}else if(item.getTaskKey().equals("ZHI_DING_SHOU_HUO_DI_ZHI")){
+				ZHI_DING_SHOU_HUO_DI_ZHI = "1";
+				shouHuoDiZhi = item.getInputValue();
+			}else if(item.getTaskKey().equals("PI_LIANG_FA_BU")){
+				PI_LIANG_FA_BU = "1";
+				PI_LIANG_FA_BU_input = item.getInputValue();
+			}
+		}
+		modelMap.put("goodCommentTimeLimit", goodCommentTimeLimit );
+		modelMap.put("goodCommentContent", goodCommentContent);
+		modelMap.put("NEED_WANGWANG_TALK", NEED_WANGWANG_TALK);
+		modelMap.put("NO_REPEAT_TASK", NO_REPEAT_TASK);
+		modelMap.put("ZHI_DING_JIE_SHOU_REN", ZHI_DING_JIE_SHOU_REN);
+		modelMap.put("ZHI_DING_JIE_SHOU_REN_ID", jieShouRenIdB);
+		modelMap.put("ZHI_DING_SHOU_HUO_DI_ZHI", ZHI_DING_SHOU_HUO_DI_ZHI);
+		
+		modelMap.put("ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS", shouHuoDiZhi);
+		modelMap.put("PI_LIANG_FA_BU", PI_LIANG_FA_BU);
+		modelMap.put("PI_LIANG_FA_BU_input", PI_LIANG_FA_BU_input);
+		modelMap.put("basicReceiverGainMoney", basicReceiverGainMoney);
+		modelMap.put("basicPingtaiGainPoint", order.getBasicPingtaiGainPoint());
+		
 		modelMap.put("order", order);
 		return mv;
 	}
 	
 	@RequestMapping(value = "/sure", method = RequestMethod.POST)
 	public String order_sure(HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException   {
+			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, IllegalAccessException, InvocationTargetException   {
 		String mv = "site/order/order_sure_result";
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		try{
@@ -321,11 +379,13 @@ public class OrderController {
 	 * @return
 	 * @throws SQLException
 	 * @throws BusinessException
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
 	 */
 	@RequestMapping(value = "/doapply", method = RequestMethod.POST)
 	@ResponseBody
 	public EntityReturnData doapply(HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, BusinessException {
+			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, BusinessException, IllegalAccessException, InvocationTargetException {
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		  taskOrderService.doapplyTaskOrderByOrderIdAndUserId(userBase,orderId);
 		EntityReturnData ret = new EntityReturnData();

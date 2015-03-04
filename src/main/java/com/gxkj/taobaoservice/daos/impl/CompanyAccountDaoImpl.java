@@ -41,7 +41,7 @@ public class CompanyAccountDaoImpl extends BaseDAOImpl implements
 			companyAccount.setCreateTime(now);
 			companyAccount.setDepositMoney(oldCompanyAccount.getDepositMoney().add(depositMoney==null?BigDecimal.ZERO:depositMoney) );
 			companyAccount.setDrawMoney( oldCompanyAccount.getDrawMoney().add( drawMoney==null?BigDecimal.ZERO:drawMoney));
-			companyAccount.setGetPoints(oldCompanyAccount.getSellPoint().add( getPoints==null?BigDecimal.ZERO:getPoints));
+			companyAccount.setGetPoints(oldCompanyAccount.getGetPoints().add( getPoints==null?BigDecimal.ZERO:getPoints));
 			companyAccount.setSellPoint(oldCompanyAccount.getSellPoint().add(  sellPoint==null?BigDecimal.ZERO:sellPoint));
 			companyAccount.setSellPointsMoney(oldCompanyAccount.getSellPointsMoney().add( sellPointsMoney==null?BigDecimal.ZERO:sellPointsMoney));
 			companyAccount.setSupplyPoints(oldCompanyAccount.getSupplyPoints().add(  supplyPoints==null?BigDecimal.ZERO:supplyPoints));

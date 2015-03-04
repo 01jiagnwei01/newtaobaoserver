@@ -112,17 +112,18 @@ table td{padding:5px; height:25px; font-size:14px;}
 							<tr>
 									<td align="right">好评时限要求</td>
 									<td>
-									<select class="inputwidth"   name="goodCommentTimeLimit" id="goodCommentTimeLimit"  value="${goodCommentTimeLimit}">
-											<option value="">立刻好评</option>
-											<option value="THIRTYMMinuteLater"  >30分钟后好评</option>
-											<option value="ONE_DAY_LATER">1天后好评</option>
-											<option value="TWO_DAY_LATER">2天后好评</option>
-											<option value="THREE_DAY_LATER">3天后好评</option>
-											<option value="FOURE_DAY_LATER">4天后好评</option>
-											<option value="FIVE_DAY_LATER">5天后好评</option>
-											<option value="SIX_DAY_LATER">6天后好评</option>
-											<option value="SEVEN_DAY_LATER">7天后好评</option>
-									</select></td>
+									<c:choose>
+											<c:when test="${'IMMEDIATELY' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">立刻好评</c:when>
+											<c:when test="${'THIRTYMMinuteLater' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">30分钟后好评</c:when>
+											<c:when test="${'ONE_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">1天后好评</c:when>
+											<c:when test="${'TWO_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">2天后好评</c:when>
+											<c:when test="${'THREE_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">3天后好评</c:when>
+											<c:when test="${'FOURE_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">4天后好评</c:when>
+											<c:when test="${'FIVE_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">5天后好评</c:when>
+											<c:when test="${'SIX_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">6天后好评</c:when>
+											<c:when test="${'SEVEN_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">7天后好评</c:when>
+										</c:choose>
+									</td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
@@ -212,6 +213,13 @@ table td{padding:5px; height:25px; font-size:14px;}
 									<tr>
 										<td colspan="3" align="center">
 											<button class="btn btn-default" type="button" onclick="goChongzhi(this)">去充值</button>
+										</td>
+						 			</tr>
+								</c:when>
+								<c:when test="${error.siteFlag eq 'status' }">
+									<tr>
+										<td colspan="3" align="center">
+											订单状态：${ order.status.name}
 										</td>
 						 			</tr>
 								</c:when>

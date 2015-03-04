@@ -2,6 +2,7 @@ package com.gxkj.taobaoservice.services.impl;
 
 import groovy.json.JsonOutput;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import javax.validation.Validator;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -71,7 +73,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 	private TaskBasicLogDao taskBasicLogDao;
 	
 	@Autowired
-	private UserAccountService tserAccountService;
+	private UserAccountService userAccountService;
 	
 	/**
 	 * 创建任务订单
@@ -330,7 +332,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		BigDecimal zengzhiReceiverGainPoints = BigDecimal.ZERO;
 		if(needWangWangTalk){
 			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("NEED_WANGWANG_TALK" );
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.Money){
+			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
 				zengzhiReceiverGainPoints = zengzhiReceiverGainPoints.add(item4.getAmount());
 				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
 				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
@@ -340,7 +342,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if(needZhiDingSouHuoDiZhi){
 			 
 			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.Money){
+			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
 				zengzhiReceiverGainPoints = zengzhiReceiverGainPoints.add(item4.getAmount());
 				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
 				taskOrderSubTaskInfo.setInputValue(shouHuoDiZhi);
@@ -368,6 +370,8 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		
 		return order;
 	}
+	
+	 
  
 	@SuppressWarnings("unchecked")
 	public ListPager doPage(UserBase userBase, int pageno, int pagesize,
@@ -428,9 +432,11 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 
 	/**
 	 * 前台确认订单
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
 	 */
 	public void doapplyTaskOrderByOrderIdAndUserId(UserBase userBase, Integer orderId)
-			throws SQLException, BusinessException {
+			throws SQLException, BusinessException, IllegalAccessException, InvocationTargetException {
 		TaskOrder taskOrder =  (TaskOrder) taskOrderDao.selectById(orderId, TaskOrder.class);
 		if(taskOrder == null ){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"orderId");
@@ -493,7 +499,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 * 计算需要支付的费用，需要绑定的费用
 		 * 需要支付的点数，需要绑定的点数
 		 */
-		MoneyCalculateUtil.caculateOrderAccount(taskOrder);
+		
 		BigDecimal lockMoney = (taskOrder.getGuaranteePrice()
 				.add(taskOrder.getBasicReceiverGainMoney())
 				.add(taskOrder.getEncourage())
@@ -517,9 +523,11 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			payPoint = payPoint.add(SystemDbData.subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount());
 			
 			for(int i=0;i<repeatTime.intValue();i++){
-				taskBasicDao.insert(taskBasic);
+				TaskBasic newtaskBasic = new TaskBasic();
+				BeanUtils.copyProperties(newtaskBasic, taskBasic);
+				taskBasicDao.insert(newtaskBasic);
 				
-				TaskBasicLog taskBasicLog = new TaskBasicLog(taskBasic.getId(),userBase.getId(),TaskBasicLogUserType.CREATER,TaskStatus.Wait_For_Receive,now);
+				TaskBasicLog taskBasicLog = new TaskBasicLog(newtaskBasic.getId(),userBase.getId(),TaskBasicLogUserType.CREATER,TaskStatus.Wait_For_Receive,now);
 				taskBasicLogDao.insert(taskBasicLog);
 			}
 			
@@ -530,7 +538,9 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			 
 			taskBasicLogDao.insert(taskBasicLog);
 		} 
-		tserAccountService.updateUserAccount(userBase, taskOrder.getCountPayMoney(),lockMoney,payPoint,lockPoint,
+		MoneyCalculateUtil.caculateOrderAccount(taskOrder);
+		
+		userAccountService.updateUserAccount(userBase, BigDecimal.ZERO,lockMoney,payPoint,lockPoint,
 				UserAccountTypes.Task_Order_SURE, taskOrder.getId(), null);
 		
 		

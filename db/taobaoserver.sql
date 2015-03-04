@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-03-02 19:07:09
+Date: 2015-03-04 22:52:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -174,16 +174,11 @@ CREATE TABLE `apply_draw_log` (
   `refuse_reason` varchar(100) DEFAULT NULL,
   `account_no` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of apply_draw_log
 -- ----------------------------
-INSERT INTO `apply_draw_log` VALUES ('1', '', '1.00', '1', '2015-02-26 16:06:45', 'REFUSE', '1', '管理员', '2015-02-26 16:08:22', '我就是拒绝了，怎么地吧', '1@');
-INSERT INTO `apply_draw_log` VALUES ('2', '20150225000040011100090075168474', '1.00', '1', '2015-02-26 16:06:46', 'APPROVE', '1', '管理员', '2015-02-26 16:09:49', null, '1@');
-INSERT INTO `apply_draw_log` VALUES ('3', '', '1.00', '1', '2015-02-26 16:06:47', 'WAIT_FOR_AUDIT', null, null, null, null, '1@');
-INSERT INTO `apply_draw_log` VALUES ('4', '', '1.00', '1', '2015-02-26 16:06:47', 'WAIT_FOR_AUDIT', null, null, null, null, '1@');
-INSERT INTO `apply_draw_log` VALUES ('5', '', '1.00', '1', '2015-02-26 16:06:47', 'WAIT_FOR_AUDIT', null, null, null, null, '1@');
 
 -- ----------------------------
 -- Table structure for `business_exception`
@@ -233,15 +228,26 @@ DROP TABLE IF EXISTS `company_account`;
 CREATE TABLE `company_account` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `sell_points` double(10,2) NOT NULL,
+  `sell_points_money` double(10,2) NOT NULL,
   `get_points` double(10,2) NOT NULL,
   `supply_points` double(10,2) NOT NULL,
+  `deposit_money` double(10,2) NOT NULL,
+  `draw_money` double(10,2) NOT NULL,
+  `createtime` datetime NOT NULL,
+  `reason_type` varchar(20) NOT NULL,
+  `ref_id` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of company_account
 -- ----------------------------
-INSERT INTO `company_account` VALUES ('1', '0.00', '0.00', '4.00');
+INSERT INTO `company_account` VALUES ('1', '0.00', '0.00', '0.00', '0.00', '2000.00', '0.00', '2015-03-04 13:45:58', 'DEPOSIT', '1');
+INSERT INTO `company_account` VALUES ('2', '10.00', '10.00', '0.00', '0.00', '2000.00', '0.00', '2015-03-04 15:22:05', 'SellPoint', null);
+INSERT INTO `company_account` VALUES ('4', '65.00', '60.00', '0.00', '0.00', '2000.00', '0.00', '2015-03-04 18:35:25', 'SellPoint', null);
+INSERT INTO `company_account` VALUES ('5', '120.00', '110.00', '0.00', '0.00', '2000.00', '0.00', '2015-03-04 18:41:52', 'SellPoint', null);
+INSERT INTO `company_account` VALUES ('6', '175.00', '160.00', '0.00', '0.00', '2000.00', '0.00', '2015-03-04 18:44:04', 'SellPoint', null);
+INSERT INTO `company_account` VALUES ('7', '175.00', '160.00', '1.00', '0.00', '2000.00', '0.00', '2015-03-04 21:55:36', 'ORDERSURE', '1');
 
 -- ----------------------------
 -- Table structure for `deposit_apply_log`
@@ -263,13 +269,12 @@ CREATE TABLE `deposit_apply_log` (
   KEY `admin_user_id` (`auditor_id`),
   KEY `userId` (`user_id`) USING HASH,
   CONSTRAINT `admin_user_id` FOREIGN KEY (`auditor_id`) REFERENCES `admin_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of deposit_apply_log
 -- ----------------------------
-INSERT INTO `deposit_apply_log` VALUES ('1', '20150225000040011100090075168474', '15.00', '1', '2015-02-26 16:04:36', 'APPROVE', '1', '管理员', '2015-02-26 16:05:48', null);
-INSERT INTO `deposit_apply_log` VALUES ('2', '20150227000040011100090086513156', '2000.00', '1', '2015-02-27 13:32:01', 'APPROVE', '1', '管理员', '2015-02-27 13:32:50', null);
+INSERT INTO `deposit_apply_log` VALUES ('1', '20150303000040011100090062038354', '2000.00', '1', '2015-03-04 13:42:58', 'APPROVE', '1', '管理员', '2015-03-04 13:45:58', null);
 
 -- ----------------------------
 -- Table structure for `log4j_log`
@@ -691,24 +696,6 @@ INSERT INTO `sub_task_info` VALUES ('6', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50
 INSERT INTO `sub_task_info` VALUES ('7', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'NORMAL', '95', 'PLATFORM', 'POINT', '一天内禁止重复接手');
 
 -- ----------------------------
--- Table structure for `tasic_basic_log`
--- ----------------------------
-DROP TABLE IF EXISTS `tasic_basic_log`;
-CREATE TABLE `tasic_basic_log` (
-  `id` int(10) NOT NULL,
-  `task_basic_id` int(10) NOT NULL,
-  `user_id` int(10) NOT NULL,
-  `user_type` varchar(10) NOT NULL,
-  `task_state` varchar(20) NOT NULL,
-  `create_time` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tasic_basic_log
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `task_basic`
 -- ----------------------------
 DROP TABLE IF EXISTS `task_basic`;
@@ -733,11 +720,49 @@ CREATE TABLE `task_basic` (
   `receiver_id` int(11) DEFAULT NULL,
   `receiver_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of task_basic
 -- ----------------------------
+INSERT INTO `task_basic` VALUES ('1', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+INSERT INTO `task_basic` VALUES ('2', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+INSERT INTO `task_basic` VALUES ('3', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+INSERT INTO `task_basic` VALUES ('4', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+INSERT INTO `task_basic` VALUES ('5', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+INSERT INTO `task_basic` VALUES ('6', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+INSERT INTO `task_basic` VALUES ('7', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+INSERT INTO `task_basic` VALUES ('8', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+INSERT INTO `task_basic` VALUES ('9', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+INSERT INTO `task_basic` VALUES ('10', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
+
+-- ----------------------------
+-- Table structure for `task_basic_log`
+-- ----------------------------
+DROP TABLE IF EXISTS `task_basic_log`;
+CREATE TABLE `task_basic_log` (
+  `id` int(10) NOT NULL,
+  `task_basic_id` int(10) NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `user_type` varchar(10) NOT NULL,
+  `task_state` varchar(20) NOT NULL,
+  `create_time` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of task_basic_log
+-- ----------------------------
+INSERT INTO `task_basic_log` VALUES ('1', '1', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
+INSERT INTO `task_basic_log` VALUES ('2', '2', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
+INSERT INTO `task_basic_log` VALUES ('3', '3', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
+INSERT INTO `task_basic_log` VALUES ('4', '4', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
+INSERT INTO `task_basic_log` VALUES ('5', '5', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
+INSERT INTO `task_basic_log` VALUES ('6', '6', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
+INSERT INTO `task_basic_log` VALUES ('7', '7', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
+INSERT INTO `task_basic_log` VALUES ('8', '8', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
+INSERT INTO `task_basic_log` VALUES ('9', '9', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
+INSERT INTO `task_basic_log` VALUES ('10', '10', '1', 'CREATER', 'Wait_For_Receive', '2015-03-04 21:55:35');
 
 -- ----------------------------
 -- Table structure for `task_order`
@@ -761,29 +786,15 @@ CREATE TABLE `task_order` (
   `zengzhi_pingtai_gain_points` double(11,2) NOT NULL,
   `status` varchar(20) NOT NULL,
   `repeate_times` int(10) NOT NULL,
+  `repeat_plarform_grain_point` double(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of task_order
 -- ----------------------------
-INSERT INTO `task_order` VALUES ('1', '1', '2015-03-01 16:04:58', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('2', '1', '2015-03-01 16:07:52', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('3', '1', '2015-03-01 16:08:19', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('4', '1', '2015-03-01 16:09:31', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('5', '1', '2015-03-01 16:10:15', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('6', '1', '2015-03-01 16:10:31', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('7', '1', '2015-03-01 16:11:30', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('8', '1', '2015-03-01 16:11:58', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('9', '1', '2015-03-01 16:12:42', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('10', '1', '2015-03-01 16:12:59', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('11', '1', '2015-03-01 16:13:22', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('12', '1', '2015-03-01 16:14:05', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('13', '1', '2015-03-01 16:14:23', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('14', '1', '2015-03-01 16:15:31', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('15', '1', '2015-03-01 16:17:09', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('16', '1', '2015-03-01 16:18:04', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
-INSERT INTO `task_order` VALUES ('17', '1', '2015-03-01 16:37:25', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '12.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.50', 'WAIT_FOR_SURE', '32');
+INSERT INTO `task_order` VALUES ('1', '1', '2015-03-04 13:49:45', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '1.00', '5.00', '0.00', '0.50', '0.00', '0.00', '1.00', 'SURE', '10', '0.50');
+INSERT INTO `task_order` VALUES ('2', '1', '2015-03-04 22:50:34', '02jiangwei02', '346745719', '女装', 'http://taobao.com2222', '120.00', '12.00', '8.00', '0.00', '0.50', '1.00', '0.00', '1.00', 'WAIT_FOR_SURE', '12', '0.50');
 
 -- ----------------------------
 -- Table structure for `task_order_sub_task_info`
@@ -798,63 +809,26 @@ CREATE TABLE `task_order_sub_task_info` (
   `benefit_type` varchar(20) NOT NULL,
   `task_order_id` int(11) NOT NULL,
   `input_value` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `task_order_id` (`task_order_id`),
+  CONSTRAINT `task_order_id` FOREIGN KEY (`task_order_id`) REFERENCES `task_order` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of task_order_sub_task_info
 -- ----------------------------
-INSERT INTO `task_order_sub_task_info` VALUES ('1', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '1', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('2', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '1', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('3', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '1', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('4', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '2', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('5', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '2', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('6', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '2', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('7', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '3', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('8', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '3', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('9', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '3', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('10', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '4', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('11', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '4', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('12', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '4', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('13', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '5', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('14', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '5', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('15', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '5', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('16', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '6', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('17', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '6', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('18', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '6', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('19', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '7', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('20', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '7', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('21', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '7', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('22', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '8', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('23', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '8', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('24', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '8', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('25', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '9', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('26', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '9', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('27', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '9', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('28', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '10', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('29', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '10', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('30', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '10', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('31', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '11', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('32', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '11', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('33', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '11', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('34', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '12', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('35', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '12', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('36', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '12', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('37', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '13', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('38', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '13', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('39', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '13', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('40', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '14', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('41', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '14', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('42', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '14', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('43', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '15', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('44', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '15', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('45', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '15', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('46', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '16', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('47', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '16', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('48', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '16', null);
-INSERT INTO `task_order_sub_task_info` VALUES ('49', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '17', '1');
-INSERT INTO `task_order_sub_task_info` VALUES ('50', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '17', '32');
-INSERT INTO `task_order_sub_task_info` VALUES ('51', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '17', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('1', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'FREE', 'POINT', '1', 'THIRTYMMinuteLater');
+INSERT INTO `task_order_sub_task_info` VALUES ('2', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'FREE', 'POINT', '1', '产品不错');
+INSERT INTO `task_order_sub_task_info` VALUES ('3', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '1', '1');
+INSERT INTO `task_order_sub_task_info` VALUES ('4', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '1', '10');
+INSERT INTO `task_order_sub_task_info` VALUES ('5', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '1', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('6', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'FREE', 'POINT', '2', 'ONE_DAY_LATER');
+INSERT INTO `task_order_sub_task_info` VALUES ('7', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'FREE', 'POINT', '2', '好的');
+INSERT INTO `task_order_sub_task_info` VALUES ('8', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '2', '1');
+INSERT INTO `task_order_sub_task_info` VALUES ('9', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '2', '12');
+INSERT INTO `task_order_sub_task_info` VALUES ('10', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '2', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('11', 'NEED_WANGWANG_TALK', 'APPRECIATION', '0.50', 'RECEIVER', 'POINT', '2', null);
+INSERT INTO `task_order_sub_task_info` VALUES ('12', 'ZHI_DING_SHOU_HUO_DI_ZHI', 'APPRECIATION', '0.50', 'RECEIVER', 'POINT', '2', '北京');
 
 -- ----------------------------
 -- Table structure for `user_account`
@@ -875,7 +849,7 @@ CREATE TABLE `user_account` (
 -- ----------------------------
 -- Records of user_account
 -- ----------------------------
-INSERT INTO `user_account` VALUES ('1', '1991.00', '20.00', '3.00', '0.00', '1');
+INSERT INTO `user_account` VALUES ('1', '1680.00', '164.00', '160.00', '10.00', '1');
 
 -- ----------------------------
 -- Table structure for `user_account_log`
@@ -901,24 +875,18 @@ CREATE TABLE `user_account_log` (
   `draw_log_id` int(10) DEFAULT NULL,
   `deposit_apply_log_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `draw_id` (`draw_log_id`),
-  CONSTRAINT `draw_id` FOREIGN KEY (`draw_log_id`) REFERENCES `apply_draw_log` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+  KEY `draw_id` (`draw_log_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_account_log
 -- ----------------------------
-INSERT INTO `user_account_log` VALUES ('1', '2015-02-26 16:05:48', '1', 'DEPOSIT', '15.00', null, '0.00', '0.00', '0.00', '0.00', '15.00', '0.00', '0.00', '0.00', '1', null, null, '1');
-INSERT INTO `user_account_log` VALUES ('2', '2015-02-26 16:06:45', '1', 'WITHDRAW_APPLY', '1.00', null, '15.00', '0.00', '0.00', '0.00', '14.00', '0.00', '1.00', '0.00', null, null, '1', null);
-INSERT INTO `user_account_log` VALUES ('3', '2015-02-26 16:06:46', '1', 'WITHDRAW_APPLY', '1.00', null, '14.00', '0.00', '1.00', '0.00', '13.00', '0.00', '2.00', '0.00', null, null, '2', null);
-INSERT INTO `user_account_log` VALUES ('4', '2015-02-26 16:06:47', '1', 'WITHDRAW_APPLY', '1.00', null, '13.00', '0.00', '2.00', '0.00', '12.00', '0.00', '3.00', '0.00', null, null, '3', null);
-INSERT INTO `user_account_log` VALUES ('5', '2015-02-26 16:06:47', '1', 'WITHDRAW_APPLY', '1.00', null, '12.00', '0.00', '3.00', '0.00', '11.00', '0.00', '4.00', '0.00', null, null, '4', null);
-INSERT INTO `user_account_log` VALUES ('6', '2015-02-26 16:06:47', '1', 'WITHDRAW_APPLY', '1.00', null, '11.00', '0.00', '4.00', '0.00', '10.00', '0.00', '5.00', '0.00', null, null, '5', null);
-INSERT INTO `user_account_log` VALUES ('7', '2015-02-26 16:08:22', '1', 'WITHDRAW_FAILURE', '1.00', null, '10.00', '0.00', '5.00', '0.00', '11.00', '0.00', '4.00', '0.00', '1', null, '1', null);
-INSERT INTO `user_account_log` VALUES ('8', '2015-02-26 16:09:49', '1', 'WITHDRAW_SUCCESS', '1.00', null, '11.00', '0.00', '4.00', '0.00', '11.00', '0.00', '3.00', '0.00', '1', null, '2', null);
-INSERT INTO `user_account_log` VALUES ('9', '2015-02-27 13:28:48', '1', 'BUY_POINTS', '10.00', null, '11.00', '0.00', '3.00', '0.00', '1.00', '10.00', '3.00', '0.00', null, null, null, null);
-INSERT INTO `user_account_log` VALUES ('10', '2015-02-27 13:32:50', '1', 'DEPOSIT', '2000.00', null, '1.00', '10.00', '3.00', '0.00', '2001.00', '10.00', '3.00', '0.00', '1', null, null, '2');
-INSERT INTO `user_account_log` VALUES ('11', '2015-02-27 13:33:08', '1', 'BUY_POINTS', '10.00', null, '2001.00', '10.00', '3.00', '0.00', '1991.00', '20.00', '3.00', '0.00', null, null, null, null);
+INSERT INTO `user_account_log` VALUES ('1', '2015-03-04 13:45:58', '1', 'DEPOSIT', '2000.00', '0.00', '0.00', '0.00', '0.00', '0.00', '2000.00', '0.00', '0.00', '0.00', '1', null, null, '1');
+INSERT INTO `user_account_log` VALUES ('2', '2015-03-04 15:22:05', '1', 'BUY_POINTS', '10.00', '10.00', '2000.00', '0.00', '0.00', '0.00', '1990.00', '10.00', '0.00', '0.00', null, null, null, null);
+INSERT INTO `user_account_log` VALUES ('3', '2015-03-04 18:35:25', '1', 'BUY_POINTS', '50.00', '55.00', '1990.00', '10.00', '0.00', '0.00', '1940.00', '65.00', '0.00', '0.00', null, null, null, null);
+INSERT INTO `user_account_log` VALUES ('4', '2015-03-04 18:41:52', '1', 'BUY_POINTS', '50.00', '55.00', '1940.00', '65.00', '0.00', '0.00', '1890.00', '120.00', '0.00', '0.00', null, null, null, null);
+INSERT INTO `user_account_log` VALUES ('5', '2015-03-04 18:44:04', '1', 'BUY_POINTS', '50.00', '55.00', '1890.00', '120.00', '0.00', '0.00', '1840.00', '175.00', '0.00', '0.00', null, null, null, null);
+INSERT INTO `user_account_log` VALUES ('6', '2015-03-04 21:55:36', '1', 'Task_Order_SURE', '160.00', '11.00', '1840.00', '175.00', '0.00', '0.00', '1680.00', '164.00', '160.00', '10.00', null, null, '1', null);
 
 -- ----------------------------
 -- Table structure for `user_base`

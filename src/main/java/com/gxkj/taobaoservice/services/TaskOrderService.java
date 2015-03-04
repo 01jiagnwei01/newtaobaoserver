@@ -1,5 +1,6 @@
 package com.gxkj.taobaoservice.services;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Date;
@@ -77,7 +78,9 @@ public interface TaskOrderService {
 	 * @param orderId
 	 * @throws SQLException
 	 * @throws BusinessException
+	 * @throws InvocationTargetException 
+	 * @throws IllegalAccessException 
 	 */
-	public void doapplyTaskOrderByOrderIdAndUserId(UserBase userBase, Integer orderId)throws SQLException,BusinessException;
+	public void doapplyTaskOrderByOrderIdAndUserId(UserBase userBase, Integer orderId)throws SQLException,BusinessException, IllegalAccessException, InvocationTargetException;
 
 }

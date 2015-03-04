@@ -75,17 +75,15 @@ table td {
 										<td align="center"><% if (item.getCountPayMoney() == null){out.print("&nbsp;");}else {out.print(item.getCountPayMoney());}%></td>
 										<td align="center"><% if (item.getCountPayPoints() == null){out.print("&nbsp;");}else {out.print(item.getCountPayPoints());}%></td> 
 										<td align="center"><%=item.getStatus().getName()%></td>
-										<td align="center"><c:choose>
-											<c:when test="${item.status eq TaskOrderStatus.WAIT_FOR_SURE }">
-											<button class="btn btn-xs btn-primary" id="suerbtn<%=item.getId() %>" onclick="doSureOrder(this,<%=item.getId() %>)">确认</button>
+										<td align="center">
+											<%if(TaskOrderStatus.WAIT_FOR_SURE == item.getStatus()){ %>
+												<button class="btn btn-xs btn-primary" id="suerbtn<%=item.getId() %>" onclick="doSureOrder(this,<%=item.getId() %>)">确认</button>
 											<button class="btn btn-xs btn-default" id="cancelbtn<%=item.getId() %>" onclick="doCancelOrder(this,<%=item.getId() %>)">删除</button>
-											 </c:when>
-											<c:otherwise></c:otherwise>
-										</c:choose>
-										<button class="btn btn-xs btn-primary" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
+											<% }%> 
+											<button class="btn btn-xs btn-primary" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
 										</td>
 								</tr>
-									<%
+							<% 
 									}
 								}
 							%>

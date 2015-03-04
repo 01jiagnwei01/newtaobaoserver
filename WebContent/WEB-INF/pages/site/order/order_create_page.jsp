@@ -91,7 +91,7 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 							</tr>
 							<tr>
 									<td align="right">支付平台发布点</td>
-									<td><input class="inputwidth"  id="basicPingtaiGainPoint"     name="basicPingtaiGainPoint" value='0.5' readonly /></td>
+									<td><input class="inputwidth"  id="basicPingtaiGainPoint"     name="basicPingtaiGainPoint" value='${basicPingtaiGainPoint }' readonly /></td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr align="right">

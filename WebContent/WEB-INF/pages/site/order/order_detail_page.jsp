@@ -49,7 +49,6 @@ table td{padding:5px; height:25px; font-size:14px;}
 										<input type="hidden" name="orderId" value="${order.id }">
 										<input type="hidden" name="goodCommentTimeLimit" value="${goodCommentTimeLimit}">
 										<input type="hidden" name="goodCommentContent" value="${goodCommentContent }">
-										<input type="hidden" name="orderId" value="${order.id }">
 									</td>
 							</tr>
 							<tr>
@@ -99,22 +98,23 @@ table td{padding:5px; height:25px; font-size:14px;}
 							<tr>
 									<td align="right">好评时限要求</td>
 									<td>
-									<select class="inputwidth"   name="goodCommentTimeLimit" id="goodCommentTimeLimit"  value="${goodCommentTimeLimit}">
-											<option value="">立刻好评</option>
-											<option value="THIRTYMMinuteLater"  >30分钟后好评</option>
-											<option value="ONE_DAY_LATER">1天后好评</option>
-											<option value="TWO_DAY_LATER">2天后好评</option>
-											<option value="THREE_DAY_LATER">3天后好评</option>
-											<option value="FOURE_DAY_LATER">4天后好评</option>
-											<option value="FIVE_DAY_LATER">5天后好评</option>
-											<option value="SIX_DAY_LATER">6天后好评</option>
-											<option value="SEVEN_DAY_LATER">7天后好评</option>
-									</select></td>
+										<c:choose>
+											<c:when test="${'IMMEDIATELY' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">立刻好评</c:when>
+											<c:when test="${'THIRTYMMinuteLater' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">30分钟后好评</c:when>
+											<c:when test="${'ONE_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">1天后好评</c:when>
+											<c:when test="${'TWO_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">2天后好评</c:when>
+											<c:when test="${'THREE_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">3天后好评</c:when>
+											<c:when test="${'FOURE_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">4天后好评</c:when>
+											<c:when test="${'FIVE_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">5天后好评</c:when>
+											<c:when test="${'SIX_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">6天后好评</c:when>
+											<c:when test="${'SEVEN_DAY_LATER' eq GOOD_COMMENT_TIME_LIMIT.inputValue  }">7天后好评</c:when>
+										</c:choose>
+									 </td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
 									<td align="right">指定好评内容</td>
-									<td>${goodCommentContent }</td>
+									<td>${GOOD_COMMENT_CONTENT.inputValue  }</td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
@@ -145,7 +145,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 									<td align="right">指定接手人</td>
 									<td><c:choose>
 												<c:when test="${ empty ZHI_DING_JIE_SHOU_REN   }">不需要</c:when>
-												<c:otherwise>需要 接手人ID：${ZHI_DING_JIE_SHOU_REN_ID }</c:otherwise>
+												<c:otherwise>需要 接手人ID：${ZHI_DING_JIE_SHOU_REN.inputValue }</c:otherwise>
 											</c:choose> 
 										
 									</td>
@@ -157,7 +157,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 									<td>
 									<c:choose>
 												<c:when test="${ empty ZHI_DING_SHOU_HUO_DI_ZHI     }">不需要</c:when>
-												<c:otherwise>需要 &nbsp;${ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS} </c:otherwise>
+												<c:otherwise>需要 &nbsp;${ZHI_DING_SHOU_HUO_DI_ZHI.inputValue } </c:otherwise>
 											</c:choose>
 									</td>
 									<td>奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</td>
@@ -167,7 +167,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 									<td align="right">批量发布</td>
 									<td><c:choose>
 												<c:when test="${ empty PI_LIANG_FA_BU     }">不需要</c:when>
-												<c:otherwise>需要 ${PI_LIANG_FA_BU_input }条 </c:otherwise>
+												<c:otherwise>需要 ${PI_LIANG_FA_BU.inputValue }条 </c:otherwise>
 											</c:choose>
 									</td>
 									<td>批量发布，上限50条,需要支付平台<%=subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount() %>个发布点</td>
@@ -181,8 +181,17 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 								<td colspan="3" align="center">
-									<button class="btn btn-lg btn-success"  onclick="sure(this)">确认订单</button>
-									<button class="btn btn-default" type="button" onclick="back(this)">修改</button>
+								
+								<c:choose>
+												<c:when test="${order.status eq   'WAIT_FOR_SURE'   }">
+													<button class="btn btn-lg btn-success"  onclick="sure(this)">确认订单</button>
+													<button class="btn btn-default" type="button" onclick="update(this)">修改</button>
+												 </c:when>
+												<c:when test="${order.status eq   'SURE'   }"> </c:when>
+												<c:when test="${order.status eq   'CANCEL'   }"> 该订单已取消</c:when>
+												<c:otherwise>需要 ${PI_LIANG_FA_BU.inputValue }条 </c:otherwise>
+								</c:choose>
+									
 								</td>
 							</tr>
 					</table>
@@ -203,7 +212,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 		var path = "<%=request.getContextPath() %>/site/order/sure";
 		 $('#submitForm').attr("action", path).submit();;
 	}
-	function back(btn){
+	function update(btn){
 		$(btn).attr("disabled",true); 
 		var path = "<%=request.getContextPath() %>/site/order/back";
 		 $('#submitForm').attr("action", path).submit();;

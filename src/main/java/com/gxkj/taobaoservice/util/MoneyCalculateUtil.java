@@ -47,10 +47,14 @@ public class MoneyCalculateUtil {
 		BigDecimal encourage = order.getEncourage();
 		
 		/**
-		 * 每单支付平台点数
+		 * 每个订单支付平台点数
 		 */
 		BigDecimal basicPingtaiGainPoint = order.getBasicPingtaiGainPoint();
 		
+		/**
+		 * 批量发布，平台受益点数
+		 */
+		BigDecimal piliangPingtaiGainPoint =  order.getRepeatPlarformGrainPoint();
 		/**
 		 * 每单完成基本任务支付接手人点数
 		 */
@@ -66,7 +70,7 @@ public class MoneyCalculateUtil {
 		 /**
 			 * 增值任务完成，支付平台点数
 			 */
-		 BigDecimal zengzhiPingtaiGainPoints = order.getZengzhiReceiverGainPoints();
+		 BigDecimal zengzhiPingtaiGainPoints = order.getZengzhiPingtaiGainPoints();
 		 
 		 /**
 		  * (担保金 + 佣金 + 奖励金额 + 增值任务完成，支付接手人金额) * repeatTimes
@@ -74,9 +78,9 @@ public class MoneyCalculateUtil {
 		 BigDecimal countPayMoney = (guaranteePrice.add(basicReceiverGainMoney).add(encourage).add(zengzhiReceiverGainMoney)).multiply(new BigDecimal(repeatTimes));
 		
 		 /**
-		  * (每单支付平台点数 + 完成基本任务支付接手人点数 +  增值任务完成，支付接手人金额 + 增值任务完成，支付平台点数) * repeatTimes
+		  *  批量发布获取的点数 +每单支付平台点数 +( 完成基本任务支付接手人点数 +  增值任务完成，支付接手人点数 + 增值任务完成，支付平台点数) * repeatTimes
 		  */
-		 BigDecimal countPayPoints = (basicPingtaiGainPoint.add(basicReceiverGainPoint ).add(zengzhiReceiverGainPoints).add(zengzhiPingtaiGainPoints) ).multiply(new BigDecimal(repeatTimes));
+		 BigDecimal countPayPoints =piliangPingtaiGainPoint.add(basicPingtaiGainPoint).add(( basicReceiverGainPoint .add(zengzhiReceiverGainPoints).add(zengzhiPingtaiGainPoints) ).multiply(new BigDecimal(repeatTimes)));
 		
 		 order.setCountPayMoney(countPayMoney);
 		 order.setCountPayPoints(countPayPoints);

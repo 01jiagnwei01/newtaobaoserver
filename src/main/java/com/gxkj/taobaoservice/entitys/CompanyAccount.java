@@ -6,11 +6,18 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import com.gxkj.taobaoservice.enums.CompanyAccountReason;
 @Entity
 @Table(name="company_account")
 public class CompanyAccount implements Serializable{
@@ -64,7 +71,19 @@ public class CompanyAccount implements Serializable{
 	private BigDecimal drawMoney;
 	
 	@Column(name="createtime")
+	@Temporal(TemporalType.TIMESTAMP )
 	private Date createTime;
+	
+	/**
+	 * 关联表ID
+	 */
+	@Column(name = "ref_id") 
+	private Integer refId;
+	
+	@Column(name = "reason_type") 
+	@Enumerated(EnumType.STRING)
+	@NotNull(message = "公司账户变化原因不能为空")
+	private CompanyAccountReason reasonType;
 	
 
 	public Integer getId() {
@@ -130,6 +149,24 @@ public class CompanyAccount implements Serializable{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+
+	public Integer getRefId() {
+		return refId;
+	}
+
+	public void setRefId(Integer refId) {
+		this.refId = refId;
+	}
+
+	public CompanyAccountReason getReasonType() {
+		return reasonType;
+	}
+
+	public void setReasonType(CompanyAccountReason reasonType) {
+		this.reasonType = reasonType;
+	}
+
+	 
 	
 	
 

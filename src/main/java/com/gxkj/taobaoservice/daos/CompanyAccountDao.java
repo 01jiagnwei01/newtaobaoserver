@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 
 import com.gxkj.common.dao.BaseDAO;
+import com.gxkj.taobaoservice.enums.CompanyAccountReason;
 
 public interface CompanyAccountDao extends BaseDAO {
 
@@ -19,5 +20,5 @@ public interface CompanyAccountDao extends BaseDAO {
 	public void executeUpdateCompanyAccount(BigDecimal sellPoint,
 			BigDecimal sellPointsMoney, BigDecimal getPoints,
 			BigDecimal supplyPoints, BigDecimal depositMoney,
-			BigDecimal drawMoney)throws SQLException;
+			BigDecimal drawMoney,CompanyAccountReason reasonType,Integer refId)throws SQLException;
 }

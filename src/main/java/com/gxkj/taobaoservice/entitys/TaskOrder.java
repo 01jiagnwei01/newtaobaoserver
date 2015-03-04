@@ -105,7 +105,7 @@ public class TaskOrder implements Serializable{
 	private BigDecimal encourage = BigDecimal.ZERO ;
 
 	/**
-	 *  每单完成基本任务，平台受益点数
+	 *  每个订单完成基本任务，平台受益点数
 	 */
 	@Column(name="basic_pingtai_gain_point" )
 	@NotNull
@@ -162,6 +162,12 @@ public class TaskOrder implements Serializable{
 	@NotNull
 	@Min(value=1)
 	private Integer repeateTimes = new Integer("1");
+	
+	/**
+	 * 批量发布，平台获利点数
+	 */
+	@Column(name="repeat_plarform_grain_point" )
+	private BigDecimal repeatPlarformGrainPoint = BigDecimal.ZERO;
 	
 	
 	/**
@@ -365,8 +371,13 @@ public class TaskOrder implements Serializable{
 			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos) {
 		this.taskOrderSubTaskInfos = taskOrderSubTaskInfos;
 	}
-	
-	
-	
+
+	public BigDecimal getRepeatPlarformGrainPoint() {
+		return repeatPlarformGrainPoint;
+	}
+
+	public void setRepeatPlarformGrainPoint(BigDecimal repeatPlarformGrainPoint) {
+		this.repeatPlarformGrainPoint = repeatPlarformGrainPoint;
+	}
 
 }

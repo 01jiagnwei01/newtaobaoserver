@@ -40,8 +40,8 @@ table td{padding:5px; height:25px; font-size:14px;}
 			</jsp:include>
 			 
 			<div style="width:910px; padding:0 10px; background-color:#FFF;" class="fr">
-				 	 <div  style="display:none; border-radius:10px; width:400px; margin:10px auto 30px; border:solid 1px #ccc; font-size:20px; font-weight:bold; height:300px; line-height:300px;" class="tac">
-						<a href="<%=request.getContextPath() %>/login" style="color:#09f;">创建成功！<button class="btn btn-lg btn-success"  id="continueCreate">继续创建？</button></a>
+				 	 <div  style="; border-radius:10px; width:400px; margin:10px auto 30px; border:solid 1px #ccc; font-size:20px; font-weight:bold; height:300px; line-height:300px;" class="tac">
+						<a href="<%=request.getContextPath() %>/login" style="color:#09f;">创建成功！<button class="btn btn-lg btn-success"  id="continueCreate">创建新订单？</button></a>
 					</div> 
 								 	 
 			</div>

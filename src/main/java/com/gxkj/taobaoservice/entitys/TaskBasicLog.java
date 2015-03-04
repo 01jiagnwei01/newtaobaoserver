@@ -17,7 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.gxkj.taobaoservice.enums.TaskBasicLogUserType;
 import com.gxkj.taobaoservice.enums.TaskStatus;
 @Entity
-@Table(name = "tasic_basic_log")
+@Table(name = "task_basic_log")
 public class TaskBasicLog implements Serializable {
 
 	/**

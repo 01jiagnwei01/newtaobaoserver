@@ -30,6 +30,7 @@ import com.gxkj.taobaoservice.entitys.TaskOrder;
 import com.gxkj.taobaoservice.entitys.TaskOrderSubTaskInfo;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.TaskOrderService;
+import com.gxkj.taobaoservice.util.MoneyCalculateUtil;
 
 /**
  * 订单管理
@@ -239,6 +240,25 @@ public class OrderController {
 		try{
 			taskOrderService.doapplyTaskOrderByOrderIdAndUserId(userBase,orderId);
 		}catch(BusinessException e){
+			e.printStackTrace();
+			try{
+				TaskOrder taskOrder = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(), orderId);
+				/**
+				 * 计算总消耗费用
+				 */
+				MoneyCalculateUtil.caculateOrderAccount(taskOrder);
+				modelMap.put("order", taskOrder);
+				
+				List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = taskOrder.getTaskOrderSubTaskInfos();
+				if(CollectionUtils.isNotEmpty(taskOrderSubTaskInfos)){
+					for(TaskOrderSubTaskInfo item:taskOrderSubTaskInfos){
+						modelMap.put(item.getTaskKey(), item);
+					}
+				}  
+			}catch(BusinessException e1){
+				modelMap.put("error", e1);
+				
+			}
 			mv = "site/order/order_sure_page";
 			modelMap.put("error", e);
 		}
@@ -251,6 +271,10 @@ public class OrderController {
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		try{
 			TaskOrder taskOrder = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(), orderId);
+			/**
+			 * 计算总消耗费用
+			 */
+			MoneyCalculateUtil.caculateOrderAccount(taskOrder);
 			modelMap.put("order", taskOrder);
 			
 			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = taskOrder.getTaskOrderSubTaskInfos();
@@ -259,6 +283,8 @@ public class OrderController {
 					modelMap.put(item.getTaskKey(), item);
 				}
 			}
+			
+			
 		}catch(BusinessException e){
 			modelMap.put("error", e);
 			

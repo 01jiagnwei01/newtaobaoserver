@@ -43,15 +43,26 @@ table td{padding:5px; height:25px; font-size:14px;}
 			<div style="width:910px; padding:0 10px; background-color:#FFF;" class="fr">
 				 	<form id="submitForm" method="post" action="<%=request.getContextPath() %>/site/order/sure">
 					<table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">
-							<tr  >
-									<td colspan="3"  align="center"><b>请确认您的订单</b></td>
-							</tr>
+					<c:choose>
+								<c:when test="${empty error }">
+									<tr  >
+										<td colspan="3"  align="center"><b>请确认您的订单</b></td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									
+									 <tr  >
+										<td colspan="3"  align="center"> <div class="form-group has-error">错误：${error.message }</div> </td>
+									</tr>
+								</c:otherwise>
+								
+							</c:choose>
+							
 							<tr style="display: none" >
 									<td colspan="3"  align="center">
 										<input type="hidden" name="orderId" value="${order.id }">
 										<input type="hidden" name="goodCommentTimeLimit" value="${goodCommentTimeLimit}">
 										<input type="hidden" name="goodCommentContent" value="${goodCommentContent }">
-										<input type="hidden" name="orderId" value="${order.id }">
 									</td>
 							</tr>
 							<tr>
@@ -181,12 +192,39 @@ table td{padding:5px; height:25px; font-size:14px;}
 									</td>
 									 
 							</tr>
-							<tr>
-								<td colspan="3" align="center">
-									<button class="btn btn-lg btn-success"  onclick="sure(this)">确认订单</button>
-									<button class="btn btn-default" type="button" onclick="back(this)">修改</button>
-								</td>
-							</tr>
+							<c:choose>
+								<c:when test="${empty error }">
+									<tr>
+										<td colspan="3" align="center">
+											<button class="btn btn-lg btn-success"  onclick="sure(this)">确认订单</button>
+											<button class="btn btn-default" type="button" onclick="back(this)">修改</button>
+										</td>
+									</tr>
+								</c:when>
+								<c:when test="${error.siteFlag eq 'points' }">
+									<tr>
+										<td colspan="3" align="center">
+											<button class="btn btn-default" type="button" onclick="goBuyPoint(this)">去买点</button>
+										</td>
+									</tr>
+								</c:when>
+								<c:when test="${error.siteFlag eq 'lockAmount' }">
+									<tr>
+										<td colspan="3" align="center">
+											<button class="btn btn-default" type="button" onclick="goChongzhi(this)">去充值</button>
+										</td>
+						 			</tr>
+								</c:when>
+								<c:otherwise>
+									<tr>
+										<td colspan="3" align="center">
+											<button class="btn btn-default" type="button" onclick="back(this)">修改</button>
+										</td>
+									</tr>
+								</c:otherwise>
+								
+							</c:choose>
+							
 					</table>
 					 </form>
 			</div>
@@ -203,11 +241,23 @@ table td{padding:5px; height:25px; font-size:14px;}
 	function sure(btn){
 		$(btn).attr("disabled",true); 
 		var path = "<%=request.getContextPath() %>/site/order/sure";
-		 $('#submitForm').attr("action", path).submit();;
+		 $('#submitForm').attr("action", path).submit();
 	}
 	function back(btn){
 		$(btn).attr("disabled",true); 
 		var path = "<%=request.getContextPath() %>/site/order/back";
+		 $('#submitForm').attr("action", path).submit();
+	}
+	function goBuyPoint(btn){
+		$(btn).attr("disabled",true); 
+		 $("#submitForm").attr("method","GET");
+		var path = "<%=request.getContextPath() %>/site/products/pointcard";
+		 $('#submitForm').attr("action", path).submit();
+	}
+	function goChongzhi(btn){
+		$(btn).attr("disabled",true); 
+		$("#submitForm").attr("method","GET");
+		var path = "<%=request.getContextPath() %>/site/money/chongzhi";
 		 $('#submitForm').attr("action", path).submit();;
 	}
 </script>

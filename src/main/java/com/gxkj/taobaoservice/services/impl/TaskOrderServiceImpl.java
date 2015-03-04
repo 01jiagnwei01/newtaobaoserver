@@ -217,6 +217,8 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 * 批量发布条数
 		 */
 		order.setRepeateTimes(piLiangTimes);
+		BigDecimal repeatPlarformGrainPoint = SystemDbData.subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount();
+		
 		/**
 		 * 状态
 		 */
@@ -265,9 +267,13 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			
 		}
 		if(piLiangTimes>1){
+			/**
+			 * 批量发布
+			 */
+			order.setRepeatPlarformGrainPoint(repeatPlarformGrainPoint);
+			 
 			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("PI_LIANG_FA_BU");
 			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints.add(item4.getAmount());
 				
 				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
 				taskOrderSubTaskInfo.setInputValue(piLiangTimes+"");
@@ -276,7 +282,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			}
 			
 		}
-		if(piLiangTimes>1){
+		if(noRepeatTalk){
 			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("NO_REPEAT_TASK");
 			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
 				zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints.add(item4.getAmount());
@@ -429,7 +435,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if(taskOrder == null ){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"orderId");
 		}
-		if(taskOrder.getUserId() != userBase.getId()){
+		if(!userBase.getId().equals(taskOrder.getUserId() ) ){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userId");
 		}
 		if(taskOrder.getStatus() != TaskOrderStatus.WAIT_FOR_SURE){

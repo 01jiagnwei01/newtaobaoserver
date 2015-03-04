@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.gxkj.common.dao.BaseDAOImpl;
 import com.gxkj.taobaoservice.daos.CompanyAccountDao;
 import com.gxkj.taobaoservice.entitys.CompanyAccount;
+import com.gxkj.taobaoservice.enums.CompanyAccountReason;
 @Repository
 public class CompanyAccountDaoImpl extends BaseDAOImpl implements
 		CompanyAccountDao {
@@ -19,12 +20,14 @@ public class CompanyAccountDaoImpl extends BaseDAOImpl implements
 	public void executeUpdateCompanyAccount(BigDecimal sellPoint,
 			BigDecimal sellPointsMoney, BigDecimal getPoints,
 			BigDecimal supplyPoints, BigDecimal depositMoney,
-			BigDecimal drawMoney) throws SQLException {
-		String hql = "from CompanyAccount order by id  desc desc limit 1";
-		List<CompanyAccount> companyAccounts =  (List<CompanyAccount>) this.selectByHQL(hql);
+			BigDecimal drawMoney,CompanyAccountReason reasonType,Integer refId) throws SQLException {
+		String hql = "from CompanyAccount order by id  desc ";
+		List<CompanyAccount> companyAccounts =  (List<CompanyAccount>) super.selectPageByHQL(hql, new Object[0], 0, 1);
 		Date now = new Date();
 		CompanyAccount companyAccount = new CompanyAccount();
-		if(CollectionUtils.isNotEmpty(companyAccounts)){
+		companyAccount.setReasonType(reasonType);
+		companyAccount.setRefId(refId);
+		if(CollectionUtils.isEmpty(companyAccounts)){
 		 
 			companyAccount.setCreateTime(now);
 			companyAccount.setDepositMoney(depositMoney==null?BigDecimal.ZERO:depositMoney);

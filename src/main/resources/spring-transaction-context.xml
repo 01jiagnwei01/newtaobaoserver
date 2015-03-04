@@ -26,20 +26,21 @@
     <!--  声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager -->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="add*" propagation="REQUIRED" isolation="DEFAULT" />
-            <tx:method name="update*" propagation="REQUIRED" isolation="DEFAULT" />
-            <tx:method name="delete*" propagation="REQUIRED" isolation="DEFAULT" />
-            <tx:method name="active*" propagation="REQUIRED" isolation="DEFAULT" />
-            <tx:method name="do*" propagation="REQUIRED" isolation="DEFAULT" />
+            <tx:method name="add*" propagation="REQUIRED" isolation="DEFAULT"  rollback-for="Exception"/>
+            <tx:method name="update*" propagation="REQUIRED" isolation="DEFAULT"  rollback-for="Exception"/>
+            <tx:method name="delete*" propagation="REQUIRED" isolation="DEFAULT"  rollback-for="Exception"/>
+            <tx:method name="active*" propagation="REQUIRED" isolation="DEFAULT"  rollback-for="Exception"/>
+            <tx:method name="do*" propagation="REQUIRED" isolation="DEFAULT"   rollback-for="Exception"/>
             
-            <tx:method name="doRefuseApplyDraw" propagation="REQUIRED" isolation="SERIALIZABLE" /><!-- 取款审核拒绝 -->
-            <tx:method name="doAgreeApplyDraw" propagation="REQUIRED" isolation="SERIALIZABLE" /><!-- 取款申请审核通过 -->
+            <tx:method name="doRefuseApplyDraw" propagation="REQUIRED" isolation="SERIALIZABLE"  rollback-for="Exception"/><!-- 取款审核拒绝 -->
+            <tx:method name="doAgreeApplyDraw" propagation="REQUIRED" isolation="SERIALIZABLE"   rollback-for="Exception"/><!-- 取款申请审核通过 -->
             <tx:method name="doAgreeRechargeApply" propagation="REQUIRED" isolation="SERIALIZABLE" /><!-- 充值审核通过 -->
-            <tx:method name="doapplyTaskOrderByOrderIdAndUserId" propagation="REQUIRED" isolation="SERIALIZABLE" /><!-- 订单审核通过 -->
+            <tx:method name="doapplyTaskOrderByOrderIdAndUserId" propagation="REQUIRED" isolation="SERIALIZABLE"  rollback-for="Exception"/><!-- 订单审核通过 -->
+             <tx:method name="executeUpdateCompanyAccount" propagation="REQUIRED" isolation="SERIALIZABLE"  rollback-for="Exception"/><!-- 更新公司账户 -->
+             <tx:method name="updateUserAccount" propagation="REQUIRED" isolation="SERIALIZABLE"  rollback-for="Exception"/><!-- 更新用户账户 -->
             
-            
-            <tx:method name="get*" propagation="REQUIRED"  read-only="true"    isolation="DEFAULT"/>
-            <tx:method name="*" propagation="REQUIRED"  read-only="true"    isolation="DEFAULT"/>
+            <tx:method name="get*" propagation="REQUIRED"  read-only="true"    isolation="DEFAULT"  rollback-for="Exception"/>
+            <tx:method name="*" propagation="REQUIRED"  read-only="true"    isolation="DEFAULT"  rollback-for="Exception"/>
         </tx:attributes>
     </tx:advice>
     

@@ -18,6 +18,7 @@ import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserAccountLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
+import com.gxkj.taobaoservice.enums.CompanyAccountReason;
 import com.gxkj.taobaoservice.enums.UserAccountTypes;
 import com.gxkj.taobaoservice.services.UserAccountService;
 @Service
@@ -130,7 +131,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 公司账户增加
 				 */
-				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount, BigDecimal.ZERO);
+				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount, BigDecimal.ZERO
+						,CompanyAccountReason.DEPOSIT,refTableId);
 				
 				break;
 			case WITHDRAW_APPLY:
@@ -201,7 +203,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 公司账户增加
 				 */
-				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount);
+				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount,CompanyAccountReason.DRAW,refTableId);
 				
 				break;
 			case BUY_POINTS:
@@ -229,7 +231,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 公司账户增加
 				 */
-				companyAccountDao.executeUpdateCompanyAccount(payPoints, payamount,  BigDecimal.ZERO,  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO );
+				companyAccountDao.executeUpdateCompanyAccount(payPoints, payamount,  BigDecimal.ZERO,  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO ,CompanyAccountReason.SellPoint,refTableId);
 				
 				break;
 			case Task_Order_SURE:
@@ -243,15 +245,15 @@ public class UserAccountServiceImpl implements UserAccountService {
 				}
 				 
 				if(payPoints!=null && payPoints.compareTo(BigDecimal.ZERO)<0){
-					log.info(String.format("参数错误,points需要是正数,payPoints=%d",payPoints));
+					log.info(String.format("参数错误,points需要是正数,payPoints=%.2f",payPoints));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
 				}
 				if( currentPoints.compareTo(lockPoints)<0){
-					log.info(String.format("可用点数不足，当前可用点数是：%d,需要绑定点数:%d",currentPoints.doubleValue(),lockPoints.doubleValue()));
-					 throw new BusinessException(BusinessExceptionInfos.AMOUNT_MONEY_NOT_ENOUGH,"amount");
+					log.info(String.format("可用点数不足，当前可用点数是：%.2f,需要绑定点数:%.2f",currentPoints.doubleValue(),lockPoints.doubleValue()));
+					 throw new BusinessException(BusinessExceptionInfos.POINT_NOT_ENOUGH,"points");
 				}
 				if(refTableId == null || refTableId.intValue()==0){
-					log.info(String.format("参数错误,关联取款申请记录表ID需要是正数,refTableId=%d",refTableId));
+					log.info(String.format("参数错误,关联取款申请记录表ID需要是正数,refTableId=%.2f",refTableId));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
 				}
 				// 关联订单表
@@ -274,7 +276,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 公司账户增加
 				 */
-				companyAccountDao.executeUpdateCompanyAccount( BigDecimal.ZERO,  BigDecimal.ZERO, payPoints,  BigDecimal.ZERO,  BigDecimal.ZERO,  BigDecimal.ZERO);
+				companyAccountDao.executeUpdateCompanyAccount( BigDecimal.ZERO,  BigDecimal.ZERO, payPoints,  BigDecimal.ZERO,  BigDecimal.ZERO,  BigDecimal.ZERO,CompanyAccountReason.ORDERSURE,refTableId);
 				
 				break;
 				
@@ -296,25 +298,25 @@ public class UserAccountServiceImpl implements UserAccountService {
 		 * 操作后验证
 		 */
 		if(afterAmount.compareTo(BigDecimal.ZERO)<0){
-			log.error(String.format("参数错误,可用金额不能为负数,操作支付金额为payamount=%ld,锁定金额是lockAmount=%ld，操作前金额为：%ld",payamount.doubleValue(),
+			log.error(String.format("参数错误,可用金额不能为负数,操作支付金额为payamount=%.2f,锁定金额是lockAmount=%.2f，操作前金额为：%.2f",payamount.doubleValue(),
 					lockAmount.doubleValue(),currentBalance.doubleValue()));
-			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
+			 throw new BusinessException(BusinessExceptionInfos.AMOUNT_MONEY_NOT_ENOUGH,"amount");
 		}
 		if(afterPoints.compareTo(BigDecimal.ZERO)<0){
-			log.error(String.format("参数错误,可用点数不能为负数,操作点数为payPoints=%ld，锁定点数为lockPoints=%ld，操作前点数为：%ld",payPoints.doubleValue(),lockPoints.doubleValue(),
+			log.error(String.format("参数错误,可用点数不能为负数,操作点数为payPoints=%.2f，锁定点数为lockPoints=%.2f，操作前点数为：%.2f",payPoints.doubleValue(),lockPoints.doubleValue(),
 					currentPoints.doubleValue()));
-			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
+			 throw new BusinessException(BusinessExceptionInfos.POINT_NOT_ENOUGH,"points");
 		}
 		
 		if(afterLockedAmount.compareTo(BigDecimal.ZERO)<0){
-			log.error(String.format("参数错误,锁定金额不能为负数,操作支付金额为payamount=%ld,锁定金额是lockAmount=%ld，操作前锁定金额为：%ld",payamount.doubleValue(),
+			log.error(String.format("参数错误,锁定金额不能为负数,操作支付金额为payamount=%.2f,锁定金额是lockAmount=%.2f，操作前锁定金额为：%.2f",payamount.doubleValue(),
 					lockAmount.doubleValue(),currentLockedBalance.doubleValue()));
-			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"amount");
+			 throw new BusinessException(BusinessExceptionInfos.AMOUNT_MONEY_NOT_ENOUGH,"amount");
 		}
 		
 		if(afterLockedPoints.compareTo(BigDecimal.ZERO)<0){
-			log.error(String.format("参数错误,可用点数不能为负数,操作点数为payPoints=%ld，锁定点数为lockPoints=%ld，操作前锁定点数为：%ld",payPoints.doubleValue(),lockPoints.doubleValue(),currentLockedPoints.doubleValue()));
-			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
+			log.error(String.format("参数错误,可用点数不能为负数,操作点数为payPoints=%.2f，锁定点数为lockPoints=%.2f，操作前锁定点数为：%.2f",payPoints.doubleValue(),lockPoints.doubleValue(),currentLockedPoints.doubleValue()));
+			throw new BusinessException(BusinessExceptionInfos.POINT_NOT_ENOUGH,"points");
 		}
 		uerAccount.setCurrentBalance(afterAmount);
 		uerAccount.setCurrentRestPoints(afterPoints);

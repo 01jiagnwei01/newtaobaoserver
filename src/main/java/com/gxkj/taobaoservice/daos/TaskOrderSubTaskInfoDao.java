@@ -16,4 +16,11 @@ public interface TaskOrderSubTaskInfoDao extends BaseDAO {
 	 */
 	List<TaskOrderSubTaskInfo> getSubTaskInfoByOrderId(Integer orderId)throws SQLException;
 
+	/**
+	 *	根据订单ID，删除增值和基本任务
+	 * @param orderId
+	 * @throws SQLException
+	 */
+	void deleteByOrderId(Integer orderId)throws SQLException;
+
 }

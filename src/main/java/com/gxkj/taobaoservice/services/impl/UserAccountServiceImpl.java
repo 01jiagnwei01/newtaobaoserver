@@ -278,7 +278,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
 				}
 				// 关联订单表
-				userAccountLog.setDrawLogId(refTableId);
+				userAccountLog.setTaskOrderId(refTableId);
 				
 				if(lockAmount != null){
 					//可用金额减少，绑定金额增加

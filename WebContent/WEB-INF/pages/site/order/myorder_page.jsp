@@ -77,10 +77,11 @@ table td {
 										<td align="center"><%=item.getStatus().getName()%></td>
 										<td align="center">
 											<%if(TaskOrderStatus.WAIT_FOR_SURE == item.getStatus()){ %>
-												<button class="btn btn-xs btn-primary" id="suerbtn<%=item.getId() %>" onclick="doSureOrder(this,<%=item.getId() %>)">确认</button>
-											<button class="btn btn-xs btn-default" id="cancelbtn<%=item.getId() %>" onclick="doCancelOrder(this,<%=item.getId() %>)">删除</button>
-											<% }%> 
-											<button class="btn btn-xs btn-primary" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
+												<button class="btn btn-xs btn-primary" id="opbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">操作</button>
+											 
+											<% }else {%>
+											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
+											<%}%> 
 										</td>
 								</tr>
 							<% 
@@ -151,74 +152,7 @@ $(function(){
 	}
 })
 
-function doSureOrder(zthis,id){
-	var url = "<%=request.getContextPath()%>/site/order/doapply";
-  	$.ajax({
-		  type:'post',
-		  url: url,
-		  context: document.body,
-		  beforeSend:function(){
-			  $(zthis).attr("disabled",true); 
-			  $(zthis).text("正在提交中。。。");
-		 },
-		  data:{
-			  d:new Date().getTime(),
-			  orderid:id
-			  
-		  },
-		  success:function(json){
-			   
-			  //$("#suerbtn"+id).hide();
-			  //$("#cancelbtn"+id).hide(); 
-			  window.location.reload();
-		  },
-	      error:function(xhr,textStatus,errorThrown){
-	    	  $(zthis).text("失败");
-	    	  refreshYanZhengMa(document.getElementById("yanzhengmaBtn") ) ;
-	  		var responseText = xhr.responseText;
-	  		var obj = jQuery.parseJSON(responseText);
-			var errortype = obj.errortype
-	  		var msg = obj.msg; 
-				$("#error_msg").html(msg); 
-			
-	  		// $(btn)).removeAttr("disabled");
-	  } 
-	})
-}
-function doCancelOrder(zthis,id){
-	var url = "<%=request.getContextPath()%>/site/order/docancel";
-  	$.ajax({
-		  type:'post',
-		  url: url,
-		  context: document.body,
-		  beforeSend:function(){
-			  $(zthis).attr("disabled",true); 
-			  $(zthis).text("正在提交中。。。");
-		 },
-		  data:{
-			  d:new Date().getTime(),
-			  orderid:id
-			  
-		  },
-		  success:function(json){
-			   
-			  //$("#suerbtn"+id).hide();
-			  //$("#cancelbtn"+id).hide(); 
-			  window.location.reload();
-		  },
-	      error:function(xhr,textStatus,errorThrown){
-	    	  $(zthis).text("失败");
-	    	  refreshYanZhengMa(document.getElementById("yanzhengmaBtn") ) ;
-	  		var responseText = xhr.responseText;
-	  		var obj = jQuery.parseJSON(responseText);
-			var errortype = obj.errortype
-	  		var msg = obj.msg; 
-				$("#error_msg").html(msg); 
-			
-	  		// $(btn)).removeAttr("disabled");
-	  } 
-	})
-}
+ 
 function detail(zthis,id){
 	var url = "<%=request.getContextPath()%>/site/order/detail?orderId="+id;
 	window.open(url);

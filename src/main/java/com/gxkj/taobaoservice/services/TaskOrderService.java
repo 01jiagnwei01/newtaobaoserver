@@ -15,6 +15,7 @@ public interface TaskOrderService {
 	 
 	/**
 	 * 创建任务订单
+	 * 
 	 * @param userBase  用户
 	 * @param taobaoXiaohao  淘宝小号
 	 * @param userQq	用户QQ
@@ -34,7 +35,7 @@ public interface TaskOrderService {
 	 * @return
 	 * @throws SQLException
 	 */
-	public TaskOrder doAddTaskOrder( UserBase userBase,String taobaoXiaohao,String userQq,String productTitle,String productLink,
+	public TaskOrder doAddTaskOrder(  UserBase userBase,String taobaoXiaohao,String userQq,String productTitle,String productLink,
 			BigDecimal guaranteePrice, BigDecimal encourage,String goodCommentTimeLimit,
 			String goodCommentContent,boolean needWangWangTalk,boolean  noRepeatTalk,boolean needZhiDingJieShouRen,Integer jieShouRenId,
 			boolean needZhiDingSouHuoDiZhi ,String shouHuoDiZhi,Integer piLiangFabuCount
@@ -82,5 +83,37 @@ public interface TaskOrderService {
 	 * @throws IllegalAccessException 
 	 */
 	public void doapplyTaskOrderByOrderIdAndUserId(UserBase userBase, Integer orderId)throws SQLException,BusinessException, IllegalAccessException, InvocationTargetException;
+	
+	/**
+	 * 修改订单
+	 * @param dbOrderId		
+	 * @param userBase				用户	
+	 * @param taobaoXiaohao			淘宝小号
+	 * @param userQq				用户QQ
+	 * @param productTitle			产品标题
+	 * @param productLink			产品链接
+	 * @param guaranteePrice		担保金
+	 * @param encourage				奖励金
+	 * @param goodCommentTimeLimit	好评
+	 * @param goodCommentContent	好品内容
+	 * @param needWangWangTalk		需要旺旺聊天
+	 * @param noRepeatTalk			需要禁止重复接单
+	 * @param needZhiDingJieShouRen	需要指定接单人
+	 * @param jieShouRenId			接收人ID
+	 * @param needZhiDingSouHuoDiZhi	需要指定收货地址
+	 * @param shouHuoDiZhi			收货地址
+	 * @param piLiangFabuCount		批量发布条数
+	 * @return
+	 * @throws BusinessException 
+	 * @throws SQLException 
+	 */
+	public TaskOrder doUpdateTaskOrder(Integer dbOrderId, UserBase userBase,
+			String taobaoXiaohao, String userQq, String productTitle,
+			String productLink, BigDecimal guaranteePrice,
+			BigDecimal encourage, String goodCommentTimeLimit,
+			String goodCommentContent, boolean needWangWangTalk,
+			boolean noRepeatTalk, boolean needZhiDingJieShouRen,
+			Integer jieShouRenId, boolean needZhiDingSouHuoDiZhi,
+			String shouHuoDiZhi, Integer piLiangFabuCount) throws BusinessException, SQLException;
 
 }

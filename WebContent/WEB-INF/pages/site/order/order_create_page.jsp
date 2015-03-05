@@ -45,6 +45,7 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 			 
 			<div style="width:910px; padding:0 10px; background-color:#FFF;" class="fr">
 				 	<form method="post" action="<%=request.getContextPath() %>/site/order/create">
+				 		<input type="hidden" name="orderid" value="${order.id}">
 					<table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">
 							<tr id="errortr" <% if(error == null){out.print("style='display:none;'");} %>>
 									<td colspan="3"  align="center"><% if(error != null &&  error.getSiteFlag() != null && !error.getSiteFlag().equals("userBase")){
@@ -99,16 +100,16 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 							</tr>
 							<tr>
 									<td align="right">好评时限要求</td>
-									<td><select class="inputwidth"   name="goodCommentTimeLimit" id="goodCommentTimeLimit"  value="${goodCommentTimeLimit }">
-											<option value="IMMEDIATELY">立刻好评</option>
-											<option value="THIRTYMMinuteLater"  >30分钟后好评</option>
-											<option value="ONE_DAY_LATER">1天后好评</option>
-											<option value="TWO_DAY_LATER">2天后好评</option>
-											<option value="THREE_DAY_LATER">3天后好评</option>
-											<option value="FOURE_DAY_LATER">4天后好评</option>
-											<option value="FIVE_DAY_LATER">5天后好评</option>
-											<option value="SIX_DAY_LATER">6天后好评</option>
-											<option value="SEVEN_DAY_LATER">7天后好评</option>
+									<td><select class="inputwidth"   name="goodCommentTimeLimit" id="goodCommentTimeLimit"  >
+											<option value="IMMEDIATELY" <c:if test="${'IMMEDIATELY' == goodCommentTimeLimit }">selected="selected"</c:if>>立刻好评</option>
+											<option value="THIRTYMMinuteLater"  <c:if test="${'THIRTYMMinuteLater' == goodCommentTimeLimit }">selected="selected"</c:if>>30分钟后好评</option>
+											<option value="ONE_DAY_LATER" <c:if test="${'ONE_DAY_LATER' == goodCommentTimeLimit }">selected="selected"</c:if>>1天后好评</option>
+											<option value="TWO_DAY_LATER" <c:if test="${'TWO_DAY_LATER' == goodCommentTimeLimit }">selected="selected"</c:if>>2天后好评</option>
+											<option value="THREE_DAY_LATER"   <c:if test="${'FOURE_DAY_LATER' == goodCommentTimeLimit }">selected="selected"</c:if>>3天后好评</option>
+											<option value="FOURE_DAY_LATER" <c:if test="${'FOURE_DAY_LATER' == goodCommentTimeLimit }">selected="selected"</c:if>>4天后好评</option>
+											<option value="FIVE_DAY_LATER" <c:if test="${'FIVE_DAY_LATER' == goodCommentTimeLimit }">selected="selected"</c:if>>5天后好评</option>
+											<option value="SIX_DAY_LATER" <c:if test="${'SIX_DAY_LATER' == goodCommentTimeLimit }">selected="selected"</c:if>>6天后好评</option>
+											<option value="SEVEN_DAY_LATER" <c:if test="${'SEVEN_DAY_LATER' == goodCommentTimeLimit }">selected="selected"</c:if>>7天后好评</option>
 									</select></td>
 									<td>&nbsp;</td>
 							</tr>
@@ -129,8 +130,8 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 							<tr>
 									<td align="right">需要旺旺聊天</td>
 									<td><select class="inputwidth"   id="NEED_WANGWANG_TALK" name="NEED_WANGWANG_TALK"  >
-											<option value="0" <c:if test="${NEED_WANGWANG_TALK eq '0' }">selected="selected"</c:if>>不需要</option>
-											<option value="1"  <c:if test="${NEED_WANGWANG_TALK eq '1' }">selected="selected"</c:if>>需要</option> 
+											<option value="0" <c:if test="${NEED_WANGWANG_TALK eq '0' }">selected</c:if>>不需要</option>
+											<option value="1"  <c:if test="${NEED_WANGWANG_TALK eq '1' }">selected</c:if>>需要</option> 
 									</select></td>
 									<td>奖励接手方<%=subTaskInfoMap.get("NEED_WANGWANG_TALK").getAmount() %>个发布点</td>
 							</tr>
@@ -145,9 +146,9 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 							<tr>
 									<td align="right">指定接手人</td>
 									<td>
-										<select class="inputwidth" style="width:100px;"  id="ZHI_DING_JIE_SHOU_REN" name="ZHI_DING_JIE_SHOU_REN"  >
+										<select class="inputwidth" style="width:100px;"  id="ZHI_DING_JIE_SHOU_REN" name="ZHI_DING_JIE_SHOU_REN"  value="${ZHI_DING_JIE_SHOU_REN }">
 											<option value="0" <c:if test="${ZHI_DING_JIE_SHOU_REN eq '0' }">selected="selected"</c:if>>不需要</option>
-											<option value="1" <c:if test="${ZHI_DING_JIE_SHOU_REN eq '0' }">selected="selected"</c:if>>需要</option>
+											<option value="1" <c:if test="${ZHI_DING_JIE_SHOU_REN eq '1' }">selected="selected"</c:if>>需要</option>
 										</select>
 										<input class="easyui-textbox zengzhiinputwidth" type="text" name="ZHI_DING_JIE_SHOU_REN_ID" id="ZHI_DING_JIE_SHOU_REN_ID"   value="${ZHI_DING_JIE_SHOU_REN_ID }" style="width:190px;height:50px;line-height: 50px;"  placeholder="接手人ID"/> 
 									</td>
@@ -155,7 +156,7 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 							</tr>
 							<tr>
 									<td align="right">指定收货地址</td>
-									<td><select class="inputwidth"   style="width:100px;"id="ZHI_DING_SHOU_HUO_DI_ZHI" name="ZHI_DING_SHOU_HUO_DI_ZHI" value="${ZHI_DING_JIE_SHOU_REN_ID }">
+									<td><select class="inputwidth"   style="width:100px;"id="ZHI_DING_SHOU_HUO_DI_ZHI" name="ZHI_DING_SHOU_HUO_DI_ZHI" value="${ZHI_DING_SHOU_HUO_DI_ZHI }">
 											<option value="0" <c:if test="${ZHI_DING_SHOU_HUO_DI_ZHI eq '0' }">selected="selected"</c:if>>不需要</option>
 											<option value="1" <c:if test="${ZHI_DING_SHOU_HUO_DI_ZHI eq '1' }">selected="selected"</c:if>>需要</option>
 									
@@ -170,7 +171,7 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 										<option value="0"  <c:if test="${PI_LIANG_FA_BU eq '0' }">selected="selected"</c:if>>不需要</option> 
 										<option value="1"  <c:if test="${PI_LIANG_FA_BU eq '1' }">selected="selected"</c:if>>需要</option>
 								</select>
-										<input class="zengzhiinputwidth" style="width:100px;height:50px;line-height: 50px;" id="PI_LIANG_FA_BU_input"  name="PI_LIANG_FA_BU_input"  value="${PI_LIANG_FA_BU_input }" type="number" min="1" placeholder="发布条数"/>
+										<input class="zengzhiinputwidth" style="width:100px;height:50px;line-height: 50px;" id="PI_LIANG_FA_BU_input"  name="PI_LIANG_FA_BU_input"  value="${PI_LIANG_FA_BU_input }" type="number" min="2" placeholder="发布条数"/>
 										</td>
 								<td> 批量发布，上限50条,需要支付平台<%=subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount() %>个发布点 </td>
 						</tr>

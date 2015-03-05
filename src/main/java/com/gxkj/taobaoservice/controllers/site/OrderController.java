@@ -68,6 +68,7 @@ public class OrderController {
 	public String order_create_post(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap) throws SQLException {
 
+		String orderid = request.getParameter("orderid");
 		String taobaoXiaohao = request.getParameter("taobaoXiaohao");
 		String userQq = request.getParameter("userQq");
 		String productTitle = request.getParameter("productTitle");
@@ -166,9 +167,13 @@ public class OrderController {
 			needZhiDingSouHuoDiZhi = true;
 		}
 		Integer piLiangFabuCount = 1;
+		Integer dbOrderId = 0;
 		Integer jieShouRenId = 0;
 		BigDecimal guaranteePrice = BigDecimal.ZERO;
 		BigDecimal encourage  = BigDecimal.ZERO;
+		if(StringUtils.isNoneBlank(orderid)){
+			dbOrderId = Integer.parseInt(orderid);
+		}
 		  
 		try {
 			if("1".equals(PI_LIANG_FA_BU)){
@@ -197,21 +202,46 @@ public class OrderController {
 		}
 
 		try {
-			TaskOrder order  = taskOrderService.doAddTaskOrder(userBase, taobaoXiaohao, userQq, productTitle, productLink, guaranteePrice, 
-					encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount);
+			
+			TaskOrder order  = null;
+			if(dbOrderId == 0){
+				order = taskOrderService.doAddTaskOrder(  userBase, taobaoXiaohao, userQq, productTitle, productLink, guaranteePrice, 
+						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount);
+				
+			}else {
+				order = taskOrderService.doUpdateTaskOrder( dbOrderId,userBase, taobaoXiaohao, userQq, productTitle, productLink, guaranteePrice, 
+						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount);
+				
+			}
 			modelMap.put("order", order);
 			
-			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = order.getTaskOrderSubTaskInfos();
-			if(CollectionUtils.isNotEmpty(taskOrderSubTaskInfos)){
-				for(TaskOrderSubTaskInfo item:taskOrderSubTaskInfos){
-					modelMap.put(item.getTaskKey(), item);
-				}
-			}
 			String mv = "site/order/order_sure_page";
 			return mv;
 		} catch (BusinessException e) {
 			e.printStackTrace();
 			modelMap.put("error", e);
+			if(dbOrderId != 0){
+				TaskOrder taskOrder;
+				try {
+					taskOrder = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(), dbOrderId);
+					/**
+					 * 计算总消耗费用
+					 */
+					MoneyCalculateUtil.caculateOrderAccount(taskOrder);
+					modelMap.put("order", taskOrder);
+					
+					List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = taskOrder.getTaskOrderSubTaskInfos();
+					if(CollectionUtils.isNotEmpty(taskOrderSubTaskInfos)){
+						for(TaskOrderSubTaskInfo item:taskOrderSubTaskInfos){
+							modelMap.put(item.getTaskKey(), item);
+						}
+					}
+				} catch (BusinessException e1) {
+					 
+					e1.printStackTrace();
+				}
+				
+			}
 			
 			String mv = "site/order/order_create_page";
 			return mv;
@@ -243,7 +273,7 @@ public class OrderController {
 		List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = order.getTaskOrderSubTaskInfos();
 		String goodCommentTimeLimit = "";
 		String goodCommentContent = "";
-		String NEED_WANGWANG_TALK = "";
+		String NEED_WANGWANG_TALK = "0";
 		String NO_REPEAT_TASK = "";
 		String ZHI_DING_JIE_SHOU_REN ="0";
 		String jieShouRenIdB ="";
@@ -258,7 +288,7 @@ public class OrderController {
 			}else if(item.getTaskKey().equals("GOOD_COMMENT_CONTENT")){
 				goodCommentContent = item.getInputValue();
 			}else if(item.getTaskKey().equals("NEED_WANGWANG_TALK")){
-				NEED_WANGWANG_TALK = item.getInputValue();
+				NEED_WANGWANG_TALK = "1";
 			}else if(item.getTaskKey().equals("NO_REPEAT_TASK")){
 				NO_REPEAT_TASK = item.getInputValue();
 			}else if(item.getTaskKey().equals("ZHI_DING_JIE_SHOU_REN")){

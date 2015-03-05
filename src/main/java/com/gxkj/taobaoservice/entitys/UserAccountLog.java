@@ -135,8 +135,11 @@ public class UserAccountLog  implements Serializable{
 	/**
 	 * 任务ID
 	 */
-	@Column(name="task_id")
-	private Integer taskId;
+	@Column(name="task_basic_id")
+	private Integer taskBasicId;
+	
+	@Column(name="task_order_id")
+	private Integer taskOrderId; 
 	
 	/**
 	 * 取款申请表ID
@@ -266,13 +269,7 @@ public class UserAccountLog  implements Serializable{
 		this.adminUserId = adminUserId;
 	}
 
-	public Integer getTaskId() {
-		return taskId;
-	}
-
-	public void setTaskId(Integer taskId) {
-		this.taskId = taskId;
-	}
+	 
 
 	public String getAdminName() {
 		return adminName;
@@ -337,5 +334,23 @@ public class UserAccountLog  implements Serializable{
 	public void setLockPoint(BigDecimal lockPoint) {
 		this.lockPoint = lockPoint;
 	}
+
+	public Integer getTaskBasicId() {
+		return taskBasicId;
+	}
+
+	public void setTaskBasicId(Integer taskBasicId) {
+		this.taskBasicId = taskBasicId;
+	}
+
+	public Integer getTaskOrderId() {
+		return taskOrderId;
+	}
+
+	public void setTaskOrderId(Integer taskOrderId) {
+		this.taskOrderId = taskOrderId;
+	}
+	
+	
 	 
 }

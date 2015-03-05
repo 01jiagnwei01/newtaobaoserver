@@ -142,7 +142,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							<tr>
 									<td align="right">需要旺旺聊天</td>
 									<td><c:choose>
-												<c:when test="${empty NEED_WANGWANG_TALK }">不需要</c:when>
+												<c:when test="${empty NEED_WANGWANG_TALK or '0' eq NEED_WANGWANG_TALK }">不需要</c:when>
 												<c:otherwise>需要</c:otherwise> 
 											</c:choose></td>
 									<td>奖励接手方<%=subTaskInfoMap.get("NEED_WANGWANG_TALK").getAmount() %>个发布点</td>
@@ -150,7 +150,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							<tr>
 									<td align="right">限制重复接任务</td>
 									<td><c:choose>
-												<c:when test="${empty NO_REPEAT_TASK  }">不需要</c:when>
+												<c:when test="${empty NO_REPEAT_TASK  or '0' eq NO_REPEAT_TASK}">不需要</c:when>
 												<c:otherwise>需要</c:otherwise>
 											</c:choose></td>
 									<td>奖励接手方<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</td>
@@ -158,7 +158,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							<tr>
 									<td align="right">指定接手人</td>
 									<td><c:choose>
-												<c:when test="${ empty ZHI_DING_JIE_SHOU_REN   }">不需要</c:when>
+												<c:when test="${ empty ZHI_DING_JIE_SHOU_REN   or '0' eq ZHI_DING_JIE_SHOU_REN}">不需要</c:when>
 												<c:otherwise>需要 接手人ID：${ZHI_DING_JIE_SHOU_REN_ID }</c:otherwise>
 											</c:choose> 
 										
@@ -170,7 +170,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 									<td align="right">指定收货地址</td>
 									<td>
 									<c:choose>
-												<c:when test="${ empty ZHI_DING_SHOU_HUO_DI_ZHI     }">不需要</c:when>
+												<c:when test="${ empty ZHI_DING_SHOU_HUO_DI_ZHI   or '0' eq ZHI_DING_SHOU_HUO_DI_ZHI   }">不需要</c:when>
 												<c:otherwise>需要 &nbsp;${ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS} </c:otherwise>
 											</c:choose>
 									</td>
@@ -180,7 +180,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							 <tr>
 									<td align="right">批量发布</td>
 									<td><c:choose>
-												<c:when test="${ empty PI_LIANG_FA_BU     }">不需要</c:when>
+												<c:when test="${ empty PI_LIANG_FA_BU   or '0' eq PI_LIANG_FA_BU   }">不需要</c:when>
 												<c:otherwise>需要 ${PI_LIANG_FA_BU_input }条 </c:otherwise>
 											</c:choose>
 									</td>

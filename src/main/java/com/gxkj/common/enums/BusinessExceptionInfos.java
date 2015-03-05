@@ -76,7 +76,8 @@ public enum BusinessExceptionInfos {
 	PI_LIANG_COUNT_SHOULD_BE_POSITIVE("74","批量发布条数应该为正数"),
 	PI_LIANG_COUNT_MORE_THAN_TIMES("75","批量发布条数超过上限"),
 	STATUS_NOT_WAIT("76","订单状态不是待审核状态"),
-	POINT_NOT_ENOUGH("77","账户点数不足");
+	POINT_NOT_ENOUGH("77","账户点数不足"),
+	NOT_SELF_ORDER("78","非本人订单");
 	private String errorCode; 
 	
 	private String errorMsg;

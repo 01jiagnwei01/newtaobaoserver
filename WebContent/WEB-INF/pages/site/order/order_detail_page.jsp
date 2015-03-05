@@ -186,6 +186,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 												<c:when test="${order.status eq   'WAIT_FOR_SURE'   }">
 													<button class="btn btn-lg btn-success"  onclick="sure(this)">确认订单</button>
 													<button class="btn btn-default" type="button" onclick="update(this)">修改</button>
+													<button class="btn btn-default" type="button" onclick="docancle(this)">取消</button>
 												 </c:when>
 												<c:when test="${order.status eq   'SURE'   }"> </c:when>
 												<c:when test="${order.status eq   'CANCEL'   }"> 该订单已取消</c:when>
@@ -215,6 +216,11 @@ table td{padding:5px; height:25px; font-size:14px;}
 	function update(btn){
 		$(btn).attr("disabled",true); 
 		var path = "<%=request.getContextPath() %>/site/order/back";
+		 $('#submitForm').attr("action", path).submit();;
+	}
+	function docancle(btn){
+		$(btn).attr("disabled",true); 
+		var path = "<%=request.getContextPath() %>/site/order/docancel";
 		 $('#submitForm').attr("action", path).submit();;
 	}
 </script>

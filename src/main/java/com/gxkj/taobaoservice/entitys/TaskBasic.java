@@ -3,6 +3,7 @@ package com.gxkj.taobaoservice.entitys;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -159,6 +161,12 @@ public class TaskBasic implements Serializable {
 	 */
 	@Column(name="receiver_time" ) 
 	private Date receiverTime;
+	
+	/**
+	 * 实际选中的任务
+	 */
+	@Transient
+	private List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos;
 
 	public Integer getId() {
 		return id;
@@ -311,7 +319,14 @@ public class TaskBasic implements Serializable {
 	public void setReceiverTime(Date receiverTime) {
 		this.receiverTime = receiverTime;
 	}
-	
-	
+
+	public List<TaskOrderSubTaskInfo> getTaskOrderSubTaskInfos() {
+		return taskOrderSubTaskInfos;
+	}
+
+	public void setTaskOrderSubTaskInfos(
+			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos) {
+		this.taskOrderSubTaskInfos = taskOrderSubTaskInfos;
+	}
 
 }

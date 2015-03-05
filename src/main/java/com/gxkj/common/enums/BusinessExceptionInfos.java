@@ -77,7 +77,10 @@ public enum BusinessExceptionInfos {
 	PI_LIANG_COUNT_MORE_THAN_TIMES("75","批量发布条数超过上限"),
 	STATUS_NOT_WAIT("76","订单状态不是待审核状态"),
 	POINT_NOT_ENOUGH("77","账户点数不足"),
-	NOT_SELF_ORDER("78","非本人订单");
+	NOT_SELF_ORDER("78","非本人订单"),
+	TASK_STATUS_NOT_WAIT("79","任务状态不是待审核状态"),
+	TASK_STATUS_NOT_HAVE_RECEIVED("80","任务状态不是已被接单状态"),
+	TASK_STATUS_NOT_COMPLETED("81","任务状态不是已完成状态");
 	private String errorCode; 
 	
 	private String errorMsg;

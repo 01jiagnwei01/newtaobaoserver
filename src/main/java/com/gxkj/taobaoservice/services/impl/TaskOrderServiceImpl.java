@@ -388,6 +388,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			TaskOrder order = null;
 			for(int i=0;i<length;i++){
 				order = taskOrders.get(i);
+				MoneyCalculateUtil.caculateOrderAccount(order);
 				List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = taskOrderSubTaskInfoDao.getSubTaskInfoByOrderId(order.getId());
 				order.setTaskOrderSubTaskInfos(taskOrderSubTaskInfos);
 			}

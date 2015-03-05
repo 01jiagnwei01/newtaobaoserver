@@ -372,9 +372,9 @@ public class OrderController {
 				}
 			}
 			
-			
 		}catch(BusinessException e){
 			modelMap.put("error", e);
+			mv = "site/order/order_no_exist";
 			
 		}
 		return mv;
@@ -390,15 +390,31 @@ public class OrderController {
 	 * @throws BusinessException
 	 */
 	@RequestMapping(value = "/docancel", method = RequestMethod.POST)
-	@ResponseBody
-	public EntityReturnData docancel(HttpServletRequest request,
-			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, BusinessException {
+	public String docancel(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException{
+		String mv = "site/order/order_detail_page";
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
-		  taskOrderService.docancelTaskOrderByOrderIdAndUserId(userBase.getId(),orderId);
-		EntityReturnData ret = new EntityReturnData();
-		ret.setResult(true);
-		ret.setEntity(userBase);
-		return ret;	
+		  try {
+			taskOrderService.docancelTaskOrderByOrderIdAndUserId(userBase.getId(),orderId);
+			TaskOrder taskOrder = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(), orderId);
+			/**
+			 * 计算总消耗费用
+			 */
+			MoneyCalculateUtil.caculateOrderAccount(taskOrder);
+			modelMap.put("order", taskOrder);
+			
+			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = taskOrder.getTaskOrderSubTaskInfos();
+			if(CollectionUtils.isNotEmpty(taskOrderSubTaskInfos)){
+				for(TaskOrderSubTaskInfo item:taskOrderSubTaskInfos){
+					modelMap.put(item.getTaskKey(), item);
+				}
+			}
+		} catch (BusinessException e) {
+			e.printStackTrace();
+			
+		}
+		  
+		return mv;	
 	}
 	/**
 	 * 订单列表页异步订单确认

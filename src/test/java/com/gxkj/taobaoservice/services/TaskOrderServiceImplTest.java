@@ -19,7 +19,7 @@ public class TaskOrderServiceImplTest extends BaseSpringTest{
 		UserBase userBase = new UserBase();
 		userBase.setId(1);
 		 Integer orderId = 1;
-		taskOrderService.doapplyTaskOrderByOrderIdAndUserId(userBase, orderId);
+		//taskOrderService.doapplyTaskOrderByOrderIdAndUserId(userBase, orderId);
 		
 	}
 }

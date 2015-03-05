@@ -35,7 +35,20 @@ public class UserAccountServiceImpl implements UserAccountService {
 	
 	@Autowired
 	private CompanyAccountDao companyAccountDao;
-	 
+	
+	/**
+	 * 关联修改用户账户信息，并完成log日志
+	 * @param userBase
+	 * @param payamount  付款金额
+	 * @param lockAmount  锁定金额
+	 * @param payPoints	 付款点数
+	 * @param lockPoints	锁定点数
+	 * @param operateType
+	 * @param refTableId
+	 * @return
+	 * @throws BusinessException 
+	 * @throws SQLException 
+	 */
 	public boolean updateUserAccount(UserBase userBase, BigDecimal payamount,BigDecimal lockAmount,
 			BigDecimal payPoints,BigDecimal lockPoints, UserAccountTypes operateType, Integer refTableId,Integer adminUserId) throws BusinessException, SQLException {
 	 
@@ -134,6 +147,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount, BigDecimal.ZERO
 						,CompanyAccountReason.DEPOSIT,refTableId);
 				
+				 
 				break;
 			case WITHDRAW_APPLY:
 				/**
@@ -158,6 +172,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.add(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
+				
+				
 				break;
 			case WITHDRAW_FAILURE:
 				//取款申请失败
@@ -179,6 +195,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.subtract(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
+				
+				
 				break;
 			case WITHDRAW_SUCCESS:
 				//取款成功
@@ -199,6 +217,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.subtract(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
+				
+			 
 				
 				/**
 				 * 公司账户增加
@@ -233,6 +253,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				 */
 				companyAccountDao.executeUpdateCompanyAccount(payPoints, payamount,  BigDecimal.ZERO,  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO ,CompanyAccountReason.SellPoint,refTableId);
 				
+				 
 				break;
 			case Task_Order_SURE:
 				/**
@@ -323,10 +344,13 @@ public class UserAccountServiceImpl implements UserAccountService {
 		uerAccount.setLockedBalance(afterLockedAmount);
 		uerAccount.setLockedPoints(afterLockedPoints);
 		userAccountDao.update(uerAccount);
-		
+		 
 		//操作金额
-		userAccountLog.setAmount(payamount.add(lockAmount));
-		userAccountLog.setPoints(payPoints.add(lockPoints));
+		 
+		userAccountLog.setPayAmount(payamount);
+		userAccountLog.setLockAmount(lockAmount);
+		userAccountLog.setPayPoints(payPoints);
+		userAccountLog.setLockPoint(lockPoints);
 		
 		//操作后可用金额
 		userAccountLog.setAfterRestAmount(afterAmount);

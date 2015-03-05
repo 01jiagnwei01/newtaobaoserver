@@ -55,16 +55,28 @@ public class UserAccountLog  implements Serializable{
 	private UserAccountTypes type; 
 	
 	/**
-	 * 操作金额
+	 * 收入或支出操作金额
 	 */
-	@Column(name="amount")
-	private BigDecimal amount;
+	@Column(name="pay_amount")
+	private BigDecimal payAmount;
 	
 	/**
-	 * 操作点数
+	 * 绑定金额
 	 */
-	@Column(name="points")
-	private BigDecimal  points;
+	@Column(name="lock_amount")
+	private BigDecimal lockAmount;
+	
+	/**
+	 * 收入或支出点数
+	 */
+	@Column(name="pay_point")
+	private BigDecimal  payPoints;
+	
+	/**
+	 * 绑定点数
+	 */
+	@Column(name="lock_point")
+	private BigDecimal  lockPoint;
 	
 	/**
 	 * 操作前可用余额
@@ -180,21 +192,7 @@ public class UserAccountLog  implements Serializable{
 		this.type = type;
 	}
 
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public BigDecimal getPoints() {
-		return points;
-	}
-
-	public void setPoints(BigDecimal points) {
-		this.points = points;
-	}
+	 
 
 	public BigDecimal getBeforeRestAmount() {
 		return beforeRestAmount;
@@ -307,8 +305,37 @@ public class UserAccountLog  implements Serializable{
 	public void setDepositApplyLogId(Integer depositApplyLogId) {
 		this.depositApplyLogId = depositApplyLogId;
 	}
-	
-	
 
+	public BigDecimal getPayAmount() {
+		return payAmount;
+	}
+
+	public void setPayAmount(BigDecimal payAmount) {
+		this.payAmount = payAmount;
+	}
+
+	public BigDecimal getLockAmount() {
+		return lockAmount;
+	}
+
+	public void setLockAmount(BigDecimal lockAmount) {
+		this.lockAmount = lockAmount;
+	}
+
+	public BigDecimal getPayPoints() {
+		return payPoints;
+	}
+
+	public void setPayPoints(BigDecimal payPoints) {
+		this.payPoints = payPoints;
+	}
+
+	public BigDecimal getLockPoint() {
+		return lockPoint;
+	}
+
+	public void setLockPoint(BigDecimal lockPoint) {
+		this.lockPoint = lockPoint;
+	}
 	 
 }

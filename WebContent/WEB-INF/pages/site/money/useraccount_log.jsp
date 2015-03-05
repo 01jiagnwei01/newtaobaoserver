@@ -44,7 +44,9 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 									<td align="center" bgcolor="#4CA4EE" style="color:#fff;" rowspan="2">操作时间</td>
 									<td align="center" bgcolor="#4CA4EE" style="color:#fff;" rowspan="2">操作类型</td>
 									<td align="center" bgcolor="#4CA4EE" style="color:#fff;" rowspan="2">操作资金</td>
+									<td align="center" bgcolor="#4CA4EE" style="color:#fff;" rowspan="2">锁定资金</td>
 									<td align="center" bgcolor="#4CA4EE" style="color:#fff;" rowspan="2">操作点数</td>
+									<td align="center" bgcolor="#4CA4EE" style="color:#fff;" rowspan="2">锁定点数</td>
 									<td align="center" bgcolor="#4CA4EE" style="color:#fff;" colspan="4" >操作后</td>
 							</tr>
 							<tr>
@@ -57,7 +59,7 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 								if(pager == null || pager.getTotalRows() == 0){
 									%>
 									<tr>
-										<td colspan="8" align="center">没有查到数据</td> 
+										<td colspan="10" align="center">没有查到数据</td> 
 									</tr>
 									<%
 								}else{
@@ -69,8 +71,16 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 										<tr>
 									<td align="center"><%=formatter.format(item.getCreateTime()) %></td>
 									<td align="center"><%=item.getType().getName()%></td>
-									<td align="center"><%if(item.getAmount() == null) {out.print("&nbsp;");}else {out.print(item.getAmount());}%></td>
-									<td align="center"><%if(item.getPoints() == null) {out.print("&nbsp;");}else {out.print(item.getPoints());}%></td>
+									<td align="center"><%if(item.getPayAmount().compareTo( BigDecimal.ZERO) == 0) {out.print("&nbsp;");}else {
+										out.print( item.getPayAmount());
+										}%></td>
+									<td align="center"><%if(item.getLockAmount().compareTo( BigDecimal.ZERO) == 0) {out.print("&nbsp;");}else {
+										out.print( item.getLockAmount());
+										}%></td>
+									<td align="center"><%if(item.getPayPoints().compareTo( BigDecimal.ZERO) == 0) {out.print("&nbsp;");}else {
+										out.print( item.getPayPoints());}%></td>
+									<td align="center"><%if(item.getLockPoint().compareTo( BigDecimal.ZERO) == 0) {out.print("&nbsp;");}else {
+										out.print( item.getLockPoint());}%></td>
 									<td align="center">
 									<% if(BigDecimal.ZERO.compareTo(item.getAfterRestAmount()) == 0 ){
 										out.print("&nbsp;");

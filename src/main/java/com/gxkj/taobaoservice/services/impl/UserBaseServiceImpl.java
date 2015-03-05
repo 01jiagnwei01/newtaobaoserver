@@ -277,47 +277,7 @@ public class UserBaseServiceImpl implements UserBaseService {
 			BigDecimal supplyPoint) throws SQLException, BusinessException {
 		
 		
-		if(BigDecimal.ZERO.compareTo(supplyPoint)>=0){
-			throw  new BusinessException(BusinessExceptionInfos.SET_SUPPLY_POINT_CANNOT_BE_NEGATIVE);
-		}else if (new BigDecimal("50").compareTo(supplyPoint)<0){
-			//上限50
-			throw  new BusinessException(BusinessExceptionInfos.SET_SUPPLY_POINT_OUT_THE_LARGE_RANGE);
-		}
-		 
-		UserAccount userAccount = userAccountDao.getUserAccountByUserId(userId); 
-		if(userAccount == null){
-			throw  new BusinessException(BusinessExceptionInfos.NO_USER_ACCOUNT_BY_USERID);
-		}
-		//设置修改后的点数
-		BigDecimal beforePoint = userAccount.getCurrentRestPoints();
-		userAccount.setCurrentRestPoints(beforePoint.add(supplyPoint));
-		this.userAccountDao.update(userAccount);
 		
-		//记录客户帐户日志
-		UserAccountLog userAccountLog = new UserAccountLog();
-		userAccountLog.setAfterLockedAmount(userAccount.getLockedBalance());
-		userAccountLog.setAfterLockedPoints(userAccount.getLockedPoints());
-		userAccountLog.setAfterRestAmount( userAccount.getCurrentBalance());
-		userAccountLog.setAfterRestPoints(userAccount.getCurrentRestPoints());
-		userAccountLog.setPoints(supplyPoint);
-		userAccountLog.setBeforeLockedAmount(userAccount.getLockedBalance());
-		userAccountLog.setBeforeLockedPoints(userAccount.getLockedPoints());
-		userAccountLog.setBeforeRestAmount(userAccount.getCurrentBalance());
-		userAccountLog.setBeforeRestPoints(beforePoint);
-		userAccountLog.setCreateTime(new Date());
-		userAccountLog.setUserId(userId);
-		userAccountLog.setAdminUserId(adminUser.getId());
-		userAccountLog.setType(UserAccountTypes.COMPANY_SUPPLY);
-		this.userAccountLogDao.insert(userAccountLog);
-		
-		//记录公司帐户变化
-		CompanyAccount companyAccount = (CompanyAccount) companyAccountDao.selectById(1, CompanyAccount.class);
-		if(companyAccount == null){
-			throw  new BusinessException(BusinessExceptionInfos.NO_SET_COMPANY_ACCOUNT);
-		}
-		//公司支出增加
-		companyAccount.setSupplyPoints(companyAccount.getSupplyPoints().add(supplyPoint));;
-		this.companyAccountDao.update(companyAccount);
 		 
 	}
 

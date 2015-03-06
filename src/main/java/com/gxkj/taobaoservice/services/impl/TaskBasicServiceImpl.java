@@ -278,4 +278,16 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		return taskBasic;
 	}
 
+
+	public ListPager doMyReceiveTaskPage(UserBase userBase, Integer orderId,
+			int pageno, int pagesize, Date startTime, Date endTime)
+			throws SQLException, BusinessException {
+		if(userBase == null){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userBase");
+		}
+		ListPager pager = taskBasicDao.doPageForSiteAndReceive( userBase, orderId, pageno,  pagesize,
+				 startTime,  endTime);
+		return pager;
+	}
+
 }

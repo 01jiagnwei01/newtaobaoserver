@@ -26,7 +26,7 @@ public class TaskBasicDaoImpl extends BaseDAOImpl implements TaskBasicDao {
 	public ListPager doPageForSite(UserBase userBase, Integer orderId,
 			int pageno, int pagesize, Date startTime, Date endTime)
 			throws SQLException {
-		StringBuffer hql = new StringBuffer("from TaskBasic  where  userId = ? ");
+		StringBuffer hql = new StringBuffer("from TaskBasic   ");
 		 List<Object> params = new ArrayList<Object>();
 		 boolean haveParam = false;
 		 if(userBase != null){
@@ -103,6 +103,73 @@ public class TaskBasicDaoImpl extends BaseDAOImpl implements TaskBasicDao {
 		 parameters.put("endTime", endTime);
 		
 		return (TaskBasic) this.selectOneByHQL(getTaskBasicCountReceivedByReceiverIdHQL, parameters);
+	}
+
+	 
+	public ListPager doPageForSiteAndReceive(UserBase userBase,
+			Integer orderId, int pageno, int pagesize, Date startTime,
+			Date endTime) throws SQLException {
+		StringBuffer hql = new StringBuffer("from TaskBasic   ");
+		 List<Object> params = new ArrayList<Object>();
+		 boolean haveParam = false;
+		 if(userBase != null){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			 hql.append( "  receiverId = ?" );
+			 params.add(userBase.getId());
+		 }
+		
+		 if(startTime != null ){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+				hql.append( "  createTime >= ?" );
+				params.add(startTime);
+				 
+		}
+		if(endTime != null ){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			hql.append( "  createTime <= ?" );
+			params.add(endTime);
+		 
+		}
+		if(orderId != null && orderId!=1){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			hql.append( "  taskOrderId = ?" );
+			params.add(orderId);
+		}
+		
+		hql.append(" order by id desc ");
+		String hqlString = hql.toString();
+		ListPager pager = new ListPager();
+		pager.setPageNo(pageno);
+		pager.setRowsPerPage(pagesize);
+		
+		this.selectPageByHql(hqlString, params.toArray(), pager);
+		/**
+		 * 做翻转
+		 */
+		if(CollectionUtils.isNotEmpty(pager.getPageData())){
+			Collections.reverse(pager.getPageData()); 
+		}
+		return pager;
 	}
 
 }

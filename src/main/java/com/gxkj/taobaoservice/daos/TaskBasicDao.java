@@ -33,5 +33,18 @@ public interface TaskBasicDao extends BaseDAO {
 	 * @throws SQLException
 	 */
 	TaskBasic getTaskBasicCountReceivedByReceiverId(Date now, Integer receiverId,Integer createrId)throws SQLException;
+	/**
+	 * 分页查看用户接的任务
+	 * @param userBase
+	 * @param orderId			订单ID
+	 * @param pageno			页码
+	 * @param pagesize			每页显示条数
+	 * @param startTime			起始日期
+	 * @param endTime			结束日期
+	 * @return
+	 * @throws SQLException
+	 */
+	ListPager doPageForSiteAndReceive(UserBase userBase, Integer orderId,
+			int pageno, int pagesize, Date startTime, Date endTime) throws SQLException;
 
 }

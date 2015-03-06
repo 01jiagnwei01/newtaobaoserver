@@ -87,4 +87,17 @@ public interface TaskBasicService {
 	 */
 	public TaskBasic doRergiveupTask(UserBase userBase, int taskid)throws SQLException, BusinessException;
 
+	/**
+	 * 我接的任务列表
+	 * @param userBase
+	 * @param orderId
+	 * @param pageno
+	 * @param pagesize
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 */
+	public ListPager doMyReceiveTaskPage(UserBase userBase, Integer orderId,
+			int pageno, int pagesize, Date startTime, Date endTime)throws SQLException, BusinessException;
+
 }

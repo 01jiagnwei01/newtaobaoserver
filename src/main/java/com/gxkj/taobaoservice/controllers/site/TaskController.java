@@ -86,6 +86,58 @@ public class TaskController {
 				return mv;	
 	}
 	/**
+	 * 我接的的任务列表
+	 * @param request
+	 * @param response
+	 * @param starttime
+	 * @param endtime
+	 * @param pageno
+	 * @param pagesize
+	 * @param modelMap
+	 * @return
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	@RequestMapping(value="/myreceivelist",method={RequestMethod.GET})
+	   public String myreceivelist( HttpServletRequest request,
+				HttpServletResponse response,
+			@RequestParam(value="starttime",defaultValue="") String starttime,
+			@RequestParam(value="endtime",defaultValue="") String endtime, 
+			@RequestParam(value="pageno",defaultValue="0") int pageno,
+	   		@RequestParam(value="limit",defaultValue="20") int pagesize
+	   		,ModelMap modelMap) throws SQLException, BusinessException  {
+				Date startTime = null;
+				Date endTime = null;
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+				UserBase userBase = SessionUtil.getSiteUserInSession(request);
+				
+				try{
+					if(StringUtils.isNotBlank(starttime)){
+						starttime += " 00:00:00";
+						startTime = formatter.parse(starttime);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				try{
+					 
+					if(StringUtils.isNotBlank(endtime)){
+						endtime += " 23:59:59";
+						endTime = formatter.parse(endtime);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				ListPager paper = taskBasicService.doMyReceiveTaskPage(userBase,null,pageno, pagesize, startTime, endTime);
+				modelMap.put("starttime", starttime);
+				modelMap.put("endtime", endtime);
+				modelMap.put("pageno", pageno);
+				modelMap.put("pagesize", pagesize);
+				modelMap.put("paper", paper);
+				String mv = "site/order/myorder_page";
+				return mv;	
+	}
+	/**
 	 * 查看任务
 	 * @param request
 	 * @param response
@@ -155,7 +207,7 @@ public class TaskController {
 				modelMap.put("pageno", pageno);
 				modelMap.put("pagesize", pagesize);
 				modelMap.put("paper", paper);
-				String mv = "site/order/myorder_page";
+				String mv = "site/task/task_page";
 				return mv;	
 	}
 	/**

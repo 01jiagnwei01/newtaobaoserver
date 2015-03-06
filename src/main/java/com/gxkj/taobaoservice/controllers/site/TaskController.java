@@ -194,7 +194,7 @@ public class TaskController {
 		return "site/task/task_detail";
 	}
 	/**
-	 * 接单任务完成任务
+	 * 接单人任务完成任务
 	 * @param request
 	 * @param response
 	 * @param modelMap
@@ -210,6 +210,40 @@ public class TaskController {
 		TaskBasic taskBasic;
 		try {
 			taskBasic = taskBasicService.doRecierCompleteTask(userBase,taskid);
+			taskBasic = taskBasicService.getTaskById( taskid);
+			modelMap.put("taskBasic", taskBasic);
+		} catch (BusinessException e) {
+			 if(e.getSiteFlag().equals("status")){
+				 try {
+					taskBasic = taskBasicService.getTaskById( taskid);
+					modelMap.put("taskBasic", taskBasic);
+				} catch (BusinessException e1) {
+					e1.printStackTrace();
+				}
+			 }else{
+				 modelMap.put("error", e);
+			 }
+			e.printStackTrace();
+		}
+		return "site/task/task_detail";
+	}
+	/**
+	 * 接单人放弃任务
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @param taskid
+	 * @return
+	 * @throws SQLException
+	 */
+	@RequestMapping(value="/reciergiveup",method={RequestMethod.POST})
+	public String reciergiveup(HttpServletRequest request,
+			HttpServletResponse response,ModelMap modelMap, 
+			@RequestParam(value="taskid",defaultValue="0") int taskid) throws SQLException {
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		TaskBasic taskBasic;
+		try {
+			taskBasic = taskBasicService.doRergiveupTask(userBase,taskid);
 			taskBasic = taskBasicService.getTaskById( taskid);
 			modelMap.put("taskBasic", taskBasic);
 		} catch (BusinessException e) {

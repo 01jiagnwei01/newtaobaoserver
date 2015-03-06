@@ -77,4 +77,14 @@ public interface TaskBasicService {
 	 */
 	public TaskBasic doSureRecierCompleteTask(UserBase userBase, int taskid)throws SQLException, BusinessException;
 
+	/**
+	 * 接单人放弃任务
+	 * @param userBase
+	 * @param taskid
+	 * @return
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	public TaskBasic doRergiveupTask(UserBase userBase, int taskid)throws SQLException, BusinessException;
+
 }

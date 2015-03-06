@@ -16,7 +16,16 @@ import com.gxkj.taobaoservice.enums.CompanyAccountReason;
 public class CompanyAccountDaoImpl extends BaseDAOImpl implements
 		CompanyAccountDao {
 
-	 
+	/**
+	 * @param sellPoint  卖出点
+	 * @param sellPointsMoney  卖点获得收益
+	 * @param getPoints  服务获得点数
+	 * @param supplyPoints  赞助支出点数
+	 * @param depositMoney  存款金额
+	 * @param drawMoney  	取款金额
+	 * @param reasonType  	变化原因
+	 * @param refId  		关联表ID
+	 */
 	public void executeUpdateCompanyAccount(BigDecimal sellPoint,
 			BigDecimal sellPointsMoney, BigDecimal getPoints,
 			BigDecimal supplyPoints, BigDecimal depositMoney,

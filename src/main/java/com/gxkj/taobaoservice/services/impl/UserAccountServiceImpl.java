@@ -13,8 +13,10 @@ import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.CompanyAccountDao;
+import com.gxkj.taobaoservice.daos.TaskBasicDao;
 import com.gxkj.taobaoservice.daos.UserAccountDao;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
+import com.gxkj.taobaoservice.entitys.TaskBasic;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserAccountLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
@@ -36,8 +38,13 @@ public class UserAccountServiceImpl implements UserAccountService {
 	@Autowired
 	private CompanyAccountDao companyAccountDao;
 	
+	@Autowired
+	private TaskBasicDao taskBasicDao;
+	
 	/**
 	 * 关联修改用户账户信息，并完成log日志
+	 * 
+	 * 订单确认时refTableId必填写，值为任务ID
 	 * @param userBase
 	 * @param payamount  付款金额
 	 * @param lockAmount  锁定金额
@@ -51,7 +58,30 @@ public class UserAccountServiceImpl implements UserAccountService {
 	 */
 	public boolean updateUserAccount(UserBase userBase, BigDecimal payamount,BigDecimal lockAmount,
 			BigDecimal payPoints,BigDecimal lockPoints, UserAccountTypes operateType, Integer refTableId,Integer adminUserId) throws BusinessException, SQLException {
-	 
+		 TaskBasic taskBasic =  null;
+		if(operateType == null){
+			log.info(String.format("操作方式为空,operateType = null"));
+			throw new BusinessException(BusinessExceptionInfos.UserAccountTypes_IS_NULL,"operateType");
+		}
+		if(operateType == UserAccountTypes.Task_SURE){
+			 if( refTableId == null || refTableId == 0 ){
+				 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
+			 }
+			 taskBasic = (TaskBasic) taskBasicDao.selectById(refTableId, TaskBasic.class);
+			 userBase = new UserBase();
+			 /**
+			  * userBase为创建任务的人
+			  */
+			 userBase.setId(taskBasic.getUserId());
+			 /**
+			  * 支付金额 =   奖励资金 + 担保金 + 佣金 (全部付给接单人)
+			  * 支付点数 =   平台增值任务获得点数 + 接单人增值任务获得点数  
+			  */
+			 payamount = taskBasic.getEncourage().add(taskBasic.getGuaranteePrice() ).add(taskBasic.getBasicReceiverGainMoney())  ;
+			 lockAmount = BigDecimal.ZERO;
+			 payPoints = taskBasic.getZengzhiPingtaiGainPoints().add(taskBasic.getBasicReceiverGainPoint());
+			 lockPoints = BigDecimal.ZERO;
+		}
 		if(userBase == null){
 			log.info(String.format("参数错误,userBase=null"));
 			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userBase");
@@ -79,10 +109,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 		}
 		
 		
-		if(operateType == null){
-			log.info(String.format("操作方式为空,operateType = null"));
-			throw new BusinessException(BusinessExceptionInfos.UserAccountTypes_IS_NULL,"operateType");
-		}
+		
 		UserAccount uerAccount = userAccountDao.getUserAccountByUserId(userBase.getId());
 		
 		//当前可用余额
@@ -277,27 +304,26 @@ public class UserAccountServiceImpl implements UserAccountService {
 					log.info(String.format("参数错误,关联取款申请记录表ID需要是正数,refTableId=%.2f",refTableId));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
 				}
-				// 关联订单表
+				// 任务创建者的账户变化关联订单表Id
 				userAccountLog.setTaskOrderId(refTableId);
+				/**
+				 * 任务创建者
+				 * 锁定资金减少，所用点数减少 可用资金、点数不变
+				 */
+				afterLockedPoints = afterLockedPoints.subtract(payPoints);
+				afterLockedAmount = afterLockedAmount.subtract(payamount);
 				
-				if(lockAmount != null){
-					//可用金额减少，绑定金额增加
-					afterAmount = currentBalance.subtract(lockAmount);
-					afterLockedAmount = afterLockedAmount.add(lockAmount);
-				}
-				if( lockPoints != null){
-					//可用点数减少，绑定点数增加
-					afterLockedPoints = afterLockedPoints.add(lockPoints);
-					afterPoints = afterPoints.subtract(lockPoints);
-				}
-				//可用点数减少
-				afterPoints = afterPoints.subtract(payPoints);
-				
-				
+				 
 				/**
 				 * 公司账户增加
 				 */
-				companyAccountDao.executeUpdateCompanyAccount( BigDecimal.ZERO,  BigDecimal.ZERO, payPoints,  BigDecimal.ZERO,  BigDecimal.ZERO,  BigDecimal.ZERO,CompanyAccountReason.ORDERSURE,refTableId);
+				if(taskBasic.getZengzhiReceiverGainPoints().compareTo(BigDecimal.ZERO) >0){
+					companyAccountDao.executeUpdateCompanyAccount( BigDecimal.ZERO,  BigDecimal.ZERO,  
+							taskBasic.getZengzhiReceiverGainPoints(),  BigDecimal.ZERO, 
+							BigDecimal.ZERO, BigDecimal.ZERO ,CompanyAccountReason.ORDERSURE,refTableId);
+				}
+				_receiverUserCountChangeForTaskOrderSURE(now ,taskBasic.getReceiverId(),taskBasic.getBasicReceiverGainPoint(),
+						payamount,refTableId);
 				
 				break;
 				
@@ -366,7 +392,75 @@ public class UserAccountServiceImpl implements UserAccountService {
 		userBase.setUerAccount(uerAccount);
 		return true;
 	}
-
+	/**
+	 * 订单确认时 接单人账户变化 
+	 * 接单人  可用金额增加,可用点数增加
+	 * @param receiverId
+	 * @param changePoints
+	 * @param changeAmount
+	 * @param refTableId 关联表ID
+	 * @throws SQLException 
+	 */
+	private void _receiverUserCountChangeForTaskOrderSURE(Date now ,Integer receiverId,BigDecimal changePoints,BigDecimal changeAmount,Integer refTableId) throws SQLException{
+			
+		UserAccount uerAccount = userAccountDao.getUserAccountByUserId(receiverId);
+		
+		//当前可用余额
+		BigDecimal currentBalance = uerAccount.getCurrentBalance();
+		//当前锁定金额
+		BigDecimal currentLockedBalance = uerAccount.getLockedBalance();
+		//当前可用点数
+		BigDecimal currentPoints = uerAccount.getCurrentRestPoints();
+		//当前锁定点数
+		BigDecimal currentLockedPoints = uerAccount.getLockedPoints();
+		
+		 
+		
+		BigDecimal afterAmount = currentBalance.add(changeAmount);
+		BigDecimal afterPoints = currentPoints.add(changePoints);
+		BigDecimal afterLockedAmount = currentLockedBalance;
+		BigDecimal afterLockedPoints = currentLockedPoints;
+		
+		
+		uerAccount.setCurrentBalance(afterAmount);
+		uerAccount.setCurrentRestPoints(afterPoints);
+		uerAccount.setLockedBalance(afterLockedAmount);
+		uerAccount.setLockedPoints(afterLockedPoints);
+		userAccountDao.update(uerAccount);
+		
+		
+		//记录用户账户变化
+		UserAccountLog userAccountLog = new UserAccountLog();
+		userAccountLog.setType(UserAccountTypes.Task_SURE);
+		//操作前锁定金额
+		userAccountLog.setBeforeLockedAmount(currentLockedBalance);
+		//操作前锁定点数
+		userAccountLog.setBeforeLockedPoints(currentLockedPoints);
+		//操作前可用金额
+		userAccountLog.setBeforeRestAmount(currentBalance);
+		//操作前可用点数
+		userAccountLog.setBeforeRestPoints(currentPoints);
+		
+		userAccountLog.setAdminUserId(null);
+		userAccountLog.setUserId(receiverId);
+		userAccountLog.setCreateTime(now);
+		userAccountLog.setTaskOrderId(refTableId);
+		
+		userAccountLog.setPayAmount(changeAmount);
+		userAccountLog.setPayPoints(changePoints);
+		
+		//操作后可用金额
+		userAccountLog.setAfterRestAmount(afterAmount);
+		//操作后锁定金额
+		userAccountLog.setAfterLockedAmount(afterLockedAmount);
+		//操作后可用点数
+		userAccountLog.setAfterRestPoints(afterPoints);
+		//操作后锁定点数
+		userAccountLog.setAfterLockedPoints(afterLockedPoints);
+		
+		userAccountLogDao.insert(userAccountLog);
+		
+	}
 	 
 	public ListPager doPage(UserBase userBase, int pageno, int pagesize,
 			Date startTime, Date endTime) throws BusinessException,

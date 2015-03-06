@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.gxkj.common.dao.BaseDAO;
 import com.gxkj.common.util.ListPager;
+import com.gxkj.taobaoservice.entitys.TaskBasic;
 import com.gxkj.taobaoservice.entitys.UserBase;
 
 public interface TaskBasicDao extends BaseDAO {
@@ -22,5 +23,15 @@ public interface TaskBasicDao extends BaseDAO {
 	 */
 	ListPager doPageForSite(UserBase userBase, Integer orderId, int pageno,
 			int pagesize, Date startTime, Date endTime)throws SQLException;
+
+	/**
+	 * 查看某用户某天接过某用户的单
+	 * @param now
+	 * @param receiverId
+	 * @param createrId
+	 * @return
+	 * @throws SQLException
+	 */
+	TaskBasic getTaskBasicCountReceivedByReceiverId(Date now, Integer receiverId,Integer createrId)throws SQLException;
 
 }

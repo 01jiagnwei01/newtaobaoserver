@@ -80,7 +80,12 @@ public enum BusinessExceptionInfos {
 	NOT_SELF_ORDER("78","非本人订单"),
 	TASK_STATUS_NOT_WAIT("79","任务状态不是待审核状态"),
 	TASK_STATUS_NOT_HAVE_RECEIVED("80","任务状态不是已被接单状态"),
-	TASK_STATUS_NOT_COMPLETED("81","任务状态不是已完成状态");
+	TASK_STATUS_NOT_COMPLETED("81","任务状态不是已完成状态"),
+	TASK_STATUS_NOT_HaveRecived("82","任务状态不是已接单状态"),
+	NOT_SELF_TASK("83","非本人任务"),
+	DAY_RECEIVE_COUNT_LIMIT("84","日接单数超过限制"),
+	USER_ID_NOT_ALLOW("85","非任务指定用户"),
+	TASK_LIMIT_REPEAT_RECEIVE("86","该任务禁止同一用户多次接单");
 	private String errorCode; 
 	
 	private String errorMsg;

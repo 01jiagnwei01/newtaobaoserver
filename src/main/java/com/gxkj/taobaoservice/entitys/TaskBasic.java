@@ -163,6 +163,18 @@ public class TaskBasic implements Serializable {
 	private Date receiverTime;
 	
 	/**
+	 * 接单人QQ号
+	 */
+	@Column(name="receiver_qq" ) 
+	private String receiverQq;
+	
+	/**
+	 * 接单人支付宝账号
+	 */
+	@Column(name="receiver_alipay" ) 
+	private String receiverAlipay;
+	
+	/**
 	 * 实际选中的任务
 	 */
 	@Transient
@@ -328,5 +340,23 @@ public class TaskBasic implements Serializable {
 			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos) {
 		this.taskOrderSubTaskInfos = taskOrderSubTaskInfos;
 	}
+
+	public String getReceiverQq() {
+		return receiverQq;
+	}
+
+	public void setReceiverQq(String receiverQq) {
+		this.receiverQq = receiverQq;
+	}
+
+	public String getReceiverAlipay() {
+		return receiverAlipay;
+	}
+
+	public void setReceiverAlipay(String receiverAlipay) {
+		this.receiverAlipay = receiverAlipay;
+	}
+	
+	
 
 }

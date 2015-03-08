@@ -50,4 +50,5 @@ public interface EmailService {
 	 */
 	public void doUpdateByEmail(UserBase userBase, String email,
 			String caozuoma, String yanzhengma) throws BusinessException, SQLException;
+ 
 }

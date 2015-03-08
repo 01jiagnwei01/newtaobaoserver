@@ -85,7 +85,12 @@ public enum BusinessExceptionInfos {
 	NOT_SELF_TASK("83","非本人任务"),
 	DAY_RECEIVE_COUNT_LIMIT("84","日接单数超过限制"),
 	USER_ID_NOT_ALLOW("85","非任务指定用户"),
-	TASK_LIMIT_REPEAT_RECEIVE("86","该任务禁止同一用户多次接单");
+	TASK_LIMIT_REPEAT_RECEIVE("86","该任务禁止同一用户多次接单"),
+	NO_SET_YAN_ZHENG_MA("87","请先去设置操作码"),
+	ALIPAY_IS_BLANK("88","支付宝账号为空"),
+	QQ_IS_NO_SET("89","您还没有绑定QQ,请先去绑定QQ"),
+	ALIPAY_IS_NO_SET("90","您还没有绑定支付宝账号,请先去绑定支付宝账号"),
+	NO_ALLOW_SELF_RECEIVE_SELF_TASK("91","禁止本人接自己发布的任务") ;
 	private String errorCode; 
 	
 	private String errorMsg;

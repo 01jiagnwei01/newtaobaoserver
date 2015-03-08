@@ -12,13 +12,13 @@
 							<span style="margin-left:15px;">&nbsp;>&nbsp;任务中心</span>
 						</a>
 						<ul>
-							<li><a href="<%=request.getContextPath() %>/site/bind/password" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;任务大厅</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/task/list" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;任务大厅</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/order/create" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;发布新任务</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/order/mylist" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我的订单列表</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我发布的任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/task/mypublishlist" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我发布的任务</span></a></li>
 							
-							<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我未完成的任务</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我已完成的任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/task/myreceivelist" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我未完成的任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/task/mycompletelist" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我已完成的任务</span></a></li>
 						</ul>
 					</li>
 					<li class="fs16">
@@ -42,6 +42,8 @@
 							<li><a href="<%=request.getContextPath() %>/site/bind/password" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;修改密码</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/useraccount" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;设置操作码</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定邮箱</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/bind/qq" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定QQ</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/bind/alipay" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定淘宝小号</span></a></li>
 						</ul>
 					</li>
 				</ul>

@@ -1,6 +1,7 @@
 package com.gxkj.taobaoservice.services;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 
 import com.gxkj.common.exceptions.BusinessException;
@@ -54,8 +55,9 @@ public interface TaskBasicService {
 	 * @return
 	 * @throws SQLException
 	 * @throws BusinessException
+	 * @throws ParseException 
 	 */
-	public TaskBasic doReceiveTask(UserBase userBase, int taskid)throws SQLException, BusinessException;
+	public TaskBasic doReceiveTask(UserBase userBase, int taskid)throws SQLException, BusinessException, ParseException;
 
 	/**
 	 * 接单人确定订单完成
@@ -99,5 +101,19 @@ public interface TaskBasicService {
 	 */
 	public ListPager doMyReceiveTaskPage(UserBase userBase, Integer orderId,
 			int pageno, int pagesize, Date startTime, Date endTime)throws SQLException, BusinessException;
+
+	/**
+	 * 查看我完成的任务
+	 * @param userBase
+	 * @param pageno
+	 * @param pagesize
+	 * @param startTime
+	 * @param endTime
+	 * @return
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	public ListPager getMyCompletelistPage(UserBase userBase, int pageno,
+			int pagesize, Date startTime, Date endTime)throws SQLException, BusinessException;
 
 }

@@ -11,7 +11,7 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
  <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<title>任务大厅 </title>
+<title>我完成的任务</title>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include>
 <style type="text/css">
@@ -61,7 +61,7 @@ table td {
 								if(pager == null || pager.getTotalRows() == 0){
 									%>
 									<tr>
-										<td colspan="7" align="center">我们正在努力工作，为您提供更好的服务</td> 
+										<td colspan="7" align="center">您还没有完成的任务呢</td> 
 									</tr>
 									<%
 								}else{
@@ -78,12 +78,7 @@ table td {
 										<td align="center"><%= TaskBasicUtil.getReceiveCanGetPointByTask(item)%> </td> 
 										<td align="center"><%=item.getStatus().getName()%></td>
 										<td align="center">
-											<%if(TaskStatus.Wait_For_Receive == item.getStatus()){ %>
-												<button class="btn btn-xs btn-primary" id="opbtn<%=item.getId() %>" onclick="doThisTask(this,<%=item.getId() %>)">接任务</button>
-											 
-											<% }else {%>
 											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
-											<%}%> 
 										</td>
 								</tr>
 							<% 
@@ -159,37 +154,6 @@ function detail(zthis,id){
 	var url = "<%=request.getContextPath()%>/site/task/detail?taskId="+id+"&d="+new Date().getTime();
 	window.open(url);
 }
-function doThisTask(zthis,id){
-	var yanzhengmaurl = "<%=request.getContextPath()%>/site/task/recievetask";
-  	$.ajax({
-		  type:'post',
-		  url: yanzhengmaurl,
-		  context: document.body,
-		  beforeSend:function(){
-			  $(zthis).attr("disabled",true); 
-			  $(zthis).html("提交中。。。");
-		 },
-		  data:{
-			  d:new Date().getTime(),
-			  taskid:id
-		  },
-		  success:function(json){
-			  alert("已接任务,新任务放到我未完成的任务里");
-			  window.location.reload();
-			  return; 
-			 	  
-		  },
-	      error:function(xhr,textStatus,errorThrown){
-	    	  $(zthis).attr("disabled",false); 
-			  $(zthis).html("接任务");
-			  
-	  		var responseText = xhr.responseText;
-	  		var obj = jQuery.parseJSON(responseText);
-			var errortype = obj.errortype
-	  		var msg = obj.msg;
-			alert(msg)
-	  } 
-	})
-}
+ 
 </script>
 </html>

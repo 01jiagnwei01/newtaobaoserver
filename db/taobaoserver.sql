@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-03-06 14:25:26
+Date: 2015-03-08 23:13:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -728,31 +728,33 @@ CREATE TABLE `task_basic` (
   `zengzhi_pingtai_gain_points` double(11,2) NOT NULL,
   `receiver_id` int(11) DEFAULT NULL,
   `receiver_time` datetime DEFAULT NULL,
+  `receiver_qq` varchar(30) DEFAULT NULL,
+  `receiver_alipay` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of task_basic
 -- ----------------------------
-INSERT INTO `task_basic` VALUES ('1', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('2', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('3', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('4', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('5', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('6', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('7', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('8', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('9', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('10', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('11', '1', '2015-03-05 10:42:45', '1', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '120.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('12', '1', '2015-03-05 10:42:45', '1', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '120.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('13', '1', '2015-03-05 18:09:13', '4', '02jiangwei02.1', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('14', '1', '2015-03-05 18:09:13', '4', '02jiangwei02.1', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('15', '1', '2015-03-05 18:11:37', '5', '02jiangwei02.6', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('16', '1', '2015-03-05 18:11:37', '5', '02jiangwei02.6', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('17', '1', '2015-03-05 18:26:28', '2', '02jiangwei02', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('18', '1', '2015-03-05 18:26:28', '2', '02jiangwei02', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null);
-INSERT INTO `task_basic` VALUES ('19', '1', '2015-03-05 18:42:25', '3', '02jiangwei02.1', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '0.00', null, null);
+INSERT INTO `task_basic` VALUES ('1', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Receive_Complete', '0.00', '0.00', '0.00', '1.00', '1', '2015-03-08 13:21:41', '346745719', '346745719@qq.com');
+INSERT INTO `task_basic` VALUES ('2', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('3', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('4', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('5', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('6', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('7', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('8', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('9', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('10', '1', '2015-03-04 21:55:35', '1', '01jiangwei01', '346745719', '我的测试商品', 'http://taobao.com', '10.00', '5.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('11', '1', '2015-03-05 10:42:45', '1', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '120.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('12', '1', '2015-03-05 10:42:45', '1', '01jiangwei01', '346745719', '女装', 'http://taobao.com', '120.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('13', '1', '2015-03-05 18:09:13', '4', '02jiangwei02.1', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('14', '1', '2015-03-05 18:09:13', '4', '02jiangwei02.1', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('15', '1', '2015-03-05 18:11:37', '5', '02jiangwei02.6', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('16', '1', '2015-03-05 18:11:37', '5', '02jiangwei02.6', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('17', '1', '2015-03-05 18:26:28', '2', '02jiangwei02', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('18', '1', '2015-03-05 18:26:28', '2', '02jiangwei02', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '1.00', null, null, null, null);
+INSERT INTO `task_basic` VALUES ('19', '1', '2015-03-05 18:42:25', '3', '02jiangwei02.1', '346745719', '女装2', 'http://taobao.com2222', '121.00', '8.00', '1.00', '0.50', 'Wait_For_Receive', '0.00', '0.00', '0.00', '0.00', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `task_basic_log`
@@ -780,6 +782,12 @@ INSERT INTO `task_basic_log` VALUES ('6', '16', '1', 'CREATER', 'Wait_For_Receiv
 INSERT INTO `task_basic_log` VALUES ('7', '17', '1', 'CREATER', 'Wait_For_Receive', '2015-03-05 18:26:28');
 INSERT INTO `task_basic_log` VALUES ('8', '18', '1', 'CREATER', 'Wait_For_Receive', '2015-03-05 18:26:28');
 INSERT INTO `task_basic_log` VALUES ('9', '19', '1', 'CREATER', 'Wait_For_Receive', '2015-03-05 18:42:25');
+INSERT INTO `task_basic_log` VALUES ('10', '1', '1', 'RECEIVER', 'Have_Bean_Received', '2015-03-08 13:21:41');
+INSERT INTO `task_basic_log` VALUES ('11', '2', '1', 'RECEIVER', 'Have_Bean_Received', '2015-03-08 22:11:59');
+INSERT INTO `task_basic_log` VALUES ('12', '3', '1', 'RECEIVER', 'Have_Bean_Received', '2015-03-08 22:16:37');
+INSERT INTO `task_basic_log` VALUES ('13', '1', '1', 'RECEIVER', 'Receive_Complete', '2015-03-08 22:30:37');
+INSERT INTO `task_basic_log` VALUES ('14', '2', '1', 'RECEIVER', 'RECEIVEER_GIVEUP', '2015-03-08 22:39:41');
+INSERT INTO `task_basic_log` VALUES ('15', '3', '1', 'RECEIVER', 'RECEIVEER_GIVEUP', '2015-03-08 22:40:07');
 
 -- ----------------------------
 -- Table structure for `task_order`
@@ -952,13 +960,15 @@ CREATE TABLE `user_base` (
   `cao_zuo_ma` varchar(50) DEFAULT NULL,
   `bind_email` varchar(50) DEFAULT NULL,
   `bind_telphone` varchar(20) DEFAULT NULL,
+  `bind_qq` varchar(20) DEFAULT NULL,
+  `bind_alipay` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_base
 -- ----------------------------
-INSERT INTO `user_base` VALUES ('1', '01jiangwei01@163.com', 'cd0061c62d8221fef2bc83f38653e785', '2015-02-13 14:36:22', 'NORMAL', '6dbf9ac2da09ee1d3debf5a51873ec6d', '346745719@qq.com', null);
+INSERT INTO `user_base` VALUES ('1', '01jiangwei01@163.com', 'cd0061c62d8221fef2bc83f38653e785', '2015-02-13 14:36:22', 'NORMAL', '6dbf9ac2da09ee1d3debf5a51873ec6d', '346745719@qq.com', null, '346745719', '346745719@qq.com');
 
 -- ----------------------------
 -- Table structure for `user_link`

@@ -1,7 +1,9 @@
 package com.gxkj.taobaoservice.services.impl;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +48,9 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 	@Autowired
 	private TaskOrderSubTaskInfoDao taskOrderSubTaskInfoDao;
  
+	/**
+	 * 分页查看用户发布的任务
+	 */
 	public ListPager doPage(UserBase userBase, Integer orderId, int pageno,
 			int pagesize, Date startTime, Date endTime) throws SQLException, BusinessException {
 		 
@@ -53,7 +58,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userBase");
 		}
 		ListPager pager = taskBasicDao.doPageForSite( userBase, orderId, pageno,  pagesize,
-				 startTime,  endTime);
+				 startTime,  endTime,null);
 		return pager;
 	}
 
@@ -78,33 +83,46 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 			Date endTime) throws SQLException, BusinessException {
 		 
 		ListPager pager = taskBasicDao.doPageForSite( null, null, pageno,  pagesize,
-				 startTime,  endTime);
+				 startTime,  endTime,TaskStatus.Wait_For_Receive);
 		return pager;
 	}
 
 
 	/**
 	 * 接单
+	 * @throws ParseException 
 	 */
 	public TaskBasic doReceiveTask(UserBase userBase, int taskid)
-			throws SQLException, BusinessException {
+			throws SQLException, BusinessException, ParseException {
 		if(userBase == null){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userBase");
+		}
+		String receiverQQ = userBase.getBindQq();
+		String receiverAlipay = userBase.getBindAlipay();
+		if(StringUtils.isBlank(receiverQQ)){
+			throw new BusinessException(BusinessExceptionInfos.QQ_IS_NO_SET,"QQ");
+		}
+		if(StringUtils.isBlank(receiverAlipay)){
+			throw new BusinessException(BusinessExceptionInfos.ALIPAY_IS_NO_SET,"alipay");
 		}
 		TaskBasic taskBasic = (TaskBasic) taskBasicDao.selectById(taskid, TaskBasic.class);
 		if(taskBasic == null){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"taskId");
-		} 
+		}
+		if(taskBasic.getUserId().equals(userBase.getId())){
+			throw new BusinessException(BusinessExceptionInfos.NO_ALLOW_SELF_RECEIVE_SELF_TASK,"userid");
+		}
 		if(taskBasic.getStatus() != TaskStatus.Wait_For_Receive){
 			throw new BusinessException(BusinessExceptionInfos.TASK_STATUS_NOT_WAIT,"status");
 		}
+		
 		Integer countAllow = SystemGlobals.getIntPreference("taobao.order.user.can.receive.count",20);
 		/**
 		 * 查看用户接单是否超过每天允许接单总数的限制
 		 */
 		Date now = new Date();
-		Integer haveReceivedCount = taskBasicLogDao.getOnePersonCountReceivedTaskInOneDay(userBase.getId(), now);
-		if(haveReceivedCount!=null && haveReceivedCount>countAllow){
+		BigInteger haveReceivedCount = taskBasicLogDao.getOnePersonCountReceivedTaskInOneDay(userBase.getId(), now);
+		if(haveReceivedCount!=null && haveReceivedCount.intValue()>countAllow){
 			throw new BusinessException(BusinessExceptionInfos.DAY_RECEIVE_COUNT_LIMIT,"receive_count");
 		}
 		List<TaskOrderSubTaskInfo>  taskOrderSubTaskInfo = taskOrderSubTaskInfoDao.getSubTaskInfoByOrderId(taskBasic.getTaskOrderId());
@@ -141,6 +159,8 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		taskBasic.setReceiverId(userBase.getId());
 		
 		taskBasic.setReceiverTime(now); 
+		taskBasic.setReceiverQq(receiverQQ);
+		taskBasic.setReceiverAlipay(receiverAlipay);
 		taskBasicDao.update(taskBasic);
 		
 		TaskBasicLog taskBasicLog = new TaskBasicLog();
@@ -214,7 +234,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		if(taskBasic.getStatus() != TaskStatus.Receive_Complete){
 			throw new BusinessException(BusinessExceptionInfos.TASK_STATUS_NOT_COMPLETED,"status");
 		}
-		if(taskBasic.getUserId() != userBase.getId()){
+		if(!taskBasic.getUserId().equals(userBase.getId() )){
 			throw new BusinessException(BusinessExceptionInfos.NOT_SELF_TASK,"userBase");
 		}
 		
@@ -256,7 +276,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		if(taskBasic.getStatus() != TaskStatus.Have_Bean_Received){
 			throw new BusinessException(BusinessExceptionInfos.TASK_STATUS_NOT_HaveRecived,"status");
 		}
-		if(taskBasic.getReceiverId() != userBase.getId()){
+		if(!taskBasic.getReceiverId().equals(userBase.getId())){
 			throw new BusinessException(BusinessExceptionInfos.NOT_SELF_TASK,"userBase");
 		}
 		/**
@@ -265,6 +285,8 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		taskBasic.setStatus(TaskStatus.Wait_For_Receive);
 		taskBasic.setReceiverId(null);
 		taskBasic.setReceiverTime(null);
+		taskBasic.setReceiverQq(null);
+		taskBasic.setReceiverAlipay(null);
 		taskBasicDao.update(taskBasic);
 		
 		Date now = new Date();
@@ -278,7 +300,9 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		return taskBasic;
 	}
 
-
+/**
+ * 我未完成的任务列表
+ */
 	public ListPager doMyReceiveTaskPage(UserBase userBase, Integer orderId,
 			int pageno, int pagesize, Date startTime, Date endTime)
 			throws SQLException, BusinessException {
@@ -286,6 +310,22 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userBase");
 		}
 		ListPager pager = taskBasicDao.doPageForSiteAndReceive( userBase, orderId, pageno,  pagesize,
+				 startTime,  endTime,TaskStatus.Have_Bean_Received);
+		return pager;
+	}
+
+
+	/**
+	 * 我完成的任务列表
+	 */
+	public ListPager getMyCompletelistPage(UserBase userBase, int pageno,
+			int pagesize, Date startTime, Date endTime) throws SQLException,
+			BusinessException {
+		 
+		if(userBase == null){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userBase");
+		}
+		ListPager pager = taskBasicDao.doPageForMyfinishedTask( userBase,  pageno,  pagesize,
 				 startTime,  endTime);
 		return pager;
 	}

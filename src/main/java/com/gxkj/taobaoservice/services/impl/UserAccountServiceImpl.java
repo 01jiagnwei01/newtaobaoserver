@@ -285,6 +285,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 			case Task_Order_SURE:
 				/**
 				 * 订单确认 
+				 * 锁定账户，绑定资金
 				 */
 				 
 				if(lockAmount.compareTo(BigDecimal.ZERO)<0 ){
@@ -309,22 +310,58 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 任务创建者
 				 * 锁定资金减少，所用点数减少 可用资金、点数不变
+				 * 
+				 * 
+				 * 
+				 * 
+				 * 
+				 */
+				 
+				 
+				
+				break;
+			case Task_SURE:
+				/**
+				 * 任务正常结束，接单人完成任务，创建者确定
+				 */
+				
+				if(lockAmount.compareTo(BigDecimal.ZERO)<0 ){
+					log.info(String.format("参数错误,lockAmount需要是正数,lockAmount=%d",lockAmount));
+					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"lockAmount");
+				}
+				 
+				if(payPoints!=null && payPoints.compareTo(BigDecimal.ZERO)<0){
+					log.info(String.format("参数错误,points需要是正数,payPoints=%.2f",payPoints));
+					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"points");
+				}
+				if( currentPoints.compareTo(lockPoints)<0){
+					log.info(String.format("可用点数不足，当前可用点数是：%.2f,需要绑定点数:%.2f",currentPoints.doubleValue(),lockPoints.doubleValue()));
+					 throw new BusinessException(BusinessExceptionInfos.POINT_NOT_ENOUGH,"points");
+				}
+				if(refTableId == null || refTableId.intValue()==0){
+					log.info(String.format("参数错误,关联取款申请记录表ID需要是正数,refTableId=%.2f",refTableId));
+					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
+				}
+				// 任务创建者的账户变化关联任务表Id
+				userAccountLog.setTaskBasicId(refTableId);
+				/**
+				 * 任务创建者
+				 * 锁定资金减少，锁定点数减少 可用资金、点数不变
 				 */
 				afterLockedPoints = afterLockedPoints.subtract(payPoints);
 				afterLockedAmount = afterLockedAmount.subtract(payamount);
 				
-				 
-				/**
-				 * 公司账户增加
-				 */
 				if(taskBasic.getZengzhiReceiverGainPoints().compareTo(BigDecimal.ZERO) >0){
 					companyAccountDao.executeUpdateCompanyAccount( BigDecimal.ZERO,  BigDecimal.ZERO,  
 							taskBasic.getZengzhiReceiverGainPoints(),  BigDecimal.ZERO, 
 							BigDecimal.ZERO, BigDecimal.ZERO ,CompanyAccountReason.ORDERSURE,refTableId);
 				}
+				
+				/**
+				 * 接单人员账户变化
+				 */
 				_receiverUserCountChangeForTaskOrderSURE(now ,taskBasic.getReceiverId(),taskBasic.getBasicReceiverGainPoint(),
 						payamount,refTableId);
-				
 				break;
 				
 			

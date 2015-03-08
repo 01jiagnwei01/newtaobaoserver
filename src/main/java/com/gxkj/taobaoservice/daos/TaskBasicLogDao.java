@@ -1,5 +1,6 @@
 package com.gxkj.taobaoservice.daos;
 
+import java.math.BigInteger;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -13,6 +14,6 @@ public interface TaskBasicLogDao extends BaseDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	public Integer getOnePersonCountReceivedTaskInOneDay(Integer userId,Date time)throws SQLException;
+	public BigInteger getOnePersonCountReceivedTaskInOneDay(Integer userId,Date time)throws SQLException;
 	
 }

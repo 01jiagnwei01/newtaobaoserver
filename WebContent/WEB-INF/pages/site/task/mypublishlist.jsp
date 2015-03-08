@@ -11,7 +11,7 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
  <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<title>任务大厅 </title>
+<title>我发布的任务</title>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include>
 <style type="text/css">
@@ -54,14 +54,15 @@ table td {
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">担保金额</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">接手获利金额</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">获利点数</td> 
-										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">接手状态</td>
+										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">状态</td>
+										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">接手人</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">操作</td>
 								</tr>
 								<%
 								if(pager == null || pager.getTotalRows() == 0){
 									%>
 									<tr>
-										<td colspan="7" align="center">我们正在努力工作，为您提供更好的服务</td> 
+										<td colspan="8" align="center">您还没有发布任务哦</td> 
 									</tr>
 									<%
 								}else{
@@ -78,12 +79,13 @@ table td {
 										<td align="center"><%= TaskBasicUtil.getReceiveCanGetPointByTask(item)%> </td> 
 										<td align="center"><%=item.getStatus().getName()%></td>
 										<td align="center">
-											<%if(TaskStatus.Wait_For_Receive == item.getStatus()){ %>
-												<button class="btn btn-xs btn-primary" id="opbtn<%=item.getId() %>" onclick="doThisTask(this,<%=item.getId() %>)">接任务</button>
-											 
-											<% }else {%>
-											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
-											<%}%> 
+										<% if(item.getReceiverId() != null){ %>
+										接手人QQ<%=item.getReceiverQq()%>;<br/>接手人支付宝账号：<%=item.getReceiverAlipay()%>;<br/>接手人ID：<%=item.getReceiverId()%>;
+										<%} %>
+										</td>
+										<td align="center">
+											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="sureTask(this,<%=item.getId() %>)">完成</button>
+											<button class="btn btn-xs btn-default" id="detailbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
 										</td>
 								</tr>
 							<% 
@@ -159,8 +161,10 @@ function detail(zthis,id){
 	var url = "<%=request.getContextPath()%>/site/task/detail?taskId="+id+"&d="+new Date().getTime();
 	window.open(url);
 }
-function doThisTask(zthis,id){
-	var yanzhengmaurl = "<%=request.getContextPath()%>/site/task/recievetask";
+function sureTask(zthis,id){
+	var  sure=window.confirm("确定完成任务，将进行支付？");
+	if(!sure)return;
+	var yanzhengmaurl = "<%=request.getContextPath()%>/site/task/surecomplete";
   	$.ajax({
 		  type:'post',
 		  url: yanzhengmaurl,
@@ -174,7 +178,7 @@ function doThisTask(zthis,id){
 			  taskid:id
 		  },
 		  success:function(json){
-			  alert("已接任务,新任务放到我未完成的任务里");
+			  alert("任务已结束");
 			  window.location.reload();
 			  return; 
 			 	  
@@ -191,5 +195,6 @@ function doThisTask(zthis,id){
 	  } 
 	})
 }
+ 
 </script>
 </html>

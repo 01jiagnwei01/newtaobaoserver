@@ -82,6 +82,19 @@ public class UserBase implements Serializable{
 	
 	@Column(name="cao_zuo_ma" )
 	private String caoZuoMa;
+	
+	/**
+	 * QQ号 
+	 */
+	@Column(name="bind_qq" )
+	private String bindQq;
+	
+	/**
+	 * 绑定阿里账号
+	 */
+	@Column(name="bind_alipay" )
+	private String bindAlipay;
+	
 
 	public Integer getId() {
 		return id;
@@ -156,6 +169,23 @@ public class UserBase implements Serializable{
 	public void setBindTelphone(String bindTelphone) {
 		this.bindTelphone = bindTelphone;
 	}
+
+	public String getBindQq() {
+		return bindQq;
+	}
+
+	public void setBindQq(String bindQq) {
+		this.bindQq = bindQq;
+	}
+
+	public String getBindAlipay() {
+		return bindAlipay;
+	}
+
+	public void setBindAlipay(String bindAlipay) {
+		this.bindAlipay = bindAlipay;
+	}
+	
 	
 
 	 

@@ -114,6 +114,14 @@ public class UserBaseDaoImpl extends BaseDAOImpl implements UserBaseDao {
 	
 	}
 
+ 
+	public UserBase getUsersByBindEmail(String email) throws SQLException {
+		Map<String,Object> parameters = new HashMap<String,Object>();
+		 parameters.put("bindEmail", email);
+		UserBase base = (UserBase) this.selectOneByHQL(emailIsRegedHQL, parameters);
+		return base;
+	}
+
 	 
 
 	 

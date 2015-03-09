@@ -3,13 +3,8 @@ package com.gxkj.taobaoservice.services.impl;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonGenerationException;
@@ -20,22 +15,25 @@ import org.springframework.stereotype.Service;
 
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
+import com.gxkj.common.util.PWDGenter;
 import com.gxkj.taobaoservice.daos.OperateLogDao;
 import com.gxkj.taobaoservice.daos.UserBaseDao;
 import com.gxkj.taobaoservice.daos.UserLinkDao;
-import com.gxkj.taobaoservice.dto.EntityReturnData;
+import com.gxkj.taobaoservice.daos.YanZhengMaLogDao;
 import com.gxkj.taobaoservice.entitys.OperateLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.entitys.UserLink;
-import com.gxkj.taobaoservice.enums.FindBackPasswordProcessResult;
+import com.gxkj.taobaoservice.entitys.YanzhengmaLog;
 import com.gxkj.taobaoservice.enums.OperateTypes;
 import com.gxkj.taobaoservice.enums.UserBaseStatus;
 import com.gxkj.taobaoservice.enums.UserLinkActiveResult;
 import com.gxkj.taobaoservice.enums.UserLinkStatus;
 import com.gxkj.taobaoservice.enums.UserLinkTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaLogTranTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 import com.gxkj.taobaoservice.services.BusinessExceptionService;
 import com.gxkj.taobaoservice.services.UserLinkService;
-import com.gxkj.taobaoservice.util.mail.MailSender;
+import com.gxkj.taobaoservice.util.RegexUtils;
 @Service
 public class UserLinkServiceImpl implements UserLinkService {
 
@@ -53,6 +51,8 @@ public class UserLinkServiceImpl implements UserLinkService {
 	@Autowired
 	private BusinessExceptionService businessExceptionService;
 	
+	@Autowired
+	private YanZhengMaLogDao yanZhengMaLogDao;
 	 
 	/**
 	 * 邮箱激活 
@@ -98,43 +98,6 @@ public class UserLinkServiceImpl implements UserLinkService {
 	}
 
 
-	 
-	public EntityReturnData doFindBackUserPassword(String email) throws SQLException, BusinessException, AddressException, MessagingException {
-		EntityReturnData entity = new EntityReturnData();
-		List<UserLink> userLinks = this.userLinkDao.getUsersByEmail(email);
-		if(CollectionUtils.isEmpty(userLinks)){
-			entity.setMsg(FindBackPasswordProcessResult.EMAIL_NOT_EXIT.getName());
-			return entity;
-		}
-		if(userLinks.size()>=2){
-			com.gxkj.taobaoservice.entitys.BusinessExceptionEntity fentity = businessExceptionService.initBusinessException(this.getClass(), Thread.currentThread().getStackTrace()[1].getMethodName()
-					, BusinessExceptionInfos.EMAIL_DUPLICATE_EXIST, "{email:"+email+"}", 0);
-			businessExceptionService.insertEntity(fentity);
-			
-			throw new BusinessException(BusinessExceptionInfos.EMAIL_DUPLICATE_EXIST);
-		}
-		UserLink userLink = userLinks.get(0);
-		
-		Date now = new Date();
-		OperateLog operateLog = new OperateLog();
-		operateLog.setOperateTime(now);
-		operateLog.setBeforeValue( userLink.getLinkValue());
-		operateLog.setOperateType(OperateTypes.FIND_PASSWORD_SEND_EMAIL);
-		operateLog.setAfterValue(userLink.getLinkValue());
-		operateLog.setUser_id(userLink.getUserId());
-		operateLog.setIsUsed(0);
-		operateLogDao.insert(operateLog);
-		//发送邮件重置密码
-		//当天重置 
-		String sendtime = DateFormatUtils.format(now, "yyyy-MM-dd HH:mm:ss");
-		String maiUrlParams = String.format("sendtime=%s&logid=%d", sendtime,operateLog.getId());
-		MailSender mailSender = new MailSender();
-		mailSender.findBackPasswordSendEmail(email, "找回密码 ", now, maiUrlParams);
-		entity.setResult(true);
-		entity.setMsg(FindBackPasswordProcessResult.SUCCESS.getName());
-		
-		return entity;
-	}
 
 
 
@@ -201,6 +164,53 @@ public class UserLinkServiceImpl implements UserLinkService {
 		
 		return userLink;
 		
+	}
+	/**
+	 * 找回密码
+	 * @throws BusinessException 
+	 * @throws SQLException 
+	 */
+	public void doFindBackPassword(String email, String emailCode,
+			String yanzhengma, String yanzhengMaInSession, String password, String surePassword) throws BusinessException, SQLException {
+		if(StringUtils.isBlank(email)) {
+			 throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_BLANK,"email");
+		 }
+		if(!RegexUtils.isEmail( email)){
+			 throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_INVALID,"email");
+		}
+		if(StringUtils.isBlank(yanzhengma)) {
+			throw new BusinessException(BusinessExceptionInfos.Yan_Zheng_MA_IS_BLANK,"yanzhengma");
+		}
+		if(!yanzhengMaInSession.equals( yanzhengma)) {
+			throw new BusinessException(BusinessExceptionInfos.Yan_Zheng_MA_ERROR,"yanzhengma");
+		}
+		if(StringUtils.isBlank(emailCode)) {
+			throw new BusinessException(BusinessExceptionInfos.DBYan_Zheng_MA_IS_BLANK,"dbyanzhengma");
+		}
+		
+		if(StringUtils.isBlank(password)) {
+			 throw new BusinessException(BusinessExceptionInfos.PASSWORD_IS_BLANK,"password");
+		 }
+		
+		if(StringUtils.isBlank(surePassword)) {
+			 throw new BusinessException(BusinessExceptionInfos.REPASSWORD_IS_BLANK,"rePassword");
+		 }
+		if(!surePassword.equals(password)){
+			 throw new BusinessException(BusinessExceptionInfos.REPASSWORD_NOT_EQUAL_PASSOWRD,"rePassword");
+		}
+		
+		YanzhengmaLog yanzhengmaLog = yanZhengMaLogDao.getRegLogByTypeAndValue(YanZhengMaTypes.email,  YanZhengMaLogTranTypes.FIND_BACK_PASSWORD, email);
+		if(yanzhengmaLog == null) {
+			throw new BusinessException(BusinessExceptionInfos.DBYan_Zheng_MA_IS_ERROR
+					,"dbyanzhengma");
+		}
+		UserBase userBase = userBaseDao.getUsersByBindEmail(email);
+		if(userBase == null){
+			 throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_NOT_REG,"email");
+		}
+		password = PWDGenter.generateKen(password);
+		userBase.setPassword(password);
+		userBaseDao.update(userBase);
 	}
 
 }

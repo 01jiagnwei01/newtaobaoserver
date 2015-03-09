@@ -4,14 +4,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
-
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 
 import com.gxkj.common.exceptions.BusinessException;
-import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.entitys.UserLink;
 import com.gxkj.taobaoservice.enums.UserLinkActiveResult;
@@ -32,16 +28,7 @@ public interface UserLinkService {
 	 * @throws BusinessException
 	 */
 	UserLinkActiveResult activeEmail(String email,int id,Date endDate)throws SQLException, JsonGenerationException, JsonMappingException, IOException, BusinessException;
-
-	/**
-	 * 找回密码 
-	 * @throws SQLException 
-	 * @throws BusinessException 
-	 * @throws MessagingException 
-	 * @throws AddressException 
-	 */
-	EntityReturnData doFindBackUserPassword(String email) throws SQLException, BusinessException, AddressException, MessagingException;
-
+ 
 	/**
 	 * 修改某个用户的联系方式
 	 * @param userBase
@@ -52,4 +39,16 @@ public interface UserLinkService {
 	 */
 	UserLink updateUserLink(UserBase userBase, UserLinkTypes userLinkType,
 			String value) throws SQLException, BusinessException;
+	
+	/**
+	 * 找回密码 
+	 * @param email
+	 * @param emailCode
+	 * @param yanzhengma
+	 * @param yanzhengMaInSession
+	 * @throws BusinessException 
+	 * @throws SQLException 
+	 */
+	void doFindBackPassword(String email, String emailCode, String yanzhengma,
+			String yanzhengMaInSession, String password, String surePassword) throws BusinessException, SQLException;
 }

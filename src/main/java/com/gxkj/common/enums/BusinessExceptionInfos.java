@@ -90,7 +90,12 @@ public enum BusinessExceptionInfos {
 	ALIPAY_IS_BLANK("88","支付宝账号为空"),
 	QQ_IS_NO_SET("89","您还没有绑定QQ,请先去绑定QQ"),
 	ALIPAY_IS_NO_SET("90","您还没有绑定支付宝账号,请先去绑定支付宝账号"),
-	NO_ALLOW_SELF_RECEIVE_SELF_TASK("91","禁止本人接自己发布的任务") ;
+	NO_ALLOW_SELF_RECEIVE_SELF_TASK("91","禁止本人接自己发布的任务"),
+	EMAIL_IS_BLANK("92","邮箱为空"),
+	EMAIL_IS_INVALID("93","邮箱无效") ,
+	EMAIL_IS_NOT_REG("94","邮箱没有被注册过"),
+	DBYan_Zheng_MA_IS_BLANK("95","系统验证码为空"),
+	DBYan_Zheng_MA_IS_ERROR("96","系统验证码错误");
 	private String errorCode; 
 	
 	private String errorMsg;

@@ -138,7 +138,8 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 					||  url.indexOf("/exception")>=0
 					||  url.indexOf("/login")>=0
 					||  url.indexOf("/yanzhengma")>=0
-					||  url.indexOf("/about")>=0) {
+					||  url.indexOf("/about")>=0
+					||  url.indexOf("/findbackpassword")>=0) {
 				return true;
 			}
 			UserBase base = SessionUtil.getSiteUserInSession(req);

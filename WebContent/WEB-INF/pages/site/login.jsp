@@ -55,7 +55,10 @@
 			<div class="tac">
 				<a href="javascript:loginfn(this);" style="display:inline-block; border-radius:5px; background-color:#09F; width:80%; color:#fff; line-height:40px; height:40px;" class="tac" id = "loginBtn">登录</a>
 			</div>
-				<div style="text-align:right; padding-top:20px; padding-right:40px;"><a href="<%=request.getContextPath() %>/reg" style="">免费注册</a></div>
+				<div style="text-align:right; padding-top:20px; padding-right:40px;">
+				<a href="<%=request.getContextPath() %>/reg" style="">免费注册</a>
+				<a href="<%=request.getContextPath() %>/findbackpassword" style="">找回密码</a>
+				</div>
 
 	</div>
 	<jsp:include page="./common/footer.jsp"></jsp:include>

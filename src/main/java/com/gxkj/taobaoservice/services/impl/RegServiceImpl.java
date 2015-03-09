@@ -33,6 +33,7 @@ import com.gxkj.taobaoservice.entitys.YanzhengmaLog;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.OperateTypes;
+import com.gxkj.taobaoservice.enums.YanZhengMaLogTranTypes;
 import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 import com.gxkj.taobaoservice.enums.UserBaseStatus;
 import com.gxkj.taobaoservice.services.EmailService;
@@ -171,7 +172,7 @@ public class RegServiceImpl implements RegService {
 			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_REGED,"userName");
 		}
 		
-		YanzhengmaLog regLog = regLogDao.getRegLogByTypeAndValue(YanZhengMaTypes.email,regObjDTO.getEmail());
+		YanzhengmaLog regLog = regLogDao.getRegLogByTypeAndValue(YanZhengMaTypes.email,YanZhengMaLogTranTypes.Reg,regObjDTO.getEmail());
 		if(regLog == null) {
 			throw new BusinessException(BusinessExceptionInfos.EMAIL_NOT_SEND_CODE,"email");
 		}

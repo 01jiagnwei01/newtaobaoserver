@@ -65,4 +65,12 @@ public interface UserBaseDao extends BaseDAO{
 	 */
 	boolean emailIsRegdByOtherPeople(Integer id, String tomail)throws SQLException ;
 
+	/**
+	 * 根据邮箱查询用户
+	 * @param email
+	 * @return
+	 * @throws SQLException
+	 */
+	UserBase getUsersByBindEmail(String email)throws SQLException ;
+
 }

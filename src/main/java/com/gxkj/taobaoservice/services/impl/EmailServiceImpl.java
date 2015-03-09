@@ -146,4 +146,51 @@ public class EmailServiceImpl  implements EmailService{
 		 userBaseDao.update(userBase);
 	}
 
+
+	 
+	public void doFindBackPasswordMailCode(String email)
+			throws BusinessException, SQLException, MessagingException, BindException {
+		if(StringUtils.isBlank(email)) {
+			 throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_BLANK,"email");
+		 }
+		if(!RegexUtils.isEmail( email)){
+			 throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_INVALID,"email");
+		}
+		UserBase userBase = userBaseDao.getUsersByBindEmail(email);
+		if(userBase == null){
+			 throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_NOT_REG,"email");
+		}
+		
+		yanZhengMaLogDao.updateEmaiToNoEnable(email);
+		/**
+		 * 保存修改的注册码
+		 */
+		String code = RegexUtils.getRandomNum(6)+"";
+		Date now = new Date();
+		YanzhengmaLog yanZhengMaBindCode = new YanzhengmaLog();
+		yanZhengMaBindCode.setCode(code);
+		yanZhengMaBindCode.setCreateDime(now);
+		yanZhengMaBindCode.setType(YanZhengMaTypes.email);
+		yanZhengMaBindCode.setValue(email);
+		yanZhengMaBindCode.setEnabled(true);
+		yanZhengMaBindCode.setTranType(YanZhengMaLogTranTypes.FIND_BACK_PASSWORD);
+		int validTimeLeng = SystemGlobals.getIntPreference("reg.code.valid.time", 5);
+		Date expTime = DateUtils.addMilliseconds(now, validTimeLeng);
+		yanZhengMaBindCode.setExpTime(expTime);
+		yanZhengMaBindCode.setUserId(userBase.getId());
+		yanZhengMaLogDao.insert( yanZhengMaBindCode);
+		
+		
+		/**
+		 * 发送邮件
+		 */
+		MimeMessage msg = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(msg, true, "utf-8");
+		helper.setFrom(reSetBindEmailTemplateMailMessage.getFrom());
+		helper.setTo(email);
+		helper.setSubject(reSetBindEmailTemplateMailMessage.getSubject());
+		helper.setText(String.format( reSetBindEmailTemplateMailMessage.getText(), code), true);
+		javaMailSender.send(msg);
+	}
+
 }

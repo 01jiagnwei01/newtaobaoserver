@@ -29,7 +29,7 @@ public interface EmailService {
 	public boolean emailIsRegdByOtherPeople(UserBase userBase, String tomail) throws SQLException;
 
 	/**
-	 * 向邮箱发送验证码
+	 * 向邮箱发送验证码,邦定邮箱使用
 	 * @param userBase
 	 * @param tomail
 	 * @throws BusinessException
@@ -50,5 +50,15 @@ public interface EmailService {
 	 */
 	public void doUpdateByEmail(UserBase userBase, String email,
 			String caozuoma, String yanzhengma) throws BusinessException, SQLException;
+
+	/**
+	 * 向邮箱发送验证码，找回密码使用
+	 * @param email
+	 * @throws BusinessException
+	 * @throws SQLException
+	 * @throws MessagingException 
+	 * @throws BindException 
+	 */
+	public void doFindBackPasswordMailCode(String email)throws BusinessException, SQLException, MessagingException, BindException;
  
 }

@@ -16,7 +16,7 @@ import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 public class YanZhengMaLogDaoImpl extends BaseDAOImpl implements YanZhengMaLogDao {
 
 	private  final static String updateEmaiToNoEnableSql = "update yanzhengma_log set enabled = 0 where value = ? and type = ?";
-	private final static String getRegLogByTypeAndValueSql = "from YanzhengmaLog where type=:type and value=:value and enabled = true order by id desc";
+	private final static String getRegLogByTypeAndValueSql = "from YanzhengmaLog where tranType = :tranType and type=:type and value=:value and enabled = true order by id desc";
 	private  final static String getRegLogByUserIdAndTransAndTypeAndValueSql = "from YanzhengmaLog where userId=:userId and tranType =:tranType  and type=:type and value=:value and enabled = true order by id desc";
 	public void updateEmaiToNoEnable(String mail) throws SQLException,
 			BindException {
@@ -24,10 +24,11 @@ public class YanZhengMaLogDaoImpl extends BaseDAOImpl implements YanZhengMaLogDa
 	}
 	 
 	 
-	public YanzhengmaLog getRegLogByTypeAndValue(YanZhengMaTypes type, String value) throws SQLException {
+	public YanzhengmaLog getRegLogByTypeAndValue(YanZhengMaTypes type,YanZhengMaLogTranTypes tranType , String value) throws SQLException {
 		Map<String,Object> parameter = new HashMap<String,Object>();
 		parameter.put("type", type);
 		parameter.put("value", value);
+		parameter.put("tranType", tranType);
 		return (YanzhengmaLog) this.selectOneByHQL(getRegLogByTypeAndValueSql,parameter);
 	}
 

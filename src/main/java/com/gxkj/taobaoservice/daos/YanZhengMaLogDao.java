@@ -19,7 +19,7 @@ public interface YanZhengMaLogDao extends BaseDAO {
 	 * @return
 	 * @throws SQLException 
 	 */
-	YanzhengmaLog getRegLogByTypeAndValue(YanZhengMaTypes type, String value) throws SQLException;
+	YanzhengmaLog getRegLogByTypeAndValue(YanZhengMaTypes type, YanZhengMaLogTranTypes transType ,String value) throws SQLException;
 	/**
 	 * 根据用户ID,业务类型，验证码类型,联系方式
 	 * @param userId

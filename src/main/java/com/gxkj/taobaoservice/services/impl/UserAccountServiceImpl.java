@@ -14,9 +14,12 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.CompanyAccountDao;
 import com.gxkj.taobaoservice.daos.TaskBasicDao;
+import com.gxkj.taobaoservice.daos.TaskOrderDao;
+import com.gxkj.taobaoservice.daos.TaskOrderSubTaskInfoDao;
 import com.gxkj.taobaoservice.daos.UserAccountDao;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
 import com.gxkj.taobaoservice.entitys.TaskBasic;
+import com.gxkj.taobaoservice.entitys.TaskOrder;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserAccountLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
@@ -40,6 +43,12 @@ public class UserAccountServiceImpl implements UserAccountService {
 	
 	@Autowired
 	private TaskBasicDao taskBasicDao;
+	
+	@Autowired
+	private TaskOrderDao taskOrderDao;
+	
+	@Autowired
+	private TaskOrderSubTaskInfoDao taskOrderSubTaskInfoDao;
 	
 	/**
 	 * 关联修改用户账户信息，并完成log日志
@@ -305,18 +314,32 @@ public class UserAccountServiceImpl implements UserAccountService {
 					log.info(String.format("参数错误,关联取款申请记录表ID需要是正数,refTableId=%.2f",refTableId));
 					 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
 				}
+				
 				// 任务创建者的账户变化关联订单表Id
 				userAccountLog.setTaskOrderId(refTableId);
 				/**
 				 * 任务创建者
 				 * 锁定资金减少，所用点数减少 可用资金、点数不变
-				 * 
-				 * 
-				 * 
-				 * 
-				 * 
 				 */
-				 
+				/**
+				 * 可用金额 = 可用金额 - 付款金额 - 锁定金额
+				 * 可用点数 = 可用点数 - 付款点数 -锁定点数
+				 * 锁定金额 = 当前锁定金额 + 锁定金额
+				 * 锁定点数 = 锁定点数 + 锁定点数
+				 * 支付公司点数
+				 */
+				afterAmount = currentBalance.subtract(payamount).subtract(lockAmount);
+				afterPoints = currentPoints.subtract(payPoints).subtract(lockPoints);;
+				afterLockedAmount = currentLockedBalance.add(lockAmount);
+				afterLockedPoints = currentLockedPoints.add(lockPoints);
+				/**
+				 * 公司账户增加
+				 * 获得点数增加
+				 */
+				TaskOrder taskOrder =  (TaskOrder) taskOrderDao.selectById(refTableId, TaskOrder.class);
+				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO,  taskOrder.getBasicPingtaiGainPoint(),  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO ,
+						CompanyAccountReason.ORDERSURE,refTableId);
+				
 				 
 				
 				break;
@@ -347,6 +370,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 任务创建者
 				 * 锁定资金减少，锁定点数减少 可用资金、点数不变
+				 * 锁定资金 = 锁定资金 - 支付资金
+				 * 锁定点数 = 锁定点数 - 支付点数
 				 */
 				afterLockedPoints = afterLockedPoints.subtract(payPoints);
 				afterLockedAmount = afterLockedAmount.subtract(payamount);
@@ -372,7 +397,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				&&  operateType != UserAccountTypes.WITHDRAW_FAILURE 
 				&&  operateType != UserAccountTypes.WITHDRAW_SUCCESS
 				&&  operateType != UserAccountTypes.BUY_POINTS
-				&&  operateType != UserAccountTypes.Task_Order_SURE){
+				&&  operateType != UserAccountTypes.Task_Order_SURE
+				&&  operateType != UserAccountTypes.Task_SURE){
 			/**
 			 * 标识出支持的
 			 */

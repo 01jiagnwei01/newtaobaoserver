@@ -9,6 +9,7 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.entitys.TaskOrder;
 import com.gxkj.taobaoservice.entitys.UserBase;
+import com.gxkj.taobaoservice.enums.TaskOrderStatus;
 
 public interface TaskOrderService {
 	
@@ -115,5 +116,31 @@ public interface TaskOrderService {
 			boolean noRepeatTalk, boolean needZhiDingJieShouRen,
 			Integer jieShouRenId, boolean needZhiDingSouHuoDiZhi,
 			String shouHuoDiZhi, Integer piLiangFabuCount) throws BusinessException, SQLException;
+
+	/**
+	 * 后台查询订单
+	 * @param pageno
+	 * @param pagesize
+	 * @param producttittle
+	 * @param status
+	 * @param userId
+	 * @param beginTime
+	 * @param endTime
+	 * @param taobao
+	 * @param qq
+	 * @return
+	 * @throws SQLException
+	 */
+	public ListPager doPageForAdmin(int pageno, int pagesize, String product_title,
+			TaskOrderStatus status, Integer userId, Date beginTime, Date endTime,String taobao,String qq)throws  SQLException;
+
+	/**
+	 * 根据ID查询订单，后台使用，前台使用另一个
+	 * @param id
+	 * @return
+	 * @throws SQLException
+	 * @throws BusinessException 
+	 */
+	public TaskOrder getTaskOrderByOrderId(int id)throws  SQLException, BusinessException;
 
 }

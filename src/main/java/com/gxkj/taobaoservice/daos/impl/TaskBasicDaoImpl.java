@@ -2,7 +2,6 @@ package com.gxkj.taobaoservice.daos.impl;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.gxkj.common.dao.BaseDAOImpl;
@@ -228,6 +228,148 @@ public class TaskBasicDaoImpl extends BaseDAOImpl implements TaskBasicDao {
 		}
 		 
 		hql.append(" order by receiverTime desc ");
+		String hqlString = hql.toString();
+		ListPager pager = new ListPager();
+		pager.setPageNo(pageno);
+		pager.setRowsPerPage(pagesize);
+		
+		this.selectPageByHql(hqlString, params.toArray(), pager);
+		/**
+		 * 做翻转
+		 */
+		if(CollectionUtils.isNotEmpty(pager.getPageData())){
+			Collections.reverse(pager.getPageData()); 
+		}
+		return pager;
+	}
+
+ 
+	public ListPager doPageForAdmin(int pageno, int pagesize,
+			String producttittle, TaskStatus status, Integer userId,
+			Date beginTime, Date endTime, String taobao, String qq,
+			String receivetaobao, String receiveqq, Date receivebeginTime,
+			Date receiveendTime) throws SQLException {
+		 
+		StringBuffer hql = new StringBuffer("from TaskBasic   ");
+		 List<Object> params = new ArrayList<Object>();
+		 boolean haveParam = false;
+		 if(StringUtils.isNotBlank(producttittle)){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			 hql.append( "  productTitle like ?" );
+			 params.add("%"+producttittle+"%");
+		 }
+		 if(status!=null){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			 hql.append( "  status = ?" );
+			 params.add(status);
+		 }
+		 if(userId !=null && userId.intValue() != 0){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			 hql.append( "  userId = ?" );
+			 params.add(userId);
+		 }
+		
+		 if(beginTime != null ){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+				hql.append( "  createTime >= ?" );
+				params.add(beginTime);
+				 
+		}
+		if(endTime != null ){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			hql.append( "  createTime <= ?" );
+			params.add(endTime);
+		 
+		}
+		if(StringUtils.isNotBlank(taobao)){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			hql.append( "  taobaoXiaohao = ?" );
+			params.add(taobao);
+		}
+		if(StringUtils.isNotBlank(qq)){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			hql.append( "  userQq = ?" );
+			params.add(qq);
+		}
+		if(StringUtils.isNotBlank(receivetaobao)){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			hql.append( "  receiverAlipay = ?" );
+			params.add(receivetaobao);
+		}
+		if(StringUtils.isNotBlank(receiveqq)){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			hql.append( "  receiverQq = ?" );
+			params.add(receiveqq);
+		}
+		if(receivebeginTime != null ){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+				hql.append( "  receiverTime >= ?" );
+				params.add(receivebeginTime);
+				 
+		}
+		if(receiveendTime != null ){
+			 if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			hql.append( "  receiverTime <= ?" );
+			params.add(receiveendTime);
+		 
+		}
+		
+		hql.append(" order by id desc ");
 		String hqlString = hql.toString();
 		ListPager pager = new ListPager();
 		pager.setPageNo(pageno);

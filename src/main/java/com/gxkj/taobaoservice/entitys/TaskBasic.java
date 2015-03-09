@@ -179,6 +179,9 @@ public class TaskBasic implements Serializable {
 	 */
 	@Transient
 	private List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos;
+	
+	@Transient
+	private List<TaskBasicLog> taskBasicLogs;
 
 	public Integer getId() {
 		return id;
@@ -355,6 +358,14 @@ public class TaskBasic implements Serializable {
 
 	public void setReceiverAlipay(String receiverAlipay) {
 		this.receiverAlipay = receiverAlipay;
+	}
+
+	public List<TaskBasicLog> getTaskBasicLogs() {
+		return taskBasicLogs;
+	}
+
+	public void setTaskBasicLogs(List<TaskBasicLog> taskBasicLogs) {
+		this.taskBasicLogs = taskBasicLogs;
 	}
 	
 	

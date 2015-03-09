@@ -212,7 +212,7 @@ public class TaskController {
 		modelMap.put("userBase", userBase);
 		
 		try{
-			TaskBasic taskBasic = taskBasicService.getTaskById( taskId);
+			TaskBasic taskBasic = taskBasicService.getTaskByIdForSite( taskId);
 			modelMap.put("taskBasic", taskBasic);
 			
 			List<TaskOrderSubTaskInfo>  taskOrderSubTaskInfos = taskBasic.getTaskOrderSubTaskInfos();

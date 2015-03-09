@@ -4,11 +4,13 @@ import java.math.BigInteger;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import com.gxkj.common.dao.BaseDAOImpl;
 import com.gxkj.taobaoservice.daos.TaskBasicLogDao;
+import com.gxkj.taobaoservice.entitys.TaskBasicLog;
 import com.gxkj.taobaoservice.enums.TaskBasicLogUserType;
 import com.gxkj.taobaoservice.enums.TaskStatus;
 @Repository
@@ -24,6 +26,13 @@ public class TaskBasicLogDaoImpl extends BaseDAOImpl implements TaskBasicLogDao 
 		return (BigInteger) this.selectOneBySQL(getOnePersonCountReceivedTaskInOneDaySql, new Object[]{
 				userId,TaskBasicLogUserType.RECEIVER,TaskStatus.Have_Bean_Received,beginTime,endTime
 		}, Integer.class);
+	}
+
+	@Override
+	public List<TaskBasicLog> getTaskBasicLogByTaskId(Integer taskId)
+			throws SQLException {
+		String hql = "from TaskBasicLog where taskBasicId = ? order by id";
+		return (List<TaskBasicLog>) this.selectByHQL(hql, new Object[]{taskId});
 	}
 
 }

@@ -133,7 +133,7 @@ function dateFormat(value,row,index){
 function optFormat(value,row,index){
 	var btns = [];
 	 if(admin_siteuser_supplypoint){
-		btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="setSupplyFn(\''+row['id']+'\')" href="#" plain="true" iconCls="update_btn"><span class="l-btn-left"><span class="l-btn-text update_btn l-btn-icon-left">赞助点数</span></span></a>');
+		//btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="setSupplyFn(\''+row['id']+'\')" href="#" plain="true" iconCls="update_btn"><span class="l-btn-left"><span class="l-btn-text update_btn l-btn-icon-left">赞助点数</span></span></a>');
  	}
 	return btns.join("&nbsp;");
 }

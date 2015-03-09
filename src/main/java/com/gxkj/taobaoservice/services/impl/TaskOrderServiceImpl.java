@@ -846,6 +846,35 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		
 		return order;
 	}
+
+
+
+	/**
+	 * 后台分页查看订单 
+	 */
+	public ListPager doPageForAdmin(int pageno, int pagesize, String product_title,
+			TaskOrderStatus status, Integer userId, Date beginTime, Date endTime,String taobao,String qq)
+			throws SQLException {
+	 
+		ListPager pager = taskOrderDao.doPageForAdmin( pageno,  pagesize,  product_title,
+				 status,  userId,  beginTime,  endTime,taobao,qq);
+		return pager;
+	}
+
+
+
+ 
+	public TaskOrder getTaskOrderByOrderId(int id) throws SQLException, BusinessException {
+		TaskOrder taskOrder =  (TaskOrder) taskOrderDao.selectById(id, TaskOrder.class);
+		if(taskOrder == null ){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"orderId");
+		}
+		 
+		//查询订单关联的增值任务和基本任务
+		List<TaskOrderSubTaskInfo>  taskOrderSubTaskInfos = taskOrderSubTaskInfoDao.getSubTaskInfoByOrderId(id);
+		taskOrder.setTaskOrderSubTaskInfos(taskOrderSubTaskInfos);
+		return taskOrder;
+	}
 	
 	
 

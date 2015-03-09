@@ -63,4 +63,27 @@ public interface TaskBasicDao extends BaseDAO {
 	ListPager doPageForMyfinishedTask(UserBase userBase, int pageno,
 			int pagesize, Date startTime, Date endTime)throws SQLException;
 
+	/**
+	 * 后台管理员查看任务
+	 * @param pageno
+	 * @param pagesize
+	 * @param producttittle
+	 * @param status
+	 * @param userId
+	 * @param beginTime
+	 * @param endTime
+	 * @param taobao
+	 * @param qq
+	 * @param receivetaobao
+	 * @param receiveqq
+	 * @param receivebeginTime
+	 * @param receiveendTime
+	 * @return
+	 * @throws SQLException
+	 */
+	ListPager doPageForAdmin(int pageno, int pagesize, String producttittle,
+			TaskStatus status, Integer userId, Date beginTime, Date endTime,
+			String taobao, String qq, String receivetaobao, String receiveqq,
+			Date receivebeginTime, Date receiveendTime)throws SQLException;
+
 }

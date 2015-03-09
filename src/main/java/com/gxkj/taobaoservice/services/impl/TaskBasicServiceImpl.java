@@ -63,17 +63,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 	}
 
 	 
-	public TaskBasic getTaskById( Integer taskId)
-			throws SQLException, BusinessException {
-		
-		TaskBasic taskBasic = (TaskBasic) taskBasicDao.selectById(taskId, TaskBasic.class);
-		if(taskBasic == null){
-			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"taskId");
-		} 
-		List<TaskOrderSubTaskInfo>  taskOrderSubTaskInfo = taskOrderSubTaskInfoDao.getSubTaskInfoByOrderId(taskBasic.getTaskOrderId());
-		taskBasic.setTaskOrderSubTaskInfos(taskOrderSubTaskInfo);
-		return taskBasic;
-	}
+ 
 
 
 	/**
@@ -328,6 +318,48 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		ListPager pager = taskBasicDao.doPageForMyfinishedTask( userBase,  pageno,  pagesize,
 				 startTime,  endTime);
 		return pager;
+	}
+
+
+ 
+	public ListPager doPageForAdmin(int pageno, int pagesize,
+			String producttittle, TaskStatus status, Integer userId,
+			Date beginTime, Date endTime, String taobao, String qq,
+			String receivetaobao, String receiveqq, Date receivebeginTime,
+			Date receiveendTime) throws SQLException, BusinessException {
+		
+		ListPager pager = taskBasicDao.doPageForAdmin( pageno, pagesize, producttittle,  status,
+				userId,  beginTime,endTime,taobao,qq,receivetaobao,receiveqq,receivebeginTime,receiveendTime);
+		return pager;
+	}
+
+
+	public TaskBasic getTaskByIdForSite(Integer taskId) throws SQLException,
+			BusinessException {
+	 
+		TaskBasic taskBasic = (TaskBasic) taskBasicDao.selectById(taskId, TaskBasic.class);
+		if(taskBasic == null){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"taskId");
+		} 
+		List<TaskOrderSubTaskInfo>  taskOrderSubTaskInfo = taskOrderSubTaskInfoDao.getSubTaskInfoByOrderId(taskBasic.getTaskOrderId());
+		taskBasic.setTaskOrderSubTaskInfos(taskOrderSubTaskInfo);
+		return taskBasic;
+	}
+
+
+	 
+	public TaskBasic getTaskByIdForAdmin(Integer taskId) throws SQLException,
+			BusinessException {
+		TaskBasic taskBasic = (TaskBasic) taskBasicDao.selectById(taskId, TaskBasic.class);
+		if(taskBasic == null){
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"taskId");
+		} 
+		List<TaskOrderSubTaskInfo>  taskOrderSubTaskInfo = taskOrderSubTaskInfoDao.getSubTaskInfoByOrderId(taskBasic.getTaskOrderId());
+		taskBasic.setTaskOrderSubTaskInfos(taskOrderSubTaskInfo);
+		//查看订单变更历史
+		List<TaskBasicLog> tasklogs = taskBasicLogDao.getTaskBasicLogByTaskId(taskId);
+		taskBasic.setTaskBasicLogs(tasklogs);
+		return taskBasic;
 	}
 
 }

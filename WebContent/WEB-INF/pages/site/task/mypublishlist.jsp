@@ -84,7 +84,14 @@ table td {
 										<%} %>
 										</td>
 										<td align="center">
-											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="sureTask(this,<%=item.getId() %>)">完成</button>
+											 <%
+											 	if(item.getStatus() == TaskStatus.Receive_Complete){
+											 		%>
+											 		<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="sureTask(this,<%=item.getId() %>)">完成</button>
+											
+											 		 <%
+											 	}
+											 %>
 											<button class="btn btn-xs btn-default" id="detailbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
 										</td>
 								</tr>

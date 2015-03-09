@@ -35,7 +35,7 @@ public class LoginController {
 		String mv = "site/login";
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		if(userBase != null) {
-			return "forward:/useraccount";  
+			return "forward:/site/useraccount";  
 		}
 		return mv;
 	}

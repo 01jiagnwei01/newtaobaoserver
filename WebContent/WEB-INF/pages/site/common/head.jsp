@@ -12,7 +12,7 @@ UserBase userBase = SessionUtil.getSiteUserInSession(request);
 	<div class="center tar" style="width:1200px;">
 	<%if(userBase != null){
 		%>
-		<a href="<%=request.getContextPath() %>/useraccount" style="display:inline-block; padding:5px 15px; background-color:#09f; color:#fff; margin-right:15px;">欢迎您：<%=userBase.getUserName() %></a>
+		<a href="<%=request.getContextPath() %>/site/useraccount" style="display:inline-block; padding:5px 15px; background-color:#09f; color:#fff; margin-right:15px;">欢迎您：<%=userBase.getUserName() %></a>
 		<a href="<%=request.getContextPath() %>/logout" style="display:inline-block; padding:5px 15px; background-color:#09f; color:#fff;">退出</a>
 		<%
 	} else {

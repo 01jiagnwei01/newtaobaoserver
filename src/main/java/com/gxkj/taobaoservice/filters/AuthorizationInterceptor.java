@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerMapping;
@@ -32,13 +34,15 @@ import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.SessionConstant;
 import com.gxkj.taobaoservice.entitys.AdminUser;
 import com.gxkj.taobaoservice.entitys.UserBase;
+import com.gxkj.taobaoservice.services.impl.UserAccountServiceImpl;
 
  
  
 
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 
-	 
+	private static final Log log = 
+			LogFactory.getLog(AuthorizationInterceptor.class);
 	/**
 	 * 当有拦截器抛出异常时,会从当前拦截器往回执行所有的拦截器的afterCompletion() 
 	 */
@@ -82,8 +86,6 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 				System.out.println(it.next());
 			}
 		}
-		
-		
 		
 		if(handler !=null  ){
 			Class<? extends Object> clazz =  handler.getClass();
@@ -135,17 +137,18 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 					|| url.indexOf("reg")>=0
 					||  url.indexOf("/exception")>=0
 					||  url.indexOf("/login")>=0
-					||  url.indexOf("/yanzhengma")>=0) {
+					||  url.indexOf("/yanzhengma")>=0
+					||  url.indexOf("/about")>=0) {
 				return true;
 			}
 			UserBase base = SessionUtil.getSiteUserInSession(req);
 			if(base== null) {
+				log.error(String.format("%s被拦截", url));
 				response.sendRedirect(req.getContextPath() +"/login");
 				return false;
 			}else {
 				return true;
 			}
-			
 			
 		}
 		

@@ -186,14 +186,13 @@ table td{padding:5px; height:25px; font-size:14px;}
 								<c:choose>
 												<c:when test="${taskBasic.status eq   'Wait_For_Receive'   }">
 													<c:if test="${userBase.id != taskBasic.userId}"><button class="btn btn-lg btn-success"  onclick="doThisTask(this)">接单</button></c:if>
-													<button class="btn btn-lg btn-success"  onclick="doThisTask(this,<%=taskBasic.getId()%>)">接单</button>
+													 
 												 </c:when>
 												<c:when test="${taskBasic.status eq   'Have_Bean_Received'   }"> 
 													<c:if test="${taskBasic.receiverId eq userBase.id}">
 														<button class="btn btn-xs btn-default" id="completebtn${taskBasic.id }" onclick="dowork(this,${taskBasic.id })">完成</button>
 														<button class="btn btn-xs btn-default" id="cancelbtn${taskBasic.id }" onclick="docancle(this,${taskBasic.id })">放弃任务</button>
 													</c:if>
-												
 												</c:when>
 												<c:otherwise>   
 													状态：<b>${taskBasic.status.name}</b>

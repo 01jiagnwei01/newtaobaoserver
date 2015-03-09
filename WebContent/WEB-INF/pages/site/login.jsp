@@ -110,7 +110,7 @@ function loginfn(btn){
 			  		//json = jQuery.parseJSON(json);
 				 	 var result = json["result"];
 				 	 if(result){
-				 	 	window.location = "<%=request.getContextPath()%>/useraccount";
+				 	 	window.location = "<%=request.getContextPath()%>/site/useraccount";
 				 	 }else{
 				 	 	log.info("登录失败："+json); 
 				 	 }

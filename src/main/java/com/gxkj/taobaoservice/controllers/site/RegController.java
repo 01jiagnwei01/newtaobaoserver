@@ -37,7 +37,7 @@ public class RegController {
 		String mv = "site/reg";
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		if(userBase != null) {
-			return "forward:/useraccount";  
+			return "forward:/site/useraccount";  
 		}
 		return mv;	
 	}

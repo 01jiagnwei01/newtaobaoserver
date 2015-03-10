@@ -57,10 +57,11 @@
 				 	 	 var user = json.entity;
 				 	 	 var  msg  = json.msg;
 				 	 	 	alert(msg);
+				 	 	  $(btn).attr('disabled',false);
+						 	 $(btn).text('登陆');
 				 	 	 
 				 	 }
-				 	 $(btn).attr('disabled',false);
-				 	 $(btn).text('登陆');
+				 	
 				 	  
 			  },
 		      error:function(xhr,textStatus,errorThrown){

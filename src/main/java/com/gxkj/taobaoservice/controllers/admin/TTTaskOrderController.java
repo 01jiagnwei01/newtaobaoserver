@@ -74,10 +74,13 @@ public class TTTaskOrderController {
 			return ret;
 	}
 	@RequestMapping(value="detail",method={RequestMethod.GET})
-	public String detail(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,@RequestParam(value="id") int id) throws SQLException, BusinessException{
-		String mv = "admin/task/taskorder_detail";
+	@ResponseBody
+	public EntityReturnData detail(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,@RequestParam(value="id") int id) throws SQLException, BusinessException{
 		TaskOrder taskOrder = taskOrderService.getTaskOrderByOrderId(id);
-		modelMap.put("taskOrder", taskOrder);
-		return mv;
+		EntityReturnData ret = new EntityReturnData();
+		ret.setMsg("执行成功");
+		ret.setEntity(taskOrder);
+		ret.setResult(true);
+		return ret;
 	}
 }

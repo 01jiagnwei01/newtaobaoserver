@@ -22,11 +22,8 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.entitys.TaskBasic;
-import com.gxkj.taobaoservice.entitys.TaskOrder;
-import com.gxkj.taobaoservice.enums.TaskOrderStatus;
 import com.gxkj.taobaoservice.enums.TaskStatus;
 import com.gxkj.taobaoservice.services.TaskBasicService;
-import com.gxkj.taobaoservice.services.TaskOrderService;
 
 @Controller
 @RequestMapping("/admin/task")
@@ -82,11 +79,14 @@ public class TTarkController {
 	}
 	
 	@RequestMapping(value="detail",method={RequestMethod.GET})
-	public String detail(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,@RequestParam(value="id") int id) throws SQLException, BusinessException{
-		String mv = "admin/task/task_detail";
+	@ResponseBody
+	public EntityReturnData  detail(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,@RequestParam(value="id") int id) throws SQLException, BusinessException{
 		TaskBasic taskBasic = taskBasicService.getTaskByIdForAdmin(id);
-		modelMap.put("taskBasic", taskBasic);
-		return mv;
+		EntityReturnData ret = new EntityReturnData();
+		ret.setMsg("执行成功");
+		ret.setEntity(taskBasic);
+		ret.setResult(true);
+		return ret;
 	}
 	
 	

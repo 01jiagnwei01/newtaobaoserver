@@ -140,7 +140,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 												<c:when test="${empty NO_REPEAT_TASK  }">不需要</c:when>
 												<c:otherwise>需要</c:otherwise>
 											</c:choose></td>
-									<td>奖励接手方<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</td>
+									<td>支付平台<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</td>
 							</tr>
 							<tr>
 									<td align="right">指定接手人</td>
@@ -164,15 +164,6 @@ table td{padding:5px; height:25px; font-size:14px;}
 									<td>奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</td>
 							</tr>
 							
-							 <tr>
-									<td align="right">批量发布</td>
-									<td><c:choose>
-												<c:when test="${ empty PI_LIANG_FA_BU     }">不需要</c:when>
-												<c:otherwise>需要 ${PI_LIANG_FA_BU.inputValue }条 </c:otherwise>
-											</c:choose>
-									</td>
-									<td>批量发布，上限50条,需要支付平台<%=subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount() %>个发布点</td>
-							</tr>
 							<tr>
 									<td align="right">统计</td>
 									<td align="center" colspan="2">

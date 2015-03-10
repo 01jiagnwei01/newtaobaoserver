@@ -1,11 +1,14 @@
 package com.gxkj.taobaoservice.services;
 
 import java.sql.SQLException;
+import java.util.Date;
 
-import com.gxkj.taobaoservice.entitys.CompanyAccount;
+import com.gxkj.common.util.ListPager;
 
 public interface CompanyAccountService {
 	
-	public CompanyAccount getCompanyAccount() throws SQLException;
+
+	public ListPager doPage(int pageno, int pagesize, Date beginTime,
+			Date endTime)throws SQLException;
 
 }

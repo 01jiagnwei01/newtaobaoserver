@@ -40,7 +40,7 @@ public class CompanyAccount implements Serializable{
 	private BigDecimal sellPoint;
 	
 	/**
-	 * 售点输入金额
+	 * 售点收入金额
 	 */
 	@Column(name="sell_points_money")
 	private BigDecimal sellPointsMoney;

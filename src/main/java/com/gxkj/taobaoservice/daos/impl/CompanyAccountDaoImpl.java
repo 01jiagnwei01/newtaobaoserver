@@ -2,6 +2,8 @@ package com.gxkj.taobaoservice.daos.impl;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
 import com.gxkj.common.dao.BaseDAOImpl;
+import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.CompanyAccountDao;
 import com.gxkj.taobaoservice.entitys.CompanyAccount;
 import com.gxkj.taobaoservice.enums.CompanyAccountReason;
@@ -57,6 +60,50 @@ public class CompanyAccountDaoImpl extends BaseDAOImpl implements
 		}
 		this.insert(companyAccount);  
 		
+	}
+
+	 
+	public ListPager doPage(int pageno, int pagesize, Date beginTime,
+			Date endTime) throws SQLException {
+		//String hql = "from CompanyAccount order by id  desc "; 
+		StringBuffer hql = new StringBuffer("from CompanyAccount   ");
+		 List<Object> params = new ArrayList<Object>();
+		 boolean haveParam = false;
+		 
+		if (beginTime != null){
+			if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			 hql.append( "  createTime >= ?" );
+			 params.add(beginTime);
+		}
+		if (endTime != null){
+			if(!haveParam){
+				 haveParam = true;
+				 hql.append( "  where " );
+			 }else {
+				 hql.append( "  and " );
+			 }
+			 hql.append( "  createTime <= ?" );
+			 params.add(endTime);
+		}
+		hql.append(" order by id desc ");
+		String hqlString = hql.toString();
+		ListPager pager = new ListPager();
+		pager.setPageNo(pageno);
+		pager.setRowsPerPage(pagesize);
+		
+		this.selectPageByHql(hqlString, params.toArray(), pager);
+		/**
+		 * 做翻转
+		 */
+		if(CollectionUtils.isNotEmpty(pager.getPageData())){
+			Collections.reverse(pager.getPageData()); 
+		}
+		return pager;
 	}
 
 }

@@ -306,7 +306,7 @@ function searchFn(){
 		    			$("#GOOD_COMMENT_TIME_LIMIT").html(goodLimitFormat(sub['GOOD_COMMENT_TIME_LIMIT']['inputValue']));
 		    		}
 		    		if(sub['GOOD_COMMENT_CONTENT']){
-		    			$("#GOOD_COMMENT_CONTENT").html(goodLimitFormat(sub['GOOD_COMMENT_CONTENT']['inputValue']));
+		    			$("#GOOD_COMMENT_CONTENT").html(sub['GOOD_COMMENT_CONTENT']['inputValue']);
 		    		}
 		    		if(sub['NEED_WANGWANG_TALK']){
 		    			$("#NEED_WANGWANG_TALK").html("需要");

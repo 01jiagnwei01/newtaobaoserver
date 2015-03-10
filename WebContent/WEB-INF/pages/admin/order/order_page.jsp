@@ -38,7 +38,7 @@
 			</tr>
 		</table>
 	</div>
-	 <div id="w" class="easyui-window" title="任务详情" data-options="minimizable:false,modal:true,closed:true,iconCls:'icon-save'" style=" padding:10px;width: 100%;height: 100%">
+	 <div id="w" class="easyui-window" title="订单详情" data-options="minimizable:false,modal:true,closed:true,iconCls:'icon-save'" style=" padding:10px;width: 100%;height: 100%">
 		<div class="easyui-layout" data-options="fit:true">
 			 
 			<div data-options="region:'center'" style="padding:10px;">
@@ -123,7 +123,7 @@
 </body>
 <script type="text/javascript">
 var dopage = "${_adminUser_.btnMap.admin_oeder_dopage}"== "true"?true:false;
-var detail = "${_adminUser_.btnMap.admin_order_detail}"== "true"?true:false;
+var detail = "${_adminUser_.btnMap.admin_oeder_detail}"== "true"?true:false;
 
 $(function(){
 			 
@@ -164,7 +164,7 @@ $(function(){
 					{field:'encourage',title:'奖励',width:50 },
 					{field:'repeateTimes',title:'重复',width:50 },
 					{field:'status',title:'状态' ,width:100,formatter:statusFormat}
-					//,{field:'opt',title:'操作' ,width:100,formatter:optFormat} 
+					,{field:'opt',title:'操作' ,width:100,formatter:optFormat} 
 				]],
 				toolbar: '#tb',
 				loadFilter:function(data){
@@ -207,7 +207,7 @@ function dateFormat(value,row,index){
 function optFormat(value,row,index){
 	var btns = [];
 	 if(detail){
-		btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="detailFn(\''+row['id']+'\')" href="#" plain="true" iconCls="update_btn"><span class="l-btn-left"><span class="l-btn-text update_btn l-btn-icon-left">任务详情</span></span></a>');
+		btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="detailFn(\''+row['id']+'\')" href="#" plain="true" iconCls="update_btn"><span class="l-btn-left"><span class="l-btn-text update_btn l-btn-icon-left">订单详情</span></span></a>');
  	}
 	return btns.join("&nbsp;");
 }
@@ -285,8 +285,11 @@ function searchFn(){
 		    		if(sub['GOOD_COMMENT_TIME_LIMIT']){
 		    			$("#GOOD_COMMENT_TIME_LIMIT").html(goodLimitFormat(sub['GOOD_COMMENT_TIME_LIMIT']['inputValue']));
 		    		}
+		    	 
 		    		if(sub['GOOD_COMMENT_CONTENT']){
-		    			$("#GOOD_COMMENT_CONTENT").html(goodLimitFormat(sub['GOOD_COMMENT_CONTENT']['inputValue']));
+		    			
+		    			$("#GOOD_COMMENT_CONTENT").html( sub['GOOD_COMMENT_CONTENT']['inputValue'] );
+		    		 
 		    		}
 		    		if(sub['NEED_WANGWANG_TALK']){
 		    			$("#NEED_WANGWANG_TALK").html("需要");

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-03-10 11:57:34
+Date: 2015-03-10 19:00:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `admin_menu` (
   `btnflag` varchar(64) DEFAULT NULL,
   `pid` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of admin_menu
@@ -66,7 +66,7 @@ INSERT INTO `admin_menu` VALUES ('30', '前台用户分页查看', '/admin/siteu
 INSERT INTO `admin_menu` VALUES ('32', '设置赞助用户点数', '/admin/siteuser/supplypoint', null, '1', 'admin_siteuser_supplypoint', '28');
 INSERT INTO `admin_menu` VALUES ('39', '赞助用户记录', '/admin/log/COMPANY_SUPPLY', null, '0', '', '19');
 INSERT INTO `admin_menu` VALUES ('40', '赞助用户记录分页', '/admin/log/dopage/COMPANY_SUPPLY', null, '1', 'admin_log_dopage_COMPANY_SUPPLY', '39');
-INSERT INTO `admin_menu` VALUES ('41', '公司收支情况', '/admin/company_account/get', null, '0', '', '19');
+INSERT INTO `admin_menu` VALUES ('41', '公司收支情况', '/admin/company_account', null, '0', '', '19');
 INSERT INTO `admin_menu` VALUES ('42', '营销管理', '', null, '0', '', '0');
 INSERT INTO `admin_menu` VALUES ('43', '邮件邮箱系统', '', null, '0', '', '42');
 INSERT INTO `admin_menu` VALUES ('44', '邮箱模板管理', '/admin/mail/templete', null, '0', '', '43');
@@ -111,10 +111,11 @@ INSERT INTO `admin_menu` VALUES ('84', '修改点卡', '/admin/products/point_ca
 INSERT INTO `admin_menu` VALUES ('85', '删除点卡', '/admin/products/point_card/dodel', null, '1', 'adminProductsPoint_cardDodel', '81');
 INSERT INTO `admin_menu` VALUES ('86', '前台订单管理', '/admin/order', null, '0', '', '29');
 INSERT INTO `admin_menu` VALUES ('87', '订单查看', '/admin/order/dopage', null, '1', 'admin_oeder_dopage', '86');
-INSERT INTO `admin_menu` VALUES ('88', '订单详情', '/admin/orer/detail', null, '1', 'admin_order_detail', '86');
+INSERT INTO `admin_menu` VALUES ('88', '订单详情', '/admin/order/detail', null, '1', 'admin_oeder_detail', '86');
 INSERT INTO `admin_menu` VALUES ('89', '前台任务列表', '/admin/task', null, '0', '', '29');
 INSERT INTO `admin_menu` VALUES ('90', '任务分页查看', '/admin/task/dopage', null, '1', 'admin_tasks_dopage', '89');
 INSERT INTO `admin_menu` VALUES ('91', '任务详情', '/admin/task/detail', null, '1', 'admin_task_detail', '89');
+INSERT INTO `admin_menu` VALUES ('92', '公司收支分页查看', '/admin/company_account/dopage', null, '1', 'admin_company_account_dopage', '41');
 
 -- ----------------------------
 -- Table structure for `admin_role`
@@ -605,82 +606,77 @@ INSERT INTO `rel_role_menu` VALUES ('175', '8', '25');
 INSERT INTO `rel_role_menu` VALUES ('176', '8', '39');
 INSERT INTO `rel_role_menu` VALUES ('177', '8', '40');
 INSERT INTO `rel_role_menu` VALUES ('178', '8', '41');
-INSERT INTO `rel_role_menu` VALUES ('179', '8', '29');
-INSERT INTO `rel_role_menu` VALUES ('180', '8', '28');
-INSERT INTO `rel_role_menu` VALUES ('181', '8', '30');
-INSERT INTO `rel_role_menu` VALUES ('182', '8', '32');
-INSERT INTO `rel_role_menu` VALUES ('183', '8', '86');
-INSERT INTO `rel_role_menu` VALUES ('184', '8', '87');
-INSERT INTO `rel_role_menu` VALUES ('185', '8', '88');
-INSERT INTO `rel_role_menu` VALUES ('186', '8', '89');
-INSERT INTO `rel_role_menu` VALUES ('187', '8', '90');
-INSERT INTO `rel_role_menu` VALUES ('188', '8', '91');
-INSERT INTO `rel_role_menu` VALUES ('189', '8', '33');
-INSERT INTO `rel_role_menu` VALUES ('190', '8', '34');
-INSERT INTO `rel_role_menu` VALUES ('191', '8', '36');
-INSERT INTO `rel_role_menu` VALUES ('192', '8', '35');
-INSERT INTO `rel_role_menu` VALUES ('193', '8', '37');
-INSERT INTO `rel_role_menu` VALUES ('194', '8', '38');
-INSERT INTO `rel_role_menu` VALUES ('195', '8', '42');
-INSERT INTO `rel_role_menu` VALUES ('196', '8', '43');
-INSERT INTO `rel_role_menu` VALUES ('197', '8', '44');
-INSERT INTO `rel_role_menu` VALUES ('198', '8', '46');
-INSERT INTO `rel_role_menu` VALUES ('199', '8', '47');
-INSERT INTO `rel_role_menu` VALUES ('200', '8', '48');
-INSERT INTO `rel_role_menu` VALUES ('201', '8', '49');
-INSERT INTO `rel_role_menu` VALUES ('202', '8', '55');
-INSERT INTO `rel_role_menu` VALUES ('203', '8', '45');
-INSERT INTO `rel_role_menu` VALUES ('204', '8', '50');
-INSERT INTO `rel_role_menu` VALUES ('205', '8', '51');
-INSERT INTO `rel_role_menu` VALUES ('206', '8', '52');
-INSERT INTO `rel_role_menu` VALUES ('207', '8', '53');
-INSERT INTO `rel_role_menu` VALUES ('208', '8', '54');
-INSERT INTO `rel_role_menu` VALUES ('209', '8', '79');
-INSERT INTO `rel_role_menu` VALUES ('210', '8', '61');
-INSERT INTO `rel_role_menu` VALUES ('211', '8', '62');
-INSERT INTO `rel_role_menu` VALUES ('212', '8', '65');
-INSERT INTO `rel_role_menu` VALUES ('213', '8', '66');
-INSERT INTO `rel_role_menu` VALUES ('214', '8', '67');
-INSERT INTO `rel_role_menu` VALUES ('215', '8', '68');
-INSERT INTO `rel_role_menu` VALUES ('216', '8', '69');
-INSERT INTO `rel_role_menu` VALUES ('217', '8', '70');
-INSERT INTO `rel_role_menu` VALUES ('218', '8', '71');
-INSERT INTO `rel_role_menu` VALUES ('219', '8', '72');
-INSERT INTO `rel_role_menu` VALUES ('220', '8', '73');
-INSERT INTO `rel_role_menu` VALUES ('221', '8', '74');
-INSERT INTO `rel_role_menu` VALUES ('222', '8', '75');
-INSERT INTO `rel_role_menu` VALUES ('223', '8', '76');
-INSERT INTO `rel_role_menu` VALUES ('224', '8', '77');
-INSERT INTO `rel_role_menu` VALUES ('225', '8', '78');
-INSERT INTO `rel_role_menu` VALUES ('226', '8', '56');
-INSERT INTO `rel_role_menu` VALUES ('227', '8', '57');
-INSERT INTO `rel_role_menu` VALUES ('228', '8', '58');
-INSERT INTO `rel_role_menu` VALUES ('229', '8', '59');
-INSERT INTO `rel_role_menu` VALUES ('230', '8', '60');
-INSERT INTO `rel_role_menu` VALUES ('231', '8', '80');
-INSERT INTO `rel_role_menu` VALUES ('232', '8', '81');
-INSERT INTO `rel_role_menu` VALUES ('233', '8', '82');
-INSERT INTO `rel_role_menu` VALUES ('234', '8', '83');
-INSERT INTO `rel_role_menu` VALUES ('235', '8', '84');
-INSERT INTO `rel_role_menu` VALUES ('236', '8', '85');
-INSERT INTO `rel_role_menu` VALUES ('237', '8', '1');
-INSERT INTO `rel_role_menu` VALUES ('238', '8', '2');
-INSERT INTO `rel_role_menu` VALUES ('239', '8', '9');
-INSERT INTO `rel_role_menu` VALUES ('240', '8', '10');
-INSERT INTO `rel_role_menu` VALUES ('241', '8', '11');
-INSERT INTO `rel_role_menu` VALUES ('242', '8', '12');
-INSERT INTO `rel_role_menu` VALUES ('243', '8', '3');
-INSERT INTO `rel_role_menu` VALUES ('244', '8', '13');
-INSERT INTO `rel_role_menu` VALUES ('245', '8', '14');
-INSERT INTO `rel_role_menu` VALUES ('246', '8', '15');
-INSERT INTO `rel_role_menu` VALUES ('247', '8', '16');
-INSERT INTO `rel_role_menu` VALUES ('248', '8', '17');
-INSERT INTO `rel_role_menu` VALUES ('249', '8', '4');
-INSERT INTO `rel_role_menu` VALUES ('250', '8', '5');
-INSERT INTO `rel_role_menu` VALUES ('251', '8', '6');
-INSERT INTO `rel_role_menu` VALUES ('252', '8', '7');
-INSERT INTO `rel_role_menu` VALUES ('253', '8', '8');
-INSERT INTO `rel_role_menu` VALUES ('254', '8', '18');
+INSERT INTO `rel_role_menu` VALUES ('179', '8', '92');
+INSERT INTO `rel_role_menu` VALUES ('180', '8', '29');
+INSERT INTO `rel_role_menu` VALUES ('181', '8', '28');
+INSERT INTO `rel_role_menu` VALUES ('182', '8', '30');
+INSERT INTO `rel_role_menu` VALUES ('183', '8', '32');
+INSERT INTO `rel_role_menu` VALUES ('184', '8', '86');
+INSERT INTO `rel_role_menu` VALUES ('185', '8', '87');
+INSERT INTO `rel_role_menu` VALUES ('186', '8', '88');
+INSERT INTO `rel_role_menu` VALUES ('187', '8', '89');
+INSERT INTO `rel_role_menu` VALUES ('188', '8', '90');
+INSERT INTO `rel_role_menu` VALUES ('189', '8', '91');
+INSERT INTO `rel_role_menu` VALUES ('190', '8', '42');
+INSERT INTO `rel_role_menu` VALUES ('191', '8', '43');
+INSERT INTO `rel_role_menu` VALUES ('192', '8', '44');
+INSERT INTO `rel_role_menu` VALUES ('193', '8', '46');
+INSERT INTO `rel_role_menu` VALUES ('194', '8', '47');
+INSERT INTO `rel_role_menu` VALUES ('195', '8', '48');
+INSERT INTO `rel_role_menu` VALUES ('196', '8', '49');
+INSERT INTO `rel_role_menu` VALUES ('197', '8', '55');
+INSERT INTO `rel_role_menu` VALUES ('198', '8', '45');
+INSERT INTO `rel_role_menu` VALUES ('199', '8', '50');
+INSERT INTO `rel_role_menu` VALUES ('200', '8', '51');
+INSERT INTO `rel_role_menu` VALUES ('201', '8', '52');
+INSERT INTO `rel_role_menu` VALUES ('202', '8', '53');
+INSERT INTO `rel_role_menu` VALUES ('203', '8', '54');
+INSERT INTO `rel_role_menu` VALUES ('204', '8', '79');
+INSERT INTO `rel_role_menu` VALUES ('205', '8', '61');
+INSERT INTO `rel_role_menu` VALUES ('206', '8', '62');
+INSERT INTO `rel_role_menu` VALUES ('207', '8', '65');
+INSERT INTO `rel_role_menu` VALUES ('208', '8', '66');
+INSERT INTO `rel_role_menu` VALUES ('209', '8', '67');
+INSERT INTO `rel_role_menu` VALUES ('210', '8', '68');
+INSERT INTO `rel_role_menu` VALUES ('211', '8', '69');
+INSERT INTO `rel_role_menu` VALUES ('212', '8', '70');
+INSERT INTO `rel_role_menu` VALUES ('213', '8', '71');
+INSERT INTO `rel_role_menu` VALUES ('214', '8', '72');
+INSERT INTO `rel_role_menu` VALUES ('215', '8', '73');
+INSERT INTO `rel_role_menu` VALUES ('216', '8', '74');
+INSERT INTO `rel_role_menu` VALUES ('217', '8', '75');
+INSERT INTO `rel_role_menu` VALUES ('218', '8', '76');
+INSERT INTO `rel_role_menu` VALUES ('219', '8', '77');
+INSERT INTO `rel_role_menu` VALUES ('220', '8', '78');
+INSERT INTO `rel_role_menu` VALUES ('221', '8', '56');
+INSERT INTO `rel_role_menu` VALUES ('222', '8', '57');
+INSERT INTO `rel_role_menu` VALUES ('223', '8', '58');
+INSERT INTO `rel_role_menu` VALUES ('224', '8', '59');
+INSERT INTO `rel_role_menu` VALUES ('225', '8', '60');
+INSERT INTO `rel_role_menu` VALUES ('226', '8', '80');
+INSERT INTO `rel_role_menu` VALUES ('227', '8', '81');
+INSERT INTO `rel_role_menu` VALUES ('228', '8', '82');
+INSERT INTO `rel_role_menu` VALUES ('229', '8', '83');
+INSERT INTO `rel_role_menu` VALUES ('230', '8', '84');
+INSERT INTO `rel_role_menu` VALUES ('231', '8', '85');
+INSERT INTO `rel_role_menu` VALUES ('232', '8', '1');
+INSERT INTO `rel_role_menu` VALUES ('233', '8', '2');
+INSERT INTO `rel_role_menu` VALUES ('234', '8', '9');
+INSERT INTO `rel_role_menu` VALUES ('235', '8', '10');
+INSERT INTO `rel_role_menu` VALUES ('236', '8', '11');
+INSERT INTO `rel_role_menu` VALUES ('237', '8', '12');
+INSERT INTO `rel_role_menu` VALUES ('238', '8', '3');
+INSERT INTO `rel_role_menu` VALUES ('239', '8', '13');
+INSERT INTO `rel_role_menu` VALUES ('240', '8', '14');
+INSERT INTO `rel_role_menu` VALUES ('241', '8', '15');
+INSERT INTO `rel_role_menu` VALUES ('242', '8', '16');
+INSERT INTO `rel_role_menu` VALUES ('243', '8', '17');
+INSERT INTO `rel_role_menu` VALUES ('244', '8', '4');
+INSERT INTO `rel_role_menu` VALUES ('245', '8', '5');
+INSERT INTO `rel_role_menu` VALUES ('246', '8', '6');
+INSERT INTO `rel_role_menu` VALUES ('247', '8', '7');
+INSERT INTO `rel_role_menu` VALUES ('248', '8', '8');
+INSERT INTO `rel_role_menu` VALUES ('249', '8', '18');
 
 -- ----------------------------
 -- Table structure for `sub_task_info`

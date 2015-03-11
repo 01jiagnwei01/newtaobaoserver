@@ -19,8 +19,8 @@ apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'groovy'
 //apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
+//apply plugin: 'findbugs'
+//apply plugin: 'pmd'
 //apply plugin: 'maven'
 
 sourceCompatibility = 1.8
@@ -157,19 +157,23 @@ dependencies {
 test {
     systemProperties 'property': 'value'
 }
-
+/**
+ * JAR 包需要被发布到某个地方。为了完成这个功能，你需要告诉 Gradle 把 JAR 包发布到哪里。
+ * 在 Gradle 中，如 JAR 之类的压缩包都被发布到库中。在我们的样例中，我们将会发布到本地仓库。
+ * 你也可以发布到一个或多个远端地址。
+ */
 uploadArchives {
 //	repositories {
 //		mavenDeployer {
 //			repository(url: "file://D:/test/")
 //		}
 //	}
-//	repositories {
-//		flatDir {
-//			version  '2.0'
-//			dirs 'repos'
-//		}
-//	 }
+	repositories {
+		flatDir {
+			version  '2.0'
+			dirs '/repos2'
+		}
+	 }
  
 }
  
@@ -408,13 +412,5 @@ task snapshot(dependsOn: [build, uploadArchives]) << {
 
 
 //configurations.runtime.each { File f -> println f }
- 
- 
-
-
-
-
-
-
  
 

@@ -4,7 +4,6 @@ package com.gxkj.test;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gxkj.common.util.SystemGlobals;

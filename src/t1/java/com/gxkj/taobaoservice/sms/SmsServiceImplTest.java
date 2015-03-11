@@ -14,18 +14,18 @@ import com.gxkj.test.BaseSpringTest;
 
 public class SmsServiceImplTest   extends BaseSpringTest{
 
-	@Autowired
-	@Qualifier("F1SmsServiceImpl")
-	private SmsService smsService;
+//	@Autowired
+//	@Qualifier("F1SmsServiceImpl")
+//	private SmsService smsService;
 	
 	@Test
 	public void sendSmsTest() throws BusinessException{
 		
-		String content = "亲爱的老婆，这是我将要做的刷钻平台的发短信部分。给你发个短信测试一下。小小惊喜。";
-		String mobiles = "15210578828";
-		Date sendTime = null;
-		SmsResponse resonse = smsService.sendSms(content, mobiles, sendTime);
-		System.out.println(JsonOutput.toJson(resonse));
+//		String content = "亲爱的老婆，这是我将要做的刷钻平台的发短信部分。给你发个短信测试一下。小小惊喜。";
+//		String mobiles = "15210578828";
+//		Date sendTime = null;
+//		SmsResponse resonse = smsService.sendSms(content, mobiles, sendTime);
+//		System.out.println(JsonOutput.toJson(resonse));
 		
 	}
 }

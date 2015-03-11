@@ -5,7 +5,7 @@ public class PWDGenter {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		String pwd = "x1";
+		String pwd = "admin";
 		String s = org.springframework.util.DigestUtils.md5DigestAsHex(pwd.getBytes());
 		System.out.println(s);
 	}

@@ -82,29 +82,11 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 									<td align="center"><%if(item.getLockPoint().compareTo( BigDecimal.ZERO) == 0) {out.print("&nbsp;");}else {
 										out.print( item.getLockPoint());}%></td>
 									<td align="center">
-									<% if(BigDecimal.ZERO.compareTo(item.getAfterRestAmount()) == 0 ){
-										out.print("&nbsp;");
-									}else {
-										out.print(item.getAfterRestAmount());
-									} %>
+									<%=item.getAfterRestAmount()%>
 									</td>
-									<td align="center"><% if(BigDecimal.ZERO.compareTo(item.getAfterRestPoints()) == 0 ){
-										out.print("&nbsp;");
-									}else {
-										out.print(item.getAfterRestPoints());
-									} %>
-									
-									 </td>
-									<td align="center"><% if(BigDecimal.ZERO.compareTo(item.getAfterLockedAmount()) == 0 ){
-										out.print("&nbsp;");
-									}else {
-										out.print(item.getAfterLockedAmount());
-									} %></td>
-									<td align="center"><% if(BigDecimal.ZERO.compareTo(item.getAfterLockedPoints()) == 0 ){
-										out.print("&nbsp;");
-									}else {
-										out.print(item.getAfterLockedPoints());
-									} %></td>
+									<td align="center"><%=item.getAfterRestPoints()%> </td>
+									<td align="center"><%=item.getAfterLockedAmount() %></td>
+									<td align="center"><%=item.getAfterLockedPoints() %></td>
 									 
 							</tr>
 										

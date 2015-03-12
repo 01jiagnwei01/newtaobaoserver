@@ -132,7 +132,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if(productLink.length()>150){
 			throw new BusinessException(BusinessExceptionInfos.PRODUCT_URL_LENGTH_MORE_THAN,"productLink");
 		}
-		if( BigDecimal.ZERO.compareTo(guaranteePrice) >0){
+		if( BigDecimal.ZERO.compareTo(guaranteePrice) >=0){
 			throw new BusinessException(BusinessExceptionInfos.guaranteePrice__SHOULD_BE_POSITIVE,"guaranteePrice");
 		}
 		int userId = 0;
@@ -424,7 +424,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if(taskOrder == null ){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"orderId");
 		}
-		if(taskOrder.getUserId() != userId){
+		if(!taskOrder.getUserId().equals( userId) ){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userId");
 		}
 		if(taskOrder.getStatus() != TaskOrderStatus.WAIT_FOR_SURE){
@@ -593,7 +593,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if(productLink.length()>150){
 			throw new BusinessException(BusinessExceptionInfos.PRODUCT_URL_LENGTH_MORE_THAN,"productLink");
 		}
-		if( BigDecimal.ZERO.compareTo(guaranteePrice) >0){
+		if( BigDecimal.ZERO.compareTo(guaranteePrice) >=0){
 			throw new BusinessException(BusinessExceptionInfos.guaranteePrice__SHOULD_BE_POSITIVE,"guaranteePrice");
 		}
 		int userId = 0;

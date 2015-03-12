@@ -66,7 +66,7 @@ $(function(){
 					{field:'sellPointsMoney',title:'售点收入金额',width:150 },
 					{field:'getPoints',title:'服务获取点数',width:100 }, 
 					{field:'depositMoney',title:'充值金额',width:100 },
-					{field:'drawMoney',title:'已取款金额',width:100 },
+					{field:'drawMoney',title:'客户取出金额',width:100 },
 					{field:'reasonType',title:'变化原因',width:100 ,formatter:reasonFormat},
 					{field:'refId',title:'关联表ID',width:100 }  
 				]],

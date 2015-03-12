@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
  <%@ page import="com.gxkj.common.util.SystemGlobals,com.gxkj.taobaoservice.util.*"%>
- <%@ page import="static com.gxkj.taobaoservice.util.SystemDbData.subTaskInfoMap, com.gxkj.common.exceptions.*"%>
+ <%@ page import="static com.gxkj.taobaoservice.util.SystemDbData.subTaskInfoMap,com.gxkj.common.exceptions.*,com.gxkj.taobaoservice.entitys.*,com.gxkj.common.util.*, org.apache.commons.lang3.StringUtils"%>
  <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
  <!DOCTYPE html>
 <html lang="zh">
@@ -23,6 +23,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 </style>
 <%
 BusinessException error = (BusinessException)request.getAttribute("error");
+UserBase userBase =  SessionUtil.getSiteUserInSession(request);
 %>
 <body>
 	<jsp:include page="../common/head.jsp" flush="true">
@@ -54,15 +55,19 @@ BusinessException error = (BusinessException)request.getAttribute("error");
 							</tr>
 							<tr>
 									<td width="150" align="right">商家淘宝小号</td>
+									
 									<td width="260"><input type="text" value="${taobaoXiaohao}"  id="taobaoXiaohao" name="taobaoXiaohao" class="inputwidth" placeholder="商家淘宝小号"></td>
 									<td align="left"></td>
+									
 							</tr>
 							<tr>
 									<td align="right">商家QQ</td>
+									
 									<td>
 									<input type="text" class="inputwidth"   value="${userQq}"  id="userQq" name="userQq"  placeholder="商家QQ"/>
 									</td>
 									<td></td>
+									
 							</tr>
 							<tr>
 									<td align="right">商品标题</td>

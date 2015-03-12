@@ -51,7 +51,7 @@ table td{padding:5px; font-size:14px;}
 					<tr>
 						<td align="right">交易号或商户订单号：</td>
 						<td><input type="text" name="orderno" id="orderno" style="width: 260px"></td>
-						<td submitFn><span style="font-size:12px; color:#F00;" id="orderno_error"></span></td>
+						<td ><span style="font-size:12px; color:#F00;" id="orderno_error"></span></td>
 					</tr>
 					<!-- 
 					<tr>
@@ -93,25 +93,24 @@ $(function (){
 
 })
 function submitFn(){
+	
 	var orderno = $("#orderno").val();
 	var amount = $("#money").val();
 	
 	
 	if (orderno == null || orderno == "" || orderno == 'undefined') {
         $("#orderno_error").html("商户订单号不能为空");
-        $("#orderno").focus();
         return false;
     }
 
     if (orderno.indexOf(" ") != -1) {
     	$("#orderno_error").html("商户订单号不能包含空格");
-        $("#orderno").focus();
+        
         return false;
     }
 
     if (!IsNumeric(orderno)) {
     	$("#orderno_error").html("请输入正确商户订单号");
-        $("#orderno").focus();
         return false;
     }
 
@@ -119,39 +118,36 @@ function submitFn(){
          orderno.length != 18 && orderno.length != 30 &&
          orderno.length != 28 && orderno.length != 32
         ) {
-    	$("#orderno_error").html("请输入正确填写交易号\商务订单号，长度应该为17，18，19，28，30或32");
-        $("#orderno").focus();
+    	$("#orderno_error").text("请输入正确填写交易号\商务订单号，长度应该为17，18，19，28，30或32");
+        
         return false;
     }
 
     if (!IsNumeric(amount)) {
     	$("#money_error").html("请输入正确金额");
-        $("#money").focus();
         return false;
     }
 
     var factAmount = parseFloat(amount);
     if (!IsNumeric(factAmount)) {
-        $("#money_error").html("请输入正确金额");
-        $("#money").focus();
+        $("#money_error").html("请输入正确金额"); 
         return false;
     }
 
     if (factAmount <= 0) {
     	$("#money_error").html("非即时充值需要大于0元");
-        $("#money").focus();
+      
         return false;
     }
 
     if (!checkMoneyFormat(factAmount)) {
     	$("#money_error").html("请输入正确金额");
-        $("#money").focus();
+        
         return false;
     }
 
     if (factAmount > 10000000) {
     	$("#money_error").html("请输入正确金额");
-    	 $("#money").focus();
         return false;
     }
    

@@ -117,14 +117,14 @@ $(function(){
 	  	},
 		columns:[[ 
 			{field:'id',title:'id'},
-			{field:'userId',title:'申请用户ID' ,width:80},
-			{field:'createTime',title:'申请日期',width:120,formatter:dateFormat},
-			{field:'amount',title:'申请金额' ,width:100},
-			{field:'accountNo',title:'收款账号' ,width:100},
-			{field:'thirdOrderNo',title:'支付宝流水号' ,width:100},
-			{field:'status',title:'状态',width:100,formatter:statusFormat},
+			{field:'userId',title:'申请<br>用户ID' ,width:50},
+			{field:'createTime',title:'申请日期',width:150,formatter:dateFormat},
+			{field:'amount',title:'申请金额' ,width:80},
+			{field:'accountNo',title:'收款账号' ,width:150},
+			{field:'thirdOrderNo',title:'支付宝流水号' ,width:150},
+			{field:'status',title:'状态',width:80,formatter:statusFormat},
 			{field:'auditorName',title:'审核人' ,width:100,formatter:auditorNameFormat},
-			{field:'reviewTime',title:'审核日期',width:100,formatter:dateFormat},
+			{field:'reviewTime',title:'审核日期',width:150,formatter:dateFormat},
 			{field:'refuseReason',title:'拒绝理由',width:100},
 			{field:'opt',title:'操作' ,width:100,formatter:optFormat} 
 		]],
@@ -319,6 +319,7 @@ function submitAgreeFormFn(btn){
 		context: document.body, 
 		success: function(json){
 			 jQuery.hideMask($("#agreewin")[0]);
+			 $(btn).linkbutton('enable');
 	    	if(json.result){
 	    		var  entity = json.entity;
 			 	 $('#dg').datagrid('updateRow',{
@@ -341,7 +342,7 @@ function submitAgreeFormFn(btn){
 		    // 通常 textStatus 和 errorThrown 之中
 		    // 只有一个会包含信息
 		    this; // 调用本次AJAX请求时传递的options参数
-		    $(btn).attr("disabled",false); 
+		    $(btn).linkbutton('enable');
 		    jQuery.hideMask($("#agreewin")[0]);
 		   
 		}

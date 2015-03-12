@@ -53,22 +53,22 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td width="150" align="right">商家淘宝小号</td>
-									<td width="260">${order.taobaoXiaohao}</td>
+									<td width="260"><c:out escapeXml="true" value="${order.taobaoXiaohao }"></c:out></td>
 									<td align="left"></td>
 							</tr>
 							<tr>
 									<td align="right">商家QQ</td>
-									<td>${order.userQq}</td>
+									<td><c:out escapeXml="true" value="${order.userQq }"></c:out></td>
 									<td></td>
 							</tr>
 							<tr>
 									<td align="right">商品标题</td>
-									<td>${order.productTitle}</td>
+									<td><c:out escapeXml="true" value="${order.productTitle }"></c:out></td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
 									<td align="right">商品网址</td>
-									<td>${order.productLink}</td>
+									<td><c:out escapeXml="true" value="${order.productLink }"></c:out></td>
 									<td>&nbsp;</td>
 							</tr>
 							
@@ -114,7 +114,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td align="right">指定好评内容</td>
-									<td>${GOOD_COMMENT_CONTENT.inputValue  }</td>
+									<td><c:out escapeXml="true" value="${GOOD_COMMENT_CONTENT.inputValue}"></c:out></td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
@@ -157,7 +157,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 									<td>
 									<c:choose>
 												<c:when test="${ empty ZHI_DING_SHOU_HUO_DI_ZHI     }">不需要</c:when>
-												<c:otherwise>需要 &nbsp;${ZHI_DING_SHOU_HUO_DI_ZHI.inputValue } </c:otherwise>
+												<c:otherwise>需要 &nbsp; <c:out escapeXml="true" value="${ZHI_DING_SHOU_HUO_DI_ZHI.inputValue}"></c:out></c:otherwise>
 											</c:choose>
 									</td>
 									<td>奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</td>
@@ -209,17 +209,17 @@ table td{padding:5px; height:25px; font-size:14px;}
 	$(function(){ 
 	})
 	function sure(btn){
-		$(btn).attr("disabled",true); 
+		//$(btn).attr("disabled",true); 
 		var path = "<%=request.getContextPath() %>/site/order/sure";
 		 $('#submitForm').attr("action", path).submit();;
 	}
 	function update(btn){
-		$(btn).attr("disabled",true); 
+		//$(btn).attr("disabled",true); 
 		var path = "<%=request.getContextPath() %>/site/order/back";
 		 $('#submitForm').attr("action", path).submit();;
 	}
 	function docancle(btn){
-		$(btn).attr("disabled",true); 
+		//$(btn).attr("disabled",true); 
 		var path = "<%=request.getContextPath() %>/site/order/docancel";
 		 $('#submitForm').attr("action", path).submit();;
 	}

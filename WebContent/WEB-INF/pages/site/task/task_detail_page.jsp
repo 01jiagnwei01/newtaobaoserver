@@ -51,22 +51,22 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td width="150" align="right">商家淘宝小号</td>
-									<td width="260">${taskBasic.taobaoXiaohao}</td>
+									<td width="260"><c:out escapeXml="true" value="${taskBasic.taobaoXiaohao}"></c:out></td>
 									<td align="left"></td>
 							</tr>
 							<tr>
 									<td align="right">商家QQ</td>
-									<td>${taskBasic.userQq}</td>
+									<td><c:out escapeXml="true" value="${taskBasic.userQq}"></c:out></td>
 									<td></td>
 							</tr>
 							<tr>
 									<td align="right">商品标题</td>
-									<td>${taskBasic.productTitle}</td>
+									<td><c:out escapeXml="true" value="${taskBasic.productTitle}"></c:out></td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
 									<td align="right">商品网址</td>
-									<td>${taskBasic.productLink}</td>
+									<td><c:out escapeXml="true" value="${taskBasic.productLink}"></c:out></td>
 									<td>&nbsp;</td>
 							</tr>
 							
@@ -158,7 +158,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 									<td>
 									<c:choose>
 												<c:when test="${ empty ZHI_DING_SHOU_HUO_DI_ZHI     }">不需要</c:when>
-												<c:otherwise>需要 &nbsp;${ZHI_DING_SHOU_HUO_DI_ZHI.inputValue } </c:otherwise>
+												<c:otherwise>需要 &nbsp;<c:out escapeXml="true" value="${ZHI_DING_SHOU_HUO_DI_ZHI.inputValue}"></c:out></c:otherwise>
 											</c:choose>
 									</td>
 									<td>奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</td>

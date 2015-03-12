@@ -41,7 +41,7 @@ table td{padding:5px; font-size:14px;}
 				<td>&nbsp;</td>
 		</tr>
 		<tr>
-				<td align="right">支付宝账号：</td>
+				<td align="right">付款到支付宝账号：</td>
 				<td><span class="fl" style="padding-right:30px; height:33px; line-height:33px;">
 						<input type="text" name="alipyAccount" id="alipyAccount" style="padding:10px 5px; width:250px;" placeholder="请输入支付宝账号">
 				</span></td>
@@ -197,6 +197,7 @@ function submitFn(){
 	    	  $("#sutmitBtn").attr("disabled",false);
 	    	  $("#sutmitBtn").html("提交");
 	    	  refreshYanZhengMa(document.getElementById("yanzhengmaBtn") ) ;
+	    	  $("#yanzhengma").val("");
 	  		var responseText = xhr.responseText;
 	  		var obj = jQuery.parseJSON(responseText);
 			var errortype = obj.errortype

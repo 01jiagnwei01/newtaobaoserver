@@ -79,7 +79,7 @@ public class TaskOrder implements Serializable{
 	 */
 	@Column(name="product_link" )
 	@NotEmpty(message="商品网址不能为空")
-	@Length(min=10,max=100,message="商品网址长度需要为5-100")
+	@Length(min=5,max=151,message="商品网址长度需要为5-151")
 	private String productLink;
 	
 	/**

@@ -52,7 +52,14 @@ table td{padding:5px; height:25px; font-size:14px;}
 								<c:otherwise>
 									
 									 <tr  >
-										<td colspan="3"  align="center"> <div class="form-group has-error">错误：${error.message }</div> </td>
+										<td colspan="3"  align="center"> <div class="form-group has-error">错误：
+											<c:choose>
+												<c:when test="${'账户点数不足' eq  error.message }">
+												${error.message },<a href="<%=request.getContextPath() %>/site/products/pointcard">去购买点数</a>
+												</c:when>
+												<c:otherwise></c:otherwise>
+											</c:choose>
+										</div> </td>
 									</tr>
 								</c:otherwise>
 								
@@ -67,22 +74,22 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td width="150" align="right">商家淘宝小号</td>
-									<td width="260">${order.taobaoXiaohao}</td>
+									<td width="260"><c:out escapeXml="true" value="${order.taobaoXiaohao}"></c:out></td>
 									<td align="left"></td>
 							</tr>
 							<tr>
 									<td align="right">商家QQ</td>
-									<td>${order.userQq}</td>
+									<td><c:out escapeXml="true" value="${order.userQq}"></c:out></td>
 									<td></td>
 							</tr>
 							<tr>
 									<td align="right">商品标题</td>
-									<td>${order.productTitle}</td>
+									<td><c:out escapeXml="true" value="${order.productTitle}"></c:out></td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
 									<td align="right">商品网址</td>
-									<td>${order.productLink}</td>
+									<td><c:out escapeXml="true" value="${order.productLink}"></c:out></td>
 									<td>&nbsp;</td>
 							</tr>
 							
@@ -128,7 +135,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 							</tr>
 							<tr>
 									<td align="right">指定好评内容</td>
-									<td>${goodCommentContent }</td>
+									<td><c:out escapeXml="true" value="${goodCommentContent}"></c:out></td>
 									<td>&nbsp;</td>
 							</tr>
 							<tr>
@@ -171,7 +178,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 									<td>
 									<c:choose>
 												<c:when test="${ empty ZHI_DING_SHOU_HUO_DI_ZHI   or '0' eq ZHI_DING_SHOU_HUO_DI_ZHI   }">不需要</c:when>
-												<c:otherwise>需要 &nbsp;${ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS} </c:otherwise>
+												<c:otherwise>需要 &nbsp;<c:out escapeXml="true" value="${ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS}"></c:out></c:otherwise>
 											</c:choose>
 									</td>
 									<td>奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</td>

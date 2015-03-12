@@ -185,7 +185,9 @@ public class OrderController {
 		}
 		try {
 			 
-			jieShouRenId = Integer.parseInt(jieShouRenIdB);
+			if(StringUtils.isNotBlank(jieShouRenIdB)){
+				jieShouRenId = Integer.parseInt(jieShouRenIdB);
+			}
 			 
 		} catch (Exception e) {
 			log.error("jieShouRenIdB ="+jieShouRenIdB);
@@ -196,7 +198,9 @@ public class OrderController {
 			log.error("guaranteePriceB ="+guaranteePriceB);
 		}
 		try {
-			encourage = new BigDecimal(encourageB);
+			if(StringUtils.isNotBlank(encourageB)){
+				encourage = new BigDecimal(encourageB);
+			}
 		} catch (Exception e) {
 			log.error("encourageB ="+encourageB);
 		}
@@ -213,7 +217,19 @@ public class OrderController {
 						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount);
 				
 			}
+			 
+			/**
+			 * 计算总消耗费用
+			 */
+			MoneyCalculateUtil.caculateOrderAccount(order);
 			modelMap.put("order", order);
+			
+			List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = order.getTaskOrderSubTaskInfos();
+			if(CollectionUtils.isNotEmpty(taskOrderSubTaskInfos)){
+				for(TaskOrderSubTaskInfo item:taskOrderSubTaskInfos){
+					modelMap.put(item.getTaskKey(), item);
+				}
+			}
 			
 			String mv = "site/order/order_sure_page";
 			return mv;

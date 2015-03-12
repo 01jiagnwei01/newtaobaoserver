@@ -116,15 +116,16 @@ function loginfn(btn){
 				 	 	window.location = "<%=request.getContextPath()%>/site/useraccount";
 				 	 }else{
 				 	 	log.info("登录失败："+json); 
+				 	 	 $("#loginBtn").attr("disabled",false); 
 				 	 }
-				 	  $("#loginBtn").attr("disabled",false); 
+				 	 
 				 	 refreshYanZhengMa(document.getElementById("yanzhengmaBtn") ) ;
 				 	  
 			  },
 		      error:function(xhr,textStatus,errorThrown){
 		    	  $("#loginBtn").attr("disabled",false); 
 		    	  $("#loginBtn").html("登录");
-		    	  
+		    	  $("#yanzhengma").val("");
 		    	 
 		    	  refreshYanZhengMa( );
 		  		 

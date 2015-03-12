@@ -3,7 +3,14 @@
  <!-- session超时定义,单位为分钟 -->
 	 <!-- <session-config>
 		<session-timeout>10</session-timeout>
-	</session-config> -->
+	</session-config> 
+	
+ <resource-ref>
+	<description>DB Connection</description>
+	<res-ref-name>jdbc/taobaoserver</res-ref-name>
+	<res-type>javax.sql.DataSource</res-type>
+	<res-auth>Container</res-auth>
+</resource-ref>-->
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:spring-*.xml</param-value>

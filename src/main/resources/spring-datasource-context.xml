@@ -18,11 +18,11 @@
 		<property name="order" value="1" />
 	</bean>
 	
-	<!-- 
+	
     <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName"><value>java:comp/env/jdbc/ds</value></property>
+        <property name="jndiName"><value>java:comp/env/jdbc/taobaoserver</value></property>
     </bean>
- 	-->
+ <!-- 	
  	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${taobaoservice.jdbc.driver}" />
@@ -33,5 +33,5 @@
 		<property name="validationQuery" value="${taobaoservice.jdbc.validationQuery}"/>
 		<property name="testWhileIdle" value="${taobaoservice.jdbc.testWhileIdle}"/>
 	</bean>
- 
+ -->
 </beans>

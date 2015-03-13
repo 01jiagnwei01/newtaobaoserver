@@ -9,7 +9,7 @@ boolean subheaderBoolean = StringUtils.isBlank(showshouye)?false:"true".equals(s
 			<%
 				if(subheaderBoolean){
 			%>
-			<a class="fs16" href="<%=request.getContextPath() %>">首页</a>
+			<a class="fs16" href="<%=request.getContextPath() %>/">首页</a>
 			<a class="fs16" href="<%=request.getContextPath() %>/site/order/create" style="margin-left:70px;">我要发布任务</a>
 			<%
 				}else{

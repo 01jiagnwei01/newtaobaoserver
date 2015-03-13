@@ -29,12 +29,13 @@ public class CompanyAccountDaoImpl extends BaseDAOImpl implements
 	 * @param reasonType  	变化原因
 	 * @param refId  		关联表ID
 	 */
+	@SuppressWarnings("unchecked")
 	public void executeUpdateCompanyAccount(BigDecimal sellPoint,
 			BigDecimal sellPointsMoney, BigDecimal getPoints,
 			BigDecimal supplyPoints, BigDecimal depositMoney,
 			BigDecimal drawMoney,CompanyAccountReason reasonType,Integer refId) throws SQLException {
 		String hql = "from CompanyAccount order by id  desc ";
-		List<CompanyAccount> companyAccounts =  (List<CompanyAccount>) super.selectPageByHQL(hql, new Object[0], 0, 1);
+		List<CompanyAccount> companyAccounts =  ((List<CompanyAccount>) super.selectPageByHQL(hql, new Object[0], 0, 1));
 		Date now = new Date();
 		CompanyAccount companyAccount = new CompanyAccount();
 		companyAccount.setReasonType(reasonType);

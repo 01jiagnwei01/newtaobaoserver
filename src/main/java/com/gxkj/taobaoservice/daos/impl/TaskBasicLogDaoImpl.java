@@ -28,6 +28,7 @@ public class TaskBasicLogDaoImpl extends BaseDAOImpl implements TaskBasicLogDao 
 		}, Integer.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<TaskBasicLog> getTaskBasicLogByTaskId(Integer taskId)
 			throws SQLException {

@@ -29,7 +29,7 @@ public class RegLogServiceImpl implements RegLogService {
 	 
 	public void updateEmaiToNoEnable(String mail) throws SQLException,
 			BindException {
-		regLogDao.updateEmaiToNoEnable( mail) ;
+		regLogDao.updateEmaiToNoEnable( mail,YanZhengMaTypes.email) ;
 		
 	}
 

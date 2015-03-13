@@ -95,7 +95,12 @@ public enum BusinessExceptionInfos {
 	EMAIL_IS_INVALID("93","邮箱无效") ,
 	EMAIL_IS_NOT_REG("94","邮箱没有被注册过"),
 	DBYan_Zheng_MA_IS_BLANK("95","系统验证码为空"),
-	DBYan_Zheng_MA_IS_ERROR("96","系统验证码错误");
+	DBYan_Zheng_MA_IS_ERROR("96","系统验证码错误"),
+	TEL_NO_IS_BLANK("97","手机号码为空"),
+	NEW_TEL_IS_EQUAL_USER_TEL("98","新手机号码与已绑定手机号码一致，请重置手机号码"),
+	TEL_NO_ERROR("99","手机号码错误"),
+	TEL_Code_Send_error("100","验证码发送失败"),
+	TEL_IS_Bind("100","手机号码已经被绑定了");
 	private String errorCode; 
 	
 	private String errorMsg;

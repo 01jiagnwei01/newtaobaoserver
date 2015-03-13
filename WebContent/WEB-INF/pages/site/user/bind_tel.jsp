@@ -2,14 +2,15 @@
 <%@ page import="org.apache.commons.lang3.*,com.gxkj.taobaoservice.enums.*,com.gxkj.taobaoservice.entitys.*,com.gxkj.common.util.SessionUtil,java.util.*"%>
 <%
 UserBase base = SessionUtil.getSiteUserInSession(request);
-String bindQq = base.getBindQq();
+ 
+String telPhone = base.getBindTelphone();
 String caozuoma =    base.getCaoZuoMa();
  
 %>
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<title>绑定QQ号</title>
+<title>绑定手机号</title>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/js.jsp"></jsp:include> 
 <style type="text/css">
@@ -50,25 +51,25 @@ table td{padding:5px; font-size:14px; height:25px;}
 				<div style="margin:20px 0;"></div>
 				<form id = "form_">
 				<table border="0" cellpadding="0" cellspacing="0" style="margin:10px auto 30px; padding-bottom:30px;   clear:both;">
-					<% if(StringUtils.isNotBlank(bindQq)) {%>
+					<% if(StringUtils.isNotBlank(telPhone)) {%>
 					<tr>
-							<td align="right">已绑定QQ：</td>
-							<td><span   style="padding:10px 5px;width:260px;"  ><%=bindQq%></span></td>
+							<td align="right">已绑定：</td>
+							<td><span   style="padding:10px 5px;width:260px;"  ><%=telPhone%></span></td>
 							<td style="width: 100px"> </td>
 					</tr>
 					<%} %>
 					<tr>
-						<td align="right">QQ：</td>
-						<td><input type="text" name="newQQ"  size="40" id="newQQ" style="padding:10px 5px; width:260px;" placeholder="请填写常用QQ"></td>
-						<td><span style="font-size:12px; color:#F00;width: 80px" id="qq_error"> </span></td>
+						<td align="right">手机号码：</td>
+						<td><input type="text" name="telNo"  size="40" id="telNo" style="padding:10px 5px; width:260px;" placeholder="请填写常用手机号码"></td>
+						<td><span style="font-size:12px; color:#F00;width: 80px" id="telNo_error"> </span></td>
 					</tr>
-					 <tr>
-						<td align="right">验证码：</td>
+					<tr>
+						<td align="right">&nbsp;</td>
 						<td>
-							<input id="yanzhengma" type="text" name="yanzhengma"   style="width:170px;height:30px;padding-top: 5px;  " placeholder="">
-							<img title="点击更换" id="yanzhengmaBtn" style="width:80px;" onclick="javascript:refreshYanZhengMa(this);" src="<%=request.getContextPath()%>/yanzhengma">
+							<input type="text" name="code" id="code" style="padding:10px 5px; width:110px;" placeholder="请输入手机验证码">
+							<a   id="getvefydata_code" style="display:inline-block; border-radius:5px; padding:8px 0; background-color:#eee; width:85px; line-height:25px; height:25px; margin-right:20px;" class="tac">发送验证码</a>
 						</td>
-						<td><span style="font-size:12px; color:#F00;width: 80px" id="yanzhengma_error"> </span></td>
+						<td><span style="font-size:12px; color:#F00;width: 80px" id="code_error"> </span></td>
 					</tr>
 					<tr>
 							<td align="right">操作码：</td>
@@ -104,26 +105,93 @@ var endTime = 0;
 var clitime = 0;
 function refreshYanZhengMa(obj) {  $(obj).attr("src","<%=request.getContextPath()%>/yanzhengma?"+Math.random());  }
 $(function(){
-	$("#newQQ").focus(function(){
-		$("#qq_error").html("");
+	$("#telNo").focus(function(){
+		$("#telNo_error").html("");
 	});
-	$("#yanzhengma").focus(function(){
-		$("#yanzhengma_error").html('');
+	$("#code").focus(function(){
+		$("#code_error").html('');
 	});
 	$("#caozuoma").focus(function(){
 		$("#caozuoma_error").html('');
 	});
-	 
+	
+	$("#getvefydata_code").bind('click',sendYanZhengMa);
 	$("#submit_btn").bind('click',submitFn);
 })
-  
-function checkCode(){
-	var code = $.trim($("#yanzhengma").val());
-	if(code.length == 0 ){
-		$("#yanzhengma_error").html("验证码不能为空");
+function sendYanZhengMa(){
+	 if(!checkPhoneFn()) {
+		 return;
+	 }; 
+	 if(clitime>=1)return;
+	 sendAjaxGetEmailCode($("#telNo").val()); 	 
+}
+function checkPhoneFn(){
+	var telNo = $("#telNo").val();
+	if($.trim(telNo).length == 0 ){
+		$("#telNo_error").html("请输入常用手机号码");
 		return false;
-	}else if(code.length != 4 ){
-		$("#yanzhengma_error").html("验证码输入错误");
+	}
+	var result = checkPhone(telNo);
+	if(!result){
+		$("#telNo_error").html("请输入正确的手机号码");
+		return false;
+	}
+	return true;
+}
+function sendAjaxGetEmailCode(mail){
+	var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/tel/sendcode";
+  	$.ajax({
+		  type:'post',
+		  url: yanzhengmaurl,
+		  context: document.body,
+		  beforeSend:function(){
+			  clitime = 1;
+			  $("#getvefydata_code").attr("disabled",true); 
+			  $("#getvefydata_code").unbind("click");
+			  endTime = 60;
+			 changeSendEmailCodeInfo();
+			 window.setInterval("changeSendEmailCodeInfo()", 1000); 
+		 },
+		  data:{ d:new Date().getTime(),telNo:mail},
+		  success:function(json){
+			  clitime = 0;
+			  var result = json["result"];  
+			  //修改发送状态
+			  $("#form_")[0].reset();
+			 	  
+		  },
+	      error:function(xhr,textStatus,errorThrown){
+	    	  clitime = 0;
+	  		var responseText = xhr.responseText;
+	  		var obj = jQuery.parseJSON(responseText);
+			var errortype = obj.errortype
+	  		var msg = obj.msg;
+			if(errortype == 'telNo'){
+				$("#telNo_error").html(msg);
+				endTime = 0;
+			}
+	  } 
+	})
+}
+function changeSendEmailCodeInfo(){
+	
+	if(endTime == 0){
+		window.clearInterval(changeSendEmailCodeInfo);
+		 $("#getvefydata_code").attr("disabled",false); 
+		 $("#getvefydata_code").text( "发送验证码");
+		 $("#getvefydata_code").bind('click',sendYanZhengMa);
+		return;
+	}
+	$("#getvefydata_code").text(endTime+"秒后重发");
+	endTime--;
+}
+function checkCode(){
+	var code = $.trim($("#code").val());
+	if(code.length == 0 ){
+		$("#code_error").html("验证码不能为空");
+		return false;
+	}else if(code.length != 6 ){
+		$("#code_error").html("验证码输入错误");
 		return false;
 	}
 	return true;
@@ -138,14 +206,14 @@ function checkCaoZuoMa(){
 	return true;
 }
 function submitFn(){
-	 
+	if(!checkPhoneFn())return ;
 	if(!checkCode())return;
 	if(!checkCaoZuoMa())return;
-	var yanzhengma =  $.trim($("#yanzhengma").val());
-	var caozuoma = $.trim($("#caozuoma").val());
-	var newQQ = $.trim($("#newQQ").val());
+	var telNo =  $.trim($("#telNo").val());
+	var  caozuoma = $.trim($("#caozuoma").val());
+	var  code = $.trim($("#code").val());
 	
-	var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/qq/dobindqq";
+	var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/tel/doupdatebyetel";
   	$.ajax({
 		  type:'post',
 		  url: yanzhengmaurl,
@@ -156,18 +224,17 @@ function submitFn(){
 		 },
 		  data:{
 			  d:new Date().getTime(),
-			  yanzhengma: yanzhengma,
+			  telNo: telNo,
 			  caozuoma:caozuoma,
-			  newQQ:newQQ
+			  yanzhengma:code
 		  },
 		  success:function(json){
 			  $("#submit_btn").attr("disabled",false);
 			  $("#submit_btn").html("提交");
-			  $("#yanzhengma").val("");
 			  var result = json["result"]; 
 			  if(result){
 				  alert("修改成功");
-				  $("#form_")[0].reset();
+				  $("#form_").reset();
 				  window.location.reload();
 				  return;
 			  }else{
@@ -178,18 +245,16 @@ function submitFn(){
 	      error:function(xhr,textStatus,errorThrown){
 	    	  $("#submit_btn").attr("disabled",false);
 	    	  $("#submit_btn").html("提交");
-	    	  $("#yanzhengma").val("");
-	    	  refreshYanZhengMa(document.getElementById("yanzhengmaBtn"))
 	  		var responseText = xhr.responseText;
 	  		var obj = jQuery.parseJSON(responseText);
 			var errortype = obj.errortype
 	  		var msg = obj.msg;
-			if(errortype == 'qq'){
-				$("#qq_error").html(msg);
+			if(errortype == 'yanzhengma'){
+				$("#code_error").html(msg);
+			}else if(errortype == 'telNo'){
+				$("#telNo_error").html(msg);
 			}else if(errortype == 'caozuoma'){
 				$("#caozuoma_error").html(msg);
-			}else if(errortype == 'yanzhengma'){
-				$("#yanzhengma_error").html(msg);
 			} 
 			
 	  		// $(btn)).removeAttr("disabled");

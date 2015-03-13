@@ -15,7 +15,7 @@ public class SmsResponse implements Serializable{
 	/**
 	 * 响应结果 0:true;!0:false
 	 */
-	private boolean result;
+	private boolean ok;
 	/**
 	 * sendid
 	 */
@@ -45,13 +45,17 @@ public class SmsResponse implements Serializable{
 	 */
 	private String code;
 
-	public boolean isResult() {
-		return result;
+ 
+
+	public boolean isOk() {
+		return ok;
 	}
 
-	public void setResult(boolean result) {
-		this.result = result;
+	public void setOk(boolean ok) {
+		this.ok = ok;
 	}
+
+	 
 
 	public String getSendId() {
 		return sendId;
@@ -100,5 +104,6 @@ public class SmsResponse implements Serializable{
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
 
 }

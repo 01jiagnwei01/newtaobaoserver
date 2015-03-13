@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.CompanyAccountDao;
-import com.gxkj.taobaoservice.entitys.CompanyAccount;
 import com.gxkj.taobaoservice.services.CompanyAccountService;
 @Service
 public class CompanyAccountServiceImpl implements CompanyAccountService {

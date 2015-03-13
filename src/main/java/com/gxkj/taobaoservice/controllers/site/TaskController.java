@@ -116,7 +116,7 @@ public class TaskController {
 				Date endTime = null;
 				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 				UserBase userBase = SessionUtil.getSiteUserInSession(request);
-				
+				log.info("myreceivelist ");
 				try{
 					if(StringUtils.isNotBlank(starttime)){
 						starttime += " 00:00:00";

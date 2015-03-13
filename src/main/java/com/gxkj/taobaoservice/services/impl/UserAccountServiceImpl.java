@@ -532,5 +532,10 @@ public class UserAccountServiceImpl implements UserAccountService {
 		return userAccountLogDao.doPageForSite( userBase,  pageno,  pagesize,
 				 startTime,  endTime);
 	}
+	public UserAccount getUserAccountByUserBaseId(Integer userBaseId)
+			throws   SQLException {
+		 
+		return userAccountLogDao.getUserAccountByUserBaseId(userBaseId);
+	}
 
 }

@@ -45,15 +45,7 @@ public class SmsServiceImpl implements SmsService {
 	public SmsResponse sendSms(String content, String mobiles, Date sendTime)
 			throws BusinessException {
 		 
-//		Form form = new Form();
-//		form.param("name", "15001279241");
-//		form.param("pwd", "6DEFC4996C7652F442D9160F8F08");
-//		form.param("content", content);
-//		form.param("mobile", mobiles);
-//		if(sendTime != null){
-//			form.param("stime", sendTime.toString());
-//		}
-//		form.param("type", "pt");
+ 
 		String result = null;
 		String name = "15001279241"; 
 		String sign="谷谷道场";
@@ -110,7 +102,7 @@ public class SmsServiceImpl implements SmsService {
 			e.printStackTrace();
 		}
 		SmsResponse smsResponse = new SmsResponse();
-		smsResponse.setResult(false);
+		smsResponse.setOk(false);
 		if(result == null){
 			smsResponse.setMsg("网络不通");
 			smsResponse.setCode("909");
@@ -121,7 +113,7 @@ public class SmsServiceImpl implements SmsService {
 		String[] results = result.split(",");
 		switch(results[0]){
 			case "0":
-				smsResponse.setResult(true);
+				smsResponse.setOk(true);
 				smsResponse.setSendId(results[1]);
 				smsResponse.setInvalidNum(Integer.parseInt(results[2]));
 				smsResponse.setSuccessNum(Integer.parseInt(results[3]));
@@ -132,7 +124,53 @@ public class SmsServiceImpl implements SmsService {
 				smsResponse.setMsg(results[1]);
 				break; 	
 		}
+		
 		return smsResponse;
+	}
+
+	 
+	public String getErrorMsg(String code) {
+		/**
+		 * 0	提交成功
+		 * 1	含有敏感词汇
+		 * 2	余额不足
+		 * 3	没有号码
+		 * 4	包含sql语句
+		 * 10	账号不存在
+		 * 11	账号注销
+		 * 12	账号停用
+		 * 13	IP鉴权失败
+		 * 14	格式错误
+		 * -1	系统异常
+		 * 909 我方网络问题
+		 */
+		String msg = "未知，编码为："+code;
+		if(code .equals("0")){
+			msg = "提交成功";
+		}else if(code .equals("1")){
+			msg = "含有敏感词汇";
+		}else if(code .equals("2")){
+			msg = "余额不足";
+		}else if(code .equals("3")){
+			msg = "没有号码";
+		}else if(code .equals("4")){
+			msg = "账号不存在";
+		}else if(code .equals("10")){
+			msg = "账号不存在";
+		}else if(code .equals("11")){
+			msg = "账号注销";
+		}else if(code .equals("12")){
+			msg = "账号停用";
+		}else if(code .equals("13")){
+			msg = "IP鉴权失败";
+		}else if(code .equals("14")){
+			msg = "格式错误";
+		}else if(code .equals("-1")){
+			msg = "系统异常";
+		}else if(code .equals("909")){
+			msg = "我方网络问题";
+		}
+		return msg;
 	}
 
 }

@@ -81,7 +81,7 @@ public class RegServiceImpl implements RegService {
 			if(isReged){
 				throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED,"email");
 			}
-			regLogDao.updateEmaiToNoEnable(mail);
+			regLogDao.updateEmaiToNoEnable(mail,YanZhengMaTypes.email);
 			
 			String code = RegexUtils.getRandomNum(6)+"";
 			Date now = new Date();

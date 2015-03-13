@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.validation.BindException;
 
 import com.gxkj.common.dao.BaseDAOImpl;
 import com.gxkj.taobaoservice.daos.YanZhengMaLogDao;
@@ -18,9 +17,8 @@ public class YanZhengMaLogDaoImpl extends BaseDAOImpl implements YanZhengMaLogDa
 	private  final static String updateEmaiToNoEnableSql = "update yanzhengma_log set enabled = 0 where value = ? and type = ?";
 	private final static String getRegLogByTypeAndValueSql = "from YanzhengmaLog where tranType = :tranType and type=:type and value=:value and enabled = true order by id desc";
 	private  final static String getRegLogByUserIdAndTransAndTypeAndValueSql = "from YanzhengmaLog where userId=:userId and tranType =:tranType  and type=:type and value=:value and enabled = true order by id desc";
-	public void updateEmaiToNoEnable(String mail) throws SQLException,
-			BindException {
-		 this.executeUpdateBySql(updateEmaiToNoEnableSql, new Object[] {mail,YanZhengMaTypes.email.toString()});
+	public void updateEmaiToNoEnable(String mail,YanZhengMaTypes type) throws SQLException  {
+		 this.executeUpdateBySql(updateEmaiToNoEnableSql, new Object[] {mail,type.toString()});
 	}
 	 
 	 

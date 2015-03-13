@@ -16,6 +16,7 @@ public class PointCardDaoImpl extends BaseDAOImpl implements PointCardDao {
 
 	 private String getAllEnablePointCardHql = "from PointCard where status = :status order by orders desc ";
 	 
+	@SuppressWarnings("unchecked")
 	public List<PointCard> getAllEnablePointCard() throws SQLException {
 		 Map<String,Object> param = new HashMap<String,Object>();
 		 param.put("status", PointCardStatus.NORMAL);

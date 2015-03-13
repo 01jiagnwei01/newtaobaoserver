@@ -23,6 +23,7 @@ public class TaskOrderSubTaskInfoDaoImpl extends BaseDAOImpl implements
 	 * @return
 	 * @throws SQLException
 	 */
+	@SuppressWarnings("unchecked")
 	public List<TaskOrderSubTaskInfo> getSubTaskInfoByOrderId(Integer orderId)
 			throws SQLException {
 		 

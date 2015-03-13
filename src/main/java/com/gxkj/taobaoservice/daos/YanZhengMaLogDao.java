@@ -2,8 +2,6 @@ package com.gxkj.taobaoservice.daos;
 
 import java.sql.SQLException;
 
-import org.springframework.validation.BindException;
-
 import com.gxkj.common.dao.BaseDAO;
 import com.gxkj.taobaoservice.entitys.YanzhengmaLog;
 import com.gxkj.taobaoservice.enums.YanZhengMaLogTranTypes;
@@ -11,7 +9,7 @@ import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 
 public interface YanZhengMaLogDao extends BaseDAO {
 
-	void updateEmaiToNoEnable(String mail)throws SQLException, BindException;
+	void updateEmaiToNoEnable(String mail,YanZhengMaTypes type)throws SQLException;
 	/**
 	 * 根据类型和值查询注册结果操作
 	 * @param type

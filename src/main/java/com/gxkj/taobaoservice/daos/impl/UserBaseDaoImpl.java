@@ -25,6 +25,8 @@ public class UserBaseDaoImpl extends BaseDAOImpl implements UserBaseDao {
 	
 	private static final String  emailIsRegedHQL = " from UserBase where bindEmail =:bindEmail ";
 	
+	private static final String  getUsersByBindPhoneHQL = " from UserBase where bindTelphone =:bindTelphone ";
+	
 	private static final String updateUserCaoZuoMaHql = "update UserBase set caoZuoMa = ? where id = ?";
 	
 	public UserBase getUsersByUserName(String userName) throws SQLException {
@@ -122,11 +124,14 @@ public class UserBaseDaoImpl extends BaseDAOImpl implements UserBaseDao {
 		return base;
 	}
 
-	 
+ 
+	public UserBase getUsersByBindPhone(String telNo) throws SQLException {
+		Map<String,Object> parameters = new HashMap<String,Object>();
+		 parameters.put("bindTelphone", telNo);
+		 return (UserBase) this.selectOneByHQL(getUsersByBindPhoneHQL, parameters);
+	}
 
 	 
-	
-
 	 
 
 }

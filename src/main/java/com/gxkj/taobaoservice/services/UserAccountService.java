@@ -6,6 +6,7 @@ import java.util.Date;
 
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
+import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.UserAccountTypes;
 
@@ -40,4 +41,12 @@ public interface UserAccountService {
 	 */
 	public ListPager doPage(UserBase userBase, int pageno, int pagesize,
 			Date startTime, Date endTime)throws BusinessException, SQLException;
+
+	/**
+	 * 通过用户ID查看用户账号信息
+	 * @param userBaseId
+	 * @return
+	 * @throws SQLException
+	 */
+	public UserAccount getUserAccountByUserBaseId(Integer userBaseId)throws   SQLException;
 }

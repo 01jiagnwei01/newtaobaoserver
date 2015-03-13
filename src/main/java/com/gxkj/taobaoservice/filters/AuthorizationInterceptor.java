@@ -63,8 +63,8 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse response,
 			Object handler) throws Exception {
 		MethodNameResolver methodNameResolver = new InternalPathMethodNameResolver();
-		System.out.println("methodName="+methodNameResolver.getHandlerMethodName(req));
-		System.out.println("权限拦截---------------");
+//		System.out.println("methodName="+methodNameResolver.getHandlerMethodName(req));
+//		System.out.println("权限拦截---------------");
 		
 //		HandlerMethod handlerMethod = (HandlerMethod) handler;        
 //		Method method = handlerMethod.getMethod();

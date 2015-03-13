@@ -73,4 +73,12 @@ public interface UserBaseDao extends BaseDAO{
 	 */
 	UserBase getUsersByBindEmail(String email)throws SQLException ;
 
+	/**
+	 * 根据手机号查询用户
+	 * @param telNo
+	 * @return
+	 * @throws SQLException
+	 */
+	UserBase getUsersByBindPhone(String telNo)throws SQLException ;
+
 }

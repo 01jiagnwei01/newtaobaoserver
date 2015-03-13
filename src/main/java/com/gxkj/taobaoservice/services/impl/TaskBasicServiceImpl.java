@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +32,7 @@ import com.gxkj.taobaoservice.services.UserAccountService;
 @Service
 public class TaskBasicServiceImpl implements TaskBasicService {
 	
-	private static final Log log =  LogFactory.getLog(TaskBasicServiceImpl.class);
+	//private static final Log log =  LogFactory.getLog(TaskBasicServiceImpl.class);
 	
 	@Autowired
 	private TaskBasicDao taskBasicDao;

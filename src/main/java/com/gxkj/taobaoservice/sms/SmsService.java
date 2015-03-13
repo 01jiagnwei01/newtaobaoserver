@@ -15,4 +15,11 @@ public interface SmsService {
 	 * @return
 	 */
 	 public SmsResponse sendSms(String content,String mobiles,Date sendTime)throws BusinessException;
+	 
+	 /**
+	  * 根据错误编码，返回错误信息
+	  * @param code
+	  * @return
+	  */
+	 public String getErrorMsg(String code);
 }

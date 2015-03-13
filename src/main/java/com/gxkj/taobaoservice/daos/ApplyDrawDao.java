@@ -3,7 +3,6 @@ package com.gxkj.taobaoservice.daos;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 import com.gxkj.common.dao.BaseDAO;
 import com.gxkj.common.util.ListPager;

@@ -15,6 +15,7 @@ public class SubTaskInfoDaoImpl extends BaseDAOImpl implements SubTaskInfoDao {
 	private String getAllEnableSubTaskInfoHql = "from SubTaskInfo where status=? order by priority desc";
 	
 	
+	@SuppressWarnings("unchecked")
 	public List<SubTaskInfo> getAllEnableSubTaskInfo() throws SQLException {
 		 
 		return ((List<SubTaskInfo>) this.selectByHQL(getAllEnableSubTaskInfoHql, new Object[]{SubTaskInfoStatus.NORMAL}));

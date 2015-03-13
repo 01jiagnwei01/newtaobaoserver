@@ -44,6 +44,7 @@
 							<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定邮箱</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/bind/qq" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定QQ</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/bind/alipay" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定淘宝小号</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/bind/tel" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定手机号</span></a></li>
 						</ul>
 					</li>
 				</ul>

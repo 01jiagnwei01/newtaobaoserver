@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,7 +28,14 @@ public class UserAccountController {
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public String order_create_get(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
-		String mv = "forward:/caozuoma";
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		String mv = null;
+		if(StringUtils.isBlank(userBase.getCaoZuoMa())){
+			mv = "forward:/site/bind/caozuoma";
+		}else{
+			mv = "forward:/site/task/list";
+		}
+		
 		return mv;	
 	}
 	@RequestMapping(value="get",method=RequestMethod.POST)

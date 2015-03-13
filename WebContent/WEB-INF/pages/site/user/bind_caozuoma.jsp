@@ -76,17 +76,17 @@ table td{padding:5px; font-size:14px; height:25px;}
 								<table   cellpadding="0" cellspacing="0" style="margin:0 auto;border:0">
 									<tr>
 										<td align="right">旧操作码：</td>
-										<td><input size="16" type="text" name="old_caozuoMa" id="old_caozuoMa" style="width:260px;"></td>
+										<td><input type="text" maxlength="16"  size="16" name="old_caozuoMa" id="old_caozuoMa" style="width:260px;"></td>
 										<td><span style="font-size:12px; color:#F00;" id="old_caozuoMa_error"></span></td>
 									</tr>
 									<tr>
 										<td align="right">新操作码：</td>
-										<td><input size="16" type="text" name="f1_caozuoma" id="f1_caozuoma" style="width:260px;"></td>
+										<td><input maxlength="16"  size="16" type="text" name="f1_caozuoma" id="f1_caozuoma" style="width:260px;"></td>
 										<td><span style="font-size:12px; color:#F00;" id="f1_caozuoma_error"></span></td>
 									</tr>
 									<tr>
 										<td align="right">确认操作码：</td>
-										<td><input size="16" type="text" name="f1_recaozuoma" id="f1_recaozuoma" style="width:260px;"></td>
+										<td><input maxlength="16"  size="16" type="text" name="f1_recaozuoma" id="f1_recaozuoma" style="width:260px;"></td>
 										<td><span  style="font-size:12px; color:#F00;" id="f1_recaozuoma_error"></span></td>
 									</tr>
 									<tr>
@@ -322,7 +322,7 @@ function sendYanZhengMa(){
 	 sendAjaxGetEmailCode();
 }
 function sendAjaxGetEmailCode(){
-	var yanzhengmaurl = "<%=request.getContextPath()%>/caozuoma/sendmail";
+	var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/caozuoma/sendmail";
   	$.ajax({
 		  type:'post',
 		  url: yanzhengmaurl,
@@ -384,7 +384,7 @@ function emailSubmitFn(){
 		return;
 	}
 	
-	var url = "<%=request.getContextPath()%>/caozuoma/mailsubmit";
+	var url = "<%=request.getContextPath()%>/site/bind/caozuoma/mailsubmit";
   	$.ajax({
 		  type:'post',
 		  url: url,
@@ -442,7 +442,7 @@ function f1SubmitFn(){
 		return;
 	}
 	
-	var url = "<%=request.getContextPath()%>/caozuoma/caozuomasubmit";
+	var url = "<%=request.getContextPath()%>/site/bind/caozuoma/caozuomasubmit";
   	$.ajax({
 		  type:'post',
 		  url: url,

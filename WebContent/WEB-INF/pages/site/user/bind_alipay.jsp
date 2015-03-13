@@ -57,8 +57,8 @@ table td{padding:5px; font-size:14px; height:25px;}
 					</tr>
 					<%} %>
 					<tr>
-						<td align="right">淘宝号：</td>
-						<td><input type="text" name="alipay"  size="40" id="alipay" style="padding:10px 5px; width:260px;" placeholder="请填写常用淘宝号"></td>
+						<td align="right">淘宝小号：</td>
+						<td><input type="text" name="alipay"  size="40" id="alipay" style="padding:10px 5px; width:260px;" placeholder="请填写常用淘宝小号"></td>
 						<td><span style="font-size:12px; color:#F00;width: 80px" id="alipay_error"> </span></td>
 					</tr>
 					 <tr>

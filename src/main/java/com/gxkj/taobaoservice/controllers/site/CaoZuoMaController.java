@@ -21,7 +21,7 @@ import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.CaoZuoMaService;
 
 @Controller
-@RequestMapping("/caozuoma")
+@RequestMapping("/site/bind/caozuoma")
 public class CaoZuoMaController {
 	@Autowired
 	private CaoZuoMaService caoZuoMaService;

@@ -256,13 +256,13 @@ public class OrderController {
 					 
 					e1.printStackTrace();
 				}
-				
 			}
-			
 			String mv = "site/order/order_create_page";
 			return mv;
 		}
 	}
+	
+	
 	/**
 	 * 从订单确认页返回创建订单页
 	 * @param request
@@ -272,8 +272,8 @@ public class OrderController {
 	 * @throws BusinessException 
 	 * @throws SQLException 
 	 */
-	@RequestMapping(value = "/back", method = RequestMethod.POST)
-	public String order_cancel(HttpServletRequest request,
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String order_update(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException, BusinessException {
 		String mv = "site/order/order_create_page";
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
@@ -396,7 +396,7 @@ public class OrderController {
 		return mv;
 	}
 	/**
-	 * 订单列表页异步取消订单
+	 * 订单列表页取消订单
 	 * @param request
 	 * @param response
 	 * @param modelMap
@@ -496,4 +496,20 @@ public class OrderController {
 				String mv = "site/order/myorder_page";
 				return mv;	
 		}
+	@RequestMapping(value = "/update", method = RequestMethod.GET)
+	public String order_update_Get(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap){
+		return "forward:/site/order/create";
+	}
+	@RequestMapping(value = "/docancel", method = RequestMethod.GET)
+	public String order_docancel_Get(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap){
+		return "forward:/site/order/create";
+	}
+	@RequestMapping(value = "/sure", method = RequestMethod.GET)
+	public String order_sure_Get(HttpServletRequest request,
+			HttpServletResponse response, ModelMap modelMap){
+		return "forward:/site/order/create";
+	}
+	
 }

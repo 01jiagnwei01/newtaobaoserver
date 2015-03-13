@@ -2,6 +2,7 @@
  <%@ page import="com.gxkj.common.util.SystemGlobals,com.gxkj.taobaoservice.util.*,com.gxkj.taobaoservice.entitys.*"%>
  <%@ page import="static com.gxkj.taobaoservice.util.SystemDbData.subTaskInfoMap, com.gxkj.common.exceptions.*"%>
  <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+ <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
  <% TaskBasic taskBasic = (TaskBasic)request.getAttribute("taskBasic"); %>
  <!DOCTYPE html>
 <html lang="zh">
@@ -171,6 +172,30 @@ table td{padding:5px; height:25px; font-size:14px;}
 									</td>
 									 
 							</tr>
+							<c:if test="${not empty taskBasic.receiverId }">
+							<tr>
+									<td align="right">接单人QQ</td>
+									<td>
+									 <c:out escapeXml="true" value="${taskBasic.receiverQq}"></c:out>
+									</td>
+									<td> </td>
+							</tr>
+							<tr>
+									<td align="right">接单淘宝小号</td>
+									<td>
+									 <c:out escapeXml="true" value="${taskBasic.receiverAlipay}"></c:out>
+									</td>
+									<td> </td>
+							</tr>
+							<tr>
+									<td align="right">接单时间</td>
+									<td>
+									 <fmt:formatDate value="${taskBasic.receiverTime}" type="both" pattern="yyyy-MM-dd HH:mm"/>
+									</td>
+									<td> </td>
+							</tr>
+							
+							</c:if>
 							<tr>
 								<td colspan="3" align="center">
 								

@@ -182,7 +182,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		if(taskBasic.getStatus() != TaskStatus.Have_Bean_Received){
 			throw new BusinessException(BusinessExceptionInfos.TASK_STATUS_NOT_HAVE_RECEIVED,"status");
 		}
-		if(taskBasic.getReceiverId() != userBase.getId()){
+		if(!taskBasic.getReceiverId().equals( userBase.getId())){
 			throw new BusinessException(BusinessExceptionInfos.NOT_SELF_TASK,"userBase");
 		}
 		

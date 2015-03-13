@@ -215,8 +215,8 @@ table td{padding:5px; height:25px; font-size:14px;}
 	}
 	function update(btn){
 		//$(btn).attr("disabled",true); 
-		var path = "<%=request.getContextPath() %>/site/order/back";
-		 $('#submitForm').attr("action", path).submit();;
+		var path = "<%=request.getContextPath() %>/site/order/update";
+		 $('#submitForm').attr("action", path).submit();
 	}
 	function docancle(btn){
 		//$(btn).attr("disabled",true); 

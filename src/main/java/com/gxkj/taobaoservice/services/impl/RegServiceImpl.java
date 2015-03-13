@@ -91,6 +91,7 @@ public class RegServiceImpl implements RegService {
 			regLog.setType(YanZhengMaTypes.email);
 			regLog.setValue(mail);
 			regLog.setEnabled(true);
+			regLog.setTranType(YanZhengMaLogTranTypes.Reg);
 			int validTimeLeng = SystemGlobals.getIntPreference("reg.code.valid.time", 5);
 			Date expTime = DateUtils.addMilliseconds(now, validTimeLeng);
 			regLog.setExpTime(expTime);
@@ -185,7 +186,8 @@ public class RegServiceImpl implements RegService {
 		 */
 		Date now = new Date();
 		regLog.setActiveTime(now);
-		
+		regLog.setEnabled(false);
+		regLogDao.update(regLog);
 		
 		UserBase userBase = new UserBase();
 		userBase.setPassword(PWDGenter.generateKen(password) );

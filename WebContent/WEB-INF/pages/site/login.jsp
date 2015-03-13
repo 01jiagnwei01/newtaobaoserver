@@ -34,7 +34,7 @@
 				</tr>
 				<tr>
 						<td align="right">密码：</td>
-						<td><input id="password" type="password" name="password"   style="padding:10px 5px; width:250px;" placeholder=""></td>
+						<td><input id="password" type="password" name="password"  size="20" style="padding:10px 5px; width:250px;" placeholder=""></td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
@@ -43,7 +43,7 @@
 				<tr>
 						<td align="right">验证码：</td>
 						<td>
-							<input id="yanzhengma" type="text" name="yanzhengma"   style="width:170px;height:30px;padding-top: 5px;  " placeholder="">
+							<input id="yanzhengma" type="text" name="yanzhengma"  size="6"   style="width:170px;height:30px;padding-top: 5px;  " placeholder="">
 							<img title="点击更换" id="yanzhengmaBtn" style="width:80px;" onclick="javascript:refreshYanZhengMa(this);" src="<%=request.getContextPath()%>/yanzhengma">
 						</td>
 				</tr>

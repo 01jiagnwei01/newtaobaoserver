@@ -232,7 +232,7 @@ function submitFn(){
 			  var result = json["result"]; 
 			  if(result){
 				  alert("修改成功");
-				  $("#form_").reset();
+				  $("#form_")[0].reset();
 				  window.location.reload();
 				  return;
 			  }else{

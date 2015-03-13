@@ -12,3 +12,6 @@ http://git-scm.com/book/zh/v1
 
 gradle 
  http://www.gradle.org/docs/current/userguide/userguide_single.html
+ 
+ hibernate 调用存储过程
+ http://www.mkyong.com/hibernate/how-to-call-store-procedure-in-hibernate/

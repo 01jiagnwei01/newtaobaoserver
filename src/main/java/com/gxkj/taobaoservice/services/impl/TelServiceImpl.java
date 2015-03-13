@@ -22,6 +22,7 @@ import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.entitys.YanzhengmaLog;
 import com.gxkj.taobaoservice.enums.YanZhengMaLogTranTypes;
 import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
+import com.gxkj.taobaoservice.jmxs.JMXSEntity;
 import com.gxkj.taobaoservice.services.TelService;
 import com.gxkj.taobaoservice.sms.SmsService;
 import com.gxkj.taobaoservice.util.RegexUtils;
@@ -83,12 +84,11 @@ public class TelServiceImpl implements TelService {
 		/**
 		 * 手机发送验证码
 		 */
-		SmsResponse repose = smsServiceImpl.sendSms(String.format(SystemGlobals.getPreference("taobao.sms.temp"), code), telNo, now);
+		SmsResponse repose = smsServiceImpl.sendSms(String.format(JMXSEntity.getSmsCodeTempletate(), code), telNo, now);
 		if(!repose.isOk()){
 			log.error("手机发送验证码失败，错误原因是："+smsServiceImpl.getErrorMsg(repose.getCode()));
 			throw new BusinessException(BusinessExceptionInfos.TEL_Code_Send_error,"telNo");
 		}
-	 
 
 	}
 

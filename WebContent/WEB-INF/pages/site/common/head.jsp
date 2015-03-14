@@ -8,11 +8,11 @@ boolean showloginBoolean = StringUtils.isBlank(showlogin)?false:"true".equals(sh
 boolean showregBoolean = StringUtils.isBlank(showreg)?false:"true".equals(showreg)?true:false;
 UserBase userBase = SessionUtil.getSiteUserInSession(request);
 %>
-<div style="width:100%; height:28px; background-color:#E8E8E8;">
+<div style="width:100%; background-color:#E8E8E8;">
 	<div class="center tar" style="width:1200px;">
 	<%if(userBase != null){
 		%>
-		<a href="<%=request.getContextPath() %>/site/money/useraccount/log" style="display:inline-block; padding:5px 15px; background-color:#09f; color:#fff; margin-right:15px;">欢迎您：<%=userBase.getUserName() %>[您的编号是:<%=userBase.getId() %>]</a>
+		欢迎您：<a href="<%=request.getContextPath() %>/site/money/useraccount/log" style="margin-right:15px; color:#4CA4EE;"><%=userBase.getUserName() %></a>编号:<span style="padding-right:15px; font-weight:bold;"><%=userBase.getId() %></span>
 		<a href="<%=request.getContextPath() %>/logout" style="display:inline-block; padding:5px 15px; background-color:#09f; color:#fff;">退出</a>
 		<%
 	} else {

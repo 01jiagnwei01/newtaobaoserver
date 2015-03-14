@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<link href="<%=request.getContextPath() %>/resources/bookstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+<!-- 
 <link href="<%=request.getContextPath() %>/resources/bookstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+ -->
 <link href="<%=request.getContextPath() %>/resources/bookstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/bookstrap/js/bootstrap.min.js"></script> 

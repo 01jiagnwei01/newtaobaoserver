@@ -462,7 +462,7 @@ public class OrderController {
 			@RequestParam(value="starttime",defaultValue="") String starttime,
 			@RequestParam(value="endtime",defaultValue="") String endtime, 
 			@RequestParam(value="pageno",defaultValue="0") int pageno,
-	   		@RequestParam(value="limit",defaultValue="20") int pagesize
+	   		@RequestParam(value="limit",defaultValue="2") int pagesize
 	   		,ModelMap modelMap) throws SQLException  {
 				 
 				Date startTime = null;

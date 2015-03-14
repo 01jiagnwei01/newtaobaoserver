@@ -41,7 +41,7 @@ table td{padding:5px; font-size:14px; height:25px;}
 		<div class="center" style="width:1200px;">
 			
 
-			<div style="width:910px; padding:0 40px; background-color:#FFF;" class="fr">
+			<div style="width:990px; padding:0 40px; background-color:#FFF;" class="fr">
 				<div style="margin:20px 0;"></div>
 				<form id = "form_">
 				<table border="0" cellpadding="0" cellspacing="0" style="margin:10px auto 30px; padding-bottom:30px;   clear:both;">

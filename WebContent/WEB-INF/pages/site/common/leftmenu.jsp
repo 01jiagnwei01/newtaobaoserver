@@ -50,5 +50,4 @@
 				</ul>
 				
 				<div style="clear:both;"></div>
-				<div style="height: 100px;"></div>
 			</div>

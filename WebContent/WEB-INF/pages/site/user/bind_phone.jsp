@@ -41,17 +41,22 @@ table td{padding:5px; font-size:14px; height:25px;}
 	<div style="width:100%; background-color:#ededed; padding-bottom:35px;">
 
 		<div class="center" style="width:1200px;">
+		<div style="height:50px; line-height:50px;">
+			<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
+		</div>
 
 			<div style="height:50px; line-height:50px;">
 				<a href="#">首页</a>&nbsp;>&nbsp;<a href="#">我的账户</a>&nbsp;>&nbsp;<a href="#">修改密码</a>
 			</div>
-			<jsp:include page="../common/leftmenu.jsp" flush="true">
+			<div style="overflow:hidden;">
+		<div style="margin-bottom:-5000px; padding-bottom:5000px;">
+				<jsp:include page="../common/leftmenu.jsp" flush="true">
 				<jsp:param name="mainmenu" value="safe"></jsp:param>
 				<jsp:param name="submenu" value="update_bindemail"></jsp:param>
 			</jsp:include>
 			 
 
-			<div style="width:910px; padding:0 40px; background-color:#FFF;" class="fr">
+			<div style="width:990px; padding:0 40px; background-color:#FFF;" class="fr">
 			
 				<div style="margin:20px 0;"></div>
 				 

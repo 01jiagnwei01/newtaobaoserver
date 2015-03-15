@@ -535,7 +535,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	public UserAccount getUserAccountByUserBaseId(Integer userBaseId)
 			throws   SQLException {
 		 
-		return userAccountLogDao.getUserAccountByUserBaseId(userBaseId);
+		return userAccountDao.getUserAccountByUserId(userBaseId);
 	}
 
 }

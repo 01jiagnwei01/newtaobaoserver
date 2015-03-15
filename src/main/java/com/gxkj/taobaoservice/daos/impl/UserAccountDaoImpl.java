@@ -15,6 +15,7 @@ public class UserAccountDaoImpl extends BaseDAOImpl implements UserAccountDao {
 		String hql = "from UserAccount where userId = ?";
 		return (UserAccount) this.selectOneByHQL(hql, new Object[]{userid});
 	}
+	 
 
 	 
 	

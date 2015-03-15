@@ -26,12 +26,6 @@ public interface UserAccountLogDao extends BaseDAO {
 	ListPager doPageForSite(UserBase userBase, int pageno, int pagesize,
 			Date startTime, Date endTime)throws SQLException;
 
-	/**
-	 * 根据用户ID查询用户账户
-	 * @param userBaseId
-	 * @return
-	 * @throws SQLException
-	 */
-	UserAccount getUserAccountByUserBaseId(Integer userBaseId)throws SQLException;
+	
 
 }

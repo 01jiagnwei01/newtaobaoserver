@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.gxkj.common.dao.BaseDAOImpl;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.UserAccountLogDao;
-import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserAccountLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.enums.UserAccountTypes;
@@ -85,9 +84,5 @@ public class UserAccountLogDaoImpl extends BaseDAOImpl implements
 	}
 
 	 
-	public UserAccount getUserAccountByUserBaseId(Integer userBaseId)
-			throws SQLException {
-		StringBuffer hql = new StringBuffer("from UserAccountLog  where userId = ? order by id  "); 
-		return (UserAccount) this.selectOneByHQL(hql.toString(), new Object[]{userBaseId});
-	}
+	
 }

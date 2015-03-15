@@ -17,4 +17,5 @@ public interface UserAccountDao  extends BaseDAO{
 
 
 
+
 }

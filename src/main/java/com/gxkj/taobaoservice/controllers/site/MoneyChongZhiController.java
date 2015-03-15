@@ -23,8 +23,10 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.common.util.SessionUtil;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
+import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.ChongZhiService;
+import com.gxkj.taobaoservice.services.UserAccountService;
 
 @Controller
 @RequestMapping("/site/money/chongzhi")
@@ -33,14 +35,23 @@ public class MoneyChongZhiController {
 	@Autowired
 	private ChongZhiService chongZhiService;
 	
+	@Autowired
+	private UserAccountService userAccountService;
+	
 	@RequestMapping(value="",method=RequestMethod.GET)
-	public String chongzhiP1(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+	public String chongzhiP1(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws SQLException{
 		String mv = "site/money/chongzhi";
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		UserAccount userAccount =userAccountService.getUserAccountByUserBaseId(userBase.getId());
+		modelMap.put("userAccount", userAccount);
 		return mv;	
 	}
 	@RequestMapping(value="/s2",method=RequestMethod.GET)
-	public String chongzhiP2(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+	public String chongzhiP2(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws SQLException{
 		String mv = "site/money/chongzhis2";
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		UserAccount userAccount =userAccountService.getUserAccountByUserBaseId(userBase.getId());
+		modelMap.put("userAccount", userAccount);
 		return mv;	
 	}
 	@RequestMapping(value="/s3",method=RequestMethod.GET)

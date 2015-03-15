@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="chongzhi"></jsp:param>
+</jsp:include>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/js.jsp"></jsp:include> 
 <style type="text/css">
@@ -23,7 +26,7 @@ table td{padding:5px; font-size:14px;}
 
 		<div class="center" style="width:1200px;">
         	<div style="height:50px; line-height:50px;">
-				<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
+				<a href="###">财务中心</a>&nbsp;>&nbsp;<a href="###">充值</a>&nbsp;>
 			</div>
             
             <div style="overflow:hidden;">
@@ -32,7 +35,7 @@ table td{padding:5px; font-size:14px;}
 
 			 <jsp:include page="../common/leftmenu.jsp" flush="true">
 				<jsp:param name="mainmenu" value="safe"></jsp:param>
-				<jsp:param name="submenu" value="czm"></jsp:param>
+				<jsp:param name="submenu" value="chongzhi"></jsp:param>
 			</jsp:include>
 			  </div>
 

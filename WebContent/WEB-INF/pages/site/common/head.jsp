@@ -12,7 +12,7 @@ UserBase userBase = SessionUtil.getSiteUserInSession(request);
 	<div class="center tar" style="width:1200px;">
 	<%if(userBase != null){
 		%>
-		欢迎您：<a href="<%=request.getContextPath() %>/site/money/useraccount/log" style="margin-right:15px; color:#4CA4EE;"><%=userBase.getUserName() %></a>编号:<span style="padding-right:15px; font-weight:bold;"><%=userBase.getId() %></span>
+		欢迎您：<a href="<%=request.getContextPath() %>/site/useraccount/log" style="margin-right:15px; color:#4CA4EE;"><%=userBase.getUserName() %></a>编号:<span style="padding-right:15px; font-weight:bold;"><%=userBase.getId() %></span>
 		<a href="<%=request.getContextPath() %>/logout" style="display:inline-block; padding:5px 15px; background-color:#09f; color:#fff;">退出</a>
 		<%
 	} else {

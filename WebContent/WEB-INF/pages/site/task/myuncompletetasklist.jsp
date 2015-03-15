@@ -10,8 +10,10 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 %>
  <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
-<title>我未完成的任务</title>
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="task_myuncompletetasklist"></jsp:param>
+</jsp:include>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include>
 <style type="text/css">
@@ -24,12 +26,8 @@ table td {
 	font-size: 14px;
 	border-bottom: 1px solid #eee;
 }
-.inputwidth {
-	width: 280px;
-}
-.zengzhiinputwidth {
-	width: 250px;
-}  
+ 
+  
 </style>
 
 <body>
@@ -40,19 +38,22 @@ table td {
 	<jsp:include page="../common/subheader.jsp" flush="true">
 		<jsp:param name="showshouye" value="true"></jsp:param>
 	</jsp:include>
+	 
 	<div style="width:100%; background-color:#ededed; padding-bottom:135px;">
 		<div class="center" style="width:1200px;">
-		<div style="height:50px; line-height:50px;">
-			<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
-		</div>
-				<div style="overflow:hidden;">
-		<div style="margin-bottom:-5000px; padding-bottom:5000px;">
-				<jsp:include page="../common/leftmenu.jsp" flush="true">
-					<jsp:param name="mainmenu" value="task"></jsp:param>
-					<jsp:param name="submenu" value="dating"></jsp:param>
-				</jsp:include>
-				<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:100px;" class="fr">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px;">
+			<div style="height:50px; line-height:50px;">
+				<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我未完成的任务</a>
+			</div>
+ 
+			<div style="overflow:hidden;">
+				<div style="margin-bottom:-5000px; padding-bottom:5000px;">
+					<jsp:include page="../common/leftmenu.jsp" flush="true">
+						<jsp:param name="mainmenu" value="task_center"></jsp:param>
+						<jsp:param name="submenu" value="task_myuncompletetasklist"></jsp:param>
+					</jsp:include>
+				</div>
+				<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:5000px; margin-bottom:-5000px;" class="fr">
+					 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px;">
 								<tr>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">任务编号</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">发布时间</td>
@@ -92,15 +93,12 @@ table td {
 									}
 								}
 							%>
-								 
 						</table>
-						<div id="page_container"></div>
+					<div id="page_container"></div>
 				</div>
 			</div>
 		</div>
-		<div style="clear:both;"></div>
-</div>
-<div style="clear:both;"></div>
+	</div>
 <jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript">

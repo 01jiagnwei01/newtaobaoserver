@@ -38,7 +38,7 @@ li{height:30px; line-height:30px; list-style:disc; margin-left:30px;}
 		<div class="center" style="width:1200px;">
 
 			<div style="height:50px; line-height:50px;">
-				<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">关于谷谷道场</a>
+				<a href="<%=request.getContextPath() %>/">首页</a>&nbsp;>&nbsp;<a href="###">关于谷谷道场</a>
 			</div>
 
 			<div style="padding:40px; padding-bottom:50px; background:url(<%=request.getContextPath() %>/resources/images/about_bg.jpg) no-repeat right 0 #fff;;">

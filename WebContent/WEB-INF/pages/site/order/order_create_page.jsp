@@ -3,11 +3,11 @@
 <%@ page import="static com.gxkj.taobaoservice.util.SystemDbData.subTaskInfoMap,com.gxkj.common.exceptions.*,com.gxkj.taobaoservice.entitys.*,com.gxkj.common.util.*, org.apache.commons.lang3.StringUtils"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html lang="zh">
-<head><%--  --%>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" content="ie=edge"/>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>新建任务</title>
+<html lang="zh"> 
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="order_create"></jsp:param>
+</jsp:include>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/appjs/appjs.js"></script>
@@ -37,15 +37,15 @@ UserBase userBase =  SessionUtil.getSiteUserInSession(request);
 		<div class="center" style="width:1200px;">
 
 			<div style="height:50px; line-height:50px;">
-				<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
+				<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">发布新任务</a>
 			</div>
 
 			<div style="overflow:hidden;">
 
 				<div style="margin-bottom:-5000px; padding-bottom:5000px;">
 					<jsp:include page="../common/leftmenu.jsp" flush="true">
-						<jsp:param name="mainmenu" value="safe"></jsp:param>
-						<jsp:param name="submenu" value="czm"></jsp:param>
+						<jsp:param name="mainmenu" value="task_center"></jsp:param>
+						<jsp:param name="submenu" value="order_create"></jsp:param>
 					</jsp:include>
         		</div>
  

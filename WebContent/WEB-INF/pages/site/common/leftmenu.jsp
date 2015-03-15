@@ -14,12 +14,12 @@ String submenu = request.getParameter("submenu");
 						</a>
 						<ul>
 							<li><a href="<%=request.getContextPath() %>/site/task/task_center" class="cbc" style="<%if("task_center".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;任务大厅</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/order/create" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;发布新任务</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/order/mylist" class="cbc" style="display:inline-block;  width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我的订单列表</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/task/mypublishlist" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我发布的任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/order/create" class="cbc" style="<%if("order_create".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;发布新任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/order/myorderpage" class="cbc" style="<%if("my_order_page".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block;  width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我的订单列表</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/task/mypublishlist" class="cbc" style="<%if("task_mypublish".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我发布的任务</span></a></li>
 							
-							<li><a href="<%=request.getContextPath() %>/site/task/myreceivelist" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我未完成的任务</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/task/mycompletelist" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我已完成的任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/task/myuncompletetasklist" class="cbc" style="<%if("task_myuncompletetasklist".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我未完成的任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/task/mycompletelist" class="cbc" style="<%if("task_myuncompletetasklist".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我已完成的任务</span></a></li>
 						</ul>
 					</li>
 					<li class="fs16">
@@ -31,7 +31,7 @@ String submenu = request.getParameter("submenu");
 							<li><a href="<%=request.getContextPath() %>/site/money/chongzhi/recordpage" class="cbc" style="<%if("chongzhijilu".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;充值记录</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/money/tixian" class="cbc" style="<%if("tixian".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block;  width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;提现</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/money/tixian/recordpage" class="cbc" style="<%if("tixian_recordpage".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;提现记录</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/money/useraccount/log" class="cbc" style="<%if("useraccount_log".equals(submenu)) {%>background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;资金记录</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/useraccount/log" class="cbc" style="<%if("useraccount_log".equals(submenu)) {%>background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;资金记录</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/products/pointcard" class="cbc" style="<%if("point_card".equals(submenu)) {%>background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;购买点卡</span></a></li>
 						</ul>
 					</li>

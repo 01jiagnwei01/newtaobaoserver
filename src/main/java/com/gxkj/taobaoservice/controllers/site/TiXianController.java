@@ -23,8 +23,10 @@ import com.gxkj.common.util.ListPager;
 import com.gxkj.common.util.RandomValidateCode;
 import com.gxkj.common.util.SessionUtil;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
+import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.TiXianService;
+import com.gxkj.taobaoservice.services.UserAccountService;
 /**
  * 提现
  *
@@ -36,9 +38,15 @@ public class TiXianController {
 	@Autowired
 	private TiXianService tiXianService;
 	
+	@Autowired
+	private UserAccountService userAccountService;
+	
 	@RequestMapping(value="",method=RequestMethod.GET)
-	public String chongzhiP1(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+	public String chongzhiP1(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws SQLException{
 		String mv = "site/money/tixian";
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		UserAccount userAccount =userAccountService.getUserAccountByUserBaseId(userBase.getId());
+		modelMap.put("userAccount", userAccount);
 		return mv;	
 	}
 	/**
@@ -105,6 +113,9 @@ public class TiXianController {
 				modelMap.put("pagesize", pagesize);
 				modelMap.put("paper", paper);
 				String mv = "site/money/tixian_recordpage";
+				
+				UserAccount userAccount =userAccountService.getUserAccountByUserBaseId(userBase.getId());
+				modelMap.put("userAccount", userAccount);
 				return mv;	
 		}
 

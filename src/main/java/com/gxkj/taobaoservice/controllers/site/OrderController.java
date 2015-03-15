@@ -456,13 +456,13 @@ public class OrderController {
 		return ret;	
 	}
 	
-	@RequestMapping(value="/mylist",method={RequestMethod.GET})
-	   public String doPage( HttpServletRequest request,
+	@RequestMapping(value="/myorderpage",method={RequestMethod.GET})
+	   public String myorderpage( HttpServletRequest request,
 				HttpServletResponse response,
 			@RequestParam(value="starttime",defaultValue="") String starttime,
 			@RequestParam(value="endtime",defaultValue="") String endtime, 
 			@RequestParam(value="pageno",defaultValue="0") int pageno,
-	   		@RequestParam(value="limit",defaultValue="2") int pagesize
+	   		@RequestParam(value="limit",defaultValue="20") int pagesize
 	   		,ModelMap modelMap) throws SQLException  {
 				 
 				Date startTime = null;

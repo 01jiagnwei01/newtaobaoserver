@@ -38,6 +38,9 @@ table td{padding:5px; font-size:14px;}
 					</jsp:include>
 
 					<div style="width:910px; padding:0 40px; background-color:#FFF; margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
+						<h2 style="background:#f8f8f8; font-weight:normal; margin-top:30px;">
+		                	<div style="padding:10px;"><span style="font-size:16px;">可用余额：</span><span style="color:rgb(57, 161, 234);">${userAccount.currentBalance }</span></div>
+		                </h2>
 						<table border="0" cellspacing="0" cellpadding="0" style="clear:both; margin:0 auto;">
 							<tr>
 									<td align="right">&nbsp;</td>

@@ -18,8 +18,8 @@ boolean subheaderBoolean = StringUtils.isBlank(showshouye)?false:"true".equals(s
 			<%
 				}
 			%>
-			<a class="fs16" href="<%=request.getContextPath() %>/site/task/list" style="margin-left:70px;">我要兼职</a>
-			<a class="fs16" href="<%=request.getContextPath() %>/site/useraccount" style="margin-left:70px;">我的账户</a>
+			<a class="fs16" href="<%=request.getContextPath() %>/site/task/task_center" style="margin-left:70px;">我要兼职</a>
+			<a class="fs16" href="<%=request.getContextPath() %>/site/useraccount/log" style="margin-left:70px;">我的账户</a>
 			<a class="fs16" href="<%=request.getContextPath() %>/about" style="margin-left:70px;">关于谷谷道场</a>
 		</div>
 	</div>

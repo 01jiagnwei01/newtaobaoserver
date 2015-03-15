@@ -92,7 +92,7 @@ public class TaskController {
 				return mv;	
 	}
 	/**
-	 * 我接的的任务列表
+	 * 我未完成的任务列表
 	 * @param request
 	 * @param response
 	 * @param starttime
@@ -104,7 +104,7 @@ public class TaskController {
 	 * @throws SQLException
 	 * @throws BusinessException
 	 */
-	@RequestMapping(value="/myreceivelist",method={RequestMethod.GET})
+	@RequestMapping(value="/myuncompletetasklist",method={RequestMethod.GET})
 	   public String myreceivelist( HttpServletRequest request,
 				HttpServletResponse response,
 			@RequestParam(value="starttime",defaultValue="") String starttime,
@@ -140,7 +140,7 @@ public class TaskController {
 				modelMap.put("pageno", pageno);
 				modelMap.put("pagesize", pagesize);
 				modelMap.put("paper", paper);
-				String mv = "site/task/myreceivelist";
+				String mv = "site/task/myuncompletetasklist";
 				return mv;	
 	}
 	/**

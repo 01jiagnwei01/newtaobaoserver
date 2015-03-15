@@ -29,7 +29,17 @@ if(StringUtils.isBlank(titletype)){
 		out.println("<title>资金记录</title>");
 	}else if("point_card".equals(titletype)){
 		out.println("<title>购买点卡</title>");
-	}
+	}else if("order_create".equals(titletype)){
+		out.println("<title>发布新任务</title>");
+	}else if("my_order_page".equals(titletype)){
+		out.println("<title>我的订单列表</title>");
+	}else if("task_mypublish".equals(titletype)){
+		out.println("<title>我发布的任务</title>");
+	}else if("task_myuncompletetasklist".equals(titletype)){
+		out.println("<title>我未完成的任务</title>");
+	}else if("task_mycompletetasklist".equals(titletype)){
+		out.println("<title>我完成的任务</title>");
+	} 
 }
 %>
  

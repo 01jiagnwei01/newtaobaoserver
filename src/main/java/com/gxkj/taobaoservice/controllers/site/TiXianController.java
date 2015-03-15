@@ -67,7 +67,7 @@ public class TiXianController {
 		return ret;	
 	}
 	
-	@RequestMapping(value="/topage",method={RequestMethod.GET})
+	@RequestMapping(value="/recordpage",method={RequestMethod.GET})
 	   public String doPage( HttpServletRequest request,
 				HttpServletResponse response,
 			@RequestParam(value="starttime",defaultValue="") String starttime,
@@ -104,7 +104,7 @@ public class TiXianController {
 				modelMap.put("pageno", pageno);
 				modelMap.put("pagesize", pagesize);
 				modelMap.put("paper", paper);
-				String mv = "site/money/tixian_page";
+				String mv = "site/money/tixian_recordpage";
 				return mv;	
 		}
 

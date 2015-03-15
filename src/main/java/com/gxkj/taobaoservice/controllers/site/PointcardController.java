@@ -17,8 +17,10 @@ import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.SessionUtil;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.entitys.PointCard;
+import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.PointCardService;
+import com.gxkj.taobaoservice.services.UserAccountService;
 
 @Controller
 @RequestMapping("/site/products/pointcard")
@@ -27,11 +29,18 @@ public class PointcardController {
 	@Autowired
 	private PointCardService pointCardService;
 	
+	@Autowired
+	private UserAccountService userAccountService;
+	
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public String order_create_get(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws SQLException{
 		String mv = "site/products/point_card";
 		List<PointCard>  cards = pointCardService.getAllEnablePointCard();
 		modelMap.put("cards", cards);
+		
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		UserAccount userAccount =userAccountService.getUserAccountByUserBaseId(userBase.getId());
+		modelMap.put("userAccount", userAccount);
 		return mv;	
 	}
 	

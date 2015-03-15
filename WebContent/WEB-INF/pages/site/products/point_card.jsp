@@ -3,8 +3,10 @@
 
 <!DOCTYPE html>  
 <html>
-<meta charset="utf-8">
-
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="point_card"></jsp:param>
+</jsp:include>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include> 
 <style type="text/css">
@@ -25,25 +27,23 @@ table td{padding:5px; font-size:14px; height:25px;}
 	<jsp:include page="../common/subheader.jsp" flush="true">
 		<jsp:param name="showshouye" value="true"></jsp:param>
 	</jsp:include>
-	
-	<div style="width:100%; background-color:#ededed; padding-bottom:35px;">
-
+	  <div style="width:100%; background-color:#ededed; padding-bottom:135px;">
 		<div class="center" style="width:1200px;">
-		<div style="height:50px; line-height:50px;">
-			<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
-		</div>
-
-			 <div style="overflow:hidden;">
-		<div style="margin-bottom:-5000px; padding-bottom:5000px;">
-				<jsp:include page="../common/leftmenu.jsp" flush="true">
-				<jsp:param name="mainmenu" value="safe"></jsp:param>
-				<jsp:param name="submenu" value="czm"></jsp:param>
-			</jsp:include></div>
-
-			<div style="width:990px; padding:0 40px; background-color:#FFF;" class="fr">
-			
-				<div class="fs16" style="border-bottom:1px #ccc solid; padding:20px 0;">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px;">
+			<div style="height:50px; line-height:50px;">
+				<a href="###">财务中心</a>&nbsp;>&nbsp;<a href="###">购买点卡</a>
+			</div>
+			<div style="overflow:hidden;">
+				<div style="margin-bottom:-5000px; padding-bottom:5000px;">
+					<jsp:include page="../common/leftmenu.jsp" flush="true">
+						<jsp:param name="mainmenu" value="caiwu"></jsp:param>
+						<jsp:param name="submenu" value="point_card"></jsp:param>
+					</jsp:include>
+				</div>
+				<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:5000px; margin-bottom:-5000px;" class="fr">
+				 	  <h2 style="background:#f8f8f8; font-weight:normal; margin-top:30px;">
+		                	<div style="padding:10px;"><span style="font-size:16px;">可用余额：</span><span style="color:rgb(57, 161, 234);">${userAccount.currentBalance }</span></div>
+		              </h2>
+				 	  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px;">
 							<tr>
 									<td align="center" bgcolor="#4CA4EE" style="color:#fff;">卡名称</td>
 									<td align="center" bgcolor="#4CA4EE" style="color:#fff;" >需要金额</td>
@@ -79,17 +79,12 @@ table td{padding:5px; font-size:14px; height:25px;}
 								}
 							%>
 					</table>
-					<div style="clear:both;"></div>
+					 
 				</div>
 			</div>
-			
 		</div>
-		<div style="clear:both;"></div>
-
 	</div>
-
-	<div style="clear:both;"></div>
-	<jsp:include page="../common/footer.jsp"></jsp:include>
+<jsp:include page="../common/footer.jsp"></jsp:include> 
 </body>
 <script type="text/javascript">
 

@@ -28,11 +28,11 @@ String submenu = request.getParameter("submenu");
 						</a>
 						<ul>
 							<li><a href="<%=request.getContextPath() %>/site/money/chongzhi" class="cbc" style="<%if("chongzhi".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;充值</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/money/chongzhi/topage" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;充值记录</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/money/tixian" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;提现</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/money/tixian/topage" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;提现记录</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/money/useraccount/log" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;资金记录</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/products/pointcard" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;购买发布点</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/money/chongzhi/recordpage" class="cbc" style="<%if("chongzhijilu".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;充值记录</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/money/tixian" class="cbc" style="<%if("tixian".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block;  width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;提现</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/money/tixian/recordpage" class="cbc" style="<%if("tixian_recordpage".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;提现记录</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/money/useraccount/log" class="cbc" style="<%if("useraccount_log".equals(submenu)) {%>background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;资金记录</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/products/pointcard" class="cbc" style="<%if("point_card".equals(submenu)) {%>background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;购买点卡</span></a></li>
 						</ul>
 					</li>
 					<li class="fs16">

@@ -19,6 +19,16 @@ if(StringUtils.isBlank(titletype)){
 		out.println("<title>绑定淘宝号</title>");
 	}else if("chongzhi".equals(titletype)){
 		out.println("<title>充值</title>");
+	}else if("chongzhirecord".equals(titletype)){
+		out.println("<title>充值记录</title>");
+	}else if("tixian".equals(titletype)){
+		out.println("<title>提现</title>");
+	}else if("tixian_recordpage".equals(titletype)){
+		out.println("<title>提现记录</title>");
+	}else if("useraccount_log".equals(titletype)){
+		out.println("<title>资金记录</title>");
+	}else if("point_card".equals(titletype)){
+		out.println("<title>购买点卡</title>");
 	}
 }
 %>

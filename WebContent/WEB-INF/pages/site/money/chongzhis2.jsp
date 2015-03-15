@@ -26,7 +26,7 @@ table td{padding:5px; font-size:14px;}
 
 		<div class="center" style="width:1200px;">
         	<div style="height:50px; line-height:50px;">
-				<a href="###">财务中心</a>&nbsp;>&nbsp;<a href="###">充值</a>&nbsp;>
+				<a href="###">财务中心</a>&nbsp;>&nbsp;<a href="###">充值</a>
 			</div>
             <div style="overflow:hidden;">
             

@@ -241,7 +241,7 @@ public class TaskController {
 	 * @throws SQLException
 	 * @throws BusinessException
 	 */
-	@RequestMapping(value="/list",method={RequestMethod.GET})
+	@RequestMapping(value="/task_center",method={RequestMethod.GET})
 	   public String doALLPage( HttpServletRequest request,
 				HttpServletResponse response,
 			@RequestParam(value="starttime",defaultValue="") String starttime,
@@ -275,7 +275,7 @@ public class TaskController {
 				modelMap.put("pageno", pageno);
 				modelMap.put("pagesize", pagesize);
 				modelMap.put("paper", paper);
-				String mv = "site/task/task_page";
+				String mv = "site/task/task_center";
 				return mv;	
 	}
 	/**

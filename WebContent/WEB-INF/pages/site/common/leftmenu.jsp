@@ -9,13 +9,13 @@ String submenu = request.getParameter("submenu");
 				<div class="tac" style="color:#fff; font-size:20px; letter-spacing:10px; font-weight:bold; background-color:#025CA8; height:50px; line-height:50px;">我的账户</div>
 				<ul>
 					<li class="fs16">
-						<a class="cbc" style="display:inline-block; width:100%; padding:15px 0;">
+						<a class="cbc" style=" <% if("task_center".equals(mainmenu)) {%> background-color:#d3d3d3; <% }%> display:inline-block; width:100%; padding:15px 0;">
 							<span style="margin-left:15px;">&nbsp;>&nbsp;任务中心</span>
 						</a>
 						<ul>
-							<li><a href="<%=request.getContextPath() %>/site/task/list" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;任务大厅</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/order/create" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;发布新任务</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/order/mylist" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我的订单列表</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/task/task_center" class="cbc" style="<%if("task_center".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;任务大厅</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/order/create" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;发布新任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/order/mylist" class="cbc" style="display:inline-block;  width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我的订单列表</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/task/mypublishlist" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我发布的任务</span></a></li>
 							
 							<li><a href="<%=request.getContextPath() %>/site/task/myreceivelist" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我未完成的任务</span></a></li>
@@ -23,7 +23,7 @@ String submenu = request.getParameter("submenu");
 						</ul>
 					</li>
 					<li class="fs16">
-						<a  class="cbc" style="<%if("caiwu".equals(mainmenu)) {%> background-color:#d3d3d3; <% }%>  display:inline-block; width:100%; padding:15px 0;">
+						<a  class="cbc" style="<%if("caiwu".equals(mainmenu)) {%> background-color:#d3d3d3; <% }%> display:inline-block; width:100%; padding:15px 0;">
 							<span style="margin-left:15px;">&nbsp;>&nbsp;财务中心</span>
 						</a>
 						<ul>

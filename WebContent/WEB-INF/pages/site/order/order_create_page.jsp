@@ -65,14 +65,14 @@ UserBase userBase =  SessionUtil.getSiteUserInSession(request);
 							  <td width="150" align="right">商家淘宝小号：</td>
 							  <td>
                                	  <input type="text" value="${taobaoXiaohao}" style="height:30px; line-height:30px;" id="taobaoXiaohao" name="taobaoXiaohao" class="inputwidth" placeholder="商家淘宝小号">
-								  <button class="btn btn-default" type="button" onclick="">使用我的</button>
+								  <button class="btn btn-default" type="button" onclick="useMyTaobao()">使用我的</button>
 							  </td>
 						  </tr>
 						  <tr>
 							  <td align="right">商家QQ：</td>
 							  <td>
 								  <input type="text" class="inputwidth" style="height:30px; line-height:30px;" value="${userQq}"  id="userQq" name="userQq" placeholder="商家QQ"/>
-								  <button class="btn btn-default" type="button" onclick="">使用我的</button>
+								  <button class="btn btn-default" type="button" onclick="useMyQQ()">使用我的</button>
 							  </td>
 						  </tr>
 						  <tr>
@@ -279,6 +279,24 @@ var errorType = null;
 			}
 		}
 	})
+	function useMyTaobao(){
+		var utaobao ="<%=userBase.getBindAlipay()%>";
+		if($.trim(utaobao).length == 0){
+			alert("您还没有绑定淘宝小号，请到安全中心进行操作");
+			return;
+		}
+		$("#taobaoXiaohao").val(utaobao);
+		
+	}
+	function useMyQQ(){
+		var uQq ="<%=userBase.getBindQq()%>";
+		if($.trim(uQq).length == 0){
+			alert("您还没有绑定QQ，请到安全中心进行操作");
+			return;
+		}
+		$("#userQq").val(uQq);
+		
+	}
 </script>
 
 </html> 

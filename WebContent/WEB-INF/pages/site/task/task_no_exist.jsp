@@ -35,7 +35,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 
 		<div class="center" style="width:1200px;">
 		<div style="height:50px; line-height:50px;">
-			<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
+			<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;
 		</div>
 
 			<div style="overflow:hidden;">

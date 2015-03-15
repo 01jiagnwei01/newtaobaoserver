@@ -17,6 +17,8 @@ if(StringUtils.isBlank(titletype)){
 		out.println("<title>绑定邮箱</title>");
 	}else if("bind_alipay".equals(titletype)){
 		out.println("<title>绑定淘宝号</title>");
+	}else if("chongzhi".equals(titletype)){
+		out.println("<title>充值</title>");
 	}
 }
 %>

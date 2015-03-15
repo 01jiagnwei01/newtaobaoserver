@@ -23,11 +23,11 @@ String submenu = request.getParameter("submenu");
 						</ul>
 					</li>
 					<li class="fs16">
-						<a  class="cbc" style="display:inline-block; width:100%; padding:15px 0;">
+						<a  class="cbc" style="<%if("caiwu".equals(mainmenu)) {%> background-color:#d3d3d3; <% }%>  display:inline-block; width:100%; padding:15px 0;">
 							<span style="margin-left:15px;">&nbsp;>&nbsp;财务中心</span>
 						</a>
 						<ul>
-							<li><a href="<%=request.getContextPath() %>/site/money/chongzhi" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;充值</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/money/chongzhi" class="cbc" style="<%if("chongzhi".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;充值</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/money/chongzhi/topage" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;充值记录</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/money/tixian" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;提现</span></a></li>
 							<li><a href="<%=request.getContextPath() %>/site/money/tixian/topage" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;提现记录</span></a></li>
@@ -36,7 +36,7 @@ String submenu = request.getParameter("submenu");
 						</ul>
 					</li>
 					<li class="fs16">
-						<a  class="cbc" style="display:inline-block; <%if("safe".equals(mainmenu)) {%> background-color:#d3d3d3; <% }%>width:100%; padding:15px 0;">
+						<a  class="cbc" style="display:inline-block; <%if("safe".equals(mainmenu)) {%> background-color:#d3d3d3; <% }%> width:100%; padding:15px 0;">
 							<span style="margin-left:15px;">&nbsp;>&nbsp;安全中心</span>
 						</a>
 						<ul>

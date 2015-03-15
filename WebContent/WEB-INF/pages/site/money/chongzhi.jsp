@@ -44,7 +44,7 @@ table td{padding:5px; font-size:14px;}
             
             <div style="margin-bottom:-5000px; padding-bottom:5000px;">
 			<jsp:include page="../common/leftmenu.jsp" flush="true">
-				<jsp:param name="mainmenu" value="safe"></jsp:param>
+				<jsp:param name="mainmenu" value="caiwu"></jsp:param>
 				<jsp:param name="submenu" value="chongzhi"></jsp:param>
 			</jsp:include>
             </div>

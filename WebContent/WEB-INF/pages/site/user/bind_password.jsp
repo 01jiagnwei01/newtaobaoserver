@@ -10,7 +10,7 @@ String caozuoma =    base.getCaoZuoMa();
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<title>修改手机号</title>
+<title>修改密码</title>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/js.jsp"></jsp:include> 
 <style type="text/css">
@@ -38,70 +38,68 @@ table td{padding:5px; font-size:14px; height:25px;}
 	<jsp:include page="../common/subheader.jsp" flush="true">
 		<jsp:param name="showshouye" value="true"></jsp:param>
 	</jsp:include>  
-	<div style="width:100%; background-color:#ededed; padding-bottom:35px;">
+	<div  class="content">
 		<div class="center" style="width:1200px;">
-		<div style="height:50px; line-height:50px;">
-			<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
-		</div>
-			<div style="overflow:hidden;">
-		<div style="margin-bottom:-5000px; padding-bottom:5000px;">
-				<jsp:include page="../common/leftmenu.jsp" flush="true">
-				<jsp:param name="mainmenu" value="safe"></jsp:param>
-				<jsp:param name="submenu" value="update_bindemail"></jsp:param>
-			</jsp:include>
-			<div style="width:990px; padding:0 40px; background-color:#FFF;" class="fr">
-				<div style="margin:20px 0;"></div>
-				 
-				<form id = "form_">
-				 <table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; clear:both;">
-					<tr>
-							<td align="right">新密码：</td>
-							<td><input size="16" type="password" name="newpassword" id="newpassword" style="width:260px;"></td>
-							<td><span style="font-size:12px; color:#F00;" id="newpassword_error"></span></td>
-							</tr>
-					<tr>
-							<td align="right">&nbsp;</td>
-							<td style="font-size:12px; color:#666;">建议使用英文字母、符号和数字的组合，长度不要超过16位。</td>
-							<td>&nbsp;</td>
-					</tr>
-					<tr>
-							<td align="right">确认密码：</td>
-							<td><input size="16" type="password" name="repassword" id="repassword" style="width:260px;"></td>
-							<td><span style="font-size:12px; color:#F00;"  id="repassword_error"></span></td>
-					</tr>
-					<tr>
-							<td align="right">&nbsp;</td>
-							<td style="font-size:12px; color:#666;">请再输一次新密码</td>
-							<td>&nbsp;</td>
-					</tr>
-					<tr>
-							<td align="right">操作码：</td>
-							<td><input type="password" name="caozuoma" id="caozuoma" size="16" style="width:260px;"></td>
-							<td><span style="font-size:12px; color:#F00;" id="caozuoma_error"></span></td>
-					</tr>
-					 
-					<tr>
-							<td>&nbsp;</td>
-							<td>
-									<a  id="sutmitBtn" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac" >提交</a>
-							</td>
-							<td>&nbsp;</td>
-					</tr>
-					<tr>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-					</tr>
-				</table>
-				</form>
+			<div style="height:50px; line-height:50px;">
+				<a href="###">安全中心</a>&nbsp;>&nbsp;<a href="###">修改密码</a>
 			</div>
+			<div style="overflow:hidden;">
+				<div style="margin-bottom:-5000px; padding-bottom:5000px;">
+					<jsp:include page="../common/leftmenu.jsp" flush="true">
+						<jsp:param name="mainmenu" value="safe"></jsp:param>
+						<jsp:param name="submenu" value="bind_password"></jsp:param>
+					</jsp:include>
+					<div style="width:910px; padding:0 40px; background-color:#FFF; margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
+           				<div style="margin:20px 0;"></div>
+						<form id = "form_">
+						 <table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto; clear:both;">
+							<tr>
+									<td align="right">新密码：</td>
+									<td><input size="16" type="password" name="newpassword" id="newpassword" style="padding:10px 5px; width:260px;"></td>
+									<td><span style="font-size:12px; color:#F00;" id="newpassword_error"></span></td>
+									</tr>
+							<tr>
+									<td align="right">&nbsp;</td>
+									<td style="font-size:12px; color:#666;">建议使用英文字母、符号和数字的组合，长度不要超过16位。</td>
+									<td>&nbsp;</td>
+							</tr>
+							<tr>
+									<td align="right">确认密码：</td>
+									<td><input size="16" type="password" name="repassword" id="repassword" style="padding:10px 5px; width:260px;"></td>
+									<td><span style="font-size:12px; color:#F00;"  id="repassword_error"></span></td>
+							</tr>
+							<tr>
+									<td align="right">&nbsp;</td>
+									<td style="font-size:12px; color:#666;">请再输一次新密码</td>
+									<td>&nbsp;</td>
+							</tr>
+							<tr>
+									<td align="right">操作码：</td>
+									<td><input type="password" name="caozuoma" id="caozuoma" size="16" style="padding:10px 5px; width:260px;"></td>
+									<td><span style="font-size:12px; color:#F00;" id="caozuoma_error"></span></td>
+							</tr>
+							 
+							<tr>
+									<td>&nbsp;</td>
+									<td>
+											<a  id="sutmitBtn" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac" >提交</a>
+									</td>
+									<td>&nbsp;</td>
+							</tr>
+							<tr>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+									<td>&nbsp;</td>
+							</tr>
+						</table>
+						</form>
+					</div>
 
+				</div>
+			</div>
+			<div style="clear:both;"></div>
 		</div>
-		<div style="clear:both;"></div>
-
 	</div>
-
-	<div style="clear:both;"></div>
  	<jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript">

@@ -10,6 +10,7 @@ String caozuoma =    base.getCaoZuoMa();
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
+<title>绑定操作码</title>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/js.jsp"></jsp:include> 
 <style type="text/css">
@@ -34,214 +35,210 @@ table td{padding:5px; font-size:14px; height:25px;}
 		<jsp:param name="showshouye" value="true"></jsp:param>
 	</jsp:include>  
 	
-	<div style="width:100%; background-color:#ededed; padding-bottom:35px;">
-
+	<div   class="content">
 		<div class="center" style="width:1200px;">
-		<div style="height:50px; line-height:50px;">
-			<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
-		</div>
+			<div style="height:50px; line-height:50px;">
+				<a href="###">安全中心</a>&nbsp;>&nbsp;<a href="###">绑定操作码</a>
+			</div>
 			<div style="overflow:hidden;">
-		<div style="margin-bottom:-5000px; padding-bottom:5000px;">
-				<jsp:include page="../common/leftmenu.jsp" flush="true">
-				<jsp:param name="mainmenu" value="safe"></jsp:param>
-				<jsp:param name="submenu" value="czm"></jsp:param>
-			</jsp:include></div>
-			
-
-			<div style="width:990px; padding:0 40px; background-color:#FFF;" class="fr">
-				<div style="margin:20px 0;"></div>
-				
-				<table    cellspacing="0" cellpadding="0" 
-				style="border-bottom:dotted 1px #ccc; margin-bottom:20px;width: 80%;border: 0;">
-					<tr>
-						<td>
-							<div style="float:left;">通过操作码修改</div>
-							<div style="float:right;" id="open1">
-								<a href="#" style="color:#06f;" onClick="showTable('xiugai1')">展开修改</a>
-							</div>
-							<div style="float:right; display:none;" id="close1">
-								<a href="#" style="color:#06f;" onClick="hideTable('xiugai1')">收起修改</a>
-							</div>
-							<div style="clear:both;"></div>
-							
-							<div id="xiugai1" style="background-color:#fafafa; padding:15px 0; margin-top:15px; display:none;">
-								<%
-								if(StringUtils.isBlank(caozuoma)){
-									%>
-									<table  cellpadding="0" cellspacing="0" style="margin:0 auto;border: 0">
-									<tr>
-										<td align="center" colspan="3"><span style="color:#F7971A;">
-										您以前没有设置过操作码呢
-										</span></td>
-									</tr>
-									</table>	
-									<%
-								}else{
-									%>
-								<table   cellpadding="0" cellspacing="0" style="margin:0 auto;border:0">
-									<tr>
-										<td align="right">旧操作码：</td>
-										<td><input type="text" maxlength="16"  size="16" name="old_caozuoMa" id="old_caozuoMa" style="width:260px;"></td>
-										<td><span style="font-size:12px; color:#F00;" id="old_caozuoMa_error"></span></td>
-									</tr>
-									<tr>
-										<td align="right">新操作码：</td>
-										<td><input maxlength="16"  size="16" type="text" name="f1_caozuoma" id="f1_caozuoma" style="width:260px;"></td>
-										<td><span style="font-size:12px; color:#F00;" id="f1_caozuoma_error"></span></td>
-									</tr>
-									<tr>
-										<td align="right">确认操作码：</td>
-										<td><input maxlength="16"  size="16" type="text" name="f1_recaozuoma" id="f1_recaozuoma" style="width:260px;"></td>
-										<td><span  style="font-size:12px; color:#F00;" id="f1_recaozuoma_error"></span></td>
-									</tr>
-									<tr>
-										<td>&nbsp;</td>
-										<td><a id="f1_submitbtn" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac" >立即修改</a></td>
-										<td>&nbsp;</td>
-									</tr>
-								</table>
-								<%
-										} 
-								%>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td style="height:10px;"></td>
-					</tr>
-				</table>
-					
-				<table cellspacing="0" cellpadding="0" 
-					style="border-bottom:dotted 1px #ccc; margin-bottom:20px;border: 0;width:80% ">
-					<tr>
-						<td>
-							<div style="float:left;">通过邮箱修改</div>
-							<div style="float:right;" id="open2">
-								<a href="#" style="color:#06f;" onClick="showTable('xiugai2')">展开修改</a>
-							</div>
-							<div style="float:right; display:none;" id="close2">
-								<a href="#" style="color:#06f;" onClick="hideTable('xiugai2')">收起修改</a>
-							</div>
-							<div style="clear:both;"></div>
-							
-							<div id="xiugai2" style="background-color:#fafafa; padding:15px 0; margin-top:15px; display:none;">
-								<%
-								if(StringUtils.isBlank(email)){
-									%>
-									<table  cellpadding="0" cellspacing="0" style="margin:0 auto;border: 0">
-									<tr>
-										<td align="center" colspan="3"><span style="color:#F7971A;">
-										您还没有绑定邮箱呢
-										</span></td>
-									</tr>
-									</table>	
-									<%
-								}else{
-									%>
+				<div style="margin-bottom:-5000px; padding-bottom:5000px;">
+					<jsp:include page="../common/leftmenu.jsp" flush="true">
+						<jsp:param name="mainmenu" value="safe"></jsp:param>
+						<jsp:param name="submenu" value="bind_caozuoma"></jsp:param>
+					</jsp:include>
+				</div>
+				<div style="width:910px; padding:0 40px; background-color:#FFF; margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
+	           		<div style="margin:20px 0;"></div>
+					<table    cellspacing="0" cellpadding="0" 
+					style="border-bottom:dotted 1px #ccc; margin-bottom:20px;width: 80%;border: 0;">
+						<tr>
+							<td>
+								<div style="float:left;">通过操作码修改</div>
+								<div style="float:right;" id="open1">
+									<a href="#" style="color:#06f;" onClick="showTable('xiugai1')">展开修改</a>
+								</div>
+								<div style="float:right; display:none;" id="close1">
+									<a href="#" style="color:#06f;" onClick="hideTable('xiugai1')">收起修改</a>
+								</div>
+								<div style="clear:both;"></div>
 								
-								<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;">
-									<tr>
-										<td align="right">绑定的邮箱：</td>
-										<td><span style="color:#F7971A;"><%=email %></span></td>
-										<td>&nbsp;</td>
-									</tr>
-									<tr>
-										<td align="right">验证码：</td>
-										<td>
-											<input type="text" name="textfield4" id="email_code">
-											<a style="display:inline-block; padding:2px 10px; background:#eee;" id="getvefydata_email">获取确认码</a>
-										</td>
-										<td><span style="font-size:12px; color:#F00;" id="email_code_error"></span></td>
-									</tr>
-									
-									<tr>
-										<td align="right">新操作码：</td>
-										<td><input type="password" name="caozuoma_mail" id="caozuoma_mail" style="width:260px;"></td>
-										<td><span style="font-size:12px; color:#F00;" id="caozuoma_mail_error"> </span></td>
-									</tr>
-									<tr>
-										<td align="right">确认操作码：</td>
-										<td><input type="password" name="recaozuoma_mail" id="recaozuoma_mail" style="width:260px;"></td>
-										<td><span style="font-size:12px; color:#F00;" id="recaozuoma_mail_error"></span></td>
-									</tr>
-									<tr>
-										<td>&nbsp;</td>
-										<td>
-											<a style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac"
-												id="email_submit"
-											>立即修改</a>
-										</td>
-										<td>&nbsp;</td>
-									</tr>
-								</table>	<%
-								}
-								%>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td style="height:10px;"></td>
-					</tr>
-				</table>
-				<!--  
-				<table width="80%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:20px;">
-					<tr>
-						<td>
-							<div style="float:left;">通过手机号修改</div>
-							<div style="float:right;" id="open3">
-								<a href="#" style="color:#06f;" onClick="showTable('xiugai3')">展开修改</a>
-							</div>
-							<div style="float:right; display:none;" id="close3">
-								<a href="#" style="color:#06f;" onClick="hideTable('xiugai3')">收起修改</a>
-							</div>
-							<div style="clear:both;"></div>
-							<div id="xiugai3" style="background-color:#fafafa; padding:15px 0; margin-top:15px; display:none;">
-								<%
-								if(StringUtils.isBlank(telPhone)){
-									%>
-									<table  cellpadding="0" cellspacing="0" style="margin:0 auto;border: 0">
+								<div id="xiugai1" style="background-color:#fafafa; padding:15px 0; margin-top:15px; display:none;">
+									<%
+									if(StringUtils.isBlank(caozuoma)){
+										%>
+										<table  cellpadding="0" cellspacing="0" style="margin:0 auto;border: 0">
 										<tr>
 											<td align="center" colspan="3"><span style="color:#F7971A;">
-											您还没有绑定手机呢
+											您以前没有设置过操作码呢
 											</span></td>
 										</tr>
-									</table>	
+										</table>	
+										<%
+									}else{
+										%>
+									<table   cellpadding="0" cellspacing="0" style="margin:0 auto;border:0">
+										<tr>
+											<td align="right">旧操作码：</td>
+											<td><input type="password" maxlength="16"  size="16" name="old_caozuoMa" id="old_caozuoMa" style="padding:10px 5px; width:260px;"></td>
+											<td><span style="font-size:12px; color:#F00;" id="old_caozuoMa_error"></span></td>
+										</tr>
+										<tr>
+											<td align="right">新操作码：</td>
+											<td><input maxlength="16"  size="16" type="password" name="f1_caozuoma" id="f1_caozuoma" style="padding:10px 5px; width:260px;"></td>
+											<td><span style="font-size:12px; color:#F00;" id="f1_caozuoma_error"></span></td>
+										</tr>
+										<tr>
+											<td align="right">确认操作码：</td>
+											<td><input maxlength="16"  size="16" type="password" name="f1_recaozuoma" id="f1_recaozuoma" style="padding:10px 5px; width:260px;"></td>
+											<td><span  style="font-size:12px; color:#F00;" id="f1_recaozuoma_error"></span></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td><a id="f1_submitbtn" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac" >立即修改</a></td>
+											<td>&nbsp;</td>
+										</tr>
+									</table>
 									<%
-								}else{
+											} 
 									%>
-								<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;">
-									<tr>
-										<td align="right">绑定的手机：</td>
-										<td><span style="color:#F7971A;">123456</span></td>
-										<td>&nbsp;</td>
-									</tr>
-									<tr>
-										<td align="right">确认码：</td>
-										<td>
-											<input type="text" name="textfield4" id="textfield6">
-											<a style="display:inline-block; padding:2px 10px; background:#eee;">获取确认码</a>
-										</td>
-										<td><span style="font-size:12px; color:#F00;">错误提示</span></td>
-									</tr>
-									<tr>
-										<td>&nbsp;</td>
-										<td><a href="#" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac">立即修改</a></td>
-										<td>&nbsp;</td>
-									</tr>
-								</table>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="height:10px;"></td>
+						</tr>
+					</table>
+						
+					<table cellspacing="0" cellpadding="0" 
+						style="border-bottom:dotted 1px #ccc; margin-bottom:20px;border: 0;width:80% ">
+						<tr>
+							<td>
+								<div style="float:left;">通过邮箱修改</div>
+								<div style="float:right;" id="open2">
+									<a href="#" style="color:#06f;" onClick="showTable('xiugai2')">展开修改</a>
+								</div>
+								<div style="float:right; display:none;" id="close2">
+									<a href="#" style="color:#06f;" onClick="hideTable('xiugai2')">收起修改</a>
+								</div>
+								<div style="clear:both;"></div>
+								
+								<div id="xiugai2" style="background-color:#fafafa; padding:15px 0; margin-top:15px; display:none;">
 									<%
-								} 
+									if(StringUtils.isBlank(email)){
+										%>
+										<table  cellpadding="0" cellspacing="0" style="margin:0 auto;border: 0">
+										<tr>
+											<td align="center" colspan="3"><span style="color:#F7971A;">
+											您还没有绑定邮箱呢
+											</span></td>
+										</tr>
+										</table>	
+										<%
+									}else{
+										%>
+									<form id="email_form">
+									<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;">
+										<tr>
+											<td align="right">绑定的邮箱：</td>
+											<td><span style="color:#F7971A;"><%=email %></span></td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td align="right">验证码：</td>
+											<td>
+												<input type="text"  id="email_code"  style="padding:10px 5px; width:260px;">
+												<a style="display:inline-block; padding:2px 10px; background:#eee;" id="getvefydata_email">获取确认码</a>
+											</td>
+											<td><span style="font-size:12px; color:#F00;" id="email_code_error"></span></td>
+										</tr>
+										
+										<tr>
+											<td align="right">新操作码：</td>
+											<td><input type="password" name="caozuoma_mail" id="caozuoma_mail" style="padding:10px 5px; width:260px;"></td>
+											<td><span style="font-size:12px; color:#F00;" id="caozuoma_mail_error"> </span></td>
+										</tr>
+										<tr>
+											<td align="right">确认操作码：</td>
+											<td><input type="password" name="recaozuoma_mail" id="recaozuoma_mail" style="padding:10px 5px; width:260px;"></td>
+											<td><span style="font-size:12px; color:#F00;" id="recaozuoma_mail_error"></span></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td>
+												<a style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac"
+													id="email_submit"
+												>立即修改</a>
+											</td>
+											<td>&nbsp;</td>
+										</tr>
+									</table>	</form><%
+									}
 									%>
-							</div>
-						</td>
-					</tr>
-				</table> -->
-			</div>
-
-		</div>
-		<div style="clear:both;"></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="height:10px;"></td>
+						</tr>
+					</table>
+					<!--  
+					<table width="80%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:20px;">
+						<tr>
+							<td>
+								<div style="float:left;">通过手机号修改</div>
+								<div style="float:right;" id="open3">
+									<a href="#" style="color:#06f;" onClick="showTable('xiugai3')">展开修改</a>
+								</div>
+								<div style="float:right; display:none;" id="close3">
+									<a href="#" style="color:#06f;" onClick="hideTable('xiugai3')">收起修改</a>
+								</div>
+								<div style="clear:both;"></div>
+								<div id="xiugai3" style="background-color:#fafafa; padding:15px 0; margin-top:15px; display:none;">
+									<%
+									if(StringUtils.isBlank(telPhone)){
+										%>
+										<table  cellpadding="0" cellspacing="0" style="margin:0 auto;border: 0">
+											<tr>
+												<td align="center" colspan="3"><span style="color:#F7971A;">
+												您还没有绑定手机呢
+												</span></td>
+											</tr>
+										</table>	
+										<%
+									}else{
+										%>
+									<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;">
+										<tr>
+											<td align="right">绑定的手机：</td>
+											<td><span style="color:#F7971A;">123456</span></td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td align="right">确认码：</td>
+											<td>
+												<input type="text" name="textfield4" id="textfield6">
+												<a style="display:inline-block; padding:2px 10px; background:#eee;">获取确认码</a>
+											</td>
+											<td><span style="font-size:12px; color:#F00;">错误提示</span></td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td><a href="#" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac">立即修改</a></td>
+											<td>&nbsp;</td>
+										</tr>
+									</table>
+										<%
+									} 
+										%>
+								</div>
+							</td>
+						</tr>
+					</table> -->
+				</div>
+				
+		  	</div>
+	 	</div>
 	</div>
-	<div style="clear:both;"></div>
 	<jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript">
@@ -403,6 +400,7 @@ function emailSubmitFn(){
 		  success:function(json){
 			  addCookie("caozuoma_show","xiugai2",10*60*60);
 			  var result = json["result"];
+			  $("#email_form")[0].reset();
 			  alert("修改成功");
 			  window.location.reload(); 
 		  },

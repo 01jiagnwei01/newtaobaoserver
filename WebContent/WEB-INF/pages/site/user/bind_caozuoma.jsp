@@ -9,22 +9,15 @@ String caozuoma =    base.getCaoZuoMa();
 %>
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
-<title>绑定操作码</title>
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="bind_password"></jsp:param>
+</jsp:include>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/js.jsp"></jsp:include> 
 <style type="text/css">
 .cbc:hover{background-color:#D3D3D3;}
 table td{padding:5px; font-size:14px; height:25px;}
-#apDiv1 {
-	position: absolute;
-	left: 986px;
-	top: 261px;
-	width: 44px;
-	height: 17px;
-	z-index: 1;
-	visibility: visible;
-}
 </style>
 <body>
 	<jsp:include page="../common/head.jsp" flush="true">

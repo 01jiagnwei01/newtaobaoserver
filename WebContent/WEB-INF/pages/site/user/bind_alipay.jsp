@@ -9,26 +9,17 @@ String caozuoma =    base.getCaoZuoMa();
 <!DOCTYPE html>
 <html>
 <meta charset="utf-8">
-<title>绑定淘宝号</title>
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="bind_alipay"></jsp:param>
+</jsp:include>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/js.jsp"></jsp:include> 
 <style type="text/css">
 .cbc:hover{background-color:#D3D3D3;}
 table td{padding:5px; font-size:14px; height:25px;}
-#apDiv1 {
-	position: absolute;
-	left: 986px;
-	top: 261px;
-	width: 44px;
-	height: 17px;
-	z-index: 1;
-	visibility: visible;
-}
 </style>
-
-
-
-
+ 
 <body>
 	<jsp:include page="../common/head.jsp" flush="true">
 		<jsp:param name="showlogin" value="true"></jsp:param>
@@ -47,7 +38,7 @@ table td{padding:5px; font-size:14px; height:25px;}
 				<div style="margin-bottom:-5000px; padding-bottom:5000px;">
 					<jsp:include page="../common/leftmenu.jsp" flush="true">
 						<jsp:param name="mainmenu" value="safe"></jsp:param>
-						<jsp:param name="submenu" value="update_bindemail"></jsp:param>
+						<jsp:param name="submenu" value="bind_alipay"></jsp:param>
 					</jsp:include>
 	
 					<div style="width:910px; padding:0 40px; background-color:#FFF; margin-bottom:-5000px; padding-bottom:5000px;" class="fr">

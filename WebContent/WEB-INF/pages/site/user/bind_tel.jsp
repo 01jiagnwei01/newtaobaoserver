@@ -9,27 +9,17 @@ String caozuoma =    base.getCaoZuoMa();
 %>
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
-<title>绑定手机号</title>
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="bind_tel"></jsp:param>
+</jsp:include> 
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/js.jsp"></jsp:include> 
 <style type="text/css">
 .cbc:hover{background-color:#D3D3D3;}
 table td{padding:5px; font-size:14px; height:25px;}
-#apDiv1 {
-	position: absolute;
-	left: 986px;
-	top: 261px;
-	width: 44px;
-	height: 17px;
-	z-index: 1;
-	visibility: visible;
-}
 </style>
-
-
-
-
+ 
 <body>
 	<jsp:include page="../common/head.jsp" flush="true">
 		<jsp:param name="showlogin" value="true"></jsp:param>
@@ -39,70 +29,66 @@ table td{padding:5px; font-size:14px; height:25px;}
 		<jsp:param name="showshouye" value="true"></jsp:param>
 	</jsp:include>  
 	
-	<div style="width:100%; background-color:#ededed; padding-bottom:35px;">
-
+	<div   class="content"> 
 		<div class="center" style="width:1200px;">
-		<div style="height:50px; line-height:50px;">
-			<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
-		</div>
-			<div style="overflow:hidden;">
-		<div style="margin-bottom:-5000px; padding-bottom:5000px;">
-				<jsp:include page="../common/leftmenu.jsp" flush="true">
-				<jsp:param name="mainmenu" value="safe"></jsp:param>
-				<jsp:param name="submenu" value="update_bindemail"></jsp:param>
-			</jsp:include>
-
-			<div style="width:990px; padding:0 40px; background-color:#FFF;" class="fr">
-				<div style="margin:20px 0;"></div>
-				<form id = "form_">
-				<table border="0" cellpadding="0" cellspacing="0" style="margin:10px auto 30px; padding-bottom:30px;   clear:both;">
-					<% if(StringUtils.isNotBlank(telPhone)) {%>
-					<tr>
-							<td align="right">已绑定：</td>
-							<td><span   style="padding:10px 5px;width:260px;"  ><%=telPhone%></span></td>
-							<td style="width: 100px"> </td>
-					</tr>
-					<%} %>
-					<tr>
-						<td align="right">手机号码：</td>
-						<td><input type="text" name="telNo"  size="40" id="telNo" style="padding:10px 5px; width:260px;" placeholder="请填写常用手机号码"></td>
-						<td><span style="font-size:12px; color:#F00;width: 80px" id="telNo_error"> </span></td>
-					</tr>
-					<tr>
-						<td align="right">&nbsp;</td>
-						<td>
-							<input type="text" name="code" id="code" style="padding:10px 5px; width:110px;" placeholder="请输入手机验证码">
-							<a   id="getvefydata_code" style="display:inline-block; border-radius:5px; padding:8px 0; background-color:#eee; width:85px; line-height:25px; height:25px; margin-right:20px;" class="tac">发送验证码</a>
-						</td>
-						<td><span style="font-size:12px; color:#F00;width: 80px" id="code_error"> </span></td>
-					</tr>
-					<tr>
-							<td align="right">操作码：</td>
-							<td><input type="password" name="caozuoma" id="caozuoma" style="padding:10px 5px;width:260px;"></td>
-							<td><span style="font-size:12px; color:#F00;" id="caozuoma_error"> </span></td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td>
-							<a  id="submit_btn" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac"  >提交</a>
-						</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-					</tr>
-				</table>
-				</form>
+			<div style="height:50px; line-height:50px;">
+				<a href="###">安全中心</a>&nbsp;>&nbsp;<a href="###">绑定手机号</a>
 			</div>
+			<div style="overflow:hidden;">
+				<div style="margin-bottom:-5000px; padding-bottom:5000px;">
+					<jsp:include page="../common/leftmenu.jsp" flush="true">
+						<jsp:param name="mainmenu" value="safe"></jsp:param>
+						<jsp:param name="submenu" value="bind_tel"></jsp:param>
+					</jsp:include>
 
+					<div style="width:910px; padding:0 40px; background-color:#FFF; margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
+           				<div style="margin:20px 0;"></div>
+						<form id = "form_">
+							<table border="0" cellpadding="0" cellspacing="0" style="margin:10px auto 30px; padding-bottom:30px;   clear:both;">
+								<% if(StringUtils.isNotBlank(telPhone)) {%>
+								<tr>
+										<td align="right">已绑定：</td>
+										<td><span   style="padding:10px 5px;width:260px;"  ><%=telPhone%></span></td>
+										<td style="width: 100px"> </td>
+								</tr>
+								<%} %>
+								<tr>
+									<td align="right">手机号码：</td>
+									<td><input type="text" name="telNo"  size="40" id="telNo" style="padding:10px 5px; width:260px;" placeholder="请填写常用手机号码"></td>
+									<td><span style="font-size:12px; color:#F00;width: 80px" id="telNo_error"> </span></td>
+								</tr>
+								<tr>
+									<td align="right">&nbsp;</td>
+									<td>
+										<input type="text" name="code" id="code" style="padding:10px 5px; width:110px;" placeholder="请输入手机验证码">
+										<a   id="getvefydata_code" style="display:inline-block; border-radius:5px; padding:8px 0; background-color:#eee; width:85px; line-height:25px; height:25px; margin-right:20px;" class="tac">发送验证码</a>
+									</td>
+									<td><span style="font-size:12px; color:#F00;width: 80px" id="code_error"> </span></td>
+								</tr>
+								<tr>
+										<td align="right">操作码：</td>
+										<td><input type="password" name="caozuoma" id="caozuoma" style="padding:10px 5px;width:260px;"></td>
+										<td><span style="font-size:12px; color:#F00;" id="caozuoma_error"> </span></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td>
+										<a  id="submit_btn" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac"  >提交</a>
+									</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+								</tr>
+							</table>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div style="clear:both;"></div>
-
-	</div>
-
-	<div style="clear:both;"></div>
+ 	</div>
  	<jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript">

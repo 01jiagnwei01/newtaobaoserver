@@ -20,10 +20,6 @@ String caozuoma =    base.getCaoZuoMa();
 table td{padding:5px; font-size:14px; height:25px;}
  
 </style>
-
-
-
-
 <body>
 	<jsp:include page="../common/head.jsp" flush="true">
 		<jsp:param name="showlogin" value="true"></jsp:param>

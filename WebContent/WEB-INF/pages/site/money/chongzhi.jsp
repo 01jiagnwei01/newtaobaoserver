@@ -9,7 +9,10 @@ String caozuoma =    base.getCaoZuoMa();
 %>
  <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="chongzhi"></jsp:param>
+</jsp:include>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/js.jsp"></jsp:include> 
 <style type="text/css">
@@ -34,7 +37,7 @@ table td{padding:5px; font-size:14px;}
 
 		<div class="center" style="width:1200px;">
         	<div style="height:50px; line-height:50px;">
-				<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
+				<a href="###">财务中心</a>&nbsp;>&nbsp;<a href="###">充值</a>&nbsp;>
 			</div>
             
             <div style="overflow:hidden;">
@@ -42,13 +45,13 @@ table td{padding:5px; font-size:14px;}
             <div style="margin-bottom:-5000px; padding-bottom:5000px;">
 			<jsp:include page="../common/leftmenu.jsp" flush="true">
 				<jsp:param name="mainmenu" value="safe"></jsp:param>
-				<jsp:param name="submenu" value="czm"></jsp:param>
+				<jsp:param name="submenu" value="chongzhi"></jsp:param>
 			</jsp:include>
             </div>
 
 			<div style="width:910px; padding:0 40px; background-color:#FFF; margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
             	<h2 style="background:#f8f8f8; font-weight:normal; margin-top:30px;">
-                	<div style="padding:10px;"><span style="font-size:16px;">可用余额：</span><span style="color:rgb(57, 161, 234);">¥0.13</span></div>
+                	<div style="padding:10px;"><span style="font-size:16px;">可用余额：</span><span style="color:rgb(57, 161, 234);">${userAccount.currentBalance }</span></div>
                 </h2>
 				<div style="margin:20px 0;">工作时间正确填写交易号/商务订单号，资金一小时内到账</div>
 				<ul style="border-bottom:1px #ccc solid; height:100px;">
@@ -114,7 +117,7 @@ table td{padding:5px; font-size:14px;}
 							<p><strong>1、什么是“非即时到账充值”？</strong></p>
 							<p style="color:#666; text-indent:2em;">通过支付宝收款服务进行充值，资金1小时内可充入账户，到账后会短信提醒。交易号或商户订单号（二选一任意填写）是您充值的唯一凭据，请务必正确填写。</p>
 							<p><strong>2、哪些人享受非即时到账充值免费？</strong></p>
-							<p style="color:#666; text-indent:2em;">为了感谢和鼓励广大在拍拍贷理财的用户群体，我们针对借出者施行非即时到账充值免费策略。</p>
+							<p style="color:#666; text-indent:2em;">为了感谢和鼓励广大在谷谷道场合作的朋友，我们对大家施行非即时到账充值免费策略。</p>
 						</td>
 					</tr>
 					<tr>

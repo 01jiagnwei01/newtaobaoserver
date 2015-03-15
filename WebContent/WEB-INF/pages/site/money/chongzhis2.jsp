@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="chongzhi"></jsp:param>
+</jsp:include>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/js.jsp"></jsp:include> 
 <style type="text/css">
@@ -23,24 +26,22 @@ table td{padding:5px; font-size:14px;}
 
 		<div class="center" style="width:1200px;">
         	<div style="height:50px; line-height:50px;">
-				<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
+				<a href="###">财务中心</a>&nbsp;>&nbsp;<a href="###">充值</a>&nbsp;>
 			</div>
-            
             <div style="overflow:hidden;">
             
             <div style="margin-bottom:-5000px; padding-bottom:5000px;">
-
-			 <jsp:include page="../common/leftmenu.jsp" flush="true">
-				<jsp:param name="mainmenu" value="safe"></jsp:param>
-				<jsp:param name="submenu" value="czm"></jsp:param>
-			</jsp:include>
+				 <jsp:include page="../common/leftmenu.jsp" flush="true">
+					<jsp:param name="mainmenu" value="safe"></jsp:param>
+					<jsp:param name="submenu" value="chongzhi"></jsp:param>
+				</jsp:include>
             </div>
             
 			  
 
 			<div style="width:910px; padding:0 40px; background-color:#FFF; margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
             	<h2 style="background:#f8f8f8; font-weight:normal; margin-top:30px;">
-                	<div style="padding:10px;"><span style="font-size:16px;">可用余额：</span><span style="color:rgb(57, 161, 234);">¥0.13</span></div>
+                	<div style="padding:10px;"><span style="font-size:16px;">可用余额：</span><span style="color:rgb(57, 161, 234);">${userAccount.currentBalance }</span></div>
                 </h2>
 				<div style="margin:20px 0;">工作时间正确填写交易号/商务订单号，资金一小时内到账</div>
 				<ul style="border-bottom:1px #ccc solid; height:100px;">
@@ -62,7 +63,7 @@ table td{padding:5px; font-size:14px;}
 				<table   cellspacing="0" cellpadding="0" style="width: 80%;border:0">
 					<tr>
 						<td align="right">交易号或商户订单号：</td>
-						<td><input type="text" name="orderno" id="orderno" style="width: 260px"></td>
+						<td><input type="text" name="orderno" id="orderno" style="padding:10px 5px; width: 260px"></td>
 						<td ><span style="font-size:12px; color:#F00;" id="orderno_error"></span></td>
 					</tr>
 					<!-- 
@@ -72,7 +73,7 @@ table td{padding:5px; font-size:14px;}
 					</tr> -->
 					<tr>
 							<td align="right">填写充值金额：</td>
-							<td><input type="number" name="money" id="money" style="width: 260px">元</td>
+							<td><input type="number" name="money" id="money" style="padding:10px 5px; width: 260px">元</td>
 							<td align="left"><span style="font-size:12px; color:#F00;" id="money_error"></span></td>
 					</tr>
 					<tr>

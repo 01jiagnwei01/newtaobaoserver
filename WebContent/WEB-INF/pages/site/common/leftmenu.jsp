@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-			<!-- 
-			<div style="height:50px; line-height:50px;">
-				<a href="<%=request.getContextPath() %>">首页</a>&nbsp;>&nbsp;<a href="#">我的账户</a>&nbsp;>&nbsp;<a href="#">安全中心</a>
-			</div>
-			 -->
+<%@ page import="org.apache.commons.lang3.*,com.gxkj.taobaoservice.enums.*,com.gxkj.taobaoservice.entitys.*,com.gxkj.common.util.SessionUtil,java.util.*"%>
+
+<%
+String mainmenu = request.getParameter("mainmenu"); 
+String submenu = request.getParameter("submenu");
+%>
 			<div style="width:190px; margin-right:20px; background-color:#e1e1e1;" class="fl" >
 				<div class="tac" style="color:#fff; font-size:20px; letter-spacing:10px; font-weight:bold; background-color:#025CA8; height:50px; line-height:50px;">我的账户</div>
 				<ul>
@@ -35,16 +36,16 @@
 						</ul>
 					</li>
 					<li class="fs16">
-						<a  class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:15px 0;">
+						<a  class="cbc" style="display:inline-block; <%if("safe".equals(mainmenu)) {%> background-color:#d3d3d3; <% }%>width:100%; padding:15px 0;">
 							<span style="margin-left:15px;">&nbsp;>&nbsp;安全中心</span>
 						</a>
 						<ul>
-							<li><a href="<%=request.getContextPath() %>/site/bind/password" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;修改密码</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/bind/caozuoma" class="cbc" style="display:inline-block; background-color:#d3d3d3; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;设置操作码</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定邮箱</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/bind/qq" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定QQ</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/bind/alipay" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定淘宝小号</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/bind/tel" class="cbc" style="display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定手机号</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/bind/password" class="cbc" style="display:inline-block;  <%if("bind_password".equals(submenu)) {%> background-color:#d3d3d3; <% }%> width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;修改密码</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/bind/caozuoma" class="cbc" style="display:inline-block; <%if("bind_caozuoma".equals(submenu)) {%> background-color:#d3d3d3; <% }%> width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;设置操作码</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/bind/email" class="cbc" style="display:inline-block; <%if("bind_email".equals(submenu)) {%> background-color:#d3d3d3; <% }%> width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定邮箱</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/bind/qq" class="cbc" style="display:inline-block; <%if("bind_qq".equals(submenu)) {%> background-color:#d3d3d3; <% }%>  width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定QQ</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/bind/alipay" class="cbc" style="display:inline-block; <%if("bind_alipay".equals(submenu)) {%> background-color:#d3d3d3; <% }%>  width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定淘宝小号</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/bind/tel" class="cbc" style="display:inline-block;  <%if("bind_tel".equals(submenu)) {%> background-color:#d3d3d3; <% }%> width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;绑定手机号</span></a></li>
 						</ul>
 					</li>
 				</ul>

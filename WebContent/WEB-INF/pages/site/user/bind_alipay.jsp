@@ -8,7 +8,6 @@ String caozuoma =    base.getCaoZuoMa();
 %>
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
 <jsp:include page="../common/mina.jsp"></jsp:include>
 <jsp:include page="../common/title.jsp" flush="true">
 		<jsp:param name="titletype" value="bind_alipay"></jsp:param>

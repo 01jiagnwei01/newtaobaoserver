@@ -5,9 +5,12 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head><%--  --%>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" content="ie=edge"/>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>订单详情页</title>
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<c:choose>
+	<c:when test="${'order_sure' eq  tag }"><title>订单确认</title></c:when>
+	<c:when test="${'order_detail' eq  tag }"><title>订单详情页</title></c:when>
+</c:choose>
+
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include> 
 <style type="text/css">
@@ -31,9 +34,12 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 	<div style="width:100%; background-color:#ededed; padding-bottom:135px;">
 
 		<div class="center" style="width:1200px;">
-
+			
 			<div style="height:50px; line-height:50px;">
-				<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
+				<c:choose>
+					<c:when test="${'order_sure' eq  tag }"><a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">发布新任务</a></c:when>
+					<c:when test="${'order_detail' eq  tag }"><a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">任务详情</a></c:when>
+				</c:choose>
 			</div>
 
 			<div style="overflow:hidden;">
@@ -47,7 +53,14 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 			 
 				<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:100px;margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
 				 	<form id="submitForm" method="post" action="<%=request.getContextPath() %>/site/order/sure">
-                		<h2 style="font-size:14px; font-weight:bold;"><span style="color:#f00;">错误</span>：账户点数不足,去 <a href="###" style="color:red;">购买点数</a>。</h2>
+				 		<c:choose>
+										<c:when test="${order.status eq 'CANCEL'}"></c:when>
+										<c:otherwise>
+											<c:if test="${not empty  error}">
+					 							<h2 style="font-size:14px; font-weight:bold;"><span style="color:#f00;">错误</span>：${error.message }。</h2>	
+					 						</c:if>
+				 						</c:otherwise>
+						</c:choose>
 						<table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">	 
 							<tr style="display: none" >
 								<td colspan="2"  align="center">
@@ -55,6 +68,10 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 									<input type="hidden" name="goodCommentTimeLimit" value="${goodCommentTimeLimit}">
 									<input type="hidden" name="goodCommentContent" value="${goodCommentContent }">
 								</td>
+							</tr>
+							<tr>
+								<td width="150" align="right" class="bb">订单编号：</td>
+								<td class="bb"><c:out escapeXml="true" value="${order.id }"></c:out></td>
 							</tr>
 							<tr>
 								<td width="150" align="right" class="bb">商家淘宝小号：</td>
@@ -124,7 +141,7 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 								<td align="right" valign="top" class="bb">需要旺旺聊天：</td>
 								<td class="bb">
                                 	<c:choose>
-										<c:when test="${empty NEED_WANGWANG_TALK }">不需要</c:when>
+										<c:when test="${empty NEED_WANGWANG_TALK eq NEED_WANGWANG_TALK }">不需要</c:when>
 										<c:otherwise>需要</c:otherwise> 
 									</c:choose><br/>
                                     <span style="font-size:12px; color:#999;">奖励接手方<%=subTaskInfoMap.get("NEED_WANGWANG_TALK").getAmount() %>个发布点</span>
@@ -134,7 +151,7 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 								<td align="right" valign="top" class="bb">限制重复接任务：</td>
 								<td class="bb">
                                 	<c:choose>
-										<c:when test="${empty NO_REPEAT_TASK  }">不需要</c:when>
+										<c:when test="${empty NO_REPEAT_TASK or '0' eq NO_REPEAT_TASK  }">不需要</c:when>
 										<c:otherwise>需要</c:otherwise>
 									</c:choose><br/>
                                     <span style="font-size:12px; color:#999;">奖励接手方<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</span>
@@ -144,7 +161,7 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 								<td align="right" valign="top" class="bb">指定接手人：</td>
 								<td class="bb">
                                 	<c:choose>
-										<c:when test="${ empty ZHI_DING_JIE_SHOU_REN   }">不需要</c:when>
+										<c:when test="${ empty ZHI_DING_JIE_SHOU_REN   or '0' eq ZHI_DING_JIE_SHOU_REN}">不需要</c:when>
 										<c:otherwise>需要 接手人ID：${ZHI_DING_JIE_SHOU_REN.inputValue }</c:otherwise>
 									</c:choose><br/>
                                     <span style="font-size:12px; color:#999;">支付平台<%=subTaskInfoMap.get("ZHI_DING_JIE_SHOU_REN").getAmount() %>个发布点</span>
@@ -154,8 +171,10 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 								<td align="right" valign="top" class="bb">指定收货地址：</td>
 								<td class="bb">
 									<c:choose>
-										<c:when test="${ empty ZHI_DING_SHOU_HUO_DI_ZHI     }">不需要</c:when>
-										<c:otherwise>需要 &nbsp; <c:out escapeXml="true" value="${ZHI_DING_SHOU_HUO_DI_ZHI.inputValue}"></c:out></c:otherwise>
+										<c:when test="${empty ZHI_DING_SHOU_HUO_DI_ZHI or '0' eq ZHI_DING_SHOU_HUO_DI_ZHI}">不需要</c:when>
+										<c:otherwise>需要 &nbsp;
+												<c:if test="${not empty  ZHI_DING_SHOU_HUO_DI_ZHI.inputValue}"> <c:out escapeXml="true" value="${ZHI_DING_SHOU_HUO_DI_ZHI.inputValue}"></c:out></c:if>
+										</c:otherwise>		
 									</c:choose><br/>
                                     <span style="font-size:12px; color:#999;">奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</span>
 								</td>
@@ -164,8 +183,12 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 								<td align="right" valign="top" class="bb">批量发布：</td>
 								<td class="bb">
                                 	<c:choose>
-										<c:when test="${ empty PI_LIANG_FA_BU     }">不需要</c:when>
-										<c:otherwise>需要 ${PI_LIANG_FA_BU.inputValue }条 </c:otherwise>
+										<c:when test="${ empty PI_LIANG_FA_BU or  '0' eq PI_LIANG_FA_BU    }">不需要</c:when>
+										<c:otherwise>需要  <c:choose>
+													<c:when test="${empty  PI_LIANG_FA_BU.inputValue}"></c:when>
+													<c:otherwise> <c:out escapeXml="true" value="${PI_LIANG_FA_BU.inputValue}"></c:out>条</c:otherwise>
+												</c:choose>
+										 </c:otherwise>
 									</c:choose><br/>
                                     <span style="font-size:12px; color:#999;">批量发布，上限50条,需要支付平台<%=subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount() %>个发布点</span>
 								</td>

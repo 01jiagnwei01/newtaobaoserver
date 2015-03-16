@@ -18,6 +18,7 @@ import com.gxkj.common.util.Encrypt;
 import com.gxkj.taobaoservice.constants.EncryptKey;
 import com.gxkj.taobaoservice.enums.UserLinkActiveResult;
 import com.gxkj.taobaoservice.services.UserLinkService;
+import com.gxkj.taobaoservice.util.SubHeaderTag;
 
 @Controller
 @RequestMapping("")
@@ -34,6 +35,7 @@ public class IndexController {
 	 */
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public String index(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+		modelMap.put(SubHeaderTag.tagName, "shouye");
 		String mv = "site/index";
 		return mv;	
 	}

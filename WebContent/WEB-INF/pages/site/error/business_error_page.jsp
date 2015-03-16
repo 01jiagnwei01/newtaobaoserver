@@ -6,7 +6,7 @@
 <html lang="zh">
 <head><%--  --%>
 <jsp:include page="../common/mina.jsp"></jsp:include>
-<title>订单确认成功</title>
+<title>错误</title>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include> 
 <style type="text/css">
@@ -45,7 +45,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 			 
 			<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:100px;margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
 				 	 <div  style="; border-radius:10px; width:400px; margin:10px auto 30px; border:solid 1px #ccc; font-size:20px; font-weight:bold; height:300px; line-height:300px;" class="tac">
-						创建成功！<button class="btn btn-lg btn-success"  id="continueCreate">创建新订单？</button>
+						出错了！${error.message }
 					</div> 
 								 	 
 			</div>
@@ -57,12 +57,7 @@ table td{padding:5px; height:25px; font-size:14px;}
 	<jsp:include page="../common/footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript">
-	$(function(){ 
-		$("#continueCreate").click(function(){
-			window.location="<%=request.getContextPath() %>/site/order/create";
-		});
-	})
-	 
+	
 </script>
 
 </html> 

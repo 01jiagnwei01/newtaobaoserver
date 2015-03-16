@@ -31,8 +31,10 @@ import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.entitys.TaskOrder;
 import com.gxkj.taobaoservice.entitys.TaskOrderSubTaskInfo;
 import com.gxkj.taobaoservice.entitys.UserBase;
+import com.gxkj.taobaoservice.enums.TaskOrderStatus;
 import com.gxkj.taobaoservice.services.TaskOrderService;
 import com.gxkj.taobaoservice.util.MoneyCalculateUtil;
+import com.gxkj.taobaoservice.util.SubHeaderTag;
 
 /**
  * 订单管理
@@ -53,7 +55,7 @@ public class OrderController {
 			HttpServletResponse response, ModelMap modelMap) {
 		String mv = "site/order/order_create_page";
 		modelMap.put("basicPingtaiGainPoint", SystemGlobals.getPreference("taobao.order.grant.point", "0"));
-		
+		modelMap.put(SubHeaderTag.tagName, "ordercreate");
 		return mv;
 	}
 	/**
@@ -128,7 +130,7 @@ public class OrderController {
 		
 		String PI_LIANG_FA_BU_input = request.getParameter("PI_LIANG_FA_BU_input");
 		
-		
+		modelMap.put(SubHeaderTag.tagName, "ordercreate");
 		modelMap.put("taobaoXiaohao", taobaoXiaohao);
 		modelMap.put("userQq", userQq);
 		modelMap.put("productTitle", productTitle);
@@ -230,8 +232,8 @@ public class OrderController {
 					modelMap.put(item.getTaskKey(), item);
 				}
 			}
-			
-			String mv = "site/order/order_sure_page";
+			modelMap.put("tag", "order_sure");
+			String mv = "site/order/order_detail_page";
 			return mv;
 		} catch (BusinessException e) {
 			e.printStackTrace();
@@ -363,7 +365,7 @@ public class OrderController {
 				modelMap.put("error", e1);
 				
 			}
-			mv = "site/order/order_sure_page";
+			mv = "site/order/order_detail_page";
 			modelMap.put("error", e);
 		}
 		return mv;
@@ -371,6 +373,7 @@ public class OrderController {
 	@RequestMapping(value = "/detail", method = RequestMethod.GET)
 	public String order_detail(HttpServletRequest request,
 			HttpServletResponse response, ModelMap modelMap,Integer orderId) throws SQLException   {
+		modelMap.put("tag", "order_detail");
 		String mv = "site/order/order_detail_page";
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		try{
@@ -427,6 +430,8 @@ public class OrderController {
 			}
 		} catch (BusinessException e) {
 			e.printStackTrace();
+			modelMap.put("error", e);
+			mv = "site/error/business_error_page";
 			
 		}
 		  

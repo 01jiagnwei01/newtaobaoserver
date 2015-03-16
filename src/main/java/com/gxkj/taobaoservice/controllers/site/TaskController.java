@@ -30,6 +30,7 @@ import com.gxkj.taobaoservice.entitys.TaskBasic;
 import com.gxkj.taobaoservice.entitys.TaskOrderSubTaskInfo;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.TaskBasicService;
+import com.gxkj.taobaoservice.util.SubHeaderTag;
 
 @Controller
 @RequestMapping("/site/task")
@@ -252,7 +253,7 @@ public class TaskController {
 				Date startTime = null;
 				Date endTime = null;
 				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-				
+				modelMap.put(SubHeaderTag.tagName, "taskcenter");
 				try{
 					if(StringUtils.isNotBlank(starttime)){
 						starttime += " 00:00:00";

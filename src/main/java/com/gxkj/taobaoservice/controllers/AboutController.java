@@ -8,12 +8,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.gxkj.taobaoservice.util.SubHeaderTag;
+
 @Controller
 @RequestMapping("/about")
 public class AboutController {
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public String bindAlipay(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
 		String mv = "site/about_gugudaochang";
+		modelMap.put(SubHeaderTag.tagName, "aboutus");
 		return mv;	
 	}
 }

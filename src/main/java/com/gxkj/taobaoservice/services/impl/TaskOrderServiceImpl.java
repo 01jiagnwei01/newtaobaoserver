@@ -428,6 +428,9 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userId");
 		}
 		if(taskOrder.getStatus() != TaskOrderStatus.WAIT_FOR_SURE){
+			if(taskOrder.getStatus() == TaskOrderStatus.CANCEL){
+				throw new BusinessException(BusinessExceptionInfos.STATUS_IS_CANCEL,"status");
+			}
 			throw new BusinessException(BusinessExceptionInfos.STATUS_NOT_WAIT,"status");
 		}
 		taskOrder.setStatus(TaskOrderStatus.CANCEL);
@@ -451,6 +454,8 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if(taskOrder.getStatus() != TaskOrderStatus.WAIT_FOR_SURE){
 			throw new BusinessException(BusinessExceptionInfos.STATUS_NOT_WAIT,"status");
 		}
+		
+		
 		/**
 		 * 创建任务
 		 */

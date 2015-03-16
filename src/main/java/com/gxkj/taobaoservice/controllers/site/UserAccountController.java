@@ -24,6 +24,7 @@ import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.entitys.UserAccount;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.UserAccountService;
+import com.gxkj.taobaoservice.util.SubHeaderTag;
 
 @Controller
 @RequestMapping("/site/useraccount")
@@ -65,7 +66,7 @@ public class UserAccountController {
 		Date endTime = null;
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
-		
+		modelMap.put(SubHeaderTag.tagName, "myaccount");
 		try{
 			if(StringUtils.isNotBlank(starttime)){
 				starttime += " 00:00:00";

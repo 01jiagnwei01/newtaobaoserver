@@ -138,7 +138,7 @@ $(function(){
                 },
                 pageUrl: function(type, page, current){
 					   if(page == current) return "###";
-					  return "<%=request.getContextPath() %>/site/order/mylist?pageno="+(page-1)+"&limit="+pageSize
+					  return "<%=request.getContextPath() %>/site/order/myorderpage?pageno="+(page-1)+"&limit="+pageSize
 
 
                 },

@@ -57,7 +57,10 @@ UserBase userBase =  SessionUtil.getSiteUserInSession(request);
 						  <tr id="errortr" <% if(error == null){out.print("style='display:none;'");} %>>
 							  <td colspan="2" align="center">
 								  <% if(error != null && error.getSiteFlag() != null && !error.getSiteFlag().equals("userBase")){
-										out.print("<b>错误提示："+error.getMessage()+"</b>");
+										%>
+										<!-- <h2 style="font-size:14px; font-weight:bold;"><span style="color:#f00;">错误</span>：账户点数不足,去 <a href="###" style="color:red;">购买点数</a>。</h2> -->
+									 	<h2 style="font-size:14px; font-weight:bold;"><span style="color:#f00;">错误</span>：<%= error.getMessage() %>。</h2>
+									  <%
 									}%>
 							  </td>
 						  </tr>

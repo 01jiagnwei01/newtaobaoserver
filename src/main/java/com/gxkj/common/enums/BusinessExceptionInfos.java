@@ -100,7 +100,8 @@ public enum BusinessExceptionInfos {
 	NEW_TEL_IS_EQUAL_USER_TEL("98","新手机号码与已绑定手机号码一致，请重置手机号码"),
 	TEL_NO_ERROR("99","手机号码错误"),
 	TEL_Code_Send_error("100","验证码发送失败"),
-	TEL_IS_Bind("100","手机号码已经被绑定了");
+	TEL_IS_Bind("100","手机号码已经被绑定了"),
+	STATUS_IS_CANCEL("101","该订单已取消");
 	private String errorCode; 
 	
 	private String errorMsg;

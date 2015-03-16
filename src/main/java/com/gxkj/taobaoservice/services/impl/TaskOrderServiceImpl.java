@@ -146,6 +146,9 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			if(userId == 0){
 				throw new BusinessException(BusinessExceptionInfos.jieShouRenId_ERROR,"jieShouRenId");
 			}
+			if(userId == userBase.getId().intValue()){
+				throw new BusinessException(BusinessExceptionInfos.NO_ALLOW_SPECIAL_RECEIVER_IS_SELF,"jieShouRenId");
+			}
 			
 			
 			UserBase  user  = (UserBase) userBaseDao.selectById(userId, UserBase.class);

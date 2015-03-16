@@ -243,6 +243,14 @@ public class OrderController {
 				TaskOrder taskOrder;
 				try {
 					taskOrder = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(), dbOrderId);
+					if(e.getSiteFlag() .equals("status")){
+						if(taskOrder.getStatus() == TaskOrderStatus.CANCEL){
+							 e =  new BusinessException(BusinessExceptionInfos.STATUS_IS_CANCEL,"status");
+						}else if(taskOrder.getStatus() == TaskOrderStatus.SURE){
+							 e =  new BusinessException(BusinessExceptionInfos.STATUS_IS_SURE,"status");
+						}
+						modelMap.put("error", e);
+					}
 					/**
 					 * 计算总消耗费用
 					 */
@@ -362,8 +370,18 @@ public class OrderController {
 			taskOrderService.doapplyTaskOrderByOrderIdAndUserId(userBase,orderId);
 		}catch(BusinessException e){
 			e.printStackTrace();
+			modelMap.put("error", e);
+			
 			try{
 				TaskOrder taskOrder = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(), orderId);
+				if(e.getSiteFlag() .equals("status")){
+					if(taskOrder.getStatus() == TaskOrderStatus.CANCEL){
+						 e =  new BusinessException(BusinessExceptionInfos.STATUS_IS_CANCEL,"status");
+					}else if(taskOrder.getStatus() == TaskOrderStatus.SURE){
+						 e =  new BusinessException(BusinessExceptionInfos.STATUS_IS_SURE,"status");
+					}
+					modelMap.put("error", e);
+				}
 				/**
 				 * 计算总消耗费用
 				 */
@@ -381,7 +399,7 @@ public class OrderController {
 				
 			}
 			mv = "site/order/order_detail_page";
-			modelMap.put("error", e);
+			
 		}
 		return mv;
 	}

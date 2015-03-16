@@ -56,11 +56,12 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 				 		<c:choose>
 										<c:when test="${order.status eq 'CANCEL'}"></c:when>
 										<c:otherwise>
-											<c:if test="${not empty  error}">
-					 							<h2 style="font-size:14px; font-weight:bold;"><span style="color:#f00;">错误</span>：${error.message }。</h2>	
-					 						</c:if>
+											
 				 						</c:otherwise>
 						</c:choose>
+						<c:if test="${not empty  error}">
+					 							<h2 style="font-size:14px; font-weight:bold;"><span style="color:#f00;">错误</span>：${error.message }。</h2>	
+					 						</c:if>
 						<table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">	 
 							<tr style="display: none" >
 								<td colspan="2"  align="center">
@@ -141,7 +142,7 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 								<td align="right" valign="top" class="bb">需要旺旺聊天：</td>
 								<td class="bb">
                                 	<c:choose>
-										<c:when test="${empty NEED_WANGWANG_TALK eq NEED_WANGWANG_TALK }">不需要</c:when>
+										<c:when test="${empty NEED_WANGWANG_TALK or '0' eq NEED_WANGWANG_TALK   }">不需要</c:when>
 										<c:otherwise>需要</c:otherwise> 
 									</c:choose><br/>
                                     <span style="font-size:12px; color:#999;">奖励接手方<%=subTaskInfoMap.get("NEED_WANGWANG_TALK").getAmount() %>个发布点</span>
@@ -154,7 +155,7 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 										<c:when test="${empty NO_REPEAT_TASK or '0' eq NO_REPEAT_TASK  }">不需要</c:when>
 										<c:otherwise>需要</c:otherwise>
 									</c:choose><br/>
-                                    <span style="font-size:12px; color:#999;">奖励接手方<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</span>
+                                    <span style="font-size:12px; color:#999;">支付平台<%=subTaskInfoMap.get("NO_REPEAT_TASK").getAmount() %>个发布点</span>
 								</td>
 							</tr>
 							<tr>
@@ -205,7 +206,7 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 										<c:when test="${order.status eq 'WAIT_FOR_SURE'}">
 											<button class="btn btn-lg btn-success" onclick="sure(this)" style="font-size:14px; padding:6px 12px; border-radius:4px;">确认订单</button>
 											<button class="btn btn-default" type="button" onclick="update(this)">修改</button>
-											<button class="btn btn-default" type="button" onclick="docancle(this)">取消</button>
+											<button class="btn btn-default" type="button" onclick="docancle(this)">取消订单</button>
 										 </c:when>
 										<c:when test="${order.status eq 'SURE'}"></c:when>
 										<c:when test="${order.status eq 'CANCEL'}">该订单已取消</c:when>

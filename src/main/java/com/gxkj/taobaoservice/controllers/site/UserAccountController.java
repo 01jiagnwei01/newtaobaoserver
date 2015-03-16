@@ -60,7 +60,7 @@ public class UserAccountController {
 	public String chongzhiP1(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,
 			@RequestParam(value="starttime",defaultValue="") String starttime,
 			@RequestParam(value="endtime",defaultValue="") String endtime, 
-			@RequestParam(value="pageno",defaultValue="0") int pageno,
+			@RequestParam(value="pageno",defaultValue="1") int pageno,
 	   		@RequestParam(value="limit",defaultValue="20") int pagesize) throws BusinessException, SQLException{
 		Date startTime = null;
 		Date endTime = null;

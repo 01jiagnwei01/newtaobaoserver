@@ -52,7 +52,6 @@ table td{padding:5px; height:25px; font-size:14px;}
 					</div> 
 					 
 			</div>
-
 		</div>
 		<div style="clear:both;"></div>
 	</div>

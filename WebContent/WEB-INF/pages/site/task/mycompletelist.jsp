@@ -108,7 +108,7 @@ $(function(){
 	long totalRows = pager.getTotalRows();
 		%>
 	var pageCount=0;//总页数 
-	var currentPage = <%=currentPage%>+1;
+	var currentPage = <%=currentPage%>;
 	var recordCount = <%=totalRows%>;
 	pageSize = <%=pager.getRowsPerPage()%>;
 	pageCount=recordCount%pageSize===0?recordCount/pageSize:parseInt(recordCount/pageSize)+1;//
@@ -136,7 +136,7 @@ $(function(){
                 },
                 pageUrl: function(type, page, current){
 					   if(page == current) return "###";
-					  return "<%=request.getContextPath() %>/site/task/mycompletelist?pageno="+(page-1)+"&limit="+pageSize
+					  return "<%=request.getContextPath() %>/site/task/mycompletelist?pageno="+(page)+"&limit="+pageSize
 
 
                 },

@@ -43,7 +43,15 @@ if(StringUtils.isBlank(titletype)){
 		out.println("<title>任务详情</title>");
 	} else if("index".equals(titletype)){
 		out.println("<title>谷谷道场首页</title>");
-	} 
+	} else if("login".equals(titletype)){
+		out.println("<title>谷谷道场登陆页</title>");
+	} else if("reg".equals(titletype)){
+		out.println("<title>谷谷道场注册页</title>");
+	}  else if("findback_password".equals(titletype)){
+		out.println("<title>谷谷道场找回密码页</title>");
+	}  else if("about_us".equals(titletype)){
+		out.println("<title>关于谷谷道场</title>");
+	}
 }
 %>
  

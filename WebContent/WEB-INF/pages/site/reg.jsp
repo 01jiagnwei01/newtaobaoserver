@@ -3,6 +3,10 @@
 <html>
 <meta charset="utf-8">
 <link href="<%=request.getContextPath() %>/resources/css/style.css" rel="stylesheet" type="text/css">
+<jsp:include page="./common/mina.jsp"></jsp:include>
+<jsp:include page="./common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="reg"></jsp:param>
+</jsp:include>
 <jsp:include page="./common/js.jsp"></jsp:include> 
 <body style="background:#FFF;">
 	<jsp:include page="./common/head.jsp" flush="true">

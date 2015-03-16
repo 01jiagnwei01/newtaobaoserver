@@ -3,7 +3,10 @@
 
 <!DOCTYPE html>
 <html>
-<meta charset="utf-8">
+<jsp:include page="./common/mina.jsp"></jsp:include>
+<jsp:include page="./common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="about_us"></jsp:param>
+</jsp:include>
 <jsp:include page="./common/css.jsp"></jsp:include>
 <jsp:include page="./common/js.jsp"></jsp:include> 
 <style type="text/css">

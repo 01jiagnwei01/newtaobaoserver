@@ -56,7 +56,11 @@
 				 	 }else{
 				 	 	 var user = json.entity;
 				 	 	 var  msg  = json.msg;
+				 	 	  
+				 	 	 refreshYanZhengMa(document.getElementById("yanzhengmaBtn") ) ;
 				 	 	 	alert(msg);
+				 	 	  
+				 	 	 	;
 				 	 	  $(btn).attr('disabled',false);
 						 	 $(btn).text('登陆');
 				 	 	 

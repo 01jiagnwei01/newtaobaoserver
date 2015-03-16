@@ -8,6 +8,8 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,14 +24,22 @@ import com.gxkj.common.util.PWDGenter;
 import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.daos.CaoZuoMaLogDao;
 import com.gxkj.taobaoservice.daos.UserBaseDao;
+import com.gxkj.taobaoservice.daos.YanZhengMaLogDao;
+import com.gxkj.taobaoservice.dto.SmsResponse;
 import com.gxkj.taobaoservice.entitys.CaoZuoMaLog;
 import com.gxkj.taobaoservice.entitys.UserBase;
+import com.gxkj.taobaoservice.entitys.YanzhengmaLog;
+import com.gxkj.taobaoservice.enums.YanZhengMaLogTranTypes;
 import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
+import com.gxkj.taobaoservice.jmxs.JMXSEntity;
 import com.gxkj.taobaoservice.services.CaoZuoMaService;
+import com.gxkj.taobaoservice.sms.SmsService;
 import com.gxkj.taobaoservice.util.RegexUtils;
 @Service
 public class CaoZuoMaServiceImpl implements CaoZuoMaService {
 
+	private static final Log log =  LogFactory.getLog(CaoZuoMaServiceImpl.class);
+	
 	@Autowired
 	CaoZuoMaLogDao caoZuoMaLogDao ;
 	
@@ -42,6 +52,13 @@ public class CaoZuoMaServiceImpl implements CaoZuoMaService {
 	
 	@Autowired
 	private UserBaseDao userBaseDao;
+	
+	@Autowired
+	@Qualifier("F1SmsServiceImpl")
+	private SmsService smsServiceImpl;
+	
+	@Autowired
+	private YanZhengMaLogDao yanzhengmaLogDao;
 	
 	public boolean doSendMail(UserBase base) throws SQLException,
 			BusinessException, BindException, MessagingException {
@@ -160,6 +177,95 @@ public class CaoZuoMaServiceImpl implements CaoZuoMaService {
 		 String newMd5CaoZuoMa = PWDGenter.generateKen(caozuoma);
 		 userBaseDao.updateUserCaoZuoMa(userBase.getId(),newMd5CaoZuoMa);
 		 return newMd5CaoZuoMa;
+	}
+
+
+ 
+	public void doSendPhone(UserBase base) throws BusinessException,
+			SQLException {
+		if(StringUtils.isBlank(base.getBindTelphone() )) {
+			throw new BusinessException(BusinessExceptionInfos.TEL_NO_IS_BLANK,"phone");
+		}
+//		UserBase userBase = userBaseDao.getUsersByBindPhone(base.getBindTelphone());
+//		if(userBase != null){
+//			throw new BusinessException(BusinessExceptionInfos.TEL_IS_REGED,"phone");
+//		}
+		
+		
+		String code = RegexUtils.getRandomNum(6)+"";
+		Date now = new Date();
+		YanzhengmaLog regLog = new YanzhengmaLog();
+		regLog.setCode(code);
+		regLog.setCreateDime(now);
+		regLog.setType(YanZhengMaTypes.phone);
+		regLog.setValue(base.getBindTelphone());
+		regLog.setEnabled(true);
+		regLog.setTranType(YanZhengMaLogTranTypes.Update_CaoZuoMa);
+		int validTimeLeng = SystemGlobals.getIntPreference("reg.code.valid.time", 5);
+		Date expTime = DateUtils.addMilliseconds(now, validTimeLeng);
+		regLog.setExpTime(expTime);
+		/**
+		 * 保存注册日志
+		 */
+		yanzhengmaLogDao.insert(regLog);
+		
+		 
+		/**
+		 * 手机发送验证码
+		 */
+		SmsResponse repose = smsServiceImpl.sendSms(String.format(JMXSEntity.getSmsCodeTempletate(), code), base.getBindTelphone(), now);
+		if(!repose.isOk()){
+			log.error("手机发送验证码失败，错误原因是："+smsServiceImpl.getErrorMsg(repose.getCode()));
+			throw new BusinessException(BusinessExceptionInfos.TEL_Code_Send_error,"telNo");
+		}
+		
+	}
+
+
+ 
+	public String doPhoneSubmitCaoZuoMa(UserBase base, String caozuoma,
+			String recaozuoma, String code) throws BusinessException,
+			SQLException {
+		String bindPhone = base.getBindTelphone();
+		 if(StringUtils.isBlank(bindPhone)) {
+			 throw new BusinessException(BusinessExceptionInfos.TEL_NO_IS_BLANK,"phone");
+		 }
+		 if(StringUtils.isBlank(caozuoma)) {
+			 throw new BusinessException(BusinessExceptionInfos.CAO_ZUO_MA_IS_BLANK,"caozuoma");
+		 }
+		 if(StringUtils.isBlank(recaozuoma)) {
+			 throw new BusinessException(BusinessExceptionInfos.RECAO_ZUO_MA_IS_BLANK,"recaozuoma");
+		 }
+		 if(!recaozuoma.equals(caozuoma)) {
+			 throw new BusinessException(BusinessExceptionInfos.RECAO_ZUO_MA_NOT_EQUAL,"recaozuoma");
+		 }
+		 /**
+		  * 验证码为空
+		  */
+		 if(StringUtils.isBlank(code)) {
+			 throw new BusinessException(BusinessExceptionInfos.Yan_Zheng_MA_IS_BLANK,"yanzhengma");
+		 }
+		 
+		 YanzhengmaLog	regLog = yanzhengmaLogDao.getRegLogByTypeAndValue(YanZhengMaTypes.phone,YanZhengMaLogTranTypes.Update_CaoZuoMa,base.getBindTelphone());
+			
+		 String dbCode = regLog==null?null:regLog.getCode();
+		 if(dbCode == null || !dbCode.equals(code)) {
+				 throw new BusinessException(BusinessExceptionInfos.Yan_Zheng_MA_ERROR,"yanzhengma");
+		 }
+		 /**
+		  * 设置操作码激活时间并设置为无效
+		  */
+		 	Date now = new Date();
+			regLog.setActiveTime(now);
+			regLog.setEnabled(false);
+			yanzhengmaLogDao.update(regLog);
+	
+		 /**
+		  * 重置操作码
+		  */
+		 String md5CaoZuoMa = PWDGenter.generateKen(caozuoma);
+		 userBaseDao.updateUserCaoZuoMa(base.getId(),md5CaoZuoMa);
+		 return md5CaoZuoMa;
 	}
 
 }

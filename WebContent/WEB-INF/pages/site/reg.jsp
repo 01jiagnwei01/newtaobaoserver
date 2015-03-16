@@ -28,23 +28,23 @@
 						<td>&nbsp;</td>
 				</tr>
 				<tr>
-					<td align="right">邮箱：</td>
-					<td><input type="text" name="textfield"  size="40" id="email_text" style="padding:10px 5px; width:200px;" placeholder="请填写常用邮箱"></td>
+					<td align="right">手机号码：</td>
+					<td><input type="text" name="textfield"  size="40" id="phone_text" style="padding:10px 5px; width:200px;" placeholder="请填写常用手机号"></td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
-					<td ><span style="color:#F00" id="email_error"><!-- 该邮箱已经使用过&nbsp;&nbsp;输入邮箱地址错误 --></span></td>
+					<td ><span style="color:#F00" id="phone_error"><!-- 该邮箱已经使用过&nbsp;&nbsp;输入邮箱地址错误 --></span></td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
 					<td>
-						<input type="text" name="textfield5" id="email_code" style="padding:10px 5px; width:110px;" placeholder="请输入邮箱验证码">
-						<a   id="getvefydata_email" style="display:inline-block; border-radius:5px; padding:8px 0; background-color:#eee; width:85px; line-height:25px; height:25px; margin-right:20px;" class="tac">发送验证码</a>
+						<input type="text" name="textfield5" id="phone_code" style="padding:10px 5px; width:110px;" placeholder="请输入手机验证码">
+						<a   id="getvefydata_phone" style="display:inline-block; border-radius:5px; padding:8px 0; background-color:#eee; width:85px; line-height:25px; height:25px; margin-right:20px;" class="tac">发送验证码</a>
 					</td>
 				</tr>
 				<tr>
 					<td align="right">&nbsp;</td>
-					<td><span style="color:#F00" id="email_code_error"></span></td>
+					<td><span style="color:#F00" id="phone_code_error"></span></td>
 				</tr>
 				<tr>
 					<td align="right">用户名：</td>
@@ -89,12 +89,12 @@
 var endTime = 0;
 var clitime = 0;
 $(function(){
-	$("#email_text").val("");
-	$("#email_text").focus(); 
-	$("#email_text").focus(function(){
-		$("#email_error").html("");
+	$("#phone_text").val("");
+	$("#phone_text").focus(); 
+	$("#phone_text").focus(function(){
+		$("#phone_error").html("");
 	});
-	 $("#getvefydata_email").bind('click',sendYanZhengMa);
+	 $("#getvefydata_phone").bind('click',sendYanZhengMa);
 	$("#user_name").focus(function(){
 		$("#user_name_error").html("");
 	});
@@ -104,19 +104,33 @@ $(function(){
 	$("#repassword").focus(function(){
 		$("#repassword_error").html("");
 	}); 
-	$("#email_code").focus(function(){
-		$("#email_code_error").html("");
+	$("#phone_code").focus(function(){
+		$("#phone_code_error").html("");
 	});
 	
 })
 
 function sendYanZhengMa(){
-	 if(!checkEmailFn()) {
+	 if(!checkPhoneFn()) {
 		 return;
 	 }; 
 	 if(clitime>=1)return;
-	 sendAjaxGetEmailCode($("#email_text").val()); 	 
+	 sendAjaxGetCode($("#phone_text").val(),'phone'); 	 
 }
+function checkPhoneFn(){
+	var phone = $("#phone_text").val();
+	if($.trim(phone).length == 0 ){
+		$("#phone_error").html("请输入常用手机号码");
+		return false;
+	}
+	var result = checkPhone(phone);
+	if(!result){
+		$("#phone_error").html("请输入正确的手机号码");
+		return false;
+	}
+	return true;
+}
+ 
 function checkEmailFn(){
 	var email = $("#email_text").val();
 	if($.trim(email).length == 0 ){
@@ -130,10 +144,10 @@ function checkEmailFn(){
 	}
 	return true;
 }
-function changeSendEmailCodeInfo(){
+function changeSendPhoneCodeInfo(){
 	
 	if(endTime == 0){
-		window.clearInterval(changeSendEmailCodeInfo);
+		window.clearInterval(changeSendPhoneCodeInfo);
 		 $("#getvefydata_email").attr("disabled",false); 
 		 $("#getvefydata_email").text( "发送验证码");
 		 $("#getvefydata_email").bind('click',sendYanZhengMa);
@@ -142,31 +156,38 @@ function changeSendEmailCodeInfo(){
 	$("#getvefydata_email").text(endTime+"秒后重发");
 	endTime--;
 }
-function sendAjaxGetEmailCode(mail){
+function sendAjaxGetCode(value,type){
 	var yanzhengmaurl = "<%=request.getContextPath()%>/reg/sendmail";
+	 var data = null;
+	if(type == 'phone'){
+		 yanzhengmaurl = "<%=request.getContextPath()%>/reg/sendphone";
+		  data =  { d:new Date().getTime(),phone:value};
+	}
+	
   	$.ajax({
 		  type:'post',
 		  url: yanzhengmaurl,
 		  context: document.body,
 		  beforeSend:function(){
 			  clitime = 1;
-			  $("#getvefydata_email").attr("disabled",true); 
-			  $("#getvefydata_email").unbind("click");
+			  $("#getvefydata_phone").attr("disabled",true); 
+			  $("#getvefydata_phone").unbind("click");
 			  endTime = 60;
-			 changeSendEmailCodeInfo();
-			 window.setInterval("changeSendEmailCodeInfo()", 1000); 
+			 changeSendPhoneCodeInfo();
+			 window.setInterval("changeSendPhoneCodeInfo()", 1000); 
 		 },
-		  data:{ d:new Date().getTime(),tomail:mail},
+		  data:data,
 		  success:function(json){
 			  clitime = 0;
 			  var result = json["result"];  
-			  //修改发送状态
-			  
-			
+			  //修改发送状态 
+			  alert("验证码已发出");
 			 	  
 		  },
 	      error:function(xhr,textStatus,errorThrown){
 	    	  clitime = 0;
+	    	  $("#getvefydata_phone").attr("disabled",true); 
+	    	  $("#getvefydata_phone").bind('click',sendYanZhengMa);
 	    	  var responseText = xhr.responseText;
 		  		var obj = jQuery.parseJSON(responseText);
 				var errortype = obj.errortype
@@ -174,18 +195,21 @@ function sendAjaxGetEmailCode(mail){
 				if(errortype == 'email'){
 					$("#email_error").html(msg);
 					endTime = 0;
+				}else if(errortype == 'phone'){
+					$("#phone_error").html(msg);
+					endTime = 0;
 				}
 	  } 
 	})
 }
 function doRegFn(athis){
-	if(!checkEmailFn())return;
+	if(!checkPhoneFn())return;
 	if(!checkCode())return;
 	if(!checkUserName())return;
 	if(!checkpassword())return;
 	 
-	var email =  $.trim($("#email_text").val());
-	var code = $.trim($("#email_code").val());
+	var phone =  $.trim($("#phone_text").val());
+	var code = $.trim($("#phone_code").val());
 	var username = $.trim($("#user_name").val());
 	var password = $.trim($("#password").val());
 	var repassword = $.trim($("#repassword").val());
@@ -202,10 +226,11 @@ function doRegFn(athis){
 		  data:{
 			  d:new Date().getTime(),
 			  userName: username,
-			  email: email,
+			  phone: phone,
 			  password: password,
 			  rePassword: repassword,
-			  yanzhengma: code
+			  yanzhengma: code,
+			  type:'phone'
 		  },
 		  success:function(json){
 			  $("#reg_btn").attr("disabled",false);
@@ -219,9 +244,7 @@ function doRegFn(athis){
 			  }else{
 				 
 			  } 
-			  
-			
-			 	  
+			   
 		  },
 	      error:function(xhr,textStatus,errorThrown){
 	    	  $("#reg_btn").attr("disabled",false);
@@ -230,17 +253,20 @@ function doRegFn(athis){
 	  		var obj = jQuery.parseJSON(responseText);
 			var errortype = obj.errortype
 	  		var msg = obj.msg;
+			 
 			if(errortype == 'password'){
 				$("#password_error").html(msg);
 			}else if(errortype == 'rePassword'){
 				$("#repassword_error").html(msg);
-			}else if(errortype == 'username'){
+			}else if(errortype == 'userName'){
+				
 				$("#user_name_error").html(msg);
 			}else if(errortype == 'email'){
 				$("#email_error").html(msg);
 			}else if(errortype == 'code'){
-			 
-				$("#email_code_error").html(msg);
+				$("#phone_code_error").html(msg);
+			}else if( errortype == 'phone'){
+				$("#phone_code_error").html(msg);
 			}
 			
 	  		// $(btn)).removeAttr("disabled");
@@ -279,15 +305,16 @@ function checkpassword(){
 	return true;
 }
 function checkCode(){
-	var code = $.trim($("#email_code").val());
+	var code = $.trim($("#phone_code").val());
 	if(code.length == 0 ){
-		$("#email_code_error").html("验证码不能为空");
+		$("#phone_code_error").html("验证码不能为空");
 		return false;
 	}else if(code.length != 6 ){
-		$("#email_code_error").html("验证码输入错误");
+		$("#phone_code_error").html("验证码输入错误");
 		return false;
 	}
 	return true;
 }
+ 
 </script>
 </html>

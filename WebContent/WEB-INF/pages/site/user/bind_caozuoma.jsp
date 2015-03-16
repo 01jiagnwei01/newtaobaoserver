@@ -174,7 +174,7 @@ table td{padding:5px; font-size:14px; height:25px;}
 							<td style="height:10px;"></td>
 						</tr>
 					</table>
-					<!--  
+					
 					<table width="80%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:20px;">
 						<tr>
 							<td>
@@ -200,33 +200,49 @@ table td{padding:5px; font-size:14px; height:25px;}
 										<%
 									}else{
 										%>
+									<form id="phone_form">
 									<table border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;">
 										<tr>
-											<td align="right">绑定的手机：</td>
-											<td><span style="color:#F7971A;">123456</span></td>
+											<td align="right">绑定的号手机：</td>
+											<td><span style="color:#F7971A;"><%=telPhone %></span></td>
 											<td>&nbsp;</td>
 										</tr>
 										<tr>
-											<td align="right">确认码：</td>
+											<td align="right">验证码：</td>
 											<td>
-												<input type="text" name="textfield4" id="textfield6">
-												<a style="display:inline-block; padding:2px 10px; background:#eee;">获取确认码</a>
+												<input type="text"  id="phone_code"  style="padding:10px 5px; width:260px;">
+												<a style="display:inline-block; padding:2px 10px; background:#eee;" id="getvefydata_phone">获取确认码</a>
 											</td>
-											<td><span style="font-size:12px; color:#F00;">错误提示</span></td>
+											<td><span style="font-size:12px; color:#F00;" id="phone_code_error"></span></td>
+										</tr>
+										
+										<tr>
+											<td align="right">新操作码：</td>
+											<td><input type="password" name="caozuoma_mail" id="caozuoma_phone" style="padding:10px 5px; width:260px;"></td>
+											<td><span style="font-size:12px; color:#F00;" id="caozuoma_phone_error"> </span></td>
+										</tr>
+										<tr>
+											<td align="right">确认操作码：</td>
+											<td><input type="password" name="recaozuoma_mail" id="recaozuoma_phone" style="padding:10px 5px; width:260px;"></td>
+											<td><span style="font-size:12px; color:#F00;" id="recaozuoma_phone_error"></span></td>
 										</tr>
 										<tr>
 											<td>&nbsp;</td>
-											<td><a href="#" style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac">立即修改</a></td>
+											<td>
+												<a style="display:inline-block; border-radius:5px; background-color:#09F; color:#fff; width:150px; line-height:30px; height:30px;" class="tac"
+													id="phone_submit"
+												>立即修改</a>
+											</td>
 											<td>&nbsp;</td>
 										</tr>
-									</table>
+									</table>	</form>
 										<%
 									} 
 										%>
 								</div>
 							</td>
 						</tr>
-					</table> -->
+					</table> <!--  -->
 				</div>
 				
 		  	</div>
@@ -237,6 +253,8 @@ table td{padding:5px; font-size:14px; height:25px;}
 <script type="text/javascript">
 var endTime = 0;
 var clitime = 0;
+var clickPhone = 0;
+var endTimePhone = 0;
 $(function(){
 	 
 	$("#email_code").focus(function(){
@@ -247,6 +265,16 @@ $(function(){
 	});
 	$("#recaozuoma_mail").focus(function(){
 		$("#recaozuoma_mail_error").html("");
+	});
+	
+	$("#phone_code").focus(function(){
+		$("#phone_code_error").html("");
+	});
+	$("#caozuoma_phone").focus(function(){
+		$("#caozuoma_phone_error").html("");
+	});
+	$("#recaozuoma_phone").focus(function(){
+		$("#recaozuoma_phone_error").html("");
 	});
 	 
 	
@@ -264,6 +292,10 @@ $(function(){
 	 
 	 $("#email_submit").bind('click',emailSubmitFn);
 	 $("#f1_submitbtn").bind('click',f1SubmitFn);
+	 
+	 
+	 $("#getvefydata_phone").bind('click',sendYanZhengMaPhone);
+	 $("#phone_submit").bind('click',phoneSubmitFn);
 	 
 	 var showTabId = getCookie("caozuoma_show");
 	 if(showTabId == ""){
@@ -316,6 +348,10 @@ function sendYanZhengMa(){
 	 if(clitime>=1)return; 
 	 sendAjaxGetEmailCode();
 }
+function sendYanZhengMaPhone(){
+	 if(clickPhone>=1)return; 
+	 sendAjaxPhoneCode();
+}
 function sendAjaxGetEmailCode(){
 	var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/caozuoma/sendmail";
   	$.ajax({
@@ -350,6 +386,42 @@ function sendAjaxGetEmailCode(){
 	  } 
 	})
 }
+function sendAjaxPhoneCode(){
+	var yanzhengmaurl = "<%=request.getContextPath()%>/site/bind/caozuoma/sendphone";
+  	$.ajax({
+		  type:'post',
+		  url: yanzhengmaurl,
+		  context: document.body,
+		  beforeSend:function(){
+			  clickPhone = 1;
+			  $("#getvefydata_phone").attr("disabled",true); 
+			  $("#getvefydata_phone").unbind("click");
+			  //修改发送状态
+			  endTimePhone = 60;
+			  changeSendPhoneCodeInfo();
+			 window.setInterval("changeSendPhoneCodeInfo()", 1000);
+		 },
+		  data:{ d:new Date().getTime()},
+		  success:function(json){
+			  clickPhone = 0;
+			  var result = json["result"];  
+			  
+			 alert("已经向手机<%=telPhone %>发送了验证码");
+		  },
+	      error:function(xhr,textStatus,errorThrown){
+	    	  clickPhone = 0;
+	  		var responseText = xhr.responseText; 
+	  		var obj = jQuery.parseJSON(responseText);
+			var errortype = obj.errortype
+	  		var msg = obj.msg;
+			if(errortype == 'email'){
+				$("#email_code_error").html(msg);
+			}else if(errortype == 'phone'){
+				$("#phone_code_error").html(msg);
+			}
+	  } 
+	})
+}
 function changeSendEmailCodeInfo(){
 	
 	if(endTime == 0){
@@ -361,6 +433,18 @@ function changeSendEmailCodeInfo(){
 	}
 	$("#getvefydata_email").text(endTime+"秒后重发");
 	endTime--;
+}
+function changeSendPhoneCodeInfo(){
+	
+	if(endTimePhone == 0){
+		window.clearInterval(changeSendPhoneCodeInfo);
+		 $("#getvefydata_phone").attr("disabled",false); 
+		 $("#getvefydata_phone").text( "发送验证码");
+		 $("#getvefydata_phone").bind('click',sendYanZhengMaPhone);
+		return;
+	}
+	$("#getvefydata_phone").text(endTimePhone+"秒后重发");
+	endTimePhone--;
 }
 function emailSubmitFn(){
 	 
@@ -469,6 +553,60 @@ function f1SubmitFn(){
 			}else if(errortype=="recaozuoma"){
 				$("#f1_recaozuoma_error").html(msg);
 			} 
+	  } 
+	})
+}
+function phoneSubmitFn(){
+	 
+	var code = $("#phone_code").val();
+	if($.trim(code).length != 6){
+		$("#phone_code_error").html("验证码错误");
+		return;
+	}
+	var caozuoma = $.trim($("#caozuoma_phone").val());
+	var recaozuoma = $.trim($("#recaozuoma_phone").val());
+	if(caozuoma.length == 0 ){
+		$("#caozuoma_phone_error").html("操作码不能为空");
+		return;
+	}else if(caozuoma != recaozuoma){
+		$("#recaozuoma_phone_error").html("确认操作码与操作码不一致");
+		return;
+	}
+	
+	var url = "<%=request.getContextPath()%>/site/bind/caozuoma/phonesubmit";
+  	$.ajax({
+		  type:'post',
+		  url: url,
+		  context: document.body,
+		  beforeSend:function(){
+			  $("#phone_submit").attr("disabled",true); 
+			  $("#phone_submit").html("正在提交中。。。");
+			  
+		 },
+		  data:{ d:new Date().getTime(),caozuoma:caozuoma,recaozuoma:recaozuoma,code:code},
+		  success:function(json){
+			  addCookie("caozuoma_show","xiugai2",10*60*60);
+			  var result = json["result"];
+			  $("#phone_form")[0].reset();
+			  alert("修改成功");
+			  window.location.reload(); 
+		  },
+	      error:function(xhr,textStatus,errorThrown){
+	    	  $("#phone_submit").attr("disabled",false); 
+			  $("#phone_submit").html("立即修改");
+	  		var responseText = xhr.responseText; 
+	  		var obj = jQuery.parseJSON(responseText);
+			var errortype = obj.errortype
+	  		var msg = obj.msg;
+			if(errortype == 'phone'){
+				$("#phone_code_error").html(msg);
+			}else if(errortype=="caozuoma"){
+				$("#caozuoma_phone_error").html(msg);
+			}else if(errortype=="recaozuoma"){
+				$("#recaozuoma_phone_error").html(msg);
+			}else if(errortype=="yanzhengma"){
+				$("#phone_code_error").html(msg);
+			}
 	  } 
 	})
 }

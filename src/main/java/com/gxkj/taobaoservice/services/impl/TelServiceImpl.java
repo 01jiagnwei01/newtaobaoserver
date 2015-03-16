@@ -62,7 +62,7 @@ public class TelServiceImpl implements TelService {
 			throw new BusinessException(BusinessExceptionInfos.TEL_IS_Bind,"telNo");
 		}
 		
-		yanZhengMaLogDao.updateEmaiToNoEnable(telNo,YanZhengMaTypes.phone);
+		yanZhengMaLogDao.updateToNoEnable(telNo,YanZhengMaTypes.phone);
 		/**
 		 * 保存修改的注册码
 		 */

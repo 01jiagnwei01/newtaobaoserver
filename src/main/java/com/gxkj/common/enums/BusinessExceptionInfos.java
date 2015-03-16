@@ -103,7 +103,8 @@ public enum BusinessExceptionInfos {
 	TEL_IS_Bind("100","手机号码已经被绑定了"),
 	STATUS_IS_CANCEL("101","该订单已取消"),
 	STATUS_IS_SURE("102","该订单已确认"),
-	NO_ALLOW_SPECIAL_RECEIVER_IS_SELF("103","禁止指定自己接自己发布的任务");
+	NO_ALLOW_SPECIAL_RECEIVER_IS_SELF("103","禁止指定自己接自己发布的任务"),
+	TEL_IS_REGED("104","手机号码已经被注册了");
 	private String errorCode; 
 	
 	private String errorMsg;

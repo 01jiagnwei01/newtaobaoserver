@@ -27,4 +27,12 @@ public interface RegService {
 	 */
 	public void doRegFn(RegObjDTO regObjDTO) throws SQLException, BusinessException;
 
+	/**
+	 * 向手机号发送验证码
+	 * @param phone
+	 * @throws SQLException
+	 * @throws BusinessException
+	 */
+	public void doSendPhone(String phone)throws SQLException, BusinessException;
+
 }

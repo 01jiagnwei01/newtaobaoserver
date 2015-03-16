@@ -71,7 +71,7 @@ public class EmailServiceImpl  implements EmailService{
 		if(isReged){
 			throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_REGED,"email");
 		}
-		yanZhengMaLogDao.updateEmaiToNoEnable(tomail,YanZhengMaTypes.email);
+		yanZhengMaLogDao.updateToNoEnable(tomail,YanZhengMaTypes.email);
 		
 		/**
 		 * 保存修改的注册码
@@ -161,7 +161,7 @@ public class EmailServiceImpl  implements EmailService{
 			 throw new BusinessException(BusinessExceptionInfos.EMAIL_IS_NOT_REG,"email");
 		}
 		
-		yanZhengMaLogDao.updateEmaiToNoEnable(email,YanZhengMaTypes.email);
+		yanZhengMaLogDao.updateToNoEnable(email,YanZhengMaTypes.email);
 		/**
 		 * 保存修改的注册码
 		 */

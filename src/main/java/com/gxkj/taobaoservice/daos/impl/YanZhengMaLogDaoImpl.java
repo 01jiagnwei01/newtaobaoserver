@@ -17,7 +17,7 @@ public class YanZhengMaLogDaoImpl extends BaseDAOImpl implements YanZhengMaLogDa
 	private  final static String updateEmaiToNoEnableSql = "update yanzhengma_log set enabled = 0 where value = ? and type = ?";
 	private final static String getRegLogByTypeAndValueSql = "from YanzhengmaLog where tranType = :tranType and type=:type and value=:value and enabled = true order by id desc";
 	private  final static String getRegLogByUserIdAndTransAndTypeAndValueSql = "from YanzhengmaLog where userId=:userId and tranType =:tranType  and type=:type and value=:value and enabled = true order by id desc";
-	public void updateEmaiToNoEnable(String mail,YanZhengMaTypes type) throws SQLException  {
+	public void updateToNoEnable(String mail,YanZhengMaTypes type) throws SQLException  {
 		 this.executeUpdateBySql(updateEmaiToNoEnableSql, new Object[] {mail,type.toString()});
 	}
 	 

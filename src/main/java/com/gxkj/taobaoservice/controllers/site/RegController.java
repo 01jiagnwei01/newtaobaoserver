@@ -83,5 +83,14 @@ public class RegController {
 		}
 		return ret;
 	}
+	@RequestMapping(value="/sendphone",method=RequestMethod.POST)
+	@ResponseBody
+	public EntityReturnData sendphone(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,String phone) throws BusinessException, SQLException{
+		EntityReturnData ret = new EntityReturnData();
+		regService.doSendPhone(phone );
+		ret.setResult(true);
+		ret.setEntity("");
+		return ret;
+	}
 		
 }

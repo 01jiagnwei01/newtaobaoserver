@@ -45,4 +45,22 @@ public interface CaoZuoMaService {
 	public String doCaoZuoMaSubmitCaoZuoMa(UserBase userBase, String caozuoma,
 			String recaozuoma, String oldcode)throws BusinessException, SQLException;
 
+	/**
+	 * 向手机发送验证短信
+	 */
+	public void doSendPhone(UserBase base)throws BusinessException, SQLException;
+
+	/**
+	 * 使用手机提交
+	 * @param userBase
+	 * @param caozuoma
+	 * @param recaozuoma
+	 * @param code
+	 * @return
+	 * @throws BusinessException
+	 * @throws SQLException
+	 */
+	public String doPhoneSubmitCaoZuoMa(UserBase userBase, String caozuoma,
+			String recaozuoma, String code)throws BusinessException, SQLException;
+
 }

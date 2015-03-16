@@ -42,6 +42,26 @@ public class CaoZuoMaController {
 		return ret;
 	}
 	/**
+	 * 向手机发验证码
+	 * @param request
+	 * @param response
+	 * @param modelMap
+	 * @return
+	 * @throws BusinessException
+	 * @throws SQLException
+	 * @throws BindException
+	 * @throws MessagingException
+	 */
+	@RequestMapping(value="/sendphone",method=RequestMethod.POST)
+	@ResponseBody
+	public EntityReturnData sendphone(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws BusinessException, SQLException, BindException, MessagingException{
+		EntityReturnData ret = new EntityReturnData();
+		UserBase base = SessionUtil.getSiteUserInSession(request);
+		caoZuoMaService.doSendPhone(base); 
+		ret.setResult(true);
+		return ret;
+	}
+	/**
 	 * 使用邮箱修改验证码
 	 * @param request
 	 * @param response
@@ -77,6 +97,22 @@ public class CaoZuoMaController {
 		EntityReturnData ret = new EntityReturnData();
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		String newCaoZuoMa = caoZuoMaService.doCaoZuoMaSubmitCaoZuoMa(userBase,caozuoma,recaozuoma,oldcode);
+		userBase.setCaoZuoMa(newCaoZuoMa);
+		SessionUtil.setSiteUser2Session(request, userBase);
+		ret.setResult(true);
+		return ret;
+	}
+	
+	@RequestMapping(value="/phonesubmit",method=RequestMethod.POST)
+	@ResponseBody
+	public EntityReturnData phonesubmit(
+			HttpServletRequest request,
+			HttpServletResponse response,
+			ModelMap modelMap,
+			String caozuoma,String recaozuoma,String code) throws BusinessException, SQLException, BindException, MessagingException{
+		EntityReturnData ret = new EntityReturnData();
+		UserBase userBase = SessionUtil.getSiteUserInSession(request);
+		String newCaoZuoMa = caoZuoMaService.doPhoneSubmitCaoZuoMa(userBase,caozuoma,recaozuoma,code);
 		userBase.setCaoZuoMa(newCaoZuoMa);
 		SessionUtil.setSiteUser2Session(request, userBase);
 		ret.setResult(true);

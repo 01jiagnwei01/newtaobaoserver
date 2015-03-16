@@ -9,7 +9,7 @@ import com.gxkj.taobaoservice.enums.YanZhengMaTypes;
 
 public interface YanZhengMaLogDao extends BaseDAO {
 
-	void updateEmaiToNoEnable(String mail,YanZhengMaTypes type)throws SQLException;
+	void updateToNoEnable(String mail,YanZhengMaTypes type)throws SQLException;
 	/**
 	 * 根据类型和值查询注册结果操作
 	 * @param type

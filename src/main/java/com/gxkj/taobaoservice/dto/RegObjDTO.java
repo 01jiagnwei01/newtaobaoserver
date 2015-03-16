@@ -23,6 +23,10 @@ public class RegObjDTO implements Serializable{
 	private String yanzhengma;
 	
 	private String ip;
+	
+	private String type = "phone";
+	
+	private String phone ;
 
 	public String getUserName() {
 		return userName;
@@ -71,7 +75,21 @@ public class RegObjDTO implements Serializable{
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
-	
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
 }

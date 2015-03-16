@@ -51,7 +51,7 @@ UserBase userBase =  SessionUtil.getSiteUserInSession(request);
  
 				<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:100px;margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
                 
-			 	  <form method="post" action="<%=request.getContextPath() %>/site/order/create">
+			 	  <form id="_form" method="post" action="<%=request.getContextPath() %>/site/order/create">
 				 		<input type="hidden" name="orderid" value="${order.id}">
 					  <table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">
 						  <tr id="errortr" <% if(error == null){out.print("style='display:none;'");} %>>
@@ -174,7 +174,7 @@ UserBase userBase =  SessionUtil.getSiteUserInSession(request);
 									  <option value="0" <c:if test="${ZHI_DING_SHOU_HUO_DI_ZHI eq '0' }">selected="selected"</c:if>>不需要</option>
 									  <option value="1" <c:if test="${ZHI_DING_SHOU_HUO_DI_ZHI eq '1' }">selected="selected"</c:if>>需要</option>
 								  </select>
-								  <input class="zengzhiinputwidth" type="text" id="ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS" name="ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS" value="${ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS }" style="width:300px;height:30px;line-height:30px;" placeholder="收货人地址"/><br/>
+								  <input class="zengzhiinputwidth" type="text" id="ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS" name="ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS" value="${ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS }" style="width:300px;height:30px;line-height:30px;" placeholder="收货地址"/><br/>
                                   <span style="font-size:12px; color:#999;">奖励接手方<%=subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI").getAmount() %>个发布点</span>
 							  </td>
 					    </tr>
@@ -205,7 +205,7 @@ UserBase userBase =  SessionUtil.getSiteUserInSession(request);
 						  </tr>
 						  <tr>
 							  <td colspan="2" align="center">
-								  <button class="btn btn-lg btn-success" type="submit">确认提交</button>
+								  <button class="btn btn-lg btn-success" type="button" onclick="submitFn()">确认提交</button>
 							  </td>
 						  </tr>
 					  </table>
@@ -216,9 +216,6 @@ UserBase userBase =  SessionUtil.getSiteUserInSession(request);
 			</div>
 
 		</div>
-
-		<div style="clear:both;"></div>
-
 	</div>
 
 	<jsp:include page="../common/footer.jsp"></jsp:include>
@@ -295,7 +292,46 @@ var errorType = null;
 			return;
 		}
 		$("#userQq").val(uQq);
+	}
+	function submitFn(){
+		var ZHI_DING_SHOU_HUO_DI_ZHI = $("#ZHI_DING_SHOU_HUO_DI_ZHI").val();
+		var ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS = $.trim($("#ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS").val());
+		if("1" == ZHI_DING_SHOU_HUO_DI_ZHI && !ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS){
+			alert("请指定收货地址");
+			return;
+		}
 		
+		var ZHI_DING_JIE_SHOU_REN = $("#ZHI_DING_JIE_SHOU_REN").val();
+		var ZHI_DING_JIE_SHOU_REN_ID = $.trim($("#ZHI_DING_JIE_SHOU_REN_ID").val());
+		if("1" == ZHI_DING_JIE_SHOU_REN && !ZHI_DING_JIE_SHOU_REN_ID){
+			alert("请指定接手人ID");
+			return;
+		}
+		
+		var PI_LIANG_FA_BU = $("#PI_LIANG_FA_BU").val();
+		var PI_LIANG_FA_BU_input = $.trim($("#PI_LIANG_FA_BU_input").val());
+		if("1" == PI_LIANG_FA_BU  ){
+			if(!PI_LIANG_FA_BU_input){
+				alert("请指定批量发布条数");
+				return;
+			}
+			if (!IsNumeric(PI_LIANG_FA_BU_input)) {
+				 alert("批量发布条数只能是数字");
+		        return false;
+		    }
+			 var factAmount = parseFloat(PI_LIANG_FA_BU_input);
+			 if (!IsNumeric(factAmount)) {
+				 alert("批量发布条数只能是数字");
+			        return false;
+			  }else if(factAmount<=1 || factAmount>=50){
+				  alert("批量发布条数只能是2-50之间的数");
+			        return false;
+			  }
+		}
+		$("#_form")[0].submit();
+	}
+	function IsNumeric(n) {
+	    return !isNaN(parseFloat(n)) && isFinite(n);
 	}
 </script>
 

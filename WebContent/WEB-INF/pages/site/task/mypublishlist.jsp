@@ -180,8 +180,8 @@ function sureTask(zthis,id){
 		  url: yanzhengmaurl,
 		  context: document.body,
 		  beforeSend:function(){
-			  $(zthis).attr("disabled",true); 
-			  $(zthis).html("提交中。。。");
+			  $("#suerbtn"+id).attr("disabled",true); 
+			  $("#suerbtn"+id).html("提交中。。。");
 		 },
 		  data:{
 			  d:new Date().getTime(),
@@ -190,14 +190,14 @@ function sureTask(zthis,id){
 		  success:function(json){
 			   
 			  alert("任务已结束");
-			  $(zthis).attr("disabled",false);
+			  $("#suerbtn"+id).attr("disabled",false);
 			  window.location.reload();
 			  return; 
 			 	  
 		  },
 	      error:function(xhr,textStatus,errorThrown){
-	    	  $(zthis).attr("disabled",false); 
-			  $(zthis).html("接任务");
+	    	  $("#suerbtn"+id).attr("disabled",false); 
+			  $("#suerbtn"+id).html("完成");
 			  
 	  		var responseText = xhr.responseText;
 	  		var obj = jQuery.parseJSON(responseText);

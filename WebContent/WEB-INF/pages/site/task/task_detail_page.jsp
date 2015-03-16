@@ -216,6 +216,11 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 											<button class="btn btn-default" id="cancelbtn${taskBasic.id}" onclick="docancle(this,${taskBasic.id})">放弃任务</button>
 										</c:if>
 									</c:when>
+									<c:when test="${taskBasic.status eq 'Receive_Complete'}"> 
+										<c:if test="${taskBasic.userId eq userBase.id}">
+											<button class="btn btn-default" id="suerbtn${taskBasic.id}" onclick="doSure(this,${taskBasic.id})">完成</button>
+										</c:if>
+									</c:when>
 									<c:otherwise>   
 									</c:otherwise>
 								</c:choose>
@@ -301,7 +306,7 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 			  },
 		      error:function(xhr,textStatus,errorThrown){
 		    	  $(zthis).attr("disabled",false); 
-				  $(zthis).html("接任务");
+				  $(zthis).html("完成");
 				  
 		  		var responseText = xhr.responseText;
 		  		var obj = jQuery.parseJSON(responseText);
@@ -333,7 +338,43 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 			  },
 		      error:function(xhr,textStatus,errorThrown){
 		    	  $(zthis).attr("disabled",false); 
-				  $(zthis).html("接任务");
+				  $(zthis).html("取消");
+				  
+		  		var responseText = xhr.responseText;
+		  		var obj = jQuery.parseJSON(responseText);
+				var errortype = obj.errortype
+		  		var msg = obj.msg;
+				alert(msg)
+		  } 
+		})
+	}
+	function doSure(zthis,id){
+		var  sure=window.confirm("确定完成任务，将进行支付？");
+		if(!sure)return;
+		var yanzhengmaurl = "<%=request.getContextPath()%>/site/task/surecomplete";
+	  	$.ajax({
+			  type:'post',
+			  url: yanzhengmaurl,
+			  context: document.body,
+			  beforeSend:function(){
+				  $("#suerbtn"+id).attr("disabled",true); 
+				  $("#suerbtn"+id).html("提交中。。。");
+			 },
+			  data:{
+				  d:new Date().getTime(),
+				  taskid:id
+			  },
+			  success:function(json){
+				   
+				  alert("任务已结束");
+				  $("#suerbtn"+id).attr("disabled",false);
+				  window.location.reload();
+				  return; 
+				 	  
+			  },
+		      error:function(xhr,textStatus,errorThrown){
+		    	  $("#suerbtn"+id).attr("disabled",false); 
+				  $("#suerbtn"+id).html("完成");
 				  
 		  		var responseText = xhr.responseText;
 		  		var obj = jQuery.parseJSON(responseText);

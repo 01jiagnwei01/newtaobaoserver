@@ -82,9 +82,9 @@ table td {
 										<td align="center"><%= TaskBasicUtil.getReceiveCanGetPointByTask(item)%> </td> 
 										<td align="center"><%=item.getStatus().getName()%></td>
 										<td align="center">
-											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
-											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="dowork(this,<%=item.getId() %>)">完成</button>
-											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="docancle(this,<%=item.getId() %>)">放弃任务</button>
+											<button class="btn btn-xs btn-default" id="detailbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
+											<button class="btn btn-xs btn-default" id="compilebtn<%=item.getId() %>" onclick="dowork(this,<%=item.getId() %>)">完成</button>
+											<button class="btn btn-xs btn-default" id="cancelbtn<%=item.getId() %>" onclick="docancle(this,<%=item.getId() %>)">放弃任务</button>
 										</td>
 								</tr>
 							<% 
@@ -168,8 +168,8 @@ function dowork(zthis,id){
 		  url: yanzhengmaurl,
 		  context: document.body,
 		  beforeSend:function(){
-			  $(zthis).attr("disabled",true); 
-			  $(zthis).html("提交中。。。");
+			  $("#compilebtn"+id).attr("disabled",true); 
+			  $("#compilebtn"+id).html("提交中。。。");
 		 },
 		  data:{
 			  d:new Date().getTime(),
@@ -177,13 +177,14 @@ function dowork(zthis,id){
 		  },
 		  success:function(json){
 			  alert("任务已完成，任务进入我完成的任务中");
+			  $("#compilebtn"+id).attr("disabled",false); 
 			  window.location.reload();
 			  return; 
 			 	  
 		  },
 	      error:function(xhr,textStatus,errorThrown){
-	    	  $(zthis).attr("disabled",false); 
-			  $(zthis).html("接任务");
+	    	  $("#compilebtn"+id).attr("disabled",false); 
+	    	  $("#compilebtn"+id).html("接任务");
 			  
 	  		var responseText = xhr.responseText;
 	  		var obj = jQuery.parseJSON(responseText);
@@ -200,8 +201,8 @@ function docancle(zthis,id){
 		  url: yanzhengmaurl,
 		  context: document.body,
 		  beforeSend:function(){
-			  $(zthis).attr("disabled",true); 
-			  $(zthis).html("提交中。。。");
+			  $("#cancelbtn"+id).attr("disabled",true); 
+			  $("#cancelbtn"+id).html("提交中。。。");
 		 },
 		  data:{
 			  d:new Date().getTime(),
@@ -209,13 +210,14 @@ function docancle(zthis,id){
 		  },
 		  success:function(json){
 			  alert("任务已放弃，任务进入任务大厅中");
+			  $("#cancelbtn"+id).attr("disabled",false); 
 			  window.location.reload();
 			  return; 
 			 	  
 		  },
 	      error:function(xhr,textStatus,errorThrown){
-	    	  $(zthis).attr("disabled",false); 
-			  $(zthis).html("接任务");
+	    	  $("#cancelbtn"+id).attr("disabled",false); 
+			  $("#cancelbtn"+id).html("接任务");
 			  
 	  		var responseText = xhr.responseText;
 	  		var obj = jQuery.parseJSON(responseText);

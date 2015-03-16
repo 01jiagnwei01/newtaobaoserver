@@ -5,6 +5,10 @@
 <style type="text/css">
 #kinMaxShow .KMSPrefix_kinMaxShow_button{left:50%; margin-left:-33px;}
 </style>
+<jsp:include page="./common/mina.jsp"></jsp:include>
+<jsp:include page="./common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="index"></jsp:param>
+</jsp:include>
 <jsp:include page="./common/css.jsp"></jsp:include>
 <jsp:include page="./common/js.jsp"></jsp:include> 
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/js/jquery.kinMaxShow-1.0.min.js"></script>

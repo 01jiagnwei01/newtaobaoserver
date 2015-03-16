@@ -41,6 +41,8 @@ if(StringUtils.isBlank(titletype)){
 		out.println("<title>我完成的任务</title>");
 	}else if("task_detail".equals(titletype)){
 		out.println("<title>任务详情</title>");
+	} else if("index".equals(titletype)){
+		out.println("<title>谷谷道场首页</title>");
 	} 
 }
 %>

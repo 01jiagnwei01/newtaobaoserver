@@ -136,7 +136,7 @@ $(function(){
                 },
                 pageUrl: function(type, page, current){
 					   if(page == current) return "###";
-					  return "<%=request.getContextPath() %>/site/task/list?pageno="+(page-1)+"&limit="+pageSize
+					  return "<%=request.getContextPath() %>/site/task/mycompletelist?pageno="+(page-1)+"&limit="+pageSize
 
 
                 },

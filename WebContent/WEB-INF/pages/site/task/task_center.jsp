@@ -90,6 +90,7 @@ table td {
 										<td align="center">
 											<%if(TaskStatus.Wait_For_Receive == item.getStatus()){ %>
 												<button class="btn btn-xs btn-primary" id="opbtn<%=item.getId() %>" onclick="doThisTask(this,<%=item.getId() %>)">接任务</button>
+												<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
 											 
 											<% }else {%>
 											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>
@@ -146,7 +147,7 @@ $(function(){
                 },
                 pageUrl: function(type, page, current){
 					   if(page == current) return "###";
-					  return "<%=request.getContextPath() %>/site/task/list?pageno="+(page-1)+"&limit="+pageSize
+					  return "<%=request.getContextPath() %>/site/task/task_center?pageno="+(page-1)+"&limit="+pageSize
 
 
                 },

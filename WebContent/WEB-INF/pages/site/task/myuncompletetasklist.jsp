@@ -25,9 +25,7 @@ table td {
 	height: 25px;
 	font-size: 14px;
 	border-bottom: 1px solid #eee;
-}
- 
-  
+} 
 </style>
 
 <body>
@@ -138,7 +136,7 @@ $(function(){
                 },
                 pageUrl: function(type, page, current){
 					   if(page == current) return "###";
-					  return "<%=request.getContextPath() %>/site/task/list?pageno="+(page-1)+"&limit="+pageSize
+					  return "<%=request.getContextPath() %>/site/task/myuncompletetasklist?pageno="+(page-1)+"&limit="+pageSize
 
 
                 },

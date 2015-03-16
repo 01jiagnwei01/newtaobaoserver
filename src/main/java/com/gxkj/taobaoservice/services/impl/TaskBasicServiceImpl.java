@@ -185,11 +185,12 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		if(!taskBasic.getReceiverId().equals( userBase.getId())){
 			throw new BusinessException(BusinessExceptionInfos.NOT_SELF_TASK,"userBase");
 		}
-		
+		Date now = new Date();
 		taskBasic.setStatus(TaskStatus.Receive_Complete);
+		taskBasic.setTaskCompleteTime(now);
 		taskBasicDao.update(taskBasic);
 		
-		Date now = new Date();
+		
 		TaskBasicLog taskBasicLog = new TaskBasicLog();
 		taskBasicLog.setCreateTime(now);
 		taskBasicLog.setStatus(TaskStatus.Receive_Complete);
@@ -225,11 +226,12 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		if(!taskBasic.getUserId().equals(userBase.getId() )){
 			throw new BusinessException(BusinessExceptionInfos.NOT_SELF_TASK,"userBase");
 		}
-		
+		Date now = new Date();
 		taskBasic.setStatus(TaskStatus.Creater_Sure);
+		taskBasic.setTaskEndTime(now);
 		taskBasicDao.update(taskBasic);
 		
-		Date now = new Date();
+		
 		TaskBasicLog taskBasicLog = new TaskBasicLog();
 		taskBasicLog.setCreateTime(now);
 		taskBasicLog.setStatus(TaskStatus.Creater_Sure);

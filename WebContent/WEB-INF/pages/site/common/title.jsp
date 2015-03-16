@@ -39,6 +39,8 @@ if(StringUtils.isBlank(titletype)){
 		out.println("<title>我未完成的任务</title>");
 	}else if("task_mycompletetasklist".equals(titletype)){
 		out.println("<title>我完成的任务</title>");
+	}else if("task_detail".equals(titletype)){
+		out.println("<title>任务详情</title>");
 	} 
 }
 %>

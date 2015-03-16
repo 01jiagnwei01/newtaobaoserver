@@ -149,7 +149,7 @@ $(function(){
                 },
                 pageUrl: function(type, page, current){
 					   if(page == current) return "###";
-					  return "<%=request.getContextPath() %>/site/task/list?pageno="+(page-1)+"&limit="+pageSize
+					  return "<%=request.getContextPath() %>/site/task/mypublishlist?pageno="+(page-1)+"&limit="+pageSize
 
 
                 },
@@ -188,7 +188,9 @@ function sureTask(zthis,id){
 			  taskid:id
 		  },
 		  success:function(json){
+			   
 			  alert("任务已结束");
+			  $(zthis).attr("disabled",false);
 			  window.location.reload();
 			  return; 
 			 	  

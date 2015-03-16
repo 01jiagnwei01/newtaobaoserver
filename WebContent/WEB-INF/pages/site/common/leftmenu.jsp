@@ -19,7 +19,7 @@ String submenu = request.getParameter("submenu");
 							<li><a href="<%=request.getContextPath() %>/site/task/mypublishlist" class="cbc" style="<%if("task_mypublish".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我发布的任务</span></a></li>
 							
 							<li><a href="<%=request.getContextPath() %>/site/task/myuncompletetasklist" class="cbc" style="<%if("task_myuncompletetasklist".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我未完成的任务</span></a></li>
-							<li><a href="<%=request.getContextPath() %>/site/task/mycompletelist" class="cbc" style="<%if("task_myuncompletetasklist".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我已完成的任务</span></a></li>
+							<li><a href="<%=request.getContextPath() %>/site/task/mycompletelist" class="cbc" style="<%if("task_mycompletetasklist".equals(submenu)) {%> background-color:#d3d3d3; <% }%>display:inline-block; width:100%; padding:10px 0;"><span style="margin-left:30px;">&nbsp;>&nbsp;我已完成的任务</span></a></li>
 						</ul>
 					</li>
 					<li class="fs16">

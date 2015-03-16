@@ -7,9 +7,10 @@
  <!DOCTYPE html>
 <html lang="zh">
 <head><%--  --%>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" content="ie=edge"/>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>任务详情页</title>
+<jsp:include page="../common/mina.jsp"></jsp:include>
+<jsp:include page="../common/title.jsp" flush="true">
+		<jsp:param name="titletype" value="task_detail"></jsp:param>
+</jsp:include>
 <jsp:include page="../common/css.jsp"></jsp:include>
 <jsp:include page="../common/bookstrap.jsp"></jsp:include> 
 <style type="text/css">
@@ -35,7 +36,7 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 		<div class="center" style="width:1200px;">
 
 			<div style="height:50px; line-height:50px;">
-				<a href="###">首页</a>&nbsp;>&nbsp;<a href="###">我的账户</a>&nbsp;>&nbsp;<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">我发布的任务</a>
+				<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">任务详情</a>
 			</div>
 
 			<div style="overflow:hidden;">
@@ -192,20 +193,21 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 								</td>
 							</tr>
 							<tr>
-							  <td class="bb" align="right">结束时间：</td>
-							  <td class="bb">&nbsp;</td>
+							  <td class="bb" align="right">完成时间：</td>
+							  <td class="bb"><fmt:formatDate value="${taskBasic.taskCompleteTime}" type="both" pattern="yyyy-MM-dd HH:mm"/></td>
 						  </tr>
 							<tr>
-							  <td class="bb" align="right">完成时间：</td>
-							  <td class="bb">&nbsp;</td>
+							  <td class="bb" align="right">结束时间：</td>
+							  <td class="bb"><fmt:formatDate value="${taskBasic.taskEndTime}" type="both" pattern="yyyy-MM-dd HH:mm"/></td>
 						  </tr>
+							
 						</c:if>
 						<tr>
 							<td colspan="2" align="center">
 								<c:choose>
 									<c:when test="${taskBasic.status eq 'Wait_For_Receive'}">
 										<c:if test="${userBase.id != taskBasic.userId}">
-                                        	<button class="btn btn-lg btn-success" onclick="doThisTask(this)">接单</button>
+                                        	<button class="btn btn-lg btn-success" onclick="doThisTask(this,'${taskBasic.id }')">接单</button>
                                         </c:if>
 									</c:when>
 									<c:when test="${taskBasic.status eq 'Have_Bean_Received'}"> 

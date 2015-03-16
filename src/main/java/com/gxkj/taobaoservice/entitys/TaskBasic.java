@@ -17,7 +17,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.gxkj.taobaoservice.enums.TaskStatus;
@@ -161,6 +160,17 @@ public class TaskBasic implements Serializable {
 	@Column(name="receiver_time" ) 
 	private Date receiverTime;
 	
+	/**
+	 * 任务完成时间
+	 */
+	@Column(name="task_complete_time" ) 
+	private Date taskCompleteTime;
+	
+	/**
+	 * 任务结束时间
+	 */
+	@Column(name="task_end_time" ) 
+	private Date taskEndTime;
 	/**
 	 * 接单人QQ号
 	 */
@@ -365,6 +375,22 @@ public class TaskBasic implements Serializable {
 
 	public void setTaskBasicLogs(List<TaskBasicLog> taskBasicLogs) {
 		this.taskBasicLogs = taskBasicLogs;
+	}
+
+	public Date getTaskCompleteTime() {
+		return taskCompleteTime;
+	}
+
+	public void setTaskCompleteTime(Date taskCompleteTime) {
+		this.taskCompleteTime = taskCompleteTime;
+	}
+
+	public Date getTaskEndTime() {
+		return taskEndTime;
+	}
+
+	public void setTaskEndTime(Date taskEndTime) {
+		this.taskEndTime = taskEndTime;
 	}
 	
 	

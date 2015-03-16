@@ -101,7 +101,8 @@ public enum BusinessExceptionInfos {
 	TEL_NO_ERROR("99","手机号码错误"),
 	TEL_Code_Send_error("100","验证码发送失败"),
 	TEL_IS_Bind("100","手机号码已经被绑定了"),
-	STATUS_IS_CANCEL("101","该订单已取消");
+	STATUS_IS_CANCEL("101","该订单已取消"),
+	STATUS_IS_SURE("102","该订单已确认");
 	private String errorCode; 
 	
 	private String errorMsg;

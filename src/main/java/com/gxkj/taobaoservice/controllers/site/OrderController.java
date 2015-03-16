@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.common.util.SessionUtil;
@@ -280,6 +281,20 @@ public class OrderController {
 		String mv = "site/order/order_create_page";
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		TaskOrder order  = taskOrderService.getTaskOrderByOrderIdAndUserId(userBase.getId(),orderId);
+		if(order.getStatus() != TaskOrderStatus.WAIT_FOR_SURE){
+			BusinessException e = null;
+			if(order.getStatus() == TaskOrderStatus.CANCEL){
+				 e =  new BusinessException(BusinessExceptionInfos.STATUS_IS_CANCEL,"status");
+			}else if(order.getStatus() == TaskOrderStatus.SURE){
+				 e =  new BusinessException(BusinessExceptionInfos.STATUS_IS_SURE,"status");
+			}else {
+				 e =  new BusinessException(BusinessExceptionInfos.STATUS_NOT_WAIT,"status");
+			}
+			mv = "site/error/business_error_page";
+			modelMap.put("error", e);
+			return mv;
+			
+		}
 
 		modelMap.put("taobaoXiaohao", order.getTaobaoXiaohao());
 		modelMap.put("userQq", order.getUserQq());

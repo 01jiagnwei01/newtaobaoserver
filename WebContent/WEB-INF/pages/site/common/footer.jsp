@@ -12,6 +12,7 @@
 			客服时间：9:00 — 21:00
         </span>
         </div>
-		<div class="tac">Copyright Reserved 2015 © 谷谷道场（www.gugudaochang.com）<!--　|　上海拍拍贷金融信息服务有限公司--></div>
+		<div class="tac">Copyright Reserved 2015 © 谷谷道场（www.gugudaochang.com）</div>
+		<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254570389'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/stat.php%3Fid%3D1254570389%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
 	</div>
 </div>

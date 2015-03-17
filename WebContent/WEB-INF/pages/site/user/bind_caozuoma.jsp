@@ -585,7 +585,7 @@ function phoneSubmitFn(){
 		 },
 		  data:{ d:new Date().getTime(),caozuoma:caozuoma,recaozuoma:recaozuoma,code:code},
 		  success:function(json){
-			  addCookie("caozuoma_show","xiugai2",10*60*60);
+			  addCookie("caozuoma_show","xiugai3",10*60*60);
 			  var result = json["result"];
 			  $("#phone_form")[0].reset();
 			  alert("修改成功");

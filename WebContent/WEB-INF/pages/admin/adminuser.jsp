@@ -86,7 +86,7 @@
 									  	loadFilter:function(data){
 											if(data  == null)return null;
 											data.total = data.totalRows;
-											data.rows = data.pageData == null?data.pageData:[];
+											data.rows = data.pageData ?data.pageData:[];
 											return data;
 										}
 									">
@@ -323,7 +323,17 @@ function insertIntoDb(saveObj){
 				  },
 				  error:function(xhr,textStatus,errorThrown){
 				  		var responseText = xhr.responseText;
-				    	$.messager.alert('系统提示','保存失败，请刷新后重试!','error');
+				  		 
+				  		var obj = jQuery.parseJSON(responseText);
+				  		
+				  		 json = $.parseJSON(responseText);
+				  		 var  errortype = json.errortype;
+				  		if(errortype){
+				  			$.messager.alert('系统提示','保存失败,'+json.msg,'error');
+				  		 }else{
+				  			$.messager.alert('系统提示','保存失败，请刷新后重试!','error');
+				  		 }
+				    	
 				  
 				  } 
 			});
@@ -347,8 +357,15 @@ function updateIntoDb(saveObj){
 					
 				  },
 				  error:function(xhr,textStatus,errorThrown){
+					
 				  		var responseText = xhr.responseText;
-				    	$.messager.alert('系统提示','保存失败，请刷新后重试!','error');
+				  		json = $.parseJSON(responseText);
+				  		 var  errortype = json.errortype;
+				  		if(errortype){
+				  			$.messager.alert('系统提示','保存失败,'+json.msg,'error');
+				  		 }else{
+				  			$.messager.alert('系统提示','保存失败，请刷新后重试!','error');
+				  		 }
 				  
 				  } 
 			});

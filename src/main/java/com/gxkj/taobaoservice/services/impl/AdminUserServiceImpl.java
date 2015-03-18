@@ -1,12 +1,16 @@
 package com.gxkj.taobaoservice.services.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gxkj.common.enums.BusinessExceptionInfos;
+import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.AdminUserDao;
 import com.gxkj.taobaoservice.daos.RelAdminUserRoleDao;
@@ -25,7 +29,18 @@ public class AdminUserServiceImpl implements AdminUserService {
 	@Autowired
 	private RelAdminUserRoleDao relAdminUserRoleDao;
 	
-	public AdminUser addAdminUser(AdminUser user) throws Exception {
+	public AdminUser addAdminUser(AdminUser user) throws SQLException, BusinessException  {
+		
+		String uname = user.getName();
+		if(StringUtils.isBlank(uname)){
+			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_BLANK,"username");
+		}
+		//判断登陆名是否重复
+		AdminUser dbAdminUser = adminUserDao.getOneAdminUserByName(uname);
+		if(dbAdminUser!=null){
+			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_REGED,"username");
+		}
+		
 		adminUserDao.insert(user);
 		
 		if(user.getRole()!=null){
@@ -56,7 +71,16 @@ public class AdminUserServiceImpl implements AdminUserService {
 		return pager;
 	}
 
-	public AdminUser updateAdminUser(AdminUser user) throws Exception {
+	public AdminUser updateAdminUser(AdminUser user) throws SQLException, BusinessException  {
+		String uname = user.getName();
+		if(StringUtils.isBlank(uname)){
+			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_BLANK,"username");
+		}
+		//判断登陆名是否重复
+		AdminUser dbAdminUser = adminUserDao.getOneAdminUserByName(uname);
+		if(dbAdminUser!=null && dbAdminUser.getId().equals(user.getId())==false){
+			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_REGED,"username");
+		}
 		adminUserDao.update(user);
 		//删除过去的与角色关系
 		relAdminUserRoleDao.delRelationByUserId(user.getId());

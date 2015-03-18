@@ -1,5 +1,7 @@
 package com.gxkj.taobaoservice.controllers.admin;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.common.util.PWDGenter;
 import com.gxkj.taobaoservice.dto.EntityReturnData;
@@ -63,11 +66,11 @@ public class AdminUserController {
 			AdminUser entity, 
 			@RequestParam(value="roleName",defaultValue="") String roleName,
 			@RequestParam(value="roleid",defaultValue="0") int roleid,
-			ModelMap modelMap)  {
+			ModelMap modelMap) throws Exception  {
 		EntityReturnData ret = new EntityReturnData();
 		ret.setMsg("执行成功");
 		ret.setResult(true);
-		try {
+		
 			if(roleid!=0){
 				
 				AdminRole role = new AdminRole();
@@ -77,11 +80,7 @@ public class AdminUserController {
 			}
 			adminUserService.addAdminUser(entity);
 			ret.setEntity(entity);
-		} catch (Exception e) {
-			e.printStackTrace();
-			ret.setMsg("失败");
-			ret.setResult(false);
-		}
+		
 		return ret;
 	}
 	
@@ -90,24 +89,17 @@ public class AdminUserController {
 	public EntityReturnData doUpdate( @RequestParam(value="roleName",defaultValue="") String roleName,
 			@RequestParam(value="roleid",defaultValue="0") int roleid,
 			HttpServletRequest request, HttpServletResponse response,
-			AdminUser entity,  ModelMap modelMap)  {
+			AdminUser entity,  ModelMap modelMap) throws SQLException, BusinessException  {
 		EntityReturnData ret = new EntityReturnData();
 		ret.setMsg("执行成功");
 		ret.setResult(true);
-		try {
-			if(roleid!=0){
-				AdminRole role = new AdminRole();
-				role.setId(roleid);
-				role.setName(roleName);
-				entity.setRole(role);
-			}
-			adminUserService.updateAdminUser(entity);
-			ret.setEntity(entity);
-		} catch (Exception e) {
-			e.printStackTrace();
-			ret.setMsg("失败");
-			ret.setResult(false);
+		if(roleid!=0){
+			AdminRole role = new AdminRole();
+			role.setId(roleid);
+			role.setName(roleName);
+			entity.setRole(role);
 		}
+		adminUserService.updateAdminUser(entity);
 		return ret;
 	}
 	@RequestMapping(value="/dodel ",method={RequestMethod.POST})

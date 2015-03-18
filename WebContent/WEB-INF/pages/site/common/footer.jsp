@@ -9,7 +9,7 @@
         	<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=fa27f65e73a48bd593a36921de2bc5e09c7ad68e7d6cc99b036b38d157031e2d"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="谷谷道场信用担保" title="谷谷道场信用担保"></a>
         </span>
 		<span style="background:url(<%=request.getContextPath() %>/resources/images/icon_time.png) no-repeat; padding-left:30px; display:inline-block; height:25px; line-height:25px; padding-right:30px;">
-			客服时间：9:00 — 21:00
+			客服时间：9:00 — 18:00
         </span>
         </div>
 		<div class="tac">Copyright Reserved 2015 © 谷谷道场（www.gugudaochang.com）</div>

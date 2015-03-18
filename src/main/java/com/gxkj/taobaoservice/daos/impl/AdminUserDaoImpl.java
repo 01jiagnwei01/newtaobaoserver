@@ -1,5 +1,6 @@
 package com.gxkj.taobaoservice.daos.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class AdminUserDaoImpl extends BaseDAOImpl implements AdminUserDao {
 
 	 
 	public ListPager doPage(int pageno, int pagesize, String name, int status)
-			throws Exception {
+			throws SQLException {
 		 StringBuffer sql = new StringBuffer("select * from admin_user where ");
 		 List<Object> parameters = new ArrayList<Object>();
 		 if(status == 0){
@@ -40,7 +41,7 @@ public class AdminUserDaoImpl extends BaseDAOImpl implements AdminUserDao {
 	}
 
 
-	public void updateStatus(int status, int id) throws Exception {
+	public void updateStatus(int status, int id) throws SQLException {
 		 StringBuffer sql = new StringBuffer("update admin_user set status=? where id= ?");
 		 List<Object> parameters = new ArrayList<Object>();
 		 parameters.add(status);
@@ -51,7 +52,7 @@ public class AdminUserDaoImpl extends BaseDAOImpl implements AdminUserDao {
 
 
 	@SuppressWarnings("unchecked")
-	public List<AdminUser> getAdminUserByName(String name) throws Exception {
+	public List<AdminUser> getAdminUserByName(String name) throws SQLException {
 		 StringBuffer sql = new StringBuffer("select * from admin_user where name = ?");
 		 List<Object> parameters = new ArrayList<Object>();
 		 parameters.add(name);
@@ -60,13 +61,20 @@ public class AdminUserDaoImpl extends BaseDAOImpl implements AdminUserDao {
 
 
  
-	public void updatePasswordById(int id, String password) throws Exception {
+	public void updatePasswordById(int id, String password) throws SQLException {
 		 StringBuffer sql = new StringBuffer("update  admin_user set password = ? where id = ?");
 		 List<Object> parameters = new ArrayList<Object>();
 		 parameters.add(password);
 		 parameters.add(id);
 		 this.executeUpdate(sql.toString(), parameters.toArray());
 		 
+	}
+
+
+	 
+	public AdminUser getOneAdminUserByName(String name) throws SQLException {
+		 StringBuffer hql = new StringBuffer(" from AdminUser where name = ?");
+		return (AdminUser) this.selectOneByHQL(hql.toString(), new Object[]{name});
 	}
 
 }

@@ -303,7 +303,7 @@ function submitFormFn(){
 	saveObj.id=$.trim(u_id).length==0?0:u_id;
 	saveObj.name= u_name;
 	saveObj.realName=realName;
-	saveObj.roleid = roleid;
+	saveObj.roleid = roleid?roleid:0;
 	saveObj.roleName = roleName; 
 	saveObj.status=status;
 	if(saveType == 'add'){ insertIntoDb(saveObj); }else if(saveType == 'update'){ updateIntoDb(saveObj); }
@@ -316,7 +316,7 @@ function insertIntoDb(saveObj){
 				  context: document.body,
 				  data:saveObj,
 				  success:function(json){
-				   	 json = $.parseJSON(json);
+				   	 //json = $.parseJSON(json);
 				   	 json = json.entity;
 				 	 $('#dg').datagrid('appendRow',json);
 				 	 $.messager.alert('系统提示','保存成功!','info',closeWinFn);
@@ -346,7 +346,7 @@ function updateIntoDb(saveObj){
 				  context: document.body,
 				  data:saveObj,
 				  success:function(json){
-				   		json = $.parseJSON(json);
+				   		//json = $.parseJSON(json);
 				   		json = json.entity;
 					  	 $('#dg').datagrid('updateRow',{
 					  	 	index:updateRowIndex,

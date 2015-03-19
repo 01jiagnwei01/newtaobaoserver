@@ -73,7 +73,7 @@ public class AdminUserDaoImpl extends BaseDAOImpl implements AdminUserDao {
 
 	 
 	public AdminUser getOneAdminUserByName(String name) throws SQLException {
-		 StringBuffer hql = new StringBuffer(" from AdminUser where name = ?");
+		 StringBuffer hql = new StringBuffer(" from AdminUser where name = ? and status = 1");
 		return (AdminUser) this.selectOneByHQL(hql.toString(), new Object[]{name});
 	}
 

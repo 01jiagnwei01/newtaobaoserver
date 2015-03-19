@@ -58,6 +58,7 @@
 				 	 	 var  msg  = json.msg;
 				 	 	  
 				 	 	 refreshYanZhengMa(document.getElementById("yanzhengmaBtn") ) ;
+				 	 	 $("#yanzhengma").val("");
 				 	 	 	alert(msg);
 				 	 	  
 				 	 	 	;

@@ -82,15 +82,20 @@ $(function(){
 			  	},
 				columns:[[ 
 					{field:'id',title:'id'},
-					{field:'userName',title:'用户名' ,width:100},
-					{field:'regTime',title:'注册时间',width:200,formatter:dateFormat},
+					{field:'userName',title:'用户名' ,width:150},
+					{field:'regTime',title:'注册时间',width:150,formatter:dateFormat},
+					{field:'bindEmail',title:'邮箱' ,width:180},
+					{field:'bindTelphone',title:'电话' ,width:100},
+					{field:'bindAlipay',title:'淘宝号' ,width:150},
+					{field:'bindQq',title:'QQ号' ,width:100},
+					
 					{field:'status',title:'状态' ,width:50,formatter:statusFormat},
 					{field:'uerAccount.currentBalance',title:'当前金额' ,width:100,formatter:currentBalanceFormat},
 					{field:'uerAccount.lockedBalance',title:'当前锁定金额' ,width:100,formatter:lockedBalanceFormat},
 					{field:'uerAccount.currentRestPoints',title:'当前点数' ,width:100,formatter:currentRestPointsFormat},
 					{field:'uerAccount.lockedPoints',title:'当前锁定点数' ,width:100,formatter:lockedPointsFormat},
 					 
-					{field:'opt',title:'操作' ,width:200,formatter:optFormat} 
+					{field:'opt',title:'操作' ,width:100,formatter:optFormat} 
 				]],
 				toolbar: '#tb',
 				loadFilter:function(data){

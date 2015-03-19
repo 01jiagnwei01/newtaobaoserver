@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
+import com.gxkj.common.util.PWDGenter;
+import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.daos.AdminUserDao;
 import com.gxkj.taobaoservice.daos.RelAdminUserRoleDao;
 import com.gxkj.taobaoservice.entitys.AdminRole;
@@ -40,7 +42,9 @@ public class AdminUserServiceImpl implements AdminUserService {
 		if(dbAdminUser!=null){
 			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_REGED,"username");
 		}
-		
+		String password = SystemGlobals.getPreference("admin.user.init.password");
+		password = PWDGenter.generateKen(password);
+		user.setPassword(password);
 		adminUserDao.insert(user);
 		
 		if(user.getRole()!=null){
@@ -76,11 +80,17 @@ public class AdminUserServiceImpl implements AdminUserService {
 		if(StringUtils.isBlank(uname)){
 			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_BLANK,"username");
 		}
-		//判断登陆名是否重复
+//		判断登陆名是否重复
 		AdminUser dbAdminUser = adminUserDao.getOneAdminUserByName(uname);
 		if(dbAdminUser!=null && dbAdminUser.getId().equals(user.getId())==false){
 			throw new BusinessException(BusinessExceptionInfos.USER_NAME_IS_REGED,"username");
 		}
+		
+		 dbAdminUser = (AdminUser) adminUserDao.selectById(user.getId(), AdminUser.class);
+		user.setPassword(dbAdminUser.getPassword());
+		adminUserDao.getSessionFactory().getCurrentSession().clear();
+ 
+		
 		adminUserDao.update(user);
 		//删除过去的与角色关系
 		relAdminUserRoleDao.delRelationByUserId(user.getId());

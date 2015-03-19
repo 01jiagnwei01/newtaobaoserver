@@ -45,6 +45,7 @@ public  class BaseDAOImpl    implements BaseDAO {
 	}
 
 	public  void update(Object entity) throws SQLException {
+		//sessionFactory.getCurrentSession().clear();
 		sessionFactory.getCurrentSession().update(entity);
 	}
 

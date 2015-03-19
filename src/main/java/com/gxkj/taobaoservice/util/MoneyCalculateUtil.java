@@ -5,27 +5,7 @@ import java.math.BigDecimal;
 import com.gxkj.taobaoservice.entitys.TaskOrder;
 
 public class MoneyCalculateUtil {
-	
-	/**
-	 * 根据担保价格计算接手人受益金额
-	 * @param amount
-	 * @return
-	 */
-	public static BigDecimal caculateOrderReceiverGainMoney(double amount){
-		if(amount < 0){
-			return BigDecimal.ZERO;
-		}
-		if(amount <=100){
-			return new BigDecimal(5);
-		}
-		if(amount <=200){
-			return new BigDecimal(8);
-		}
-		if(amount <=500){
-			return new BigDecimal(15);
-		}
-		return new BigDecimal(20);
-	}
+	 
 	/**
 	 * 计算一个订单需要支付的合计费用
 	 * @param order
@@ -40,7 +20,7 @@ public class MoneyCalculateUtil {
 		/**
 		 * 接手人佣金
 		 */
-		BigDecimal basicReceiverGainMoney = caculateOrderReceiverGainMoney(guaranteePrice.doubleValue());
+		BigDecimal basicReceiverGainMoney = order.getBasicReceiverGainMoney();
 		/**
 		 * 奖励金额
 		 */

@@ -57,7 +57,7 @@ table td {
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">任务编号</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">发布时间</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">担保金额</td>
-										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">接手获利金额</td>
+										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">佣金</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">获利点数</td> 
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">接手状态</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">操作</td>

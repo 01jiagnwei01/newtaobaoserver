@@ -78,13 +78,10 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 							<td class="bb">${taskBasic.guaranteePrice}<br/><span style="font-size:12px; color:#999;">担保价格 = 你淘宝的宝贝价格(或改价后价格) + 邮费的总价 <a href="<%=request.getContextPath() %>/site/money/chongzhi" target="_blank" class="easyui-linkbutton" style="color:#36F;">我要充值</a></span></td>
 						</tr>
 						<tr>
-							<td class="bb" align="right" valign="top">基本佣金：</td>
-						  <td class="bb">${taskBasic.basicReceiverGainMoney}<br/><span style="font-size:12px; color:#999;">佣金标准：100元以下的5元（包含100元）;100-200元的8元（包含200元）;200-500元的15元（包含500元）;500元以上20元</span></td>
+							<td class="bb" align="right" valign="top">佣金：</td>
+						  <td class="bb">${taskBasic.basicReceiverGainMoney}<br/><span style="font-size:12px; color:#999;">接任务人获利</span></td>
 					  </tr>
-						<tr>
-							<td class="bb" align="right">奖励接手人：</td>
-							<td class="bb">${taskBasic.encourage}</td>
-						</tr>
+						
 						<tr>
 							<td align="right">支付平台发布点：</td>
 							<td>0.5</td>

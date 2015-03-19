@@ -93,23 +93,18 @@ UserBase userBase =  SessionUtil.getSiteUserInSession(request);
 						  <tr>
 							  <td align="right">担保价格：</td>
 							  <td>
-                               	  <input type="number" class="inputwidth" style="height:30px; line-height:30px;" value="${guaranteePrice}" id="guaranteePrice" name="guaranteePrice" placeholder="担保价格" min="0" onkeyup="caculateFn()"/><br/>
+                               	  <input type="number" class="inputwidth" style="height:30px; line-height:30px;" value="${guaranteePrice}" id="guaranteePrice" name="guaranteePrice" placeholder="担保价格" min="0" /><br/>
                                   <span style="font-size:12px; color:#999;">担保价格 = 你淘宝的宝贝价格(或改价后价格) + 邮费的总价 <a href="<%=request.getContextPath() %>/site/money/chongzhi" target="_blank" class="easyui-linkbutton" style="color:#36F;">我要充值</a></span>
                               </td>
 						  </tr>
 						  <tr>
-							  <td align="right">基本佣金：</td>
+							  <td align="right">佣金：</td>
 							  <td>
-                               	  <input readonly type="text" style="height:30px; line-height:30px;" value="${basicReceiverGainMoney}" class="inputwidth" id="basicReceiverGainMoney" name="basicReceiverGainMoney" placeholder="基本佣金" min="0"/><br/>
-                                  <span style="font-size:12px; color:#999;">佣金标准：100元以下的5元（包含100元）;100-200元的8元（包含200元）;200-500元的15元（包含500元）;500元以上20元</span>
+                               	  <input  type="number" style="height:30px; line-height:30px;" value="${basicReceiverGainMoney}" class="inputwidth" id="basicReceiverGainMoney" name="basicReceiverGainMoney" placeholder="佣金" min="0"/><br/>
+                                  <span style="font-size:12px; color:#999;">接任务的人每单获利。</span>
                               </td>
 						  </tr>
-						  <tr>
-							  <td align="right">奖励接手人：</td>
-							  <td>
-                               	  <input class="inputwidth" style="height:30px; line-height:30px;" name="encourage" value="${encourage}" type="number" min="0"/>
-                              </td>
-						  </tr>
+						  
 						  <tr>
 							  <td align="right">支付平台发布点：</td>
 							  <td>

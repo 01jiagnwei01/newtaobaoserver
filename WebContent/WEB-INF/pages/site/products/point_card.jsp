@@ -126,7 +126,8 @@ function buy_product(id){
 				  $("#buy_btn_"+id).text("购买");
 				  if(result){
 					alert("购买成功");
-					 $("#buy_btn_"+id).attr("disabled",false); 
+					  $("#buy_btn_"+id).attr("disabled",false); 
+					window.location.reload();
 					  return;
 				  }else{
 					  alert("购买失败");

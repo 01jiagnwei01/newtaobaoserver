@@ -174,8 +174,18 @@ public class OrderController {
 		Integer jieShouRenId = 0;
 		BigDecimal guaranteePrice = BigDecimal.ZERO;
 		BigDecimal encourage  = BigDecimal.ZERO;
+		
+		BigDecimal basicReceiverGainMoney_ =  BigDecimal.ZERO;
 		if(StringUtils.isNoneBlank(orderid)){
 			dbOrderId = Integer.parseInt(orderid);
+		}
+		if(StringUtils.isNotBlank(basicReceiverGainMoney)){
+			try {
+				basicReceiverGainMoney_ = new BigDecimal(basicReceiverGainMoney); 
+			} catch (Exception e) {
+				log.error("basicReceiverGainMoney ="+basicReceiverGainMoney);
+			}
+			
 		}
 		  
 		try {
@@ -213,11 +223,11 @@ public class OrderController {
 			TaskOrder order  = null;
 			if(dbOrderId == 0){
 				order = taskOrderService.doAddTaskOrder(  userBase, taobaoXiaohao, userQq, productTitle, productLink, guaranteePrice, 
-						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount);
+						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount,basicReceiverGainMoney_);
 				
 			}else {
 				order = taskOrderService.doUpdateTaskOrder( dbOrderId,userBase, taobaoXiaohao, userQq, productTitle, productLink, guaranteePrice, 
-						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount);
+						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount,basicReceiverGainMoney_);
 				
 			}
 			 

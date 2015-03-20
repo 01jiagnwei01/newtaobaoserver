@@ -7,7 +7,9 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Validator;
 
@@ -93,6 +95,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 	 * @param needZhiDingSouHuoDiZhi	需要指定收货地址
 	 * @param shouHuoDiZhi				指定的收货地址
 	 * @param piLiangFabuCount		发布任务条数
+	 * @param basicReceiverGainMoney 支付佣金
 	 * @return
 	 * @throws SQLException
 	 */
@@ -103,7 +106,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			String goodCommentContent, boolean needWangWangTalk,
 			boolean noRepeatTalk, boolean needZhiDingJieShouRen,
 			Integer jieShouRenId, boolean needZhiDingSouHuoDiZhi,
-			String shouHuoDiZhi, Integer piLiangFabuCount) throws SQLException,
+			String shouHuoDiZhi, Integer piLiangFabuCount, BigDecimal basicReceiverGainMoney) throws SQLException,
 			BusinessException {
 		if(userBase == null){
 			throw new BusinessException(BusinessExceptionInfos.USER_IS_BLANK,"userBase");
@@ -134,6 +137,9 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		}
 		if( BigDecimal.ZERO.compareTo(guaranteePrice) >=0){
 			throw new BusinessException(BusinessExceptionInfos.guaranteePrice__SHOULD_BE_POSITIVE,"guaranteePrice");
+		}
+		if(basicReceiverGainMoney.compareTo(BigDecimal.ZERO)<0){
+			throw new BusinessException(BusinessExceptionInfos.basicReceiverGainMoney_CANNOT_BE_NEGATIVE,"basicReceiverGainMoney");
 		}
 		int userId = 0;
 		if(needZhiDingJieShouRen){
@@ -177,6 +183,9 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			throw new BusinessException("发布任务时，平台受益点数为负数，应该为正数或者0");
 		}
 		TaskOrder order = new TaskOrder();
+		
+		TaskOrder calCulateTaskOrder = new TaskOrder();
+		
 		/**
 		 * 基本任务和增值任务的集合
 		 */
@@ -189,7 +198,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		/**
 		 * 每单接手方受益金额
 		 */
-		order.setBasicReceiverGainMoney(MoneyCalculateUtil.caculateOrderReceiverGainMoney(guaranteePrice.doubleValue()));
+		order.setBasicReceiverGainMoney(basicReceiverGainMoney);
 		/**
 		 * 每单完成基本任务，接手方受益点数
 		 */
@@ -222,7 +231,6 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 * 批量发布条数
 		 */
 		order.setRepeateTimes(piLiangTimes);
-		BigDecimal repeatPlarformGrainPoint = SystemDbData.subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount();
 		
 		/**
 		 * 状态
@@ -236,126 +244,111 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		/**
 		 * 用户QQ
 		 */
-		order.setUserQq(userQq);
+		order.setUserQq(userQq); 
 		
-		if(StringUtils.isNotBlank(goodCommentTimeLimit)){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("GOOD_COMMENT_TIME_LIMIT");
-			
-			TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-			taskOrderSubTaskInfo.setInputValue(goodCommentTimeLimit);
-			taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-			subTaskInfos.add(item4);
-		}
 		
-		if(StringUtils.isNotBlank(goodCommentContent)){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("GOOD_COMMENT_CONTENT");
-			
-			TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-			taskOrderSubTaskInfo.setInputValue(goodCommentContent);
-			taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-			subTaskInfos.add(item4);
-		}
-		/**
-		 * 每单完成增值任务，平台受益点数
-		 */
-		BigDecimal zengzhiPingtaiGainPoints = BigDecimal.ZERO;
-		if(needZhiDingJieShouRen){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("ZHI_DING_JIE_SHOU_REN");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints.add(item4.getAmount());
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue(userId+"");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-			
-		}
-		if(piLiangTimes>1){
-			/**
-			 * 批量发布
+		Map<String,SubTaskInfo> subTaskInfoMap =  SystemDbData.subTaskInfoMap ;
+		
+		Iterator<Map.Entry<String, SubTaskInfo>> it = subTaskInfoMap.entrySet().iterator();
+		  while (it.hasNext()) {
+			  Map.Entry<String, SubTaskInfo> entry = it.next();
+			  SubTaskInfo item =  entry.getValue();
+		   		String taskKey = item.getTaskKey();
+		   		if(item.getAmount().compareTo(BigDecimal.ZERO)<0){
+		   			continue;
+		   		}
+		   		switch(taskKey){
+		   			case "GOOD_COMMENT_TIME_LIMIT":
+		   				if(StringUtils.isNotBlank(goodCommentTimeLimit)){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(goodCommentTimeLimit);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				
+		   				break;
+		   			case "GOOD_COMMENT_CONTENT":
+		   				if(StringUtils.isNotBlank(goodCommentContent)){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(goodCommentContent);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				
+		   				break;
+		   			case "NEED_WANGWANG_TALK":
+		   				if(needWangWangTalk){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue("1");
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				break;
+		   			case "ZHI_DING_SHOU_HUO_DI_ZHI":
+		   				if(needZhiDingSouHuoDiZhi){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(shouHuoDiZhi);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				break;
+		   			case "ZHI_DING_JIE_SHOU_REN":
+		   				if(needZhiDingJieShouRen){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(""+jieShouRenId);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				break;
+		   			case "PI_LIANG_FA_BU":
+		   				if(piLiangTimes>=2){
+		   					TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(""+piLiangTimes);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							//this.__calculateSureOrder(item, zengzhiPingtaiGainPoints, zengzhiReceiverGainPoints, zengzhiReceiverGainMoney);
+							
+							order.setRepeatPlarformGrainPoint(item.getAmount());
+		   				}
+		   				
+		   				break;
+		   			case "NO_REPEAT_TASK":
+		   				if(noRepeatTalk){
+		   					TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue("1");
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+		   				}
+		   		}
+		  }
+		  
+		  /**
+			 *  每单完成增值任务，接手方受益金额
 			 */
-			order.setRepeatPlarformGrainPoint(repeatPlarformGrainPoint);
-			 
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("PI_LIANG_FA_BU");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue(piLiangTimes+"");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-			
-		}
-		if(noRepeatTalk){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("NO_REPEAT_TASK");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints.add(item4.getAmount());
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue("1");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
+			BigDecimal zengzhiReceiverGainMoney = calCulateTaskOrder.getZengzhiReceiverGainMoney();
+			/**
+			 * 每单完成增值任务，接手方受益点数
+			 */
+			BigDecimal zengzhiReceiverGainPoints = calCulateTaskOrder.getZengzhiReceiverGainPoints();
+			/**
+			 * 每单完成增值任务，平台受益点数
+			 */
+			BigDecimal zengzhiPingtaiGainPoints = calCulateTaskOrder.getZengzhiPingtaiGainPoints();
 		order.setZengzhiPingtaiGainPoints(zengzhiPingtaiGainPoints);
-		
-		/**
-		 *  每单完成增值任务，接手方受益金额
-		 */
-		BigDecimal zengzhiReceiverGainMoney = BigDecimal.ZERO;
-		if(needWangWangTalk){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("NEED_WANGWANG_TALK" );
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.Money){
-				zengzhiReceiverGainMoney = zengzhiReceiverGainMoney.add(item4.getAmount());
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue("1");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
-		if(needZhiDingSouHuoDiZhi){
-			 
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.Money){
-				zengzhiReceiverGainMoney = zengzhiReceiverGainMoney.add(item4.getAmount());
-				
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue(shouHuoDiZhi);
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
 		order.setZengzhiReceiverGainMoney(zengzhiReceiverGainMoney);
-		
-		
-		/**
-		 * 每单完成增值任务，接手方受益点数
-		 */
-		BigDecimal zengzhiReceiverGainPoints = BigDecimal.ZERO;
-		if(needWangWangTalk){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("NEED_WANGWANG_TALK" );
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				zengzhiReceiverGainPoints = zengzhiReceiverGainPoints.add(item4.getAmount());
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue("1");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
-		if(needZhiDingSouHuoDiZhi){
-			 
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				zengzhiReceiverGainPoints = zengzhiReceiverGainPoints.add(item4.getAmount());
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue(shouHuoDiZhi);
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
 		order.setZengzhiReceiverGainPoints(zengzhiReceiverGainPoints);
 		
 		/**
@@ -468,14 +461,16 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 * 平台受益点数
 		 */
 		taskBasic.setBasicPingtaiGainPoint(taskOrder.getBasicPingtaiGainPoint());
+		taskBasic.setZengzhiPingtaiGainPoints(taskOrder.getZengzhiPingtaiGainPoints());
 		/**
-		 * 接手人佣金金额
+		 * 接手受益（佣金）金额
 		 */
 		taskBasic.setBasicReceiverGainMoney(taskOrder.getBasicReceiverGainMoney());
 		/**
 		 * 接手人受益点数
 		 */
 		taskBasic.setBasicReceiverGainPoint(taskOrder.getBasicReceiverGainPoint());
+		taskBasic.setZengzhiReceiverGainPoints(taskOrder.getZengzhiReceiverGainPoints());
 		
 		Date now = new Date();
 		taskBasic.setCreateTime(now);
@@ -493,8 +488,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		taskBasic.setTaskOrderId(taskOrder.getId());
 		taskBasic.setUserId( userBase.getId());
 		taskBasic.setUserQq(taskOrder.getUserQq());
-		taskBasic.setZengzhiPingtaiGainPoints(taskOrder.getZengzhiPingtaiGainPoints());
-		
+		 
 		/**
 		 * 判断是否重复，重复次数
 		 */
@@ -506,33 +500,12 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		taskOrder.setStatus(TaskOrderStatus.SURE);
 		taskOrderDao.update(taskOrder);
 		
-		 
-		/**
-		 * 计算需要支付的费用，需要绑定的费用
-		 * 需要支付的点数，需要绑定的点数
-		 */
-		
-		BigDecimal lockMoney = (taskOrder.getGuaranteePrice()
-				.add(taskOrder.getBasicReceiverGainMoney())
-				.add(taskOrder.getEncourage())
-				.add(taskOrder.getZengzhiReceiverGainMoney()))
-				.multiply(new BigDecimal(taskOrder.getRepeateTimes()));
-		
-		BigDecimal payPoint = taskOrder.getBasicPingtaiGainPoint();
-		
-		BigDecimal lockPoint = (taskOrder.getBasicReceiverGainPoint()
-				.add(taskOrder.getZengzhiPingtaiGainPoints())
-				.add(taskOrder.getZengzhiReceiverGainPoints()))
-				.multiply(new BigDecimal(taskOrder.getRepeateTimes()));
-		
-		
-		
+ 
 		
 		if(repeatTime!=null && repeatTime.intValue()>1){
 			/**
 			 * 重复任务需要支付的平台费用
 			 */
-			payPoint = payPoint.add(SystemDbData.subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount());
 			
 			for(int i=0;i<repeatTime.intValue();i++){
 				TaskBasic newtaskBasic = new TaskBasic();
@@ -545,14 +518,11 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			
 		}else {
 			taskBasicDao.insert(taskBasic);
-			
 			TaskBasicLog taskBasicLog = new TaskBasicLog(taskBasic.getId(),userBase.getId(),TaskBasicLogUserType.CREATER,TaskStatus.Wait_For_Receive,now);
-			 
 			taskBasicLogDao.insert(taskBasicLog);
 		} 
-		MoneyCalculateUtil.caculateOrderAccount(taskOrder);
 		
-		userAccountService.updateUserAccount(userBase, BigDecimal.ZERO,lockMoney,payPoint,lockPoint,
+		userAccountService.updateUserAccount(userBase, BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,
 				UserAccountTypes.Task_Order_SURE, taskOrder.getId(), null);
 		
 		
@@ -569,7 +539,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			String goodCommentContent, boolean needWangWangTalk,
 			boolean noRepeatTalk, boolean needZhiDingJieShouRen,
 			Integer jieShouRenId, boolean needZhiDingSouHuoDiZhi,
-			String shouHuoDiZhi, Integer piLiangFabuCount) throws BusinessException, SQLException {
+			String shouHuoDiZhi, Integer piLiangFabuCount, BigDecimal basicReceiverGainMoney) throws BusinessException, SQLException {
 		 
 		if(userBase == null){
 			throw new BusinessException(BusinessExceptionInfos.USER_IS_BLANK,"userBase");
@@ -603,6 +573,9 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		}
 		if( BigDecimal.ZERO.compareTo(guaranteePrice) >=0){
 			throw new BusinessException(BusinessExceptionInfos.guaranteePrice__SHOULD_BE_POSITIVE,"guaranteePrice");
+		}
+		if(basicReceiverGainMoney.compareTo(BigDecimal.ZERO)<0){
+			throw new BusinessException(BusinessExceptionInfos.basicReceiverGainMoney_CANNOT_BE_NEGATIVE,"basicReceiverGainMoney");
 		}
 		int userId = 0;
 		if(needZhiDingJieShouRen){
@@ -663,9 +636,9 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 */
 		order.setBasicPingtaiGainPoint(basicPingtaiGainPoint);
 		/**
-		 * 每单接手方受益金额
+		 * 每单接手方受益金额 |佣金
 		 */
-		order.setBasicReceiverGainMoney(MoneyCalculateUtil.caculateOrderReceiverGainMoney(guaranteePrice.doubleValue()));
+		order.setBasicReceiverGainMoney(basicReceiverGainMoney);
 		/**
 		 * 每单完成基本任务，接手方受益点数
 		 */
@@ -698,7 +671,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 * 批量发布条数
 		 */
 		order.setRepeateTimes(piLiangTimes);
-		BigDecimal repeatPlarformGrainPoint = SystemDbData.subTaskInfoMap.get("PI_LIANG_FA_BU").getAmount();
+		
 		
 		/**
 		 * 状态
@@ -714,124 +687,107 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 */
 		order.setUserQq(userQq);
 		
-		if(StringUtils.isNotBlank(goodCommentTimeLimit)){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("GOOD_COMMENT_TIME_LIMIT");
-			
-			TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-			taskOrderSubTaskInfo.setInputValue(goodCommentTimeLimit);
-			taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-			subTaskInfos.add(item4);
-		}
-		
-		if(StringUtils.isNotBlank(goodCommentContent)){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("GOOD_COMMENT_CONTENT");
-			
-			TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-			taskOrderSubTaskInfo.setInputValue(goodCommentContent);
-			taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-			subTaskInfos.add(item4);
-		}
-		/**
-		 * 每单完成增值任务，平台受益点数
-		 */
-		BigDecimal zengzhiPingtaiGainPoints = BigDecimal.ZERO;
-		if(needZhiDingJieShouRen){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("ZHI_DING_JIE_SHOU_REN");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints.add(item4.getAmount());
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue(userId+"");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-			
-		}
-		if(piLiangTimes>1){
-			/**
-			 * 批量发布
+		Map<String,SubTaskInfo> subTaskInfoMap =  SystemDbData.subTaskInfoMap ;
+		TaskOrder calCulateTaskOrder = new TaskOrder();
+		Iterator<Map.Entry<String, SubTaskInfo>> it = subTaskInfoMap.entrySet().iterator();
+		  while (it.hasNext()) {
+			  Map.Entry<String, SubTaskInfo> entry = it.next();
+			  SubTaskInfo item =  entry.getValue();
+		   		String taskKey = item.getTaskKey();
+		   		if(item.getAmount().compareTo(BigDecimal.ZERO)<0){
+		   			continue;
+		   		}
+		   		switch(taskKey){
+		   			case "GOOD_COMMENT_TIME_LIMIT":
+		   				if(StringUtils.isNotBlank(goodCommentTimeLimit)){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(goodCommentTimeLimit);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				
+		   				break;
+		   			case "GOOD_COMMENT_CONTENT":
+		   				if(StringUtils.isNotBlank(goodCommentContent)){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(goodCommentContent);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				
+		   				break;
+		   			case "NEED_WANGWANG_TALK":
+		   				if(needWangWangTalk){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue("1");
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				break;
+		   			case "ZHI_DING_SHOU_HUO_DI_ZHI":
+		   				if(needZhiDingSouHuoDiZhi){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(shouHuoDiZhi);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				break;
+		   			case "ZHI_DING_JIE_SHOU_REN":
+		   				if(needZhiDingJieShouRen){
+							TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(""+jieShouRenId);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+						}
+		   				break;
+		   			case "PI_LIANG_FA_BU":
+		   				if(piLiangTimes>=2){
+		   					TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue(""+piLiangTimes);
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							 
+							order.setRepeatPlarformGrainPoint(item.getAmount());
+		   				}
+		   				
+		   				break;
+		   			case "NO_REPEAT_TASK":
+		   				if(noRepeatTalk){
+		   					TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item);
+							taskOrderSubTaskInfo.setInputValue("1");
+							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
+							subTaskInfos.add(item);
+							
+							this.__calculateSureOrder(item, calCulateTaskOrder);
+		   				}
+		   				;
+		   		}
+		  }
+		  /**
+			 *  每单完成增值任务，接手方受益金额
 			 */
-			order.setRepeatPlarformGrainPoint(repeatPlarformGrainPoint);
-			 
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("PI_LIANG_FA_BU");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue(piLiangTimes+"");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-			
-		}
-		if(noRepeatTalk){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("NO_REPEAT_TASK");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints.add(item4.getAmount());
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue("1");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
+			BigDecimal zengzhiReceiverGainMoney = calCulateTaskOrder.getZengzhiReceiverGainMoney();
+			/**
+			 * 每单完成增值任务，接手方受益点数
+			 */
+			BigDecimal zengzhiReceiverGainPoints = calCulateTaskOrder.getZengzhiReceiverGainPoints();
+			/**
+			 * 每单完成增值任务，平台受益点数
+			 */
+			BigDecimal zengzhiPingtaiGainPoints = calCulateTaskOrder.getZengzhiPingtaiGainPoints();
 		order.setZengzhiPingtaiGainPoints(zengzhiPingtaiGainPoints);
-		
-		/**
-		 *  每单完成增值任务，接手方受益金额
-		 */
-		BigDecimal zengzhiReceiverGainMoney = BigDecimal.ZERO;
-		if(needWangWangTalk){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("NEED_WANGWANG_TALK" );
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.Money){
-				zengzhiReceiverGainMoney = zengzhiReceiverGainMoney.add(item4.getAmount());
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue("1");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
-		if(needZhiDingSouHuoDiZhi){
-			 
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.Money){
-				zengzhiReceiverGainMoney = zengzhiReceiverGainMoney.add(item4.getAmount());
-				
-				
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue(shouHuoDiZhi);
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
 		order.setZengzhiReceiverGainMoney(zengzhiReceiverGainMoney);
-		
-		
-		/**
-		 * 每单完成增值任务，接手方受益点数
-		 */
-		BigDecimal zengzhiReceiverGainPoints = BigDecimal.ZERO;
-		if(needWangWangTalk){
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("NEED_WANGWANG_TALK" );
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				zengzhiReceiverGainPoints = zengzhiReceiverGainPoints.add(item4.getAmount());
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue("1");
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
-		if(needZhiDingSouHuoDiZhi){
-			 
-			SubTaskInfo item4 = SystemDbData.subTaskInfoMap.get("ZHI_DING_SHOU_HUO_DI_ZHI");
-			if(item4.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && item4.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
-				zengzhiReceiverGainPoints = zengzhiReceiverGainPoints.add(item4.getAmount());
-				TaskOrderSubTaskInfo taskOrderSubTaskInfo = EntityTransFormUtil.subTaskInfo2TaskOrderSubTaskInfo(item4);
-				taskOrderSubTaskInfo.setInputValue(shouHuoDiZhi);
-				taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
-				subTaskInfos.add(item4);
-			}
-		}
 		order.setZengzhiReceiverGainPoints(zengzhiReceiverGainPoints);
 		
 		/**
@@ -882,6 +838,43 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		List<TaskOrderSubTaskInfo>  taskOrderSubTaskInfos = taskOrderSubTaskInfoDao.getSubTaskInfoByOrderId(id);
 		taskOrder.setTaskOrderSubTaskInfos(taskOrderSubTaskInfos);
 		return taskOrder;
+	}
+	
+	/**
+	 * 工具方法，根据增值认为设置增量
+	 * @param subTaskInfo  增值任务
+	 * @param calCulateTaskOrder	计算用任务
+	 */
+	private void __calculateSureOrder(SubTaskInfo subTaskInfo,TaskOrder calCulateTaskOrder){
+		
+		if(subTaskInfo.getAmount().compareTo(BigDecimal.ZERO)<0){
+   			return;
+   		}else if(subTaskInfo.getAmount().compareTo(BigDecimal.ZERO)==0){
+   			return;
+   		} 
+		/**
+			 * 平台获利点增加
+			 */
+			if(subTaskInfo.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && subTaskInfo.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
+			 
+				calCulateTaskOrder.setZengzhiPingtaiGainPoints(calCulateTaskOrder.getZengzhiPingtaiGainPoints().add(subTaskInfo.getAmount()));
+			}else if(subTaskInfo.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && subTaskInfo.getBenefitType() == SubTaskInfoBenefitTypes.Money){
+			  /**
+			   * 平台获利金额 平台获利不设置获利金额
+			   */
+				 
+			}else if(subTaskInfo.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && subTaskInfo.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
+   			  /**
+   			   * 接手获利点数
+   			   */
+				calCulateTaskOrder.setZengzhiReceiverGainPoints(calCulateTaskOrder.getZengzhiReceiverGainPoints().add(subTaskInfo.getAmount()));
+			 
+   		}else if(subTaskInfo.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && subTaskInfo.getBenefitType() == SubTaskInfoBenefitTypes.Money){
+   			  /**
+   			   * 接手获利金额
+   			   */
+   			calCulateTaskOrder.setZengzhiReceiverGainMoney(calCulateTaskOrder.getZengzhiReceiverGainMoney().add(subTaskInfo.getAmount()));
+   		}
 	}
 	
 	

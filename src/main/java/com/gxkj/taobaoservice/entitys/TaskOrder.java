@@ -97,7 +97,7 @@ public class TaskOrder implements Serializable{
 	
 	
 	/**
-	 *  每单奖励金额
+	 *  每单奖励金额 取消
 	 */
 	@Column(name="encourage" )
 	private BigDecimal encourage = BigDecimal.ZERO ;

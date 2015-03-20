@@ -25,7 +25,9 @@ import com.gxkj.taobaoservice.enums.TaskStatus;
 public class TaskBasicDaoImpl extends BaseDAOImpl implements TaskBasicDao {
 
 	 
-	private String getTaskBasicCountReceivedByReceiverIdHQL = "from TaskBasic where userId = :userId and receiverId=:receiverId and receiverTime is not null and receiverTime between :beginTime and :endTime order by id desc";
+	 private String getTaskBasicCountReceivedByReceiverIdHQL = "from TaskBasic where userId = :userId and receiverId=:receiverId and receiverTime is not null and receiverTime >= :beginTime  order by id desc";
+	
+	private String getTaskBasicCountReceivedByReceiverIdSQL = "select * from task_basic where user_id = ? and receiver_id=? and receiver_time is not null and receiver_time between ? and ? order by id desc";
 	
 	public ListPager doPageForSite(UserBase userBase, Integer orderId,
 			int pageno, int pagesize, Date startTime, Date endTime,TaskStatus status)
@@ -112,16 +114,28 @@ public class TaskBasicDaoImpl extends BaseDAOImpl implements TaskBasicDao {
 		DateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
 		 Date beginTime = formatter1.parse(formatter1.format(now));
 		 
-		 DateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
-		 Date endTime = formatter2.parse(formatter2.format(now));
+		 List<Object> params = new ArrayList<Object>();
 		 
+		 
+//		 DateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd 23:59:59");
+//		 Date endTime = formatter2.parse(formatter2.format(now));
+//		 
 		 Map<String,Object> parameters = new HashMap<String,Object> ();
 		 parameters.put("userId", createrId);
+		 
 		 parameters.put("receiverId", receiverId);
 		 parameters.put("beginTime", beginTime);
-		 parameters.put("endTime", endTime);
+//		 parameters.put("endTime", endTime);
+		 
+		 params.add( createrId);
+		 params.add(receiverId );
+		 params.add(formatter1.format(now) );
+//		 params.add( formatter2.format(now));
+		 
 		
-		return (TaskBasic) this.selectOneByHQL(getTaskBasicCountReceivedByReceiverIdHQL, parameters);
+		 return (TaskBasic) this.selectOneByHQL(getTaskBasicCountReceivedByReceiverIdHQL, parameters);
+		  
+		// return (TaskBasic) this.selectOneBySQL(getTaskBasicCountReceivedByReceiverIdSQL, params.toArray(),TaskBasic.class);
 	}
 
 	 

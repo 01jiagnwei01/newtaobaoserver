@@ -107,7 +107,7 @@ $(function(){
 			{field:'thirdOrderNo',title:'支付宝流水号' ,width:200},
 			{field:'status',title:'状态',width:80,formatter:statusFormat},
 			{field:'auditorName',title:'审核人' ,width:80,formatter:auditorNameFormat},
-			{field:'reviewTime',title:'审核日期',width:100,formatter:dateFormat},
+			{field:'reviewTime',title:'审核日期',width:120,formatter:dateFormat},
 			{field:'refuseReason',title:'拒绝理由',width:100},
 			{field:'opt',title:'操作' ,width:100,formatter:optFormat} 
 		]],

@@ -73,15 +73,15 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 										<tr>
 									<td align="center"><%=formatter.format(item.getCreateTime()) %></td>
 									<td align="center"><%=item.getType().getName()%></td>
-									<td align="center"><%if(item.getPayAmount().compareTo( BigDecimal.ZERO) == 0) {out.print("&nbsp;");}else {
+									<td align="center"><%if(item.getPayAmount()==null||  BigDecimal.ZERO.compareTo( item.getPayAmount()) == 0) {out.print("&nbsp;");}else {
 										out.print( item.getPayAmount());
 										}%></td>
-									<td align="center"><%if(item.getLockAmount().compareTo( BigDecimal.ZERO) == 0) {out.print("&nbsp;");}else {
+									<td align="center"><%if(item.getLockAmount()==null||  BigDecimal.ZERO.compareTo( item.getLockAmount()) == 0) {out.print("&nbsp;");}else {
 										out.print( item.getLockAmount());
 										}%></td>
-									<td align="center"><%if(item.getPayPoints().compareTo( BigDecimal.ZERO) == 0) {out.print("&nbsp;");}else {
+									<td align="center"><%if(item.getPayPoints()==null || BigDecimal.ZERO.compareTo( item.getPayPoints()) == 0) {out.print("&nbsp;");}else {
 										out.print( item.getPayPoints());}%></td>
-									<td align="center"><%if(item.getLockPoint().compareTo( BigDecimal.ZERO) == 0) {out.print("&nbsp;");}else {
+									<td align="center"><%if(item.getLockPoint()==null ||  BigDecimal.ZERO.compareTo( item.getLockPoint()) == 0) {out.print("&nbsp;");}else {
 										out.print( item.getLockPoint());}%></td>
 									<td align="center">
 									<%=item.getAfterRestAmount()%>

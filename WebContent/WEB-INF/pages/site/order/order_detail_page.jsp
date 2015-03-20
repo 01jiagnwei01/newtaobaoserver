@@ -98,12 +98,9 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 							<tr>
 								<td class="bb" align="right" valign="top">基本佣金：</td>
 								<td class="bb">${order.basicReceiverGainMoney}<br/>
-                                <span style="font-size:12px; color:#999;">佣金标准：100元以下的5元（包含100元）;100-200元的8元（包含200元）;200-500元的15元（包含500元）;500元以上20元</span></td>
+                                <span style="font-size:12px; color:#999;">接任务的人每单获利。</span></td>
 							</tr>
-							<tr>
-								<td class="bb" align="right">奖励接手人：</td>
-								<td class="bb">${order.encourage}</td>
-							</tr>
+							
 							<tr>
 								<td align="right">支付平台发布点：</td>
 								<td>0.5</td>

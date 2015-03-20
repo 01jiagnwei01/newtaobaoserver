@@ -33,13 +33,14 @@ public interface TaskOrderService {
 	 * @param needZhiDingSouHuoDiZhi	需要指定收货地址
 	 * @param shouHuoDiZhi				指定的收货地址
 	 * @param piLiangFabuCount		发布任务条数
+	 * @param basicReceiverGainMoney  支付佣金
 	 * @return
 	 * @throws SQLException
 	 */
 	public TaskOrder doAddTaskOrder(  UserBase userBase,String taobaoXiaohao,String userQq,String productTitle,String productLink,
 			BigDecimal guaranteePrice, BigDecimal encourage,String goodCommentTimeLimit,
 			String goodCommentContent,boolean needWangWangTalk,boolean  noRepeatTalk,boolean needZhiDingJieShouRen,Integer jieShouRenId,
-			boolean needZhiDingSouHuoDiZhi ,String shouHuoDiZhi,Integer piLiangFabuCount
+			boolean needZhiDingSouHuoDiZhi ,String shouHuoDiZhi,Integer piLiangFabuCount, BigDecimal basicReceiverGainMoney
 			) throws SQLException,BusinessException;
 
 	/**
@@ -115,7 +116,7 @@ public interface TaskOrderService {
 			String goodCommentContent, boolean needWangWangTalk,
 			boolean noRepeatTalk, boolean needZhiDingJieShouRen,
 			Integer jieShouRenId, boolean needZhiDingSouHuoDiZhi,
-			String shouHuoDiZhi, Integer piLiangFabuCount) throws BusinessException, SQLException;
+			String shouHuoDiZhi, Integer piLiangFabuCount, BigDecimal basicReceiverGainMoney) throws BusinessException, SQLException;
 
 	/**
 	 * 后台查询订单

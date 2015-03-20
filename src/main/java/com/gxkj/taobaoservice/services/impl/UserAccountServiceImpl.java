@@ -68,6 +68,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	public boolean updateUserAccount(UserBase userBase, BigDecimal payamount,BigDecimal lockAmount,
 			BigDecimal payPoints,BigDecimal lockPoints, UserAccountTypes operateType, Integer refTableId,Integer adminUserId) throws BusinessException, SQLException {
 		 TaskBasic taskBasic =  null;
+		 TaskOrder taskOrder =  null;
 		if(operateType == null){
 			log.info(String.format("操作方式为空,operateType = null"));
 			throw new BusinessException(BusinessExceptionInfos.UserAccountTypes_IS_NULL,"operateType");
@@ -83,13 +84,33 @@ public class UserAccountServiceImpl implements UserAccountService {
 			  */
 			 userBase.setId(taskBasic.getUserId());
 			 /**
-			  * 支付金额 =   奖励资金 + 担保金 + 佣金 (全部付给接单人)
+			  * 支付金额 =  	担保金 + 佣金+增值任务获利金额 (全部付给接单人)
 			  * 支付点数 =   平台增值任务获得点数 + 接单人增值任务获得点数  
 			  */
-			 payamount = taskBasic.getEncourage().add(taskBasic.getGuaranteePrice() ).add(taskBasic.getBasicReceiverGainMoney())  ;
+			 payamount = taskBasic.getEncourage().add(taskBasic.getGuaranteePrice() ).add(taskBasic.getBasicReceiverGainMoney()).add(taskBasic.getZengzhiReceiverGainMoney())  ;
 			 lockAmount = BigDecimal.ZERO;
 			 payPoints = taskBasic.getZengzhiPingtaiGainPoints().add(taskBasic.getBasicReceiverGainPoint());
 			 lockPoints = BigDecimal.ZERO;
+		}else if(UserAccountTypes.Task_Order_SURE == operateType){
+			 if( refTableId == null || refTableId == 0 ){
+				 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"refTableId");
+			 }
+			  taskOrder =  (TaskOrder) taskOrderDao.selectById(refTableId, TaskOrder.class);
+			 /**
+			  * 支付金额为0
+			  * 绑定金额 = （担保金+佣金+接手人增值任务获利金额）*重复次数
+			  * 支付点数 = 平台基本获利 + 批量发布获利点数 
+			  * 绑定点数 = （ 接手人增值任务获利点数 + 平台增值任务获利点数 ）* 重复次数
+			  */
+			 payamount = BigDecimal.ZERO;
+			 lockAmount = (
+					 	taskOrder.getGuaranteePrice()
+					 	.add(taskOrder.getBasicReceiverGainMoney())
+					 	.add(taskOrder.getZengzhiReceiverGainMoney())
+					 	).multiply(new BigDecimal(taskOrder.getRepeateTimes()));
+			 payPoints = taskOrder.getBasicPingtaiGainPoint().add(taskOrder.getRepeatPlarformGrainPoint());
+			 lockPoints = (taskOrder.getZengzhiReceiverGainPoints().add(taskOrder.getZengzhiPingtaiGainPoints())).multiply(new BigDecimal(taskOrder.getRepeateTimes()));
+			 
 		}
 		if(userBase == null){
 			log.info(String.format("参数错误,userBase=null"));
@@ -334,10 +355,10 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedPoints = currentLockedPoints.add(lockPoints);
 				/**
 				 * 公司账户增加
-				 * 获得点数增加
+				 * 	获得点数 = 平台基本获利+批量发布获利
 				 */
-				TaskOrder taskOrder =  (TaskOrder) taskOrderDao.selectById(refTableId, TaskOrder.class);
-				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO,  taskOrder.getBasicPingtaiGainPoint(),  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO ,
+				
+				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO,  taskOrder.getBasicPingtaiGainPoint().add(taskOrder.getRepeatPlarformGrainPoint()),  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO ,
 						CompanyAccountReason.ORDERSURE,refTableId);
 				
 				 
@@ -373,8 +394,9 @@ public class UserAccountServiceImpl implements UserAccountService {
 				 * 锁定资金 = 锁定资金 - 支付资金
 				 * 锁定点数 = 锁定点数 - 支付点数
 				 */
-				afterLockedPoints = afterLockedPoints.subtract(payPoints);
 				afterLockedAmount = afterLockedAmount.subtract(payamount);
+				afterLockedPoints = afterLockedPoints.subtract(payPoints);
+				
 				
 				if(taskBasic.getZengzhiReceiverGainPoints().compareTo(BigDecimal.ZERO) >0){
 					companyAccountDao.executeUpdateCompanyAccount( BigDecimal.ZERO,  BigDecimal.ZERO,  
@@ -385,8 +407,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				/**
 				 * 接单人员账户变化
 				 */
-				_receiverUserCountChangeForTaskOrderSURE(now ,taskBasic.getReceiverId(),taskBasic.getBasicReceiverGainPoint(),
-						payamount,refTableId);
+				_receiverUserCountChangeForTaskOrderSURE(now ,taskBasic);
 				break;
 				
 			
@@ -464,9 +485,9 @@ public class UserAccountServiceImpl implements UserAccountService {
 	 * @param refTableId 关联表ID
 	 * @throws SQLException 
 	 */
-	private void _receiverUserCountChangeForTaskOrderSURE(Date now ,Integer receiverId,BigDecimal changePoints,BigDecimal changeAmount,Integer refTableId) throws SQLException{
+	private void _receiverUserCountChangeForTaskOrderSURE(Date now ,TaskBasic taskBasic) throws SQLException{
 			
-		UserAccount uerAccount = userAccountDao.getUserAccountByUserId(receiverId);
+		UserAccount uerAccount = userAccountDao.getUserAccountByUserId(taskBasic.getReceiverId());
 		
 		//当前可用余额
 		BigDecimal currentBalance = uerAccount.getCurrentBalance();
@@ -477,7 +498,17 @@ public class UserAccountServiceImpl implements UserAccountService {
 		//当前锁定点数
 		BigDecimal currentLockedPoints = uerAccount.getLockedPoints();
 		
-		 
+		/**
+		 * 订单确认接单人账户变化
+		 * 变化金额 =  担保金 + 佣金 + 增值任务获利金
+		 * 变化点数 =  接单人增值任务获利点数
+		 * 
+		 */
+		BigDecimal changeAmount = taskBasic.getGuaranteePrice().add(taskBasic.getBasicReceiverGainMoney()).add(taskBasic.getZengzhiReceiverGainMoney());
+		BigDecimal changePoints = taskBasic.getZengzhiReceiverGainPoints();
+		if (changeAmount.compareTo(BigDecimal.ZERO) == 0 && changePoints.compareTo(BigDecimal.ZERO) == 0){
+			return;
+		}
 		
 		BigDecimal afterAmount = currentBalance.add(changeAmount);
 		BigDecimal afterPoints = currentPoints.add(changePoints);
@@ -505,9 +536,9 @@ public class UserAccountServiceImpl implements UserAccountService {
 		userAccountLog.setBeforeRestPoints(currentPoints);
 		
 		userAccountLog.setAdminUserId(null);
-		userAccountLog.setUserId(receiverId);
+		userAccountLog.setUserId(taskBasic.getReceiverId());
 		userAccountLog.setCreateTime(now);
-		userAccountLog.setTaskOrderId(refTableId);
+		userAccountLog.setTaskBasicId(taskBasic.getId()); 
 		
 		userAccountLog.setPayAmount(changeAmount);
 		userAccountLog.setPayPoints(changePoints);

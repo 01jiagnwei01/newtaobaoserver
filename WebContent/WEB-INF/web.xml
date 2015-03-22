@@ -5,6 +5,15 @@
 		<session-timeout>10</session-timeout>
 	</session-config> 
 -->
+<error-page>  
+		<error-code>404</error-code> 
+		<location>/exception/404</location> 
+</error-page> 
+<error-page>  
+		<error-code>500</error-code>                              
+		<location>/exception/500</location> 
+</error-page>
+
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:spring-*.xml</param-value>

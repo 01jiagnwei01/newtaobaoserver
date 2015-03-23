@@ -133,6 +133,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 			//前台来的
 			if(		"/".equals(url) 
 					||"".equals(url)
+					||  url.indexOf("/xuetang")>=0 
 					||  url.indexOf("/login")>=0 
 					|| url.indexOf("reg")>=0
 					||  url.indexOf("/exception")>=0

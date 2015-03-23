@@ -71,7 +71,7 @@ table td {
 								if(pager == null || pager.getTotalRows() == 0){
 									%>
 									<tr>
-										<td colspan="7" align="center">我们正在努力工作，为您提供更好的服务</td> 
+										<td colspan="7" align="center">今天的任务已经被抢空了，下次早点来</td> 
 									</tr>
 									<%
 								}else{

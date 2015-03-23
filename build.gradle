@@ -30,10 +30,23 @@ sourceCompatibility = 1.8
 webAppDirName = 'WebContent'    // 设置 WebApp 根目录
 [compileJava,compileTestJava,javadoc]*.options*.encoding = "UTF-8"
 //tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
+sourceSets {
+	main {
+		groovy {
+			srcDirs = [
+				'src/main/groovy',
+				'src/main/java'
+			]
+		}  // compile everything in src/ with groovy
+		java { srcDirs = []}    // no source dirs for the java compiler
+  
+	}
+}
 repositories {
 	mavenLocal()
 	 mavenCentral() // 中央库
 }
+
 
 dependencies {
 	

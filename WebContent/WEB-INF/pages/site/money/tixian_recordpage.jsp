@@ -43,9 +43,7 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					</jsp:include>
 				</div>
 				<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:5000px; margin-bottom:-5000px;" class="fr">
-				 	<h2 style="background:#f8f8f8; font-weight:normal; margin-top:30px;">
-	                	<div style="padding:10px;"><span style="font-size:16px;">可用余额：</span><span style="color:rgb(57, 161, 234);">${userAccount.currentBalance }</span></div>
-	                </h2>
+				 	 <jsp:include page="../common/user_account.jsp"></jsp:include>
 				 	<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:20px;">
 							<tr>
 									<td align="center" bgcolor="#4CA4EE" style="color:#fff;">操作时间</td>

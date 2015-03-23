@@ -99,7 +99,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 		}
 		if(url.indexOf("/admin")>=0){
 			//管理员过滤
-			if(url.indexOf("login")>=0 || url.indexOf("dologin")>=0 || url.indexOf("logout")>=0){
+			if(url.equals("/admin/")|| url.indexOf("login")>=0 || url.indexOf("dologin")>=0 || url.indexOf("logout")>=0){
 				return true;
 			}
 			AdminUser user = SessionConstant.getAdminUserInSession(req);

@@ -50,9 +50,8 @@ table td{padding:5px; font-size:14px;}
             </div>
 
 			<div style="width:910px; padding:0 40px; background-color:#FFF; margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
-            	<h2 style="background:#f8f8f8; font-weight:normal; margin-top:30px;">
-                	<div style="padding:10px;"><span style="font-size:16px;">可用余额：</span><span style="color:rgb(57, 161, 234);">${userAccount.currentBalance }</span></div>
-                </h2>
+                 
+                <jsp:include page="../common/user_account.jsp"></jsp:include>
 				<div style="margin:20px 0;">工作时间正确填写交易号/商务订单号，资金一小时内到账</div>
 				<ul style="border-bottom:1px #ccc solid; height:100px;">
 					<li class="fl">

@@ -42,6 +42,10 @@ sourceSets {
   
 	}
 }
+tasks.withType(GroovyCompile) {
+    groovyOptions.encoding = "UTF-8"
+}
+
 repositories {
 	mavenLocal()
 	 mavenCentral() // 中央库

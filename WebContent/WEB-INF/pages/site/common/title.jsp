@@ -51,6 +51,10 @@ if(StringUtils.isBlank(titletype)){
 		out.println("<title>谷谷道场找回密码页</title>");
 	}  else if("about_us".equals(titletype)){
 		out.println("<title>关于谷谷道场</title>");
+	}else if("404".equals(titletype)){
+		out.println("<title>您要找的不存在哦</title>");
+	}else if("500".equals(titletype)){
+		out.println("<title>请正确操作哦</title>");
 	}
 }
 %>

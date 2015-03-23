@@ -12,12 +12,12 @@ Down:www.datouwang.com
 			$.fn.Sonline.close(opts.Position,0);
 		}
 		//展开
-		$("#SonlineBox > .openTrigger").live("click",function(){$.fn.Sonline.open(opts.Position);});
+		$("#SonlineBox > .openTrigger").on("click",function(){$.fn.Sonline.open(opts.Position);});
 		//关闭
-		$("#SonlineBox > .contentBox > .closeTrigger").live("click",function(){$.fn.Sonline.close(opts.Position,"fast");});
+		$("#SonlineBox > .contentBox > .closeTrigger").on("click",function(){$.fn.Sonline.close(opts.Position,"fast");});
 		
 		//Ie6兼容或滚动方式显示
-		if ($.browser.msie && ($.browser.version == "6.0") && !$.support.style||opts.Effect==true) {$.fn.Sonline.scrollType();}
+		if ($.browser && $.browser.msie && ($.browser.version == "6.0") && !$.support.style||opts.Effect==true) {$.fn.Sonline.scrollType();}
 		else if(opts.Effect==false){$("#SonlineBox").css({position:"fixed"});}
 	}
 	//plugin defaults

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/js/jquery.js"></script>
-<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/js/sonline.js"></script>
+<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/js/jquery.Sonline.js"></script>
 <script type="text/javascript">
 <!--
 function addCookie(name,value,expiresHours){ 
@@ -47,15 +47,13 @@ function checkPhone(mobile){
     }
 }
 $(function(){
-	/**
-	 $("body").Sonline({
-		  Position:"right",//left或right
-		  Top:200,//顶部距离，默认200px
-		  Effect:true, //滚动或者固定两种方式，布尔值：true或false
-		  DefaultsOpen:true, //默认展开：true,默认收缩：false
-		  Qqlist:"402719549|客服a,402719549|客服b,402719549|客服c,402719549|客服d,402719549|客服e" //多个QQ用','隔开，QQ和客服名用'|'隔开
-		});
-	*/
-})
+	$("body").Sonline({
+		Position:"right",//left或right
+		Top:200,//顶部距离，默认200px
+		Effect:true, //滚动或者固定两种方式，布尔值：true或false
+		DefaultsOpen:true, //默认展开：true,默认收缩：false
+		Qqlist:"346745719|客服01,408931602|客服02" //多个QQ用','隔开，QQ和客服名用'|'隔开
+	});
+})	
 //-->
 </script> 

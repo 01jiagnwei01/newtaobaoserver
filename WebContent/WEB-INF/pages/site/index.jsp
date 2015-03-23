@@ -76,7 +76,7 @@
 		 
         <div class="fl" style="width:1198px; border:1px solid #ccc; background:url(<%=request.getContextPath() %>/resources/images/bg.gif) no-repeat center 40px #fff; height:370px; position:relative;">
 	        <DIV style="position:absolute; width:290px; text-align:center; left:50px; top:30px;">
-    	    	<span style="color:#218CE1; font-size:16px;">发布方存款转化成网店收款</span>
+    	    	<span style="color:#218CE1; font-size:16px;">发布方平台存款转化成网店收款</span>
                 <div style="width:288px; text-align:left; margin-top:15px; border:solid 1px #ccc;">
                 	<SPAn style="background:url(<%=request.getContextPath() %>/resources/images/icon1.gif) no-repeat 0 30px; display:block; padding-left:30px; margin-left:30px; padding-top:30px;">发布网店任务</SPAn>
                 	<SPAn style="background:url(<%=request.getContextPath() %>/resources/images/icon2.gif) no-repeat 0 30px; display:block; padding-left:30px; margin-left:30px; padding-top:30px;">获得好生意</SPAn>
@@ -88,7 +88,7 @@
                 <SPAn style="background:#125489; display:block; height:5px;"></SPAn>
             </DIV>
 	        <DIV style="position:absolute; width:290px; text-align:center; right:50px; top:30px;">
-    	    	<span style="color:#218CE1; font-size:16px;">发布方存款转化成网店收款</span>
+    	    	<span style="color:#218CE1; font-size:16px;">接手方网店付款转化为平台收款</span>
                 <div style="width:288px; text-align:left; margin-top:15px; border:solid 1px #ccc;">
                 	<SPAn style="background:url(<%=request.getContextPath() %>/resources/images/icon4.gif) no-repeat 0 30px; display:block; padding-left:30px; margin-left:30px; padding-top:30px;">参与任务</SPAn>
                 	<SPAn style="background:url(<%=request.getContextPath() %>/resources/images/icon5.gif) no-repeat 0 30px; display:block; padding-left:30px; margin-left:30px; padding-top:30px;">按规定完成</SPAn>

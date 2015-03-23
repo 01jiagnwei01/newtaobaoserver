@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="<%=request.getContextPath() %>/resources/jquery.cookie.4.1.js"></script>
 
 <script type="text/javascript">
 <!--

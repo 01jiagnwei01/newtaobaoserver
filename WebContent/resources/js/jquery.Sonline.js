@@ -12,9 +12,16 @@ Down:www.datouwang.com
 			$.fn.Sonline.close(opts.Position,0);
 		}
 		//展开
-		$("#SonlineBox > .openTrigger").on("click",function(){$.fn.Sonline.open(opts.Position);});
+		$("#SonlineBox > .openTrigger").on("click",function(){
+			$.fn.Sonline.open(opts.Position);
+			$.cookie('SonlineBox_expand', 'true', { expires: 1 });
+		});
 		//关闭
-		$("#SonlineBox > .contentBox > .closeTrigger").on("click",function(){$.fn.Sonline.close(opts.Position,"fast");});
+		$("#SonlineBox > .contentBox > .closeTrigger").on("click",function(){
+			
+			$.fn.Sonline.close(opts.Position,"fast");
+			$.cookie('SonlineBox_expand', 'false', { expires: 1 });
+		});
 		
 		//Ie6兼容或滚动方式显示
 		if ($.browser && $.browser.msie && ($.browser.version == "6.0") && !$.support.style||opts.Effect==true) {$.fn.Sonline.scrollType();}

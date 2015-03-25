@@ -17,7 +17,7 @@
 		<jsp:param name="showshouye" value="true"></jsp:param>
 	</jsp:include>  
 
-	<div  id="reg_form"  style="border-radius:10px; width:400px; margin:10px auto 30px; padding-bottom:30px; border:solid 1px #ccc;">
+	<div  id="reg_form"  style="border-radius:10px; width:400px; margin:10px auto 30px; padding-bottom:140px; border:solid 1px #ccc;">
 			<table  cellspacing="0" cellpadding="0" class="center" style="margin-top:30px;width:90%;border: 0 ">
 				<tr>
 						<td align="right"><span style="color:#09F; font-weight:bold">新用户注册</span></td>

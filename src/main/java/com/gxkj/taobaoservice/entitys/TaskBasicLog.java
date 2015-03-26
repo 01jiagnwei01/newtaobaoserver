@@ -62,6 +62,18 @@ public class TaskBasicLog implements Serializable {
 	@NotNull(message="创建时间不能为空")
 	@Column(name="create_time" )
 	private  Date createTime;
+	
+	/**
+	 * 接单IP
+	 */
+	@Column(name="receiver_ip" ) 
+	private String receiverIp;
+	
+	/**
+	 * 订单创建者ID
+	 */
+	@Column(name="task_basic_creater_id" ) 
+	private Integer taskBasicCreaterId;
 
 	public Integer getId() {
 		return id;
@@ -112,18 +124,37 @@ public class TaskBasicLog implements Serializable {
 	}
 
 	public TaskBasicLog(Integer taskBasicId, Integer userId,
-			TaskBasicLogUserType userType, TaskStatus status, Date createTime) {
+			TaskBasicLogUserType userType, TaskStatus status, Date createTime,Integer taskBasicCreaterId) {
 		super();
 		this.taskBasicId = taskBasicId;
 		this.userId = userId;
 		this.userType = userType;
 		this.status = status;
 		this.createTime = createTime;
+		this.taskBasicCreaterId = taskBasicCreaterId;
 	}
 
 	public TaskBasicLog() {
 		super();
 	}
+
+	public String getReceiverIp() {
+		return receiverIp;
+	}
+
+	public void setReceiverIp(String receiverIp) {
+		this.receiverIp = receiverIp;
+	}
+
+	public Integer getTaskBasicCreaterId() {
+		return taskBasicCreaterId;
+	}
+
+	public void setTaskBasicCreaterId(Integer taskBasicCreaterId) {
+		this.taskBasicCreaterId = taskBasicCreaterId;
+	}
+	
+	
 	
 	
 

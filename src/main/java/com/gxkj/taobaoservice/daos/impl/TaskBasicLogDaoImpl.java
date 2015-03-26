@@ -2,9 +2,12 @@ package com.gxkj.taobaoservice.daos.impl;
 
 import java.math.BigInteger;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -35,5 +38,28 @@ public class TaskBasicLogDaoImpl extends BaseDAOImpl implements TaskBasicLogDao 
 		String hql = "from TaskBasicLog where taskBasicId = ? order by id";
 		return (List<TaskBasicLog>) this.selectByHQL(hql, new Object[]{taskId});
 	}
+
+	
+	/**
+	 * 判断用户是否已经使用IP接过创单人员的单子
+	 */
+	public boolean haveReceivedWithThisIP(Integer recieverID, Integer createId,
+			String receiverIp, Date fromDate) throws SQLException, ParseException {
+		String hql = "from TaskBasicLog where  userId =:recieverID and taskBasicCreaterId=:createId and receiverIp=:receiverIp and status = :status and createTime>=:createTime";
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
+		String beginTime = formatter.format(fromDate);
+		Date createTime = formatter.parse(beginTime);
+		 Map<String,Object> par  = new HashMap<String,Object>();
+		 par.put("recieverID", recieverID);
+		 par.put("createId", createId);
+		 par.put("receiverIp", receiverIp);
+		 par.put("status", TaskStatus.Have_Bean_Received);
+		 par.put("createTime", createTime);
+		 TaskBasicLog taskBasicLog = (TaskBasicLog) this.selectOneByHQL(hql, par);
+		
+		return taskBasicLog == null ? false:true;
+	}
+
+	
 
 }

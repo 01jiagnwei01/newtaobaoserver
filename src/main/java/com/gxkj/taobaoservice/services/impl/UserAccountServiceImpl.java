@@ -85,11 +85,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 			 userBase.setId(taskBasic.getUserId());
 			 /**
 			  * 支付金额 =  	担保金 + 佣金+增值任务获利金额 (全部付给接单人)
-			  * 支付点数 =   平台增值任务获得点数 + 接单人增值任务获得点数  
+			  * 支付点数 =   平台增值任务获得点数 + 接单人增值任务获得点数 +基本任务奖励接单人点数 
 			  */
 			 payamount = taskBasic.getEncourage().add(taskBasic.getGuaranteePrice() ).add(taskBasic.getBasicReceiverGainMoney()).add(taskBasic.getZengzhiReceiverGainMoney())  ;
 			 lockAmount = BigDecimal.ZERO;
-			 payPoints = taskBasic.getZengzhiPingtaiGainPoints().add(taskBasic.getBasicReceiverGainPoint());
+			 payPoints = taskBasic.getZengzhiPingtaiGainPoints().add(taskBasic.getBasicReceiverGainPoint()).add(taskBasic.getZengzhiReceiverGainPoints());
 			 lockPoints = BigDecimal.ZERO;
 		}else if(UserAccountTypes.Task_Order_SURE == operateType){
 			 if( refTableId == null || refTableId == 0 ){

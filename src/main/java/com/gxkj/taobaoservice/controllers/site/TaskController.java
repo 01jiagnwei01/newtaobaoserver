@@ -30,6 +30,7 @@ import com.gxkj.taobaoservice.entitys.TaskBasic;
 import com.gxkj.taobaoservice.entitys.TaskOrderSubTaskInfo;
 import com.gxkj.taobaoservice.entitys.UserBase;
 import com.gxkj.taobaoservice.services.TaskBasicService;
+import com.gxkj.taobaoservice.util.IpUtils;
 import com.gxkj.taobaoservice.util.SubHeaderTag;
 
 @Controller
@@ -297,7 +298,8 @@ public class TaskController {
 			@RequestParam(value="taskid",defaultValue="0") int taskid) throws SQLException, BusinessException, ParseException {
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
 		 EntityReturnData ret = new EntityReturnData();
-		 taskBasicService.doReceiveTask(userBase,taskid);
+		 String receiverIp = IpUtils.getIpAddr(request);
+		 taskBasicService.doReceiveTask(userBase,taskid,receiverIp);
 		 ret.setResult(true);
 		 ret.setMsg("接单成功");
  		 return ret;	

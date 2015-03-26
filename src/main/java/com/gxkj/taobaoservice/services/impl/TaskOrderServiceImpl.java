@@ -512,13 +512,13 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 				BeanUtils.copyProperties(newtaskBasic, taskBasic);
 				taskBasicDao.insert(newtaskBasic);
 				
-				TaskBasicLog taskBasicLog = new TaskBasicLog(newtaskBasic.getId(),userBase.getId(),TaskBasicLogUserType.CREATER,TaskStatus.Wait_For_Receive,now);
+				TaskBasicLog taskBasicLog = new TaskBasicLog(newtaskBasic.getId(),userBase.getId(),TaskBasicLogUserType.CREATER,TaskStatus.Wait_For_Receive,now,userBase.getId());
 				taskBasicLogDao.insert(taskBasicLog);
 			}
 			
 		}else {
 			taskBasicDao.insert(taskBasic);
-			TaskBasicLog taskBasicLog = new TaskBasicLog(taskBasic.getId(),userBase.getId(),TaskBasicLogUserType.CREATER,TaskStatus.Wait_For_Receive,now);
+			TaskBasicLog taskBasicLog = new TaskBasicLog(taskBasic.getId(),userBase.getId(),TaskBasicLogUserType.CREATER,TaskStatus.Wait_For_Receive,now,userBase.getId());
 			taskBasicLogDao.insert(taskBasicLog);
 		} 
 		

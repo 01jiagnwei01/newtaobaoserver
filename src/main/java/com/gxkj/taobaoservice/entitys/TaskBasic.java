@@ -183,6 +183,8 @@ public class TaskBasic implements Serializable {
 	@Column(name="receiver_alipay" ) 
 	private String receiverAlipay;
 	
+	
+	
 	/**
 	 * 实际选中的任务
 	 */
@@ -392,7 +394,8 @@ public class TaskBasic implements Serializable {
 	public void setTaskEndTime(Date taskEndTime) {
 		this.taskEndTime = taskEndTime;
 	}
-	
+
+ 
 	
 
 }

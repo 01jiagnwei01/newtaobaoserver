@@ -184,6 +184,7 @@ function doThisTask(zthis,id){
 			  taskid:id
 		  },
 		  success:function(json){
+			  $(zthis).attr("disabled",false); 
 			  alert("已接任务,新任务放到我未完成的任务里");
 			  window.location.reload();
 			  return; 

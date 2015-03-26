@@ -80,7 +80,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 	 * 接单
 	 * @throws ParseException 
 	 */
-	public TaskBasic doReceiveTask(UserBase userBase, int taskid)
+	public TaskBasic doReceiveTask(UserBase userBase, int taskid,String receiverIp)
 			throws SQLException, BusinessException, ParseException {
 		if(userBase == null){
 			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"userBase");
@@ -103,12 +103,20 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		if(taskBasic.getStatus() != TaskStatus.Wait_For_Receive){
 			throw new BusinessException(BusinessExceptionInfos.TASK_STATUS_NOT_WAIT,"status");
 		}
+		Date now = new Date();
+		/**
+		 * 判断接手一天内是否使用该IP结果该用户的单
+		 */
+		boolean haveReceivedWithThisIP = taskBasicLogDao.haveReceivedWithThisIP(userBase.getId(),taskBasic.getUserId(),receiverIp,now);
+		if(haveReceivedWithThisIP){
+			throw new BusinessException(BusinessExceptionInfos.have_receive_the_user_task_with_ip,"ip");
+		}
 		
 		Integer countAllow = SystemGlobals.getIntPreference("taobao.order.user.can.receive.count",20);
 		/**
 		 * 查看用户接单是否超过每天允许接单总数的限制
 		 */
-		Date now = new Date();
+		
 		BigInteger haveReceivedCount = taskBasicLogDao.getOnePersonCountReceivedTaskInOneDay(userBase.getId(), now);
 		if(haveReceivedCount!=null && haveReceivedCount.intValue()>countAllow){
 			throw new BusinessException(BusinessExceptionInfos.DAY_RECEIVE_COUNT_LIMIT,"receive_count");
@@ -149,6 +157,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		taskBasic.setReceiverTime(now); 
 		taskBasic.setReceiverQq(receiverQQ);
 		taskBasic.setReceiverAlipay(receiverAlipay);
+		
 		taskBasicDao.update(taskBasic);
 		
 		TaskBasicLog taskBasicLog = new TaskBasicLog();
@@ -157,6 +166,8 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		taskBasicLog.setTaskBasicId(taskBasic.getId());
 		taskBasicLog.setUserId(userBase.getId());
 		taskBasicLog.setUserType(TaskBasicLogUserType.RECEIVER);
+		taskBasicLog.setReceiverIp(receiverIp);
+		taskBasicLog.setTaskBasicCreaterId(taskBasic.getUserId());
 		taskBasicLogDao.insert(taskBasicLog);
 		return taskBasic;
 	}
@@ -197,6 +208,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		taskBasicLog.setTaskBasicId(taskBasic.getId());
 		taskBasicLog.setUserId(userBase.getId());
 		taskBasicLog.setUserType(TaskBasicLogUserType.RECEIVER);
+		taskBasicLog.setTaskBasicCreaterId(taskBasic.getUserId());
 		taskBasicLogDao.insert(taskBasicLog);
 		return taskBasic;
 	}
@@ -238,6 +250,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		taskBasicLog.setTaskBasicId(taskBasic.getId());
 		taskBasicLog.setUserId(userBase.getId());
 		taskBasicLog.setUserType(TaskBasicLogUserType.CREATER);
+		taskBasicLog.setTaskBasicCreaterId(taskBasic.getUserId());
 		taskBasicLogDao.insert(taskBasicLog);
 		
 		/**
@@ -277,6 +290,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		taskBasic.setReceiverTime(null);
 		taskBasic.setReceiverQq(null);
 		taskBasic.setReceiverAlipay(null);
+		
 		taskBasicDao.update(taskBasic);
 		
 		Date now = new Date();
@@ -286,6 +300,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		taskBasicLog.setTaskBasicId(taskBasic.getId());
 		taskBasicLog.setUserId(userBase.getId());
 		taskBasicLog.setUserType(TaskBasicLogUserType.RECEIVER);
+		taskBasicLog.setTaskBasicCreaterId(taskBasic.getUserId());
 		taskBasicLogDao.insert(taskBasicLog);
 		return taskBasic;
 	}

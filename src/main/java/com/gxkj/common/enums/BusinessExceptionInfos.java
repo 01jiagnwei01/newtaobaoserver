@@ -105,7 +105,8 @@ public enum BusinessExceptionInfos {
 	STATUS_IS_SURE("102","该订单已确认"),
 	NO_ALLOW_SPECIAL_RECEIVER_IS_SELF("103","禁止指定自己接自己发布的任务"),
 	TEL_IS_REGED("104","手机号码已经被注册了"),
-	basicReceiverGainMoney_CANNOT_BE_NEGATIVE("105","佣金应该不能为负数");
+	basicReceiverGainMoney_CANNOT_BE_NEGATIVE("105","佣金应该不能为负数"),
+	have_receive_the_user_task_with_ip("106","您今天已经使用该IP接过该用户的任务，请更换IP");
 	private String errorCode; 
 	
 	private String errorMsg;

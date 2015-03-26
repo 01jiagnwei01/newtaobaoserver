@@ -62,12 +62,13 @@ public interface TaskBasicService {
 	 * 接单
 	 * @param userBase
 	 * @param taskid
+	 * @param receiverIp	用户IP	 
 	 * @return
 	 * @throws SQLException
 	 * @throws BusinessException
 	 * @throws ParseException 
 	 */
-	public TaskBasic doReceiveTask(UserBase userBase, int taskid)throws SQLException, BusinessException, ParseException;
+	public TaskBasic doReceiveTask(UserBase userBase, int taskid,String receiverIp)throws SQLException, BusinessException, ParseException;
 
 	/**
 	 * 接单人确定订单完成

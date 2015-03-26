@@ -109,7 +109,7 @@ public class TaskBasicServiceImpl implements TaskBasicService {
 		 */
 		boolean haveReceivedWithThisIP = taskBasicLogDao.haveReceivedWithThisIP(userBase.getId(),taskBasic.getUserId(),receiverIp,now);
 		if(haveReceivedWithThisIP){
-			throw new BusinessException(BusinessExceptionInfos.TASK_STATUS_NOT_WAIT,"status");
+			throw new BusinessException(BusinessExceptionInfos.have_receive_the_user_task_with_ip,"ip");
 		}
 		
 		Integer countAllow = SystemGlobals.getIntPreference("taobao.order.user.can.receive.count",20);

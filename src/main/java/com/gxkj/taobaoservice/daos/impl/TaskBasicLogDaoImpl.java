@@ -45,7 +45,7 @@ public class TaskBasicLogDaoImpl extends BaseDAOImpl implements TaskBasicLogDao 
 	 */
 	public boolean haveReceivedWithThisIP(Integer recieverID, Integer createId,
 			String receiverIp, Date fromDate) throws SQLException, ParseException {
-		String hql = "from TaskBasicLog where  userId =:recieverID and taskBasicCreaterId=:createId and receiverIp=:receiverIp and createTime>=:createTime";
+		String hql = "from TaskBasicLog where  userId =:recieverID and taskBasicCreaterId=:createId and receiverIp=:receiverIp and status = :status and createTime>=:createTime";
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
 		String beginTime = formatter.format(fromDate);
 		Date createTime = formatter.parse(beginTime);
@@ -53,6 +53,7 @@ public class TaskBasicLogDaoImpl extends BaseDAOImpl implements TaskBasicLogDao 
 		 par.put("recieverID", recieverID);
 		 par.put("createId", createId);
 		 par.put("receiverIp", receiverIp);
+		 par.put("status", TaskStatus.Have_Bean_Received);
 		 par.put("createTime", createTime);
 		 TaskBasicLog taskBasicLog = (TaskBasicLog) this.selectOneByHQL(hql, par);
 		

@@ -148,12 +148,12 @@ function changeSendPhoneCodeInfo(){
 	
 	if(endTime == 0){
 		window.clearInterval(changeSendPhoneCodeInfo);
-		 $("#getvefydata_email").attr("disabled",false); 
-		 $("#getvefydata_email").text( "发送验证码");
-		 $("#getvefydata_email").bind('click',sendYanZhengMa);
+		 $("#getvefydata_phone").attr("disabled",false); 
+		 $("#getvefydata_phone").text( "发送验证码");
+		 $("#getvefydata_phone").bind('click',sendYanZhengMa);
 		return;
 	}
-	$("#getvefydata_email").text(endTime+"秒后重发");
+	$("#getvefydata_phone").text(endTime+"秒后重发");
 	endTime--;
 }
 function sendAjaxGetCode(value,type){

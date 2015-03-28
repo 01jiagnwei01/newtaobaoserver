@@ -44,7 +44,6 @@ D:\java\gradle_lib\caches\modules-2\files-2.1\javax.validation\validation-api\1.
 D:\java\gradle_lib\caches\modules-2\files-2.1\junit\junit\4.12\2973d150c0dc1fefe998f834810d68f278ea58ec\junit-4.12.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\nekohtml\nekohtml\1.9.6.2\2d960be7b62ae6622dbbbe49ab4ffdc609f85c80\nekohtml-1.9.6.2.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\nekohtml\xercesMinimal\1.9.6.2\d1c5e063683a0e6f77cd5f051a9d4af48346fa6\xercesMinimal-1.9.6.2.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\net.sf.ehcache\ehcache-core\2.4.5\92e665ecc4c027df5cfce9c627ab353bd286265d\ehcache-core-2.4.5.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\ognl\ognl\3.0.8\37e1aebfde7eb7baebc9ad4f85116ef9009c5fc5\ognl-3.0.8.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.activemq.protobuf\activemq-protobuf\1.1\26682eb801f70563511f7c424dc10e8b3e66340e\activemq-protobuf-1.1.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.activemq\activemq-all\5.10.0\bb376083b608a6f74e3d3c06afb92049549302c9\activemq-all-5.10.0.jar
@@ -61,7 +60,6 @@ D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.commons\commons-lang3\3
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.geronimo.specs\geronimo-j2ee-connector_1.5_spec\2.0.0\1da837af8f5bf839ab48352f3dbfd6c4ecedc232\geronimo-j2ee-connector_1.5_spec-2.0.0.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.geronimo.specs\geronimo-j2ee-management_1.1_spec\1.0.1\5372615b0c04c1913c95c34a0414cef720ca2855\geronimo-j2ee-management_1.1_spec-1.0.1.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.geronimo.specs\geronimo-jms_1.1_spec\1.1.1\c872b46c601d8dc03633288b81269f9e42762cea\geronimo-jms_1.1_spec-1.1.1.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.httpcomponents\httpclient\4.2.2\ee8dfd1a0efa78a07222eda60b8892972fbb6165\httpclient-4.2.2.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.httpcomponents\httpcore\4.4\e9b3863fd9c8a273ceed4a7fae10f40bb10a2328\httpcore-4.4.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.jackrabbit\jackrabbit-jcr-commons\1.5.0\816ca280dc631b277e7b963723f2e99b038383f2\jackrabbit-jcr-commons-1.5.0.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.jackrabbit\jackrabbit-webdav\1.5.0\b14c7fbbd34862d4d51c5e72ba3a69cde892c260\jackrabbit-webdav-1.5.0.jar
@@ -165,7 +163,6 @@ D:\java\gradle_lib\caches\modules-2\files-2.1\org.springframework\spring-tx\4.1.
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.springframework\spring-web\4.1.2.RELEASE\aff4040103cac2f87fd4d0a88d31d1b62f07fe69\spring-web-4.1.2.RELEASE.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.springframework\spring-webmvc\4.1.2.RELEASE\96ff2720edf5c61f09248ffd9ea8d86616f6fa80\spring-webmvc-4.1.2.RELEASE.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\stax\stax-api\1.0.1\49c100caf72d658aca8e58bd74a4ba90fa2b0d70\stax-api-1.0.1.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\xml-apis\xml-apis\1.0.b2\3136ca936f64c9d68529f048c2618bd356bf85c9\xml-apis-1.0.b2.jar
 D:\newtaobaoserver\libs\aliyun-sdk-oss-2.0.1.jar
 C:\Users\admin\.groovy\greclipse\global_dsld_support
 D:\java\eclipse2\plugins\org.codehaus.groovy_2.3.7.xx-201411061335-e44-RELEASE\plugin_dsld_support

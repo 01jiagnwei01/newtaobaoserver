@@ -103,6 +103,10 @@ public class MailSenderTaskServiceImpl implements MailSenderTaskService {
 		return task;
 	}
 
+	/**
+	 * 去掉了jms，此方法废弃
+	 */
+	@Deprecated
 	public MailSenderTask doSendMailTask(int taskId, AdminUser adminUser)
 			throws SQLException, BusinessException {
 		MailSenderTask entity = (MailSenderTask) mailSenderTaskDao.selectById(taskId, MailSenderTask.class);
@@ -119,7 +123,7 @@ public class MailSenderTaskServiceImpl implements MailSenderTaskService {
 			mailDto.setEmail(item.getEmail());
 			mailDto.setSubject(entity.getTitle());
 			
-			jmsTemplate.convertAndSend(toolMailQueueDestination, mailDto);
+			//jmsTemplate.convertAndSend(toolMailQueueDestination, mailDto);
 		}
 		entity.setStatus(MailSenderStatus.ISEXECUTED);
 		mailSenderTaskDao.update(entity);

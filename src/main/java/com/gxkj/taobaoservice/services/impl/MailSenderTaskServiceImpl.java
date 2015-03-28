@@ -48,13 +48,13 @@ public class MailSenderTaskServiceImpl implements MailSenderTaskService {
 	private MailSenderRefAddressListDao mailSenderRefAddressListDao;
 	
 	
-	@Autowired
-	@Qualifier("jmsTemplate")
-	private JmsTemplate jmsTemplate; 
-	
-	@Autowired  
-	@Qualifier("toolMailQueue")  
-	private Destination toolMailQueueDestination;
+//	@Autowired
+//	@Qualifier("jmsTemplate")
+//	private JmsTemplate jmsTemplate; 
+//	
+//	@Autowired  
+//	@Qualifier("toolMailQueue")  
+//	private Destination toolMailQueueDestination;
 	
 
 	public ListPager doPage(int pageno, int pagesize, String title,

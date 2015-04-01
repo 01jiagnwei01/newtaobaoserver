@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +26,8 @@ import com.gxkj.taobaoservice.util.SubHeaderTag;
 @RequestMapping("")
 public class IndexController {
 
+	protected final  Logger logger = LoggerFactory.getLogger(getClass());   
+	
 	@Autowired
 	private UserLinkService userLinkService;
 	/**
@@ -37,6 +41,7 @@ public class IndexController {
 	public String index(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
 		modelMap.put(SubHeaderTag.tagName, "shouye");
 		String mv = "site/index";
+		logger.info("登陆首页");
 		return mv;	
 	}
 	

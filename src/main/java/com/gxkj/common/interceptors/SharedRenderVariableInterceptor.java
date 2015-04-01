@@ -6,8 +6,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -21,7 +21,9 @@ import com.gxkj.common.web.scope.Flash;
  */
 public class SharedRenderVariableInterceptor extends HandlerInterceptorAdapter implements InitializingBean{
 
-	static Log log = LogFactory.getLog(SharedRenderVariableInterceptor.class);
+ 
+	protected final  Logger logger = LoggerFactory.getLogger(getClass());  
+	
 	//系统启动并初始化一次的变量
 		private Map<String,Object> globalRenderVariables = new HashMap<String,Object>();
 		

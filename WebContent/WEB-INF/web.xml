@@ -76,17 +76,9 @@
 	</filter>
 
 	<!-- LoggerMDCFilter,存放在MDC中的数据，log4j可以直接引用并作为日志信息打印出来. -->
-	<filter>
-		<filter-name>LoggerMDCFilter</filter-name>
-		<filter-class>com.gxkj.common.filters.LoggerMDCFilter</filter-class>
-	</filter>
+	
 	<filter-mapping>
 		<filter-name>FlashFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<filter-mapping>
-		<filter-name>LoggerMDCFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
   	<servlet-mapping>

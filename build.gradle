@@ -53,7 +53,8 @@ repositories {
 
 
 dependencies {
-	
+	//red5
+	compile 'org.red5:red5-server:1.0.5-RELEASE';
 	//compile 'jstl:jstl:1.2'
 	//groovy
 	compile 'org.codehaus.groovy:groovy-all:2.3.7'

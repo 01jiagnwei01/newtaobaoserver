@@ -26,8 +26,8 @@ public class Application extends ApplicationAdapter {
     @Override
 	public boolean appConnect(IConnection conn, Object[] params) {
 		log.info("oflaDemo appConnect");
-		IScope appScope = conn.getScope();
-		log.debug("App connect called for scope: {}", appScope.getName());
+	//	IScope appScope = conn.getScope();
+	//	log.debug("App connect called for scope: {}", appScope.getName());
 		// getting client parameters
 		Map<String, Object> properties = conn.getConnectParams();
 		if (log.isDebugEnabled()) {

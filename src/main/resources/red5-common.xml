@@ -18,6 +18,7 @@
 	<!-- Server bean -->
 	<bean id="red5.server" class="org.red5.server.Server" />
 	
+	 
 	
     <bean id="minaEncoder" class="org.red5.server.net.rtmp.codec.RTMPMinaProtocolEncoder" scope="prototype">
         <property name="baseTolerance" value="${rtmp.encoder_base_tolerance}" />
@@ -77,9 +78,12 @@
 	<!-- Provides output to consumers -->
 	<bean id="consumerService" class="org.red5.server.stream.ConsumerService"/>
  
-	
+	<!-- Scheduling service -->
+	<bean id="schedulingService" class="org.red5.server.scheduling.QuartzSchedulingService">
+        <property name="configFile" value="${red5.root}/conf/quartz.properties"/>   
+    </bean>
 		
-    	 
+     
 
 	<!-- Use injection to setup thread pool for remoting clients -->
 	<bean id="remotingClient" class="org.red5.server.net.remoting.RemotingClient">
@@ -194,11 +198,5 @@
 	<bean id="clientBroadcastStream" scope="prototype" lazy-init="true" class="org.red5.server.stream.ClientBroadcastStream">
         <property name="automaticRecording" value="${broadcaststream.auto.record}"/>
 	</bean>
-	<!--  -->
-	<import resource="red5-common-quartz.xml" />
-	
-	<import resource="red5-default.xml" />
-	<!-- -->
-	<import resource="red5-app.xml" />
-		 
+
 </beans>

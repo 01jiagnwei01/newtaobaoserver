@@ -9,6 +9,7 @@
 
 	<!-- DO NOT FORMAT THIS FILE IN ECLIPSE -->
 	
+	
 	<bean id="placeholderConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:/red5.properties" />
 	</bean>

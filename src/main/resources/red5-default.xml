@@ -7,6 +7,8 @@
 	
 	<!-- DEFAULT GLOBAL CONTEXT -->
 	
+	
+	
 	<bean id="global.clientRegistry" class="org.red5.server.ClientRegistry" />
 	
 	<bean id="global.serviceInvoker" class="org.red5.server.service.ServiceInvoker">

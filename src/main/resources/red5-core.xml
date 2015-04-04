@@ -7,6 +7,7 @@
 
 	<!-- DO NOT FORMAT THIS FILE IN ECLIPSE -->
 	
+	
 	<bean id="customEditorConfigurer" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="customEditors">
 			<map>

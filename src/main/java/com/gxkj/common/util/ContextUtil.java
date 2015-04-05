@@ -61,6 +61,7 @@ public class ContextUtil extends ContextLoaderListener {
 	}
 
 	public static Object getBean(String beanName) {
+		 
 		return applicationContext.getBean(beanName);
 	}
 }

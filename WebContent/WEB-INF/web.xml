@@ -93,9 +93,7 @@
 	 <listener>
 	    <listener-class>com.gxkj.common.util.ContextUtil</listener-class>
 	 </listener>
-	 <listener>
-		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-	 </listener>
+	 
 	  <!-- 使Spring支持request与session的scope,如:<bean id="loginAction" class="com.foo.LoginAction" scope="request"/> -->
 	<listener>
 		  <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>

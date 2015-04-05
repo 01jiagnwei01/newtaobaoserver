@@ -10,10 +10,13 @@
 
 	<!-- -->
 	<import resource="red5-core.xml" />
+	
 	<!-- -->
 	<import resource="red5-common.xml" />
 	
+	<!-- 
 	<import resource="red5.xml" />
+	-->
 	<!-- -->
 	<import resource="red5-default.xml" />
 

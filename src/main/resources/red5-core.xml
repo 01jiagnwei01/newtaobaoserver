@@ -126,7 +126,7 @@
 		<property name="ident2" value="127.0.0.1" />
 		-->
 	</bean>
-	
+	<!-- RTMPTConnection通过servlet连接时使用 -->
 	<!-- RTMPT Connection -->
 	<bean id="rtmptConnection" scope="prototype" class="org.red5.server.net.rtmpt.RTMPTConnection">
         <!-- Executor for scheduled tasks -->

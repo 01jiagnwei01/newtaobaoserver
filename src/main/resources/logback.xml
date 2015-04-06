@@ -20,6 +20,14 @@
 	</appender>
 	
 	<appender name="OFLA" class="ch.qos.logback.core.FileAppender">
+		 <!-- the filter element -->
+	    <filter class="ch.qos.logback.core.filter.EvaluatorFilter">   
+	      <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+	        <marker>APPEND_SYSLOG</marker>
+	      </evaluator>
+	     <onMismatch>DENY</onMismatch>
+	     <onMatch>NEUTRAL</onMatch>
+	   </filter>
 		<File>log/oflademo.log</File>
 		<Append>false</Append>
 		<Encoding>UTF-8</Encoding>

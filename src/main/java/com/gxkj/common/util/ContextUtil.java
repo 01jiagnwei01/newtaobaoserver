@@ -3,6 +3,8 @@ package com.gxkj.common.util;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -14,6 +16,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  */
 public class ContextUtil extends ContextLoaderListener {
 
+	protected final  Logger logger = LoggerFactory.getLogger(getClass());   
+	
 	/**
 	 * spring上下文环境  
 	 */
@@ -62,6 +66,10 @@ public class ContextUtil extends ContextLoaderListener {
 
 	public static Object getBean(String beanName) {
 		 
+		if(applicationContext==null){
+			 System.out.println("异常：applicationContext为空");
+			return null;
+		}
 		return applicationContext.getBean(beanName);
 	}
 }

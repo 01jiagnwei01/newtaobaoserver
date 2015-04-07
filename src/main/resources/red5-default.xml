@@ -31,7 +31,7 @@
 	<!-- 处理方法 -->
 	<bean id="global.handler" class="org.red5.server.CoreHandler" autowire="byType" />
 			
-	<bean id="global.scope" class="org.red5.server.scope.GlobalScope" init-method="register"><!-- name:default;type:GLOBAL -->
+	<bean id="global.scope" class="org.red5.server.scope.GlobalScope" init-method="register" destroy-method="destroy"><!-- name:default;type:GLOBAL -->
 		<property name="server" ref="red5.server" />
 		<property name="context" ref="global.context" />
 		<property name="handler" ref="global.handler" />

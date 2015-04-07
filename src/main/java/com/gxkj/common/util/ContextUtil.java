@@ -3,6 +3,7 @@ package com.gxkj.common.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -108,12 +109,7 @@ public class ContextUtil extends ContextLoaderListener {
 
 	public void contextDestroyed(ServletContextEvent event) {
 		
-//		if(applicationContext.containsBean("rtmpScheduler")){
-//			((org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler)applicationContext.getBean("rtmpScheduler")).shutdown();
-//		}
-//		if(applicationContext.containsBean("rtmptConnection")){
-//			((org.red5.server.net.rtmp.RTMPConnection)applicationContext.getBean("rtmptConnection")).getExecutor().shutdown();
-//		}
+		
 		
 		 
 	
@@ -129,12 +125,23 @@ public class ContextUtil extends ContextLoaderListener {
 				e.printStackTrace();
 			}
 		} 
+		if(applicationContext.containsBean("rtmpScheduler")){
+			((org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler)applicationContext.getBean("rtmpScheduler")).shutdown();
+		}
+		if(applicationContext.containsBean("rtmptConnection")){
+			((org.red5.server.net.rtmp.RTMPConnection)applicationContext.getBean("rtmptConnection")).getExecutor().shutdown();
+		}
 		if(applicationContext.containsBean("schedulingService")){
 			try {
 				QuartzSchedulingService schedule = ((org.red5.server.scheduling.QuartzSchedulingService)applicationContext.getBean("schedulingService"));
+//				List<String> jobs = schedule.getScheduledJobNames();
+////				for(String name :jobs){
+////					System.out.println(name);
+////				}
 				if(schedule!=null  ){
 					schedule.destroy();
 				}
+				 
 				
 			} catch (Exception e) {
 				 

@@ -22,12 +22,13 @@
  
 	 <!-- 个人项目 -->
 	 
-	 <bean id="web.scope" class="org.red5.server.scope.WebScope" init-method="register">
+	 <bean id="web.scope" class="org.red5.server.scope.WebScope" init-method="register" destroy-method="destroy">
 		<property name="server" ref="red5.server" />
 		<property name="parent" ref="global.scope" />
 		<property name="handler" ref="web.handler" />
+		<property name="context" ref="global.context" />
 		<property name="contextPath" value="/default" />
-		<property name="virtualHosts" value="*, localhost, localhost:8088, 127.0.0.1:8088" />
+		<property name="virtualHosts" value="*, localhost,www.gugudaochang.com,localhost:8088,127.0.0.1:8088" />
 	</bean>
 
 	<bean id="web.handler" class="org.red5.demos.oflaDemo.Application" />

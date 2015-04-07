@@ -16,8 +16,7 @@ public class Application extends ApplicationAdapter {
     @Override
 	public boolean appStart(IScope app) {
 	    super.appStart(app);
-		log.info("oflaDemo appStart");
-		System.out.println("oflaDemo appStart");    	
+		log.info("oflaDemo appStart");   	
 		appScope = app;
 		return true;
 	}
@@ -34,6 +33,10 @@ public class Application extends ApplicationAdapter {
 			for (Map.Entry<String, Object> e : properties.entrySet()) {
 				log.debug("Connection property: {} = {}", e.getKey(), e.getValue());
 			}
+		}
+		 
+		for (Map.Entry<String, Object> e : properties.entrySet()) {
+			System.out.println(String.format("Connection property: %s = %s",  e.getKey(), e.getValue()));
 		}
 		
 		// Trigger calling of "onBWDone", required for some FLV players	

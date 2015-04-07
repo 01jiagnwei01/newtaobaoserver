@@ -1,0 +1,5 @@
+1:实现red5读取项目外部某个目录的视频文件
+	方法：重写类org.red5.server.stream.DefaultStreamFilenameGenerator.java
+		步骤1：getStreamDirectory方法修改为自己期望的目录，我的期望是/soft/red5/streams
+		步骤2：修改resolvesToAbsolutePath()方法返回值为true
+2:web服务关闭时关闭red5服务

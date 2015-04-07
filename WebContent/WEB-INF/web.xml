@@ -105,11 +105,7 @@
 	</listener>
 	
 	
-	<servlet>
-   		<display-name>SecurityTest</display-name>
-   		<servlet-name>SecurityTest</servlet-name>
-   		<servlet-class>org.red5.demos.oflaDemo.SecurityTest</servlet-class>
-   	</servlet>
+	 
     
 	<servlet-mapping>
 		<servlet-name>rtmpt</servlet-name>
@@ -136,10 +132,7 @@
 		<url-pattern>/idle/*</url-pattern>
 	</servlet-mapping>
 	
-	<servlet-mapping>
-		<servlet-name>SecurityTest</servlet-name>
-		<url-pattern>/securitytest</url-pattern>
-	</servlet-mapping>
+	 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>

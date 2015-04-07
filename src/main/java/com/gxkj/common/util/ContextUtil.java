@@ -18,6 +18,7 @@ import javax.servlet.ServletContextEvent;
 import org.red5.classloading.ClassLoaderBuilder;
 import org.red5.server.Bootstrap;
 import org.red5.server.jmx.mxbeans.ShutdownMXBean;
+import org.red5.server.scheduling.QuartzSchedulingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -106,7 +107,7 @@ public class ContextUtil extends ContextLoaderListener {
 	
 
 	public void contextDestroyed(ServletContextEvent event) {
-		super.contextDestroyed(event);
+		
 //		if(applicationContext.containsBean("rtmpScheduler")){
 //			((org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler)applicationContext.getBean("rtmpScheduler")).shutdown();
 //		}
@@ -114,35 +115,41 @@ public class ContextUtil extends ContextLoaderListener {
 //			((org.red5.server.net.rtmp.RTMPConnection)applicationContext.getBean("rtmptConnection")).getExecutor().shutdown();
 //		}
 		
-//		if(applicationContext.containsBean("schedulingService")){
-//			try {
-//				((org.red5.server.scheduling.QuartzSchedulingService)applicationContext.getBean("schedulingService")).destroy();
-//			} catch (Exception e) {
-//				 
-//				e.printStackTrace();
-//			}
-//		}  
+		 
 	
 //		String disName = applicationContext.getDisplayName();
 //		System.out.println("disName="+disName);
 //		
 //		
-//		if(applicationContext.containsBean("web.scope")){
-//			try {
-//				((org.red5.server.scope.Scope)applicationContext.getBean("web.scope")).destroy();
-//			} catch (Exception e) {
-//				 
-//				e.printStackTrace();
-//			}
-//		} 
-//		if(applicationContext.containsBean("global.scope")){
-//			try {
-//				((org.red5.server.scope.GlobalScope)applicationContext.getBean("global.scope")).destroy();
-//			} catch (Exception e) {
-//				 
-//				e.printStackTrace();
-//			}
-//		} 
+		if(applicationContext.containsBean("web.scope")){
+			try {
+				((org.red5.server.scope.Scope)applicationContext.getBean("web.scope")).destroy();
+			} catch (Exception e) {
+				 
+				e.printStackTrace();
+			}
+		} 
+		if(applicationContext.containsBean("schedulingService")){
+			try {
+				QuartzSchedulingService schedule = ((org.red5.server.scheduling.QuartzSchedulingService)applicationContext.getBean("schedulingService"));
+				if(schedule!=null  ){
+					schedule.destroy();
+				}
+				
+			} catch (Exception e) {
+				 
+				e.printStackTrace();
+			}
+		} 
+		if(applicationContext.containsBean("global.scope")){
+			try {
+				((org.red5.server.scope.GlobalScope)applicationContext.getBean("global.scope")).destroy();
+			} catch (Exception e) {
+				 
+				e.printStackTrace();
+			}
+		}
+		super.contextDestroyed(event);
 		//org.red5.server.Shutdown.main(null);
 		   
 	}

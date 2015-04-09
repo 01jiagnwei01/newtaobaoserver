@@ -19,7 +19,7 @@
 			</encoder>
 	</appender>
 	
-	<appender name="OFLA" class="ch.qos.logback.core.FileAppender">
+	<appender name="OFLA" class="ch.qos.logback.core.FileAppender"  >
 		 <!-- the filter element -->
 	    <filter class="ch.qos.logback.core.filter.EvaluatorFilter">   
 	      <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
@@ -53,7 +53,7 @@
         <level value="DEBUG" />  
     </logger>
     <logger name="org.red5.demos.oflaDemo">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>	
 	<root>
 		<level value="INFO" />

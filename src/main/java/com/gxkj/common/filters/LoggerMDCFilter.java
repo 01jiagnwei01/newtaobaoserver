@@ -11,17 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.MDC;
+import org.slf4j.MDC;
 import org.springframework.web.filter.OncePerRequestFilter;
-/**
- * 存放在MDC中的数据，log4j可以直接引用并作为日志信息打印出来.
- * 
- * <pre>
- * 示例使用:
- * log4j.appender.stdout.layout.conversionPattern=%d [%X{loginUserId}/%X{req.remoteAddr}/%X{req.id} - %X{req.requestURI}?%X{req.queryString}] %-5p %c{2} - %m%n
- * </pre>
- * @author badqiu
- */
+ 
 public class LoggerMDCFilter extends OncePerRequestFilter implements Filter{
     
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain chain)throws ServletException,IOException {
@@ -43,7 +35,7 @@ public class LoggerMDCFilter extends OncePerRequestFilter implements Filter{
     }
 
     private void clearMDC() {
-        Map<?,?> map = MDC.getContext();
+        Map<?,?> map = MDC.getCopyOfContextMap();
         if(map != null) {
             map.clear();
         }

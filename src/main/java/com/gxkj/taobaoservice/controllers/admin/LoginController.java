@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,6 +35,8 @@ import com.gxkj.taobaoservice.services.RoleService;
 @RequestMapping("/admin")
 public class LoginController {
 	 
+	protected final  Logger logger = LoggerFactory.getLogger(getClass()); 
+	
 	@Autowired
 	private AdminUserService adminUserService;
 	
@@ -49,6 +53,7 @@ public class LoginController {
 	}
 	@RequestMapping(value="/login")
 	public String login(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+		logger.info("登陆");
 		if(request.getSession().getAttribute(SessionConstant._adminUserFalg)!=null){
 			return "redirect:/admin/index";
 		}

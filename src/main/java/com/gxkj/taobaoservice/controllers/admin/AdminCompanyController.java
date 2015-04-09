@@ -7,6 +7,8 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ import com.gxkj.taobaoservice.services.CompanyAccountService;
 @RequestMapping("/admin/company_account")
 public class AdminCompanyController {
 
+	protected final  Logger logger = LoggerFactory.getLogger(getClass()); 
+	
 	@Autowired
 	private CompanyAccountService companyAccountService;
 	
@@ -39,6 +43,7 @@ public class AdminCompanyController {
 	
 	@RequestMapping(value="")
 	public String index(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap) throws SQLException{
+		logger.info("公司账户");
 		String mv = "admin/company_account_get";
 		 
 		return mv;

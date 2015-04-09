@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:lang="http://www.springframework.org/schema/lang" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd 
+	http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.1.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	 
+	<!-- JMX -->
+    <bean id="rmiRegistry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean">
+        <property name="port" value="${jmx.rmi.port}" />
+        <property name="alwaysCreate" value="${jmx.registry.create}" />
+    </bean>
+
+    <bean id="mbeanServer" class="org.springframework.jmx.support.MBeanServerFactoryBean">
+        <property name="locateExistingServerIfPossible" value="${jmx.reuse.existing.server}"/>  
+    </bean>
+
+    <bean class="org.springframework.jmx.support.ConnectorServerFactoryBean" depends-on="rmiRegistry">
+        <property name="objectName" value="org.red5.server:name=rmi" />
+        <property name="serviceUrl"
+            value="service:jmx:rmi://${jmx.rmi.host}:${jmx.rmi.sport}/jndi/rmi://${jmx.rmi.host}:${jmx.rmi.port}/red5" />
+        <property name="environment">
+            <!-- the following is only valid when the sun jmx implementation is used -->
+            <map>
+                <entry key="java.rmi.server.hostname" value="${jmx.rmi.host}" />
+                <entry key="jmx.remote.x.access.file" value="${red5.config_root}/access.properties" />
+                <entry key="jmx.remote.x.password.file" value="${red5.config_root}/password.properties" />
+                <!-- Un-comment these next two nodes to enable SSL -->                
+                <!-- 
+                <entry key="javax.net.ssl.keyStore" value="${red5.config_root}/keystore.jmx" />
+                <entry key="javax.net.ssl.keyStorePassword" value="${jmx.keystorepass}" />
+                 -->
+            </map>
+        </property>
+    </bean>
+   
+    <context:mbean-export registration="replaceExisting" default-domain="org.red5.server"/>
+
+</beans>

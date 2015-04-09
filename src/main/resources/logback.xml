@@ -18,6 +18,27 @@
 				<pattern>${log.pattern}</pattern>
 			</encoder>
 	</appender>
+	
+	<appender name="OFLA" class="ch.qos.logback.core.FileAppender"  >
+		 <!-- the filter element -->
+	    <filter class="ch.qos.logback.core.filter.EvaluatorFilter">   
+	      <evaluator class="ch.qos.logback.classic.boolex.OnMarkerEvaluator">
+	        <marker>APPEND_SYSLOG</marker>
+	      </evaluator>
+	     <onMismatch>DENY</onMismatch>
+	     <onMatch>NEUTRAL</onMatch>
+	   </filter>
+		<File>log/oflademo.log</File>
+		<Append>false</Append>
+		<Encoding>UTF-8</Encoding>
+		<BufferedIO>false</BufferedIO>
+		<ImmediateFlush>true</ImmediateFlush>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%date [%thread] %-5level %logger{35} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
 
  
 	<logger name="com.gxkj.taobaoservice" level="INFO" /><!-- TRACE、DEBUG、INFO、WARN和ERROR -->
@@ -31,10 +52,14 @@
     <logger name="java.sql.Statement">  
         <level value="DEBUG" />  
     </logger>
+    <logger name="org.red5.demos.oflaDemo">
+		<level value="INFO" />
+	</logger>	
 	<root>
 		<level value="INFO" />
 		<appender-ref ref="stdout" />
 		<appender-ref ref="logfile" />
+		<appender-ref ref="OFLA" />
 	</root>
 </configuration>
 

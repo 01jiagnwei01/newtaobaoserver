@@ -5,6 +5,10 @@
 		<session-timeout>10</session-timeout>
 	</session-config> 
 -->
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>/video</param-value>
+	</context-param>
 <error-page>  
 		<error-code>404</error-code> 
 		<location>/exception/404</location> 
@@ -22,15 +26,7 @@
     <param-name>SystemGlobalsProperties</param-name>
     <param-value>SystemGlobals.properties</param-value>
   </context-param>
-  <!-- 
-  <context-param>
-    <param-name>logbackConfigLocation</param-name>
-    <param-value>classpath:logback.xml</param-value>
-	</context-param>
-	<listener>
-    	<listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
-	</listener>
-	 -->
+  
   <filter>
     <filter-name>Spring character encoding filter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -76,23 +72,20 @@
 	</filter>
 
 	<!-- LoggerMDCFilter,存放在MDC中的数据，log4j可以直接引用并作为日志信息打印出来. -->
-	<filter>
-		<filter-name>LoggerMDCFilter</filter-name>
-		<filter-class>com.gxkj.common.filters.LoggerMDCFilter</filter-class>
-	</filter>
+	
 	<filter-mapping>
 		<filter-name>FlashFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<filter-mapping>
-		<filter-name>LoggerMDCFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
   	<servlet-mapping>
     	<servlet-name>springmvc</servlet-name>
     	<url-pattern>/</url-pattern>
   	</servlet-mapping>
+  	<servlet>
+		<servlet-name>rtmpt</servlet-name>
+		<servlet-class>org.red5.server.net.rtmpt.RTMPTServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
   	
   	<listener>
    		  <listener-class>com.gxkj.common.listeners.ConfigInitializer</listener-class>
@@ -100,9 +93,7 @@
 	 <listener>
 	    <listener-class>com.gxkj.common.util.ContextUtil</listener-class>
 	 </listener>
-	 <listener>
-		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-	 </listener>
+	 
 	  <!-- 使Spring支持request与session的scope,如:<bean id="loginAction" class="com.foo.LoginAction" scope="request"/> -->
 	<listener>
 		  <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
@@ -112,6 +103,36 @@
 	<listener>
 			<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
+	
+	
+	 
+    
+	<servlet-mapping>
+		<servlet-name>rtmpt</servlet-name>
+		<url-pattern>/fcs/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>rtmpt</servlet-name>
+		<url-pattern>/open/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>rtmpt</servlet-name>
+		<url-pattern>/close/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>rtmpt</servlet-name>
+		<url-pattern>/send/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>rtmpt</servlet-name>
+		<url-pattern>/idle/*</url-pattern>
+	</servlet-mapping>
+	
+	 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.jsp</welcome-file>

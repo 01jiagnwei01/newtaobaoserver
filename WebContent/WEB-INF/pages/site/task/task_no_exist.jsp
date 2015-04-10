@@ -34,26 +34,28 @@ table td{padding:5px; height:25px; font-size:14px;}
 	<div style="width:100%; background-color:#ededed; padding-bottom:135px;">
 
 		<div class="center" style="width:1200px;">
-		<div style="height:50px; line-height:50px;">
-			<a href="###">任务中心</a>
-		</div>
-
+			<div style="height:50px; line-height:50px;">
+				<a href="###">任务中心</a>
+			</div>
+	
 			<div style="overflow:hidden;">
-		<div style="margin-bottom:-5000px; padding-bottom:5000px;">
-				<jsp:include page="../common/leftmenu.jsp" flush="true">
-				<jsp:param name="mainmenu" value="task"></jsp:param>
-				<jsp:param name="submenu" value="detail"></jsp:param>
-			</jsp:include>
-
-			 
-			<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:100px;margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
-					 <div id="reg_success" style="  border-radius:10px; width:400px; margin:10px auto 30px; border:solid 1px #ccc; font-size:20px; font-weight:bold; height:300px; line-height:300px;" class="tac">
-						<a href="<%=request.getContextPath() %>/site/task/list" style="color:#09f;">您要找的任务不存在，返回任务大厅</a>
-					</div> 
-					 
+					<div style="margin-bottom:-5000px; padding-bottom:5000px;">
+							<jsp:include page="../common/leftmenu.jsp" flush="true">
+							<jsp:param name="mainmenu" value="task"></jsp:param>
+							<jsp:param name="submenu" value="detail"></jsp:param>
+						</jsp:include>
+			
+						 
+						<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:100px;margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
+								 <div id="reg_success" style="  border-radius:10px; width:400px; margin:10px auto 30px; border:solid 1px #ccc; font-size:20px; font-weight:bold; height:300px; line-height:300px;" class="tac">
+									<a href="<%=request.getContextPath() %>/site/task/list" style="color:#09f;">您要找的任务不存在，返回任务大厅</a>
+								</div> 
+								 
+						</div>
+					</div>
+					<div style="clear:both;"></div>
 			</div>
 		</div>
-		<div style="clear:both;"></div>
 	</div>
 	<div style="clear:both;"></div>
 	<jsp:include page="../common/footer.jsp"></jsp:include>

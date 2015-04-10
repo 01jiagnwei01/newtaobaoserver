@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import com.gxkj.common.enums.BusinessExceptionInfos;
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
-import com.gxkj.common.util.SystemGlobals;
 import com.gxkj.taobaoservice.daos.TaskBasicDao;
 import com.gxkj.taobaoservice.daos.TaskBasicLogDao;
 import com.gxkj.taobaoservice.daos.TaskOrderDao;
@@ -95,7 +94,8 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 	 * @param needZhiDingSouHuoDiZhi	需要指定收货地址
 	 * @param shouHuoDiZhi				指定的收货地址
 	 * @param piLiangFabuCount		发布任务条数
-	 * @param basicReceiverGainMoney 支付佣金
+	 * @param commission_			佣金
+	 * @param basicPingtaiGainPoint  平台基本佣金点数
 	 * @return
 	 * @throws SQLException
 	 */
@@ -106,7 +106,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			String goodCommentContent, boolean needWangWangTalk,
 			boolean noRepeatTalk, boolean needZhiDingJieShouRen,
 			Integer jieShouRenId, boolean needZhiDingSouHuoDiZhi,
-			String shouHuoDiZhi, Integer piLiangFabuCount, BigDecimal basicReceiverGainMoney) throws SQLException,
+			String shouHuoDiZhi, Integer piLiangFabuCount, BigDecimal commission_, BigDecimal basicPingtaiGainPoint) throws SQLException,
 			BusinessException {
 		if(userBase == null){
 			throw new BusinessException(BusinessExceptionInfos.USER_IS_BLANK,"userBase");
@@ -138,8 +138,12 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if( BigDecimal.ZERO.compareTo(guaranteePrice) >=0){
 			throw new BusinessException(BusinessExceptionInfos.guaranteePrice__SHOULD_BE_POSITIVE,"guaranteePrice");
 		}
-		if(basicReceiverGainMoney.compareTo(BigDecimal.ZERO)<0){
-			throw new BusinessException(BusinessExceptionInfos.basicReceiverGainMoney_CANNOT_BE_NEGATIVE,"basicReceiverGainMoney");
+		if(commission_.compareTo(BigDecimal.ZERO)<0){
+			throw new BusinessException(BusinessExceptionInfos.basicReceiverGainMoney_CANNOT_BE_NEGATIVE,"commission");
+		}
+		if(basicPingtaiGainPoint.compareTo(BigDecimal.ZERO)<0){
+			log.error("付给平台的佣金不能为负数");
+			throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"basicPingtaiGainPoint");
 		}
 		int userId = 0;
 		if(needZhiDingJieShouRen){
@@ -176,49 +180,31 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 				throw new BusinessException(BusinessExceptionInfos.PI_LIANG_COUNT_MORE_THAN_TIMES,"piLiangFabuCount");
 			}
 		}
-		
-		String orderGrantPoint = SystemGlobals.getPreference("taobao.order.grant.point", "0");
-		BigDecimal basicPingtaiGainPoint = new BigDecimal(orderGrantPoint);
-		if(basicPingtaiGainPoint.compareTo(BigDecimal.ZERO)<0){
-			throw new BusinessException("发布任务时，平台受益点数为负数，应该为正数或者0");
-		}
+		 
 		TaskOrder order = new TaskOrder();
-		
-		TaskOrder calCulateTaskOrder = new TaskOrder();
-		
+		 
 		/**
 		 * 基本任务和增值任务的集合
 		 */
 		 List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = new ArrayList<TaskOrderSubTaskInfo>();
 		 List<SubTaskInfo> subTaskInfos = new ArrayList<SubTaskInfo>();
-		/**
-		 * 平台受益点数
-		 */
-		order.setBasicPingtaiGainPoint(basicPingtaiGainPoint);
-		/**
-		 * 每单接手方受益金额
-		 */
-		order.setBasicReceiverGainMoney(basicReceiverGainMoney);
-		/**
-		 * 每单完成基本任务，接手方受益点数
-		 */
-		BigDecimal basicReceiverGainPoint = BigDecimal.ZERO;
-		
-		order.setBasicReceiverGainPoint(basicReceiverGainPoint);
+		 BigDecimal payPingTaiPoints = BigDecimal.ZERO;
 		
 		/**
 		 * 创建时间
 		 */
 		Date now = new Date();
 		order.setCreateTime(now);
-		/**
-		 * 奖励接手人
-		 */
-		order.setEncourage(encourage);
+		 
 		/**
 		 *  每单担保金
 		 */
 		order.setGuaranteePrice(guaranteePrice);
+		
+		/**
+		 * 佣金
+		 */
+		order.setCommission(commission_);
 		/**
 		 * 商品地址
 		 */
@@ -245,6 +231,11 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 * 用户QQ
 		 */
 		order.setUserQq(userQq); 
+		/**
+		 * 该订单支付平台的佣金点数
+		 */
+		order.setBasicPingtaiGainPoint(basicPingtaiGainPoint);
+		payPingTaiPoints = payPingTaiPoints.add(basicPingtaiGainPoint);
 		
 		
 		Map<String,SubTaskInfo> subTaskInfoMap =  SystemDbData.subTaskInfoMap ;
@@ -265,7 +256,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
 							subTaskInfos.add(item);
 							
-							this.__calculateSureOrder(item, calCulateTaskOrder);
+							this.__calculateSureOrder(item, order);
 						}
 		   				
 		   				break;
@@ -276,7 +267,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
 							subTaskInfos.add(item);
 							
-							this.__calculateSureOrder(item, calCulateTaskOrder);
+							this.__calculateSureOrder(item, order);
 						}
 		   				
 		   				break;
@@ -287,7 +278,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
 							subTaskInfos.add(item);
 							
-							this.__calculateSureOrder(item, calCulateTaskOrder);
+							this.__calculateSureOrder(item, order);
 						}
 		   				break;
 		   			case "ZHI_DING_SHOU_HUO_DI_ZHI":
@@ -297,7 +288,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
 							subTaskInfos.add(item);
 							
-							this.__calculateSureOrder(item, calCulateTaskOrder);
+							this.__calculateSureOrder(item, order);
 						}
 		   				break;
 		   			case "ZHI_DING_JIE_SHOU_REN":
@@ -307,7 +298,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
 							subTaskInfos.add(item);
 							
-							this.__calculateSureOrder(item, calCulateTaskOrder);
+							this.__calculateSureOrder(item, order);
 						}
 		   				break;
 		   			case "PI_LIANG_FA_BU":
@@ -317,9 +308,8 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
 							subTaskInfos.add(item);
 							
-							//this.__calculateSureOrder(item, zengzhiPingtaiGainPoints, zengzhiReceiverGainPoints, zengzhiReceiverGainMoney);
-							
-							order.setRepeatPlarformGrainPoint(item.getAmount());
+							//批量发布，支付点数 
+							payPingTaiPoints = payPingTaiPoints.add(item.getAmount());
 		   				}
 		   				
 		   				break;
@@ -330,26 +320,19 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
 							subTaskInfos.add(item);
 							
-							this.__calculateSureOrder(item, calCulateTaskOrder);
+							this.__calculateSureOrder(item, order);
 		   				}
 		   		}
 		  }
-		  
 		  /**
-			 *  每单完成增值任务，接手方受益金额
-			 */
-			BigDecimal zengzhiReceiverGainMoney = calCulateTaskOrder.getZengzhiReceiverGainMoney();
-			/**
-			 * 每单完成增值任务，接手方受益点数
-			 */
-			BigDecimal zengzhiReceiverGainPoints = calCulateTaskOrder.getZengzhiReceiverGainPoints();
-			/**
-			 * 每单完成增值任务，平台受益点数
-			 */
-			BigDecimal zengzhiPingtaiGainPoints = calCulateTaskOrder.getZengzhiPingtaiGainPoints();
-		order.setZengzhiPingtaiGainPoints(zengzhiPingtaiGainPoints);
-		order.setZengzhiReceiverGainMoney(zengzhiReceiverGainMoney);
-		order.setZengzhiReceiverGainPoints(zengzhiReceiverGainPoints);
+		   * 每个任务支付接手人金额=所有增值任务支付金额+佣金+担保金
+		   */
+		  order.setEveryTaskPayReceiverMoney(order.getEveryTaskPayReceiverMoney().add(order.getCommission()).add(order.getGuaranteePrice()));
+		  //
+		  order.setPayPingTaiPoints(payPingTaiPoints);
+		  order.setPayPingTaiMoney(BigDecimal.ZERO);
+		  
+		 
 		
 		/**
 		 * 订单持久化
@@ -457,25 +440,33 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 */
 		
 		TaskBasic taskBasic = new TaskBasic();
+		 
 		/**
-		 * 平台受益点数
+		 * 接手（佣金）金额
 		 */
-		taskBasic.setBasicPingtaiGainPoint(taskOrder.getBasicPingtaiGainPoint());
-		taskBasic.setZengzhiPingtaiGainPoints(taskOrder.getZengzhiPingtaiGainPoints());
+		taskBasic.setCommission(taskOrder.getCommission());
 		/**
-		 * 接手受益（佣金）金额
+		 * 支付平台金额
 		 */
-		taskBasic.setBasicReceiverGainMoney(taskOrder.getBasicReceiverGainMoney());
+		taskBasic.setPayPingTaiMoney(taskOrder.getEveryTaskPayPingtaiMoney());
+		/**
+		 * 支付平台点数
+		 */
+		taskBasic.setPayPingTaiPoints(taskOrder.getEveryTaskPayPingtaiPoints());
 		/**
 		 * 接手人受益点数
 		 */
-		taskBasic.setBasicReceiverGainPoint(taskOrder.getBasicReceiverGainPoint());
-		taskBasic.setZengzhiReceiverGainPoints(taskOrder.getZengzhiReceiverGainPoints());
+		taskBasic.setPayReceiverPoints(taskOrder.getEveryTaskPayReceiverPoints());
+		/**
+		 * 接手人受益金额
+		 */
+		taskBasic.setPayReceiverMoney(taskOrder.getEveryTaskPayReceiverMoney());
+		
+		 
 		
 		Date now = new Date();
 		taskBasic.setCreateTime(now);
-		
-		taskBasic.setEncourage(taskOrder.getEncourage());
+		 
 		/**
 		 * 担保金
 		 */
@@ -504,7 +495,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		
 		if(repeatTime!=null && repeatTime.intValue()>1){
 			/**
-			 * 重复任务需要支付的平台费用
+			 * 重复任务需要多创建任务
 			 */
 			
 			for(int i=0;i<repeatTime.intValue();i++){
@@ -522,6 +513,9 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			taskBasicLogDao.insert(taskBasicLog);
 		} 
 		
+		/**
+		 * 修改用户金额和支付平台金额
+		 */
 		userAccountService.updateUserAccount(userBase, BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,BigDecimal.ZERO,
 				UserAccountTypes.Task_Order_SURE, taskOrder.getId(), null);
 		
@@ -530,8 +524,6 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 	}
 
 
-
- 
 	public TaskOrder doUpdateTaskOrder(Integer dbOrderId, UserBase userBase,
 			String taobaoXiaohao, String userQq, String productTitle,
 			String productLink, BigDecimal guaranteePrice,
@@ -539,7 +531,10 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			String goodCommentContent, boolean needWangWangTalk,
 			boolean noRepeatTalk, boolean needZhiDingJieShouRen,
 			Integer jieShouRenId, boolean needZhiDingSouHuoDiZhi,
-			String shouHuoDiZhi, Integer piLiangFabuCount, BigDecimal basicReceiverGainMoney) throws BusinessException, SQLException {
+			String shouHuoDiZhi, Integer piLiangFabuCount,
+			BigDecimal commission_, BigDecimal basicPingtaiGainPoint)
+			throws BusinessException, SQLException {
+ 
 		 
 		if(userBase == null){
 			throw new BusinessException(BusinessExceptionInfos.USER_IS_BLANK,"userBase");
@@ -574,8 +569,8 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		if( BigDecimal.ZERO.compareTo(guaranteePrice) >=0){
 			throw new BusinessException(BusinessExceptionInfos.guaranteePrice__SHOULD_BE_POSITIVE,"guaranteePrice");
 		}
-		if(basicReceiverGainMoney.compareTo(BigDecimal.ZERO)<0){
-			throw new BusinessException(BusinessExceptionInfos.basicReceiverGainMoney_CANNOT_BE_NEGATIVE,"basicReceiverGainMoney");
+		if(commission_.compareTo(BigDecimal.ZERO)<0){
+			throw new BusinessException(BusinessExceptionInfos.basicReceiverGainMoney_CANNOT_BE_NEGATIVE,"commission_");
 		}
 		int userId = 0;
 		if(needZhiDingJieShouRen){
@@ -609,9 +604,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 				throw new BusinessException(BusinessExceptionInfos.PI_LIANG_COUNT_MORE_THAN_TIMES,"piLiangFabuCount");
 			}
 		}
-		
-		String orderGrantPoint = SystemGlobals.getPreference("taobao.order.grant.point", "0");
-		BigDecimal basicPingtaiGainPoint = new BigDecimal(orderGrantPoint);
+	 
 		if(basicPingtaiGainPoint.compareTo(BigDecimal.ZERO)<0){
 			throw new BusinessException("发布任务时，平台受益点数为负数，应该为正数或者0");
 		}
@@ -636,25 +629,17 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 */
 		order.setBasicPingtaiGainPoint(basicPingtaiGainPoint);
 		/**
-		 * 每单接手方受益金额 |佣金
+		 * 佣金
 		 */
-		order.setBasicReceiverGainMoney(basicReceiverGainMoney);
-		/**
-		 * 每单完成基本任务，接手方受益点数
-		 */
-		BigDecimal basicReceiverGainPoint = BigDecimal.ZERO;
-		
-		order.setBasicReceiverGainPoint(basicReceiverGainPoint);
+		order.setCommission(commission_);
+	 
 		
 		/**
 		 * 创建时间
 		 */
 		Date now = new Date();
 		order.setCreateTime(now);
-		/**
-		 * 奖励接手人
-		 */
-		order.setEncourage(encourage);
+		 
 		/**
 		 *  每单担保金
 		 */
@@ -687,6 +672,11 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 */
 		order.setUserQq(userQq);
 		
+		/**
+		 * 基本受益点数
+		 */
+		 BigDecimal payPingTaiPoints = order.getBasicPingtaiGainPoint();
+		 
 		Map<String,SubTaskInfo> subTaskInfoMap =  SystemDbData.subTaskInfoMap ;
 		TaskOrder calCulateTaskOrder = new TaskOrder();
 		Iterator<Map.Entry<String, SubTaskInfo>> it = subTaskInfoMap.entrySet().iterator();
@@ -756,9 +746,8 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 							taskOrderSubTaskInfo.setInputValue(""+piLiangTimes);
 							taskOrderSubTaskInfos.add(taskOrderSubTaskInfo);
 							subTaskInfos.add(item);
-							
 							 
-							order.setRepeatPlarformGrainPoint(item.getAmount());
+							payPingTaiPoints = item.getAmount();
 		   				}
 		   				
 		   				break;
@@ -775,20 +764,10 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		   		}
 		  }
 		  /**
-			 *  每单完成增值任务，接手方受益金额
-			 */
-			BigDecimal zengzhiReceiverGainMoney = calCulateTaskOrder.getZengzhiReceiverGainMoney();
-			/**
-			 * 每单完成增值任务，接手方受益点数
-			 */
-			BigDecimal zengzhiReceiverGainPoints = calCulateTaskOrder.getZengzhiReceiverGainPoints();
-			/**
-			 * 每单完成增值任务，平台受益点数
-			 */
-			BigDecimal zengzhiPingtaiGainPoints = calCulateTaskOrder.getZengzhiPingtaiGainPoints();
-		order.setZengzhiPingtaiGainPoints(zengzhiPingtaiGainPoints);
-		order.setZengzhiReceiverGainMoney(zengzhiReceiverGainMoney);
-		order.setZengzhiReceiverGainPoints(zengzhiReceiverGainPoints);
+		   * 该订单支付平台点数
+		   */
+		  order.setPayPingTaiPoints(payPingTaiPoints);
+		   
 		
 		/**
 		 * 订单持久化
@@ -801,7 +780,7 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 		 */
 		for(TaskOrderSubTaskInfo item : taskOrderSubTaskInfos){
 			 item.setTaskOrderId(order.getId());
-			 log.info(JsonOutput.toJson(item));
+			 log.info("创建增值任务："+JsonOutput.toJson(item));
 			taskOrderSubTaskInfoDao.insert(item);
 		}
 		order.setTasks(subTaskInfos);
@@ -857,25 +836,29 @@ public class TaskOrderServiceImpl implements TaskOrderService {
 			 */
 			if(subTaskInfo.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && subTaskInfo.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
 			 
-				calCulateTaskOrder.setZengzhiPingtaiGainPoints(calCulateTaskOrder.getZengzhiPingtaiGainPoints().add(subTaskInfo.getAmount()));
+				calCulateTaskOrder.setEveryTaskPayPingtaiPoints(calCulateTaskOrder.getEveryTaskPayPingtaiPoints()  .add(subTaskInfo.getAmount()));
 			}else if(subTaskInfo.getBenefitPersion() == SubTaskInfoBenefitPerson.PLATFORM && subTaskInfo.getBenefitType() == SubTaskInfoBenefitTypes.Money){
 			  /**
 			   * 平台获利金额 平台获利不设置获利金额
 			   */
+				calCulateTaskOrder.setEveryTaskPayPingtaiMoney(calCulateTaskOrder.getEveryTaskPayPingtaiMoney().add( subTaskInfo.getAmount()));
 				 
 			}else if(subTaskInfo.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && subTaskInfo.getBenefitType() == SubTaskInfoBenefitTypes.POINT){
    			  /**
    			   * 接手获利点数
    			   */
-				calCulateTaskOrder.setZengzhiReceiverGainPoints(calCulateTaskOrder.getZengzhiReceiverGainPoints().add(subTaskInfo.getAmount()));
+				calCulateTaskOrder.setEveryTaskPayReceiverPoints(calCulateTaskOrder.getEveryTaskPayReceiverPoints().add(subTaskInfo.getAmount()));
 			 
    		}else if(subTaskInfo.getBenefitPersion() == SubTaskInfoBenefitPerson.RECEIVER && subTaskInfo.getBenefitType() == SubTaskInfoBenefitTypes.Money){
    			  /**
    			   * 接手获利金额
    			   */
-   			calCulateTaskOrder.setZengzhiReceiverGainMoney(calCulateTaskOrder.getZengzhiReceiverGainMoney().add(subTaskInfo.getAmount()));
+   			calCulateTaskOrder.setEveryTaskPayReceiverMoney(calCulateTaskOrder.getEveryTaskPayReceiverMoney().add(subTaskInfo.getAmount()));
    		}
 	}
+
+
+ 
 	
 	
 

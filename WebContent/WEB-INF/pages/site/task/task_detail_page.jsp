@@ -79,7 +79,7 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 						</tr>
 						<tr>
 							<td class="bb" align="right" valign="top">佣金：</td>
-						  <td class="bb">${taskBasic.basicReceiverGainMoney}<br/><span style="font-size:12px; color:#999;">接任务人获利</span></td>
+						  <td class="bb">${taskBasic.commission}<br/><span style="font-size:12px; color:#999;">接任务人获利</span></td>
 					  </tr>
 						
 						<tr>

@@ -32,26 +32,28 @@ table td{padding:5px; height:25px; font-size:14px;}
 	<div style="width:100%; background-color:#ededed; padding-bottom:135px;">
 
 		<div class="center" style="width:1200px;">
-		<div style="height:50px; line-height:50px;">
-			<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">创建任务</a>
-		</div>
-
+			<div style="height:50px; line-height:50px;">
+				<a href="###">任务中心</a>&nbsp;>&nbsp;<a href="###">创建任务</a>
+			</div>
+	
 			<div style="overflow:hidden;">
-		<div style="margin-bottom:-5000px; padding-bottom:5000px;">
-				<jsp:include page="../common/leftmenu.jsp" flush="true">
-				<jsp:param name="mainmenu" value="safe"></jsp:param>
-				<jsp:param name="submenu" value="czm"></jsp:param>
-			</jsp:include></div>
+				<div style="margin-bottom:-5000px; padding-bottom:5000px;">
+					<jsp:include page="../common/leftmenu.jsp" flush="true">
+						<jsp:param name="mainmenu" value="safe"></jsp:param>
+						<jsp:param name="submenu" value="czm"></jsp:param>
+					</jsp:include>
+				</div>
 			 
-			<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:100px;margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
+				<div style="width:990px; padding:0 40px; background-color:#FFF; padding-bottom:100px;margin-bottom:-5000px; padding-bottom:5000px;" class="fr">
 				 	 <div  style="; border-radius:10px; width:400px; margin:10px auto 30px; border:solid 1px #ccc; font-size:20px; font-weight:bold; height:300px; line-height:300px;" class="tac">
 						创建成功！<button class="btn btn-lg btn-success"  id="continueCreate">创建新订单？</button>
 					</div> 
 								 	 
+				</div>
+	
 			</div>
-
+			<div style="clear:both;"></div>
 		</div>
-		<div style="clear:both;"></div>
 	</div>
 	<div style="clear:both;"></div>
 	<jsp:include page="../common/footer.jsp"></jsp:include>

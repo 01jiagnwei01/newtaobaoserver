@@ -89,26 +89,46 @@ public class TaskBasic implements Serializable {
 	@Column(name="guarantee_price" )
 	@NotNull(message="担保金不能为空") 
 	private BigDecimal guaranteePrice ;
-	/**
-	 *  每单完成基本任务，接手方受益金额
-	 */
-	@Column(name="basic_receiver_gain_money" )
-	@NotNull(message="佣金不能为空")
-	private BigDecimal basicReceiverGainMoney = BigDecimal.ZERO; 
 	
 	/**
-	 *  每单奖励金额
+	 *  佣金
 	 */
-	@Column(name="encourage" )
-	private BigDecimal encourage = BigDecimal.ZERO ;
+	@Column(name="commission" )
+	private BigDecimal commission = BigDecimal.ZERO ;
 	
 	/**
-	 *  每单完成基本任务，平台受益点数
+	 * 该任务确认付给平台点数
 	 */
-	@Column(name="basic_pingtai_gain_point" )
+	@Column(name="pay_pingtai_points" )
 	@NotNull
 	@Min(value=0)
-	private  BigDecimal basicPingtaiGainPoint = BigDecimal.ZERO;
+	private  BigDecimal payPingTaiPoints = BigDecimal.ZERO;
+	
+	/**
+	 * 该任务确认付给平台金额
+	 */
+	@Column(name="pay_pingtai_money" )
+	@NotNull
+	@Min(value=0)
+	private  BigDecimal payPingTaiMoney = BigDecimal.ZERO;
+	
+	
+	/**
+	 * 该任务确认付给接手点数
+	 */
+	@Column(name="pay_receiver_points" )
+	@NotNull
+	@Min(value=0)
+	private  BigDecimal payReceiverPoints = BigDecimal.ZERO;
+	
+	/**
+	 * 该任务确认付给接手金额
+	 */
+	@Column(name="pay_receiver_money" )
+	@NotNull
+	@Min(value=0)
+	private  BigDecimal payReceiverMoney = BigDecimal.ZERO;
+	
 	
 	/**
 	 * 订单状态
@@ -117,36 +137,7 @@ public class TaskBasic implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@NotNull(message="任务状态不能为空")
 	private TaskStatus status = TaskStatus.Wait_For_Receive;
-	
-	/**
-	 *  每单完成基本任务，接手方受益点数
-	 */
-	@Column(name="basic_receiver_gain_point" )
-	private  BigDecimal basicReceiverGainPoint = BigDecimal.ZERO;
-	
-	/**
-	 *  每单完成增值任务，接手方受益点数
-	 */
-	@Column(name="zengzhi_receiver_gain_points" )
-	@NotNull
-	@Min(value=0)
-	private  BigDecimal zengzhiReceiverGainPoints = BigDecimal.ZERO;
-	
-	/**
-	 *  每单完成增值任务，接手方受益金额
-	 */
-	@Column(name="zengzhi_receiver_gain_money" )
-	@NotNull
-	@Min(value=0)
-	private  BigDecimal zengzhiReceiverGainMoney = BigDecimal.ZERO;
-	
-	/**
-	 * 每单完成增值任务，平台受益点数
-	 */
-	@Column(name="zengzhi_pingtai_gain_points" )
-	@NotNull
-	@Min(value=0)
-	private  BigDecimal zengzhiPingtaiGainPoints = BigDecimal.ZERO;
+	 
 	
 	/**
 	 * 接单人ID
@@ -182,8 +173,7 @@ public class TaskBasic implements Serializable {
 	 */
 	@Column(name="receiver_alipay" ) 
 	private String receiverAlipay;
-	
-	
+	 
 	
 	/**
 	 * 实际选中的任务
@@ -266,70 +256,6 @@ public class TaskBasic implements Serializable {
 		this.guaranteePrice = guaranteePrice;
 	}
 
-	public BigDecimal getBasicReceiverGainMoney() {
-		return basicReceiverGainMoney;
-	}
-
-	public void setBasicReceiverGainMoney(BigDecimal basicReceiverGainMoney) {
-		this.basicReceiverGainMoney = basicReceiverGainMoney;
-	}
-
-	public BigDecimal getEncourage() {
-		return encourage;
-	}
-
-	public void setEncourage(BigDecimal encourage) {
-		this.encourage = encourage;
-	}
-
-	public BigDecimal getBasicPingtaiGainPoint() {
-		return basicPingtaiGainPoint;
-	}
-
-	public void setBasicPingtaiGainPoint(BigDecimal basicPingtaiGainPoint) {
-		this.basicPingtaiGainPoint = basicPingtaiGainPoint;
-	}
-
-	public TaskStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(TaskStatus status) {
-		this.status = status;
-	}
-
-	public BigDecimal getBasicReceiverGainPoint() {
-		return basicReceiverGainPoint;
-	}
-
-	public void setBasicReceiverGainPoint(BigDecimal basicReceiverGainPoint) {
-		this.basicReceiverGainPoint = basicReceiverGainPoint;
-	}
-
-	public BigDecimal getZengzhiReceiverGainPoints() {
-		return zengzhiReceiverGainPoints;
-	}
-
-	public void setZengzhiReceiverGainPoints(BigDecimal zengzhiReceiverGainPoints) {
-		this.zengzhiReceiverGainPoints = zengzhiReceiverGainPoints;
-	}
-
-	public BigDecimal getZengzhiReceiverGainMoney() {
-		return zengzhiReceiverGainMoney;
-	}
-
-	public void setZengzhiReceiverGainMoney(BigDecimal zengzhiReceiverGainMoney) {
-		this.zengzhiReceiverGainMoney = zengzhiReceiverGainMoney;
-	}
-
-	public BigDecimal getZengzhiPingtaiGainPoints() {
-		return zengzhiPingtaiGainPoints;
-	}
-
-	public void setZengzhiPingtaiGainPoints(BigDecimal zengzhiPingtaiGainPoints) {
-		this.zengzhiPingtaiGainPoints = zengzhiPingtaiGainPoints;
-	}
-
 	public Integer getReceiverId() {
 		return receiverId;
 	}
@@ -394,8 +320,58 @@ public class TaskBasic implements Serializable {
 	public void setTaskEndTime(Date taskEndTime) {
 		this.taskEndTime = taskEndTime;
 	}
-
  
+
+	public TaskStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TaskStatus status) {
+		this.status = status;
+	}
+
+	 
+
+	public BigDecimal getCommission() {
+		return commission;
+	}
+
+	public void setCommission(BigDecimal commission) {
+		this.commission = commission;
+	}
+
+	public BigDecimal getPayPingTaiPoints() {
+		return payPingTaiPoints;
+	}
+
+	public void setPayPingTaiPoints(BigDecimal payPingTaiPoints) {
+		this.payPingTaiPoints = payPingTaiPoints;
+	}
+
+	public BigDecimal getPayPingTaiMoney() {
+		return payPingTaiMoney;
+	}
+
+	public void setPayPingTaiMoney(BigDecimal payPingTaiMoney) {
+		this.payPingTaiMoney = payPingTaiMoney;
+	}
+
+	public BigDecimal getPayReceiverPoints() {
+		return payReceiverPoints;
+	}
+
+	public void setPayReceiverPoints(BigDecimal payReceiverPoints) {
+		this.payReceiverPoints = payReceiverPoints;
+	}
+
+	public BigDecimal getPayReceiverMoney() {
+		return payReceiverMoney;
+	}
+
+	public void setPayReceiverMoney(BigDecimal payReceiverMoney) {
+		this.payReceiverMoney = payReceiverMoney;
+	}
+	
 	
 
 }

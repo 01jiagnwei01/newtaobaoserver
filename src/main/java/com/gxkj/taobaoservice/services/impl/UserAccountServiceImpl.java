@@ -195,6 +195,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				
 				//关联充值申请表ID
 				userAccountLog.setDepositApplyLogId(refTableId);
+				userAccountLog.setReason("充值成功");
 				
 				/**
 				 * 公司账户增加
@@ -227,7 +228,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.add(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
-				
+				userAccountLog.setReason("取款申请，锁定资金【"+payamount+"】元");
 				
 				break;
 			case WITHDRAW_FAILURE:
@@ -250,7 +251,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.subtract(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
-				
+				userAccountLog.setReason("取款失败，资金回归可用资金【"+payamount+"】元");
 				
 				break;
 			case WITHDRAW_SUCCESS:
@@ -272,6 +273,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.subtract(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
+				userAccountLog.setReason("取款成功，取出资金【"+payamount+"】元");
 				
 				/**
 				 * 公司账户增加
@@ -336,6 +338,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				
 				// 任务创建者的账户变化关联订单表Id
 				userAccountLog.setTaskOrderId(refTableId);
+				userAccountLog.setReason("订单【"+refTableId+"】完成，支付资金，担保金绑定");
 				/**
 				 * 任务创建者
 				 * 锁定资金减少，所用点数减少 可用资金、点数不变
@@ -393,6 +396,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				}
 				// 任务创建者的账户变化关联任务表Id
 				userAccountLog.setTaskBasicId(refTableId);
+				userAccountLog.setReason("任务【"+refTableId+"】完成，支付资金");
 				/**
 				 * 任务创建者
 				 * 锁定资金减少，锁定点数减少 可用资金、点数不变

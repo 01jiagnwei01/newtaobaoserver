@@ -38,3 +38,13 @@ ADD COLUMN `pay_receiver_money`  double(10,2) NOT NULL DEFAULT 0 AFTER `pay_rece
 
 ALTER TABLE `task_basic`
 CHANGE COLUMN `encourage` `commission`  double(11,2) NOT NULL AFTER `guarantee_price`;
+
+
+ALTER TABLE `company_account`
+ADD COLUMN `get_money`  double(10,2) NOT NULL AFTER `sell_points_money`;
+
+ALTER TABLE `company_account`
+ADD COLUMN `reason`  varchar(100) NOT NULL AFTER `ref_id`;
+
+ALTER TABLE `user_account_log`
+ADD COLUMN `reason`  varchar(100) NOT NULL AFTER `lock_point`;

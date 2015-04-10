@@ -85,6 +85,15 @@ public class CompanyAccount implements Serializable{
 	@NotNull(message = "公司账户变化原因不能为空")
 	private CompanyAccountReason reasonType;
 	
+	/**
+	 * 收回服务费
+	 */
+	@Column(name="get_money")
+	private BigDecimal getMoney;
+	
+	@Column(name = "reason") 
+	private String reason;
+	
 
 	public Integer getId() {
 		return id;
@@ -166,8 +175,21 @@ public class CompanyAccount implements Serializable{
 		this.reasonType = reasonType;
 	}
 
+	public BigDecimal getGetMoney() {
+		return getMoney;
+	}
+
+	public void setGetMoney(BigDecimal getMoney) {
+		this.getMoney = getMoney;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 	 
-	
-	
 
 }

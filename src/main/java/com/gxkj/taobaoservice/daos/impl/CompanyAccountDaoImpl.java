@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.gxkj.common.dao.BaseDAOImpl;
@@ -28,12 +29,14 @@ public class CompanyAccountDaoImpl extends BaseDAOImpl implements
 	 * @param drawMoney  	取款金额
 	 * @param reasonType  	变化原因
 	 * @param refId  		关联表ID
+	 *  @param getMoney  	收回服务费
+	 *  @param reason			资金变化原因
 	 */
 	@SuppressWarnings("unchecked")
 	public void executeUpdateCompanyAccount(BigDecimal sellPoint,
 			BigDecimal sellPointsMoney, BigDecimal getPoints,
 			BigDecimal supplyPoints, BigDecimal depositMoney,
-			BigDecimal drawMoney,CompanyAccountReason reasonType,Integer refId) throws SQLException {
+			BigDecimal drawMoney,CompanyAccountReason reasonType,Integer refId, BigDecimal getMoney,String reason) throws SQLException {
 		String hql = "from CompanyAccount order by id  desc ";
 		List<CompanyAccount> companyAccounts =  ((List<CompanyAccount>) super.selectPageByHQL(hql, new Object[0], 0, 1));
 		Date now = new Date();
@@ -49,6 +52,7 @@ public class CompanyAccountDaoImpl extends BaseDAOImpl implements
 			companyAccount.setSellPoint(sellPoint==null?BigDecimal.ZERO:sellPoint);
 			companyAccount.setSellPointsMoney(sellPointsMoney==null?BigDecimal.ZERO:sellPointsMoney);
 			companyAccount.setSupplyPoints(supplyPoints==null?BigDecimal.ZERO:supplyPoints);
+			companyAccount.setGetMoney(getMoney==null?BigDecimal.ZERO:getMoney);
 		}else{
 			CompanyAccount oldCompanyAccount = companyAccounts.get(0);
 			companyAccount.setCreateTime(now);
@@ -58,6 +62,10 @@ public class CompanyAccountDaoImpl extends BaseDAOImpl implements
 			companyAccount.setSellPoint(oldCompanyAccount.getSellPoint().add(  sellPoint==null?BigDecimal.ZERO:sellPoint));
 			companyAccount.setSellPointsMoney(oldCompanyAccount.getSellPointsMoney().add( sellPointsMoney==null?BigDecimal.ZERO:sellPointsMoney));
 			companyAccount.setSupplyPoints(oldCompanyAccount.getSupplyPoints().add(  supplyPoints==null?BigDecimal.ZERO:supplyPoints));
+			companyAccount.setGetMoney(oldCompanyAccount.getGetMoney().add(  getMoney==null?BigDecimal.ZERO:getMoney));
+		}
+		if(StringUtils.isNotBlank(reason)){
+			companyAccount.setReason(reason);
 		}
 		this.insert(companyAccount);  
 		

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -303,6 +302,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				 */
 				afterAmount = currentBalance.subtract(payamount);
 				afterPoints = currentPoints.add(payPoints);
+				userAccountLog.setReason("购买点卡");
 				
 				/**
 				 * 公司账户增加

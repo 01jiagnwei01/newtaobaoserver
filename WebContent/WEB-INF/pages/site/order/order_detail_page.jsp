@@ -2,6 +2,7 @@
 <%@ page import="com.gxkj.common.util.SystemGlobals,com.gxkj.taobaoservice.util.*"%>
 <%@ page import="static com.gxkj.taobaoservice.util.SystemDbData.subTaskInfoMap, com.gxkj.common.exceptions.*"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"    prefix="fn" %>
 <!DOCTYPE html>
 <html lang="zh">
 <head><%--  --%>
@@ -60,8 +61,11 @@ table td{padding:10px 5px; height:25px; font-size:14px;}
 				 						</c:otherwise>
 						</c:choose>
 						<c:if test="${not empty  error}">
-					 							<h2 style="font-size:14px; font-weight:bold;"><span style="color:#f00;">错误</span>：${error.message }。</h2>	
-					 						</c:if>
+					 							<h2 style="font-size:14px; font-weight:bold;"><span style="color:#f00;">错误</span>：${error.message }。
+					 								<c:if test="${fn:indexOf(error.message, '点数不足')!='-1'}"><a href="<%=request.getContextPath() %>/site/products/pointcard" target="_blank" class="easyui-linkbutton" style="color:#36F;">我要购买点卡</a></c:if>
+					 							 
+					 							</h2>	
+					 	</c:if>
 						<table border="0" cellpadding="5" cellspacing="0" style="margin:20px 0;">	 
 							<tr style="display: none" >
 								<td colspan="2"  align="center">

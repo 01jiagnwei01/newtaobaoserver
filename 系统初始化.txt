@@ -1,6 +1,6 @@
 ﻿delete from task_order_sub_task_info;
+delete from task_basic_log;
 delete from task_basic;
-delete from task_order_sub_task_info;
 delete from task_order_sub_task_info;
 delete from task_order;
 delete from deposit_apply_log;
@@ -8,15 +8,4 @@ delete from company_account;
 delete from caozuoma_log;
 delete from apply_draw_log;
 delete from user_account_log;
-update user_account set current_balance=0 ,current_rest_points=0,locked_balance=0,locked_points=0 where user_id=1;
-
-
-测试要点：
-1：充值金额x元审批成功，多次点击。公司充值资金增加x元，客户账户入账x元
-2：充值页面，重复的订单号提交，出现错误提示。
-
-3：取款申请。取款超过账户金额，出现提示。
-3：取款申请。取款申请金额x，用户账户锁定资金增加x
-
-4: 资金不足时发布任务,提示资金不足。
-5：账户点数不足时发布任务，提示点数不足。
+update user_account set current_balance=0 ,current_rest_points=0,locked_balance=0,locked_points=0 where  (user_id=1 or user_id=2 or user_id=3 ) ;

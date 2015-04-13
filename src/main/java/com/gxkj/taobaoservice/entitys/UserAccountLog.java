@@ -153,7 +153,11 @@ public class UserAccountLog  implements Serializable{
 	@Column(name="deposit_apply_log_id")
 	private Integer depositApplyLogId;
 	
-	
+	/**
+	 * 变化原因
+	 */
+	@Column(name="reason")
+	private String reason;
 	
 	@Transient
 	private String adminName;
@@ -350,6 +354,15 @@ public class UserAccountLog  implements Serializable{
 	public void setTaskOrderId(Integer taskOrderId) {
 		this.taskOrderId = taskOrderId;
 	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	
 	
 	
 	 

@@ -100,7 +100,7 @@ UserBase userBase =  SessionUtil.getSiteUserInSession(request);
 						  <tr>
 							  <td align="right">佣金：</td>
 							  <td>
-                               	  <input  type="number" style="height:30px; line-height:30px;" value="${basicReceiverGainMoney}" class="inputwidth" id="basicReceiverGainMoney" name="basicReceiverGainMoney" placeholder="佣金" min="0"/><br/>
+                               	  <input  type="number" style="height:30px; line-height:30px;" value="${commission}" class="inputwidth" id="commission" name="commission" placeholder="佣金" min="0"/><br/>
                                   <span style="font-size:12px; color:#999;">接任务的人每单获利。</span>
                               </td>
 						  </tr>
@@ -271,6 +271,12 @@ var errorType = null;
 				$("#PI_LIANG_FA_BU_input").focus(function(){
 					$("#errortr").hide();
 				});
+			}else if ( errorType == 'commission'){
+				
+				$("#commission").focus(function(){
+					$("#errortr").hide();
+				});
+				 
 			}
 		}
 	})

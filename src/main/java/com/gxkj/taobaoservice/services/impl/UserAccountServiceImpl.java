@@ -84,12 +84,12 @@ public class UserAccountServiceImpl implements UserAccountService {
 			  */
 			 userBase.setId(taskBasic.getUserId());
 			 /**
-			  * 支付金额 =  	担保金 + 佣金+增值任务获利金额 (全部付给接单人)
-			  * 支付点数 =   平台增值任务获得点数 + 接单人增值任务获得点数 +基本任务奖励接单人点数 
+			  * 支付金额 =  	付给平台金额 + 付给接单人金额
+			  * 支付点数 =     付给平台金额 + 付给接单人金额
 			  */
-			 payamount = taskBasic.getEncourage().add(taskBasic.getGuaranteePrice() ).add(taskBasic.getBasicReceiverGainMoney()).add(taskBasic.getZengzhiReceiverGainMoney())  ;
+			 payamount = taskBasic.getPayPingTaiMoney().add(taskBasic.getPayReceiverMoney());
 			 lockAmount = BigDecimal.ZERO;
-			 payPoints = taskBasic.getZengzhiPingtaiGainPoints().add(taskBasic.getBasicReceiverGainPoint()).add(taskBasic.getZengzhiReceiverGainPoints());
+			 payPoints = taskBasic.getPayPingTaiPoints().add(taskBasic.getPayReceiverPoints());
 			 lockPoints = BigDecimal.ZERO;
 		}else if(UserAccountTypes.Task_Order_SURE == operateType){
 			 if( refTableId == null || refTableId == 0 ){
@@ -97,20 +97,20 @@ public class UserAccountServiceImpl implements UserAccountService {
 			 }
 			  taskOrder =  (TaskOrder) taskOrderDao.selectById(refTableId, TaskOrder.class);
 			 /**
-			  * 支付金额为0
-			  * 绑定金额 = （担保金+佣金+接手人增值任务获利金额）*重复次数
-			  * 支付点数 = 平台基本获利 + 批量发布获利点数 
-			  * 绑定点数 = （ 接手人增值任务获利点数 + 平台增值任务获利点数 ）* 重复次数
+			  * 支付金额为支付平台金额
+			  * 绑定金额 = （ 每个任务支付平台金额 + 每个任务支付接手金额 ）* 重复次数
+			  * 支付点数 = 支付平台点数
+			  * 绑定点数 = （ 每个任务支付平台点数 + 每个任务支付接手人点数 ）* 重复次数
 			  */
-			 payamount = BigDecimal.ZERO;
+			 payamount = taskOrder.getPayPingTaiMoney();
 			 lockAmount = (
-					 	taskOrder.getGuaranteePrice()
-					 	.add(taskOrder.getBasicReceiverGainMoney())
-					 	.add(taskOrder.getZengzhiReceiverGainMoney())
+					 taskOrder.getEveryTaskPayPingtaiMoney().add(taskOrder.getEveryTaskPayReceiverMoney())
 					 	).multiply(new BigDecimal(taskOrder.getRepeateTimes()));
-			 payPoints = taskOrder.getBasicPingtaiGainPoint().add(taskOrder.getRepeatPlarformGrainPoint());
-			 lockPoints = (taskOrder.getZengzhiReceiverGainPoints().add(taskOrder.getZengzhiPingtaiGainPoints())).multiply(new BigDecimal(taskOrder.getRepeateTimes()));
-			 
+			 payPoints = taskOrder.getPayPingTaiPoints();
+			lockPoints = (taskOrder.getEveryTaskPayPingtaiPoints()
+					.add(taskOrder.getEveryTaskPayReceiverPoints()))
+					.multiply(new BigDecimal(taskOrder.getRepeateTimes()));
+
 		}
 		if(userBase == null){
 			log.info(String.format("参数错误,userBase=null"));
@@ -136,10 +136,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 		if(lockPoints.compareTo(BigDecimal.ZERO)<0){
 			log.info(String.format("参数错误,lockPoints需要是正数,lockPoints=%d",payamount));
 			 throw new BusinessException(BusinessExceptionInfos.PARAMETER_ERROR,"lockPoints");
-		}
-		
-		
-		
+		} 
 		UserAccount uerAccount = userAccountDao.getUserAccountByUserId(userBase.getId());
 		
 		//当前可用余额
@@ -195,14 +192,15 @@ public class UserAccountServiceImpl implements UserAccountService {
 				 */
 				afterAmount = currentBalance.add(payamount);
 				
-				//关联充值表
+				//关联充值申请表ID
 				userAccountLog.setDepositApplyLogId(refTableId);
+				userAccountLog.setReason("充值成功");
 				
 				/**
 				 * 公司账户增加
 				 */
 				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount, BigDecimal.ZERO
-						,CompanyAccountReason.DEPOSIT,refTableId);
+						,CompanyAccountReason.DEPOSIT,refTableId, BigDecimal.ZERO,"用户【"+userBase.getId()+"】充值【"+payamount+"】元");
 				
 				 
 				break;
@@ -229,7 +227,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.add(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
-				
+				userAccountLog.setReason("取款申请，锁定资金【"+payamount+"】元");
 				
 				break;
 			case WITHDRAW_FAILURE:
@@ -252,7 +250,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.subtract(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
-				
+				userAccountLog.setReason("取款失败，资金回归可用资金【"+payamount+"】元");
 				
 				break;
 			case WITHDRAW_SUCCESS:
@@ -274,13 +272,13 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedAmount = currentLockedBalance.subtract(payamount);
 				// 关联取款申请表
 				userAccountLog.setDrawLogId(refTableId);
-				
-			 
+				userAccountLog.setReason("取款成功，取出资金【"+payamount+"】元");
 				
 				/**
 				 * 公司账户增加
 				 */
-				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount,CompanyAccountReason.DRAW,refTableId);
+				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, payamount,CompanyAccountReason.DRAW,refTableId, BigDecimal.ZERO
+						, "用户【"+userBase.getId()+"】取款【"+payamount+"】元");
 				
 				break;
 			case BUY_POINTS:
@@ -304,11 +302,13 @@ public class UserAccountServiceImpl implements UserAccountService {
 				 */
 				afterAmount = currentBalance.subtract(payamount);
 				afterPoints = currentPoints.add(payPoints);
+				userAccountLog.setReason("购买点卡");
 				
 				/**
 				 * 公司账户增加
 				 */
-				companyAccountDao.executeUpdateCompanyAccount(payPoints, payamount,  BigDecimal.ZERO,  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO ,CompanyAccountReason.SellPoint,refTableId);
+				companyAccountDao.executeUpdateCompanyAccount(payPoints, payamount,  BigDecimal.ZERO,  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO ,CompanyAccountReason.SellPoint,refTableId
+						,BigDecimal.ZERO,"卖出【"+payPoints+"】点,获得收入【"+payamount+"】元");
 				
 				 
 				break;
@@ -338,6 +338,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				
 				// 任务创建者的账户变化关联订单表Id
 				userAccountLog.setTaskOrderId(refTableId);
+				userAccountLog.setReason("订单【"+refTableId+"】完成，支付资金，担保金绑定");
 				/**
 				 * 任务创建者
 				 * 锁定资金减少，所用点数减少 可用资金、点数不变
@@ -355,11 +356,18 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedPoints = currentLockedPoints.add(lockPoints);
 				/**
 				 * 公司账户增加
-				 * 	获得点数 = 平台基本获利+批量发布获利
+				 * 获利金额 = 支付平台金额
+				 * 	获得点数 = 支付平台点数
 				 */
 				
-				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO,  taskOrder.getBasicPingtaiGainPoint().add(taskOrder.getRepeatPlarformGrainPoint()),  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO ,
-						CompanyAccountReason.ORDERSURE,refTableId);
+				companyAccountDao.executeUpdateCompanyAccount(BigDecimal.ZERO, BigDecimal.ZERO, 
+						taskOrder.getPayPingTaiPoints(),  BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO ,
+						CompanyAccountReason.ORDERSURE,refTableId,
+						taskOrder.getPayPingTaiMoney(),
+						"订单确定，公司收入【"+taskOrder.getPayPingTaiPoints()+"】点"
+								+""
+								+((taskOrder.getPayPingTaiMoney().compareTo(BigDecimal.ZERO) == 0) ? "":",收入【"+taskOrder.getPayPingTaiMoney()+"】元")
+						);
 				
 				 
 				
@@ -388,6 +396,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 				}
 				// 任务创建者的账户变化关联任务表Id
 				userAccountLog.setTaskBasicId(refTableId);
+				userAccountLog.setReason("任务【"+refTableId+"】完成，支付资金");
 				/**
 				 * 任务创建者
 				 * 锁定资金减少，锁定点数减少 可用资金、点数不变
@@ -398,10 +407,13 @@ public class UserAccountServiceImpl implements UserAccountService {
 				afterLockedPoints = afterLockedPoints.subtract(payPoints);
 				
 				
-				if(taskBasic.getZengzhiReceiverGainPoints().compareTo(BigDecimal.ZERO) >0){
+				/**
+				 * 修改公司账户
+				 */
+				if(taskBasic.getPayPingTaiMoney().compareTo(BigDecimal.ZERO) >0 || taskBasic.getPayPingTaiPoints().compareTo(BigDecimal.ZERO) >0){
 					companyAccountDao.executeUpdateCompanyAccount( BigDecimal.ZERO,  BigDecimal.ZERO,  
-							taskBasic.getZengzhiReceiverGainPoints(),  BigDecimal.ZERO, 
-							BigDecimal.ZERO, BigDecimal.ZERO ,CompanyAccountReason.ORDERSURE,refTableId);
+							taskBasic.getPayPingTaiPoints(),  BigDecimal.ZERO, 
+							BigDecimal.ZERO, BigDecimal.ZERO ,CompanyAccountReason.ORDERSURE,refTableId,taskBasic.getPayPingTaiMoney(),"任务【"+refTableId+"】完成");
 				}
 				
 				/**
@@ -504,8 +516,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 		 * 变化点数 =  接单人增值任务获利点数
 		 * 
 		 */
-		BigDecimal changeAmount = taskBasic.getGuaranteePrice().add(taskBasic.getBasicReceiverGainMoney()).add(taskBasic.getZengzhiReceiverGainMoney());
-		BigDecimal changePoints = taskBasic.getZengzhiReceiverGainPoints();
+		BigDecimal changeAmount = taskBasic.getPayReceiverMoney();
+		BigDecimal changePoints = taskBasic.getPayReceiverPoints();
 		if (changeAmount.compareTo(BigDecimal.ZERO) == 0 && changePoints.compareTo(BigDecimal.ZERO) == 0){
 			return;
 		}
@@ -551,7 +563,16 @@ public class UserAccountServiceImpl implements UserAccountService {
 		userAccountLog.setAfterRestPoints(afterPoints);
 		//操作后锁定点数
 		userAccountLog.setAfterLockedPoints(afterLockedPoints);
-		
+
+		userAccountLog
+				.setReason("完成任务【"
+						+ taskBasic.getId()
+						+ "】，获得担保金【"
+						+ taskBasic.getGuaranteePrice()
+						+ "】"
+						+ (taskBasic.getCommission().compareTo(BigDecimal.ZERO) == 0 ? ""
+								: "获得佣金【" + taskBasic.getCommission() + "】"));
+
 		userAccountLogDao.insert(userAccountLog);
 		
 	}

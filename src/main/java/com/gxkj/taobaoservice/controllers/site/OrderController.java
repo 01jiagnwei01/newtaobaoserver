@@ -78,15 +78,13 @@ public class OrderController {
 		String productLink = request.getParameter("productLink");
 
 		String guaranteePriceB = request.getParameter("guaranteePrice");
+		String basicPingtaiGainPoint = request.getParameter("basicPingtaiGainPoint");
 		/**
 		 * 基本佣金
 		 */
- 		String basicReceiverGainMoney = request
- 				.getParameter("basicReceiverGainMoney");
-		/**
-		 * 奖励金额
-		 */
-		String encourageB = request.getParameter("encourage");
+ 		String commission = request
+ 				.getParameter("commission");
+ 
 		/**
 		 * 好评时效 
 		 */
@@ -137,7 +135,7 @@ public class OrderController {
 		modelMap.put("productTitle", productTitle);
 		modelMap.put("productLink", productLink);
 		modelMap.put("guaranteePrice", guaranteePriceB);
-		modelMap.put("encourage", encourageB);
+		modelMap.put("commission", commission);
 		modelMap.put("goodCommentTimeLimit", goodCommentTimeLimit);
 		modelMap.put("goodCommentContent", goodCommentContent);
 		modelMap.put("NEED_WANGWANG_TALK", NEED_WANGWANG_TALK);
@@ -149,7 +147,8 @@ public class OrderController {
 		modelMap.put("ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS", shouHuoDiZhi);
 		modelMap.put("PI_LIANG_FA_BU", PI_LIANG_FA_BU);
 		modelMap.put("PI_LIANG_FA_BU_input", PI_LIANG_FA_BU_input);
-		modelMap.put("basicReceiverGainMoney", basicReceiverGainMoney);
+		modelMap.put("basicPingtaiGainPoint", basicPingtaiGainPoint);
+		 
 
 		// BigDecimal guaranteePrice
 		UserBase userBase = SessionUtil.getSiteUserInSession(request);
@@ -175,15 +174,15 @@ public class OrderController {
 		BigDecimal guaranteePrice = BigDecimal.ZERO;
 		BigDecimal encourage  = BigDecimal.ZERO;
 		
-		BigDecimal basicReceiverGainMoney_ =  BigDecimal.ZERO;
+		BigDecimal commission_ =  BigDecimal.ZERO;
 		if(StringUtils.isNoneBlank(orderid)){
 			dbOrderId = Integer.parseInt(orderid);
 		}
-		if(StringUtils.isNotBlank(basicReceiverGainMoney)){
+		if(StringUtils.isNotBlank(commission)){
 			try {
-				basicReceiverGainMoney_ = new BigDecimal(basicReceiverGainMoney); 
+				commission_ = new BigDecimal(commission); 
 			} catch (Exception e) {
-				log.error("basicReceiverGainMoney ="+basicReceiverGainMoney);
+				log.error("commission ="+commission);
 			}
 			
 		}
@@ -210,24 +209,18 @@ public class OrderController {
 		} catch (Exception e) {
 			log.error("guaranteePriceB ="+guaranteePriceB);
 		}
-		try {
-			if(StringUtils.isNotBlank(encourageB)){
-				encourage = new BigDecimal(encourageB);
-			}
-		} catch (Exception e) {
-			log.error("encourageB ="+encourageB);
-		}
+		BigDecimal basicPingtaiGainPoint_ = new BigDecimal(basicPingtaiGainPoint);
 
 		try {
 			
 			TaskOrder order  = null;
 			if(dbOrderId == 0){
 				order = taskOrderService.doAddTaskOrder(  userBase, taobaoXiaohao, userQq, productTitle, productLink, guaranteePrice, 
-						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount,basicReceiverGainMoney_);
+						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount,commission_,basicPingtaiGainPoint_);
 				
 			}else {
 				order = taskOrderService.doUpdateTaskOrder( dbOrderId,userBase, taobaoXiaohao, userQq, productTitle, productLink, guaranteePrice, 
-						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount,basicReceiverGainMoney_);
+						encourage, goodCommentTimeLimit, goodCommentContent, needWangWangTalk, noRepeatTalk, needZhiDingJieShouRen, jieShouRenId, needZhiDingSouHuoDiZhi, shouHuoDiZhi, piLiangFabuCount,commission_,basicPingtaiGainPoint_);
 				
 			}
 			 
@@ -319,7 +312,7 @@ public class OrderController {
 		modelMap.put("productTitle", order.getProductTitle());
 		modelMap.put("productLink", order.getProductLink());
 		modelMap.put("guaranteePrice", order.getGuaranteePrice());
-		modelMap.put("encourage", order.getEncourage());
+ 
 		
 		List<TaskOrderSubTaskInfo> taskOrderSubTaskInfos = order.getTaskOrderSubTaskInfos();
 		String goodCommentTimeLimit = "";
@@ -332,7 +325,6 @@ public class OrderController {
 		String shouHuoDiZhi = "";
 		String PI_LIANG_FA_BU = "0";
 		String PI_LIANG_FA_BU_input = "";
-		BigDecimal basicReceiverGainMoney = order.getBasicReceiverGainMoney();
 		for(TaskOrderSubTaskInfo item : taskOrderSubTaskInfos){
 			if(item.getTaskKey().equals("GOOD_COMMENT_TIME_LIMIT")){
 				goodCommentTimeLimit = item.getInputValue();
@@ -364,7 +356,6 @@ public class OrderController {
 		modelMap.put("ZHI_DING_SHOU_HUO_DI_ZHI_ADDRESS", shouHuoDiZhi);
 		modelMap.put("PI_LIANG_FA_BU", PI_LIANG_FA_BU);
 		modelMap.put("PI_LIANG_FA_BU_input", PI_LIANG_FA_BU_input);
-		modelMap.put("basicReceiverGainMoney", basicReceiverGainMoney);
 		modelMap.put("basicPingtaiGainPoint", order.getBasicPingtaiGainPoint());
 		
 		modelMap.put("order", order);

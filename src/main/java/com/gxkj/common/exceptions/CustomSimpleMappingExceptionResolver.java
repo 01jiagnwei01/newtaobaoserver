@@ -30,7 +30,8 @@ public class CustomSimpleMappingExceptionResolver extends SimpleMappingException
 	protected ModelAndView doResolveException(HttpServletRequest request,  
             HttpServletResponse response, Object handler, Exception ex) { 
 		 String viewName = determineViewName(ex, request); 
-		 
+		 ex.printStackTrace();
+		 logger.error(ex.getMessage());
 		 if (viewName != null) {// JSP格式返回  
 	            if (!(request.getHeader("accept").indexOf("application/json") > -1 || (request  
 	                    .getHeader("X-Requested-With")!= null && request  

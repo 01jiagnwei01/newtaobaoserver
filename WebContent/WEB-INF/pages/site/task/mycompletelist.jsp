@@ -57,7 +57,7 @@ table td {
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">任务编号</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">发布时间</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">担保金额</td>
-										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">佣金</td>
+										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">获利金额</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">获利点数</td> 
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">接手状态</td>
 										<td align="center" bgcolor="#4CA4EE" style="color:#fff;">操作</td>
@@ -79,8 +79,8 @@ table td {
 										<td align="center"><%=item.getId() %></td>
 										<td align="center"><%=formatter.format(item.getCreateTime()) %></td>
 										<td align="center"><%=item.getGuaranteePrice()%> </td>
-										<td align="center"><%= TaskBasicUtil.getReceiveCanGetMoneyByTask(item)%></td>
-										<td align="center"><%= TaskBasicUtil.getReceiveCanGetPointByTask(item)%> </td> 
+										<td align="center"><%= item.getPayReceiverMoney()%></td>
+										<td align="center"><%= item.getPayReceiverPoints()%> </td> 
 										<td align="center"><%=item.getStatus().getName()%></td>
 										<td align="center">
 											<button class="btn btn-xs btn-default" id="suerbtn<%=item.getId() %>" onclick="detail(this,<%=item.getId() %>)">详情</button>

@@ -2,7 +2,7 @@
 <configuration>
  	<property name="log.base" value="/soft/logs" />
  	<property name="log.name" value="newtaobao" />
- 	<property name="log.pattern" value="%X{usertype}-%X{userid} %date [%thread] %-5level %logger{80} - %msg%n" />
+ 	<property name="log.pattern" value="%X{usertype}-%X{userid} %date [%thread] %-5level %logger{80}:%line - %msg%n" />
 	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>${log.pattern}</pattern>
@@ -16,6 +16,7 @@
 			</rollingPolicy>
 			<encoder>
 				<pattern>${log.pattern}</pattern>
+				<ImmediateFlush>true</ImmediateFlush>
 			</encoder>
 	</appender>
 	

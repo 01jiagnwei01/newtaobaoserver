@@ -14,6 +14,10 @@
  *  300个涵盖IT各方面的免费资源（上）——商业与市场篇
  *  https://repo1.maven.org/maven2/log4j/log4j/1.2.17/log4j-1.2.17.pom
  */
+/**
+ * 软件要求：jdk8
+ * tomcat:6
+ */
 import java.io.File;
 
 import org.gradle.plugins.ide.eclipse.model.Facet

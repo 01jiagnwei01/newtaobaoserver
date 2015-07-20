@@ -1,7 +1,5 @@
 package com.gxkj.common.util;
 
-import java.io.File;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
@@ -32,14 +30,11 @@ public class ContextUtil extends ContextLoaderListener {
 	private static ServletContext servletContext;
 
 	public void contextInitialized(ServletContextEvent event) {
-		System.setProperty("red5.deployment.type","war");
-		File f = new File(ContextUtil.class.getResource("/").getPath());
-		System.setProperty("red5.root",f.getAbsolutePath());
-		System.setProperty("red5.config_root",f.getAbsolutePath());
-//		System.setProperty("java.net.preferIPv4Stack","true");
-		
-		 
-		logger.info("red5.config_root={}",System.getProperty("red5.config_root"));
+//		System.setProperty("red5.deployment.type","war");
+//		File f = new File(ContextUtil.class.getResource("/").getPath());
+//		System.setProperty("red5.root",f.getAbsolutePath());
+//		System.setProperty("red5.config_root",f.getAbsolutePath());
+//		logger.info("red5.config_root={}",System.getProperty("red5.config_root"));
 		
 		
 		super.contextInitialized(event);

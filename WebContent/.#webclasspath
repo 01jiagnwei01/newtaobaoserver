@@ -180,6 +180,9 @@ D:\java\mavenlib\org\ow2\asm\asm\4.0\asm-4.0.jar
 D:\java\mavenlib\org\python\jython-standalone\2.5.3\jython-standalone-2.5.3.jar
 D:\java\mavenlib\org\quartz-scheduler\quartz\2.1.7\quartz-2.1.7.jar
 D:\java\mavenlib\org\red5\red5-io\1.0.5-RELEASE\red5-io-1.0.5-RELEASE.jar
+D:\java\mavenlib\org\red5\red5-server-common\1.0.5-RELEASE\red5-server-common-1.0.5-RELEASE.jar
+D:\java\mavenlib\org\red5\red5-server\1.0.5-RELEASE\red5-server-1.0.5-RELEASE.jar
+D:\java\mavenlib\org\red5\red5-service\1.0.5-RELEASE\red5-service-1.0.5-RELEASE.jar
 D:\java\mavenlib\org\slf4j\jcl-over-slf4j\1.7.12\jcl-over-slf4j-1.7.12.jar
 D:\java\mavenlib\org\slf4j\jul-to-slf4j\1.7.12\jul-to-slf4j-1.7.12.jar
 D:\java\mavenlib\org\slf4j\log4j-over-slf4j\1.7.9\log4j-over-slf4j-1.7.9.jar
@@ -197,48 +200,6 @@ D:\java\mavenlib\xml-apis\xml-apis\1.3.04\xml-apis-1.3.04.jar
 D:\java\mavenlib\xmlpull\xmlpull\1.1.3.1\xmlpull-1.1.3.1.jar
 D:\java\mavenlib\xpp3\xpp3_min\1.1.4c\xpp3_min-1.1.4c.jar
 D:\newtaobaoserver\libs\aliyun-sdk-oss-2.0.1.jar
-D:\git_project\red5-server\target\classes
-D:\git_project\red5-server\target\test-classes
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\resources.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\rt.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\jsse.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\jce.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\charsets.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\ext\dnsns.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\ext\localedata.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\ext\sunjce_provider.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\ext\sunmscapi.jar
-D:\java\mavenlib\org\slf4j\slf4j-api\1.7.9\slf4j-api-1.7.9.jar
-D:\java\mavenlib\org\slf4j\jcl-over-slf4j\1.7.9\jcl-over-slf4j-1.7.9.jar
-D:\java\mavenlib\org\slf4j\jul-to-slf4j\1.7.9\jul-to-slf4j-1.7.9.jar
-D:\java\mavenlib\ch\qos\logback\logback-access\1.1.2\logback-access-1.1.2.jar
-D:\java\mavenlib\ch\qos\logback\logback-core\1.1.2\logback-core-1.1.2.jar
-D:\java\mavenlib\ch\qos\logback\logback-classic\1.1.2\logback-classic-1.1.2.jar
-D:\java\mavenlib\org\apache\httpcomponents\httpclient\4.4\httpclient-4.4.jar
-D:\git_project\red5-server-common\target\classes
-D:\git_project\red5-server-common\target\test-classes
-D:\java\mavenlib\commons-pool\commons-pool\1.5.6\commons-pool-1.5.6.jar
-D:\java\mavenlib\net\sf\ehcache\ehcache-core\2.5.0\ehcache-core-2.5.0.jar
-D:\java\mavenlib\org\apache\mina\mina-core\2.0.8\mina-core-2.0.8.jar
-D:\java\mavenlib\org\springframework\spring-core\4.0.8.RELEASE\spring-core-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-context\4.0.8.RELEASE\spring-context-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-aop\4.0.8.RELEASE\spring-aop-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-beans\4.0.8.RELEASE\spring-beans-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-expression\4.0.8.RELEASE\spring-expression-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-web\4.0.8.RELEASE\spring-web-4.0.8.RELEASE.jar
-D:\java\mavenlib\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar
-D:\java\mavenlib\commons-codec\commons-codec\1.9\commons-codec-1.9.jar
-D:\java\mavenlib\org\quartz-scheduler\quartz\2.2.1\quartz-2.2.1.jar
-D:\git_project\red5-service\target\classes
-D:\git_project\red5-service\target\test-classes
-D:\java\mavenlib\org\apache\mina\mina-integration-jmx\2.0.8\mina-integration-jmx-2.0.8.jar
-D:\java\mavenlib\org\apache\mina\mina-integration-ognl\2.0.8\mina-integration-ognl-2.0.8.jar
-D:\java\mavenlib\ognl\ognl\3.0.5\ognl-3.0.5.jar
-D:\java\mavenlib\org\apache\mina\mina-integration-beans\2.0.8\mina-integration-beans-2.0.8.jar
-D:\java\mavenlib\org\springframework\spring-test\4.0.8.RELEASE\spring-test-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\red5\red5-server\1.0.5-RELEASE\red5-server-1.0.5-RELEASE.jar
-D:\java\mavenlib\org\red5\red5-server-common\1.0.5-RELEASE\red5-server-common-1.0.5-RELEASE.jar
-D:\java\mavenlib\org\red5\red5-service\1.0.5-RELEASE\red5-service-1.0.5-RELEASE.jar
 C:\Users\admin\.groovy\greclipse\global_dsld_support
 D:\java\eclipse2\plugins\org.codehaus.groovy_2.3.7.xx-201411061335-e44-RELEASE\plugin_dsld_support
 D:\java\eclipse2\plugins\org.codehaus.groovy_2.3.7.xx-201411061335-e44-RELEASE\lib\groovy-all-2.3.7.jar

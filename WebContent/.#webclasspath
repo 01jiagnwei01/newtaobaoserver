@@ -8,12 +8,9 @@ D:\java\gradle_lib\caches\modules-2\files-2.1\com.ibm.jbatch\com.ibm.jbatch-tck-
 D:\java\gradle_lib\caches\modules-2\files-2.1\com.jcraft\jsch\0.1.38\677f7038dd5c8d5d687c558d09c124f820a8fd5\jsch-0.1.38.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\com.rabbitmq\amqp-client\3.4.2\e3c6ec521a1906ed5403bf64c7903762ea2d0984\amqp-client-3.4.2.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\commons-net\commons-net\3.3\cd0d5510908225f76c5fe5a3f1df4fa44866f81e\commons-net-3.3.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\commons-pool\commons-pool\1.6\4572d589699f09d866a226a14b7f4323c6d8f040\commons-pool-1.6.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\javax.activation\activation\1.1\e6cb541461c2834bdea3eb920f1884d1eb508b50\activation-1.1.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\javax.batch\javax.batch-api\1.0\65392d027a6eb369fd9fcd1b75cae150e25ac03c\javax.batch-api-1.0.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\javax.mail\mail\1.4.7\9add058589d5d85adeb625859bf2c5eeaaedf12d\mail-1.4.7.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\net.sf.ehcache\ehcache\2.9.1\1b8d6ec3a4e02958af7fd2b0b944056bbd08d5e0\ehcache-2.9.1.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.activemq.protobuf\activemq-protobuf\1.1\26682eb801f70563511f7c424dc10e8b3e66340e\activemq-protobuf-1.1.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.activemq\activemq-all\5.10.0\bb376083b608a6f74e3d3c06afb92049549302c9\activemq-all-5.10.0.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.activemq\activemq-broker\5.10.0\4095c7ab762f381b00f99a3e9520e456e32100d1\activemq-broker-5.10.0.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.activemq\activemq-client\5.10.0\7cd9cafc93a97d3f7a34675e208d45885bb77a0e\activemq-client-5.10.0.jar
@@ -25,8 +22,6 @@ D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.activemq\activemq-ra\5.
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.activemq\activemq-rar\5.10.0\b308e6c2d5fd7d31cbc95107f6994194bdb4de90\activemq-rar-5.10.0.rar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.activemq\activemq-spring\5.10.0\974b206483d7916c6b1d27fb972c0566b7a637c2\activemq-spring-5.10.0.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.geronimo.specs\geronimo-j2ee-connector_1.5_spec\2.0.0\1da837af8f5bf839ab48352f3dbfd6c4ecedc232\geronimo-j2ee-connector_1.5_spec-2.0.0.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.geronimo.specs\geronimo-j2ee-management_1.1_spec\1.0.1\5372615b0c04c1913c95c34a0414cef720ca2855\geronimo-j2ee-management_1.1_spec-1.0.1.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.geronimo.specs\geronimo-jms_1.1_spec\1.1.1\c872b46c601d8dc03633288b81269f9e42762cea\geronimo-jms_1.1_spec-1.1.1.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.maven.wagon\wagon-file\1.0-beta-6\6c53633505460caf49d2660de1e24744d915afb9\wagon-file-1.0-beta-6.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.maven.wagon\wagon-http-lightweight\1.0-beta-6\b3815078570c3b1f0667e123d59717c6b726c6c2\wagon-http-lightweight-1.0-beta-6.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.maven.wagon\wagon-http\1.0-beta-6\8c665cbb0ab67c355fbd2c942ad26e39753b6f2e\wagon-http-1.0-beta-6.jar
@@ -62,7 +57,6 @@ D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.xbean\xbean-spring\3.16
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.xmlbeans\xmlbeans\2.6.0\29e80d2dd51f9dcdef8f9ffaee0d4dc1c9bbfc87\xmlbeans-2.6.0.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.aspectj\aspectjweaver\1.5.4\39a53e53c38689b59ec1245f807ca4af83d18db4\aspectjweaver-1.5.4.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.codehaus.groovy\groovy-all\2.3.7\feb6df9c6936c797159091a451ed8590d67101dc\groovy-all-2.3.7.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\org.codehaus.jackson\jackson-core-asl\1.9.13\3c304d70f42f832e0a86d45bd437f692129299a4\jackson-core-asl-1.9.13.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.codehaus.jackson\jackson-core-lgpl\1.9.13\daf3ed9350a24e505a9ef77a713b9e2b66135993\jackson-core-lgpl-1.9.13.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.codehaus.jackson\jackson-mapper-lgpl\1.9.13\562912b6ea695a2ae6411b9e4aed21153f46dde1\jackson-mapper-lgpl-1.9.13.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.codehaus.janino\commons-compiler\2.7.8\fe224c801f296af125316178300dfc633675a8ff\commons-compiler-2.7.8.jar
@@ -75,7 +69,6 @@ D:\java\gradle_lib\caches\modules-2\files-2.1\org.codehaus.plexus\plexus-interac
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.fusesource.hawtbuf\hawtbuf\1.10\a20907168eb4f05c8f777e1671d8070cd06715e4\hawtbuf-1.10.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.glassfish\javax.el\3.0.0\dd532526e7c8de48e40419e6af1183658a973379\javax.el-3.0.0.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.hibernate\hibernate-core\4.3.7.Final\a6d3e8a586ee6a9116c0ea477333ab3831970241\hibernate-core-4.3.7.Final.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\org.slf4j\slf4j-log4j12\1.7.5\6edffc576ce104ec769d954618764f39f0f0f10d\slf4j-log4j12-1.7.5.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.springframework.amqp\spring-amqp\1.4.1.RELEASE\c6c2a8924bbbc72100d04521df0974a94c604a9b\spring-amqp-1.4.1.RELEASE.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.springframework.amqp\spring-rabbit\1.4.1.RELEASE\9aac0f1f0a6236846a47d5e6ea5b98958c0ba8f8\spring-rabbit-1.4.1.RELEASE.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.springframework.batch\spring-batch-core\3.0.2.RELEASE\78fc222e8685174e12912ea927bca7ab64d8ef84\spring-batch-core-3.0.2.RELEASE.jar
@@ -180,6 +173,9 @@ D:\java\mavenlib\org\ow2\asm\asm\4.0\asm-4.0.jar
 D:\java\mavenlib\org\python\jython-standalone\2.5.3\jython-standalone-2.5.3.jar
 D:\java\mavenlib\org\quartz-scheduler\quartz\2.1.7\quartz-2.1.7.jar
 D:\java\mavenlib\org\red5\red5-io\1.0.5-RELEASE\red5-io-1.0.5-RELEASE.jar
+D:\java\mavenlib\org\red5\red5-server-common\1.0.5-RELEASE\red5-server-common-1.0.5-RELEASE.jar
+D:\java\mavenlib\org\red5\red5-server\1.0.5-RELEASE\red5-server-1.0.5-RELEASE.jar
+D:\java\mavenlib\org\red5\red5-service\1.0.5-RELEASE\red5-service-1.0.5-RELEASE.jar
 D:\java\mavenlib\org\slf4j\jcl-over-slf4j\1.7.12\jcl-over-slf4j-1.7.12.jar
 D:\java\mavenlib\org\slf4j\jul-to-slf4j\1.7.12\jul-to-slf4j-1.7.12.jar
 D:\java\mavenlib\org\slf4j\log4j-over-slf4j\1.7.9\log4j-over-slf4j-1.7.9.jar
@@ -197,48 +193,6 @@ D:\java\mavenlib\xml-apis\xml-apis\1.3.04\xml-apis-1.3.04.jar
 D:\java\mavenlib\xmlpull\xmlpull\1.1.3.1\xmlpull-1.1.3.1.jar
 D:\java\mavenlib\xpp3\xpp3_min\1.1.4c\xpp3_min-1.1.4c.jar
 D:\newtaobaoserver\libs\aliyun-sdk-oss-2.0.1.jar
-D:\git_project\red5-server\target\classes
-D:\git_project\red5-server\target\test-classes
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\resources.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\rt.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\jsse.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\jce.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\charsets.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\ext\dnsns.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\ext\localedata.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\ext\sunjce_provider.jar
-C:\Program Files\Java\jdk1.6.0_45\jre\lib\ext\sunmscapi.jar
-D:\java\mavenlib\org\slf4j\slf4j-api\1.7.9\slf4j-api-1.7.9.jar
-D:\java\mavenlib\org\slf4j\jcl-over-slf4j\1.7.9\jcl-over-slf4j-1.7.9.jar
-D:\java\mavenlib\org\slf4j\jul-to-slf4j\1.7.9\jul-to-slf4j-1.7.9.jar
-D:\java\mavenlib\ch\qos\logback\logback-access\1.1.2\logback-access-1.1.2.jar
-D:\java\mavenlib\ch\qos\logback\logback-core\1.1.2\logback-core-1.1.2.jar
-D:\java\mavenlib\ch\qos\logback\logback-classic\1.1.2\logback-classic-1.1.2.jar
-D:\java\mavenlib\org\apache\httpcomponents\httpclient\4.4\httpclient-4.4.jar
-D:\git_project\red5-server-common\target\classes
-D:\git_project\red5-server-common\target\test-classes
-D:\java\mavenlib\commons-pool\commons-pool\1.5.6\commons-pool-1.5.6.jar
-D:\java\mavenlib\net\sf\ehcache\ehcache-core\2.5.0\ehcache-core-2.5.0.jar
-D:\java\mavenlib\org\apache\mina\mina-core\2.0.8\mina-core-2.0.8.jar
-D:\java\mavenlib\org\springframework\spring-core\4.0.8.RELEASE\spring-core-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-context\4.0.8.RELEASE\spring-context-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-aop\4.0.8.RELEASE\spring-aop-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-beans\4.0.8.RELEASE\spring-beans-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-expression\4.0.8.RELEASE\spring-expression-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\springframework\spring-web\4.0.8.RELEASE\spring-web-4.0.8.RELEASE.jar
-D:\java\mavenlib\commons-logging\commons-logging\1.1.1\commons-logging-1.1.1.jar
-D:\java\mavenlib\commons-codec\commons-codec\1.9\commons-codec-1.9.jar
-D:\java\mavenlib\org\quartz-scheduler\quartz\2.2.1\quartz-2.2.1.jar
-D:\git_project\red5-service\target\classes
-D:\git_project\red5-service\target\test-classes
-D:\java\mavenlib\org\apache\mina\mina-integration-jmx\2.0.8\mina-integration-jmx-2.0.8.jar
-D:\java\mavenlib\org\apache\mina\mina-integration-ognl\2.0.8\mina-integration-ognl-2.0.8.jar
-D:\java\mavenlib\ognl\ognl\3.0.5\ognl-3.0.5.jar
-D:\java\mavenlib\org\apache\mina\mina-integration-beans\2.0.8\mina-integration-beans-2.0.8.jar
-D:\java\mavenlib\org\springframework\spring-test\4.0.8.RELEASE\spring-test-4.0.8.RELEASE.jar
-D:\java\mavenlib\org\red5\red5-server\1.0.5-RELEASE\red5-server-1.0.5-RELEASE.jar
-D:\java\mavenlib\org\red5\red5-server-common\1.0.5-RELEASE\red5-server-common-1.0.5-RELEASE.jar
-D:\java\mavenlib\org\red5\red5-service\1.0.5-RELEASE\red5-service-1.0.5-RELEASE.jar
 C:\Users\admin\.groovy\greclipse\global_dsld_support
 D:\java\eclipse2\plugins\org.codehaus.groovy_2.3.7.xx-201411061335-e44-RELEASE\plugin_dsld_support
 D:\java\eclipse2\plugins\org.codehaus.groovy_2.3.7.xx-201411061335-e44-RELEASE\lib\groovy-all-2.3.7.jar

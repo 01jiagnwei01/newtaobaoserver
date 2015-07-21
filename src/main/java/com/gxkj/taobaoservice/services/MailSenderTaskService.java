@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 import com.gxkj.common.exceptions.BusinessException;
 import com.gxkj.common.util.ListPager;
-import com.gxkj.taobaoservice.daos.MailSenderTaskDao;
 import com.gxkj.taobaoservice.dto.MailSenderTaskDTO;
 import com.gxkj.taobaoservice.dto.ShouJianRen;
 import com.gxkj.taobaoservice.entitys.AdminUser;

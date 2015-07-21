@@ -27,7 +27,7 @@ public class TaskBasicDaoImpl extends BaseDAOImpl implements TaskBasicDao {
 	 
 	 private String getTaskBasicCountReceivedByReceiverIdHQL = "from TaskBasic where userId = :userId and receiverId=:receiverId and receiverTime is not null and receiverTime >= :beginTime  order by id desc";
 	
-	private String getTaskBasicCountReceivedByReceiverIdSQL = "select * from task_basic where user_id = ? and receiver_id=? and receiver_time is not null and receiver_time between ? and ? order by id desc";
+//	private String getTaskBasicCountReceivedByReceiverIdSQL = "select * from task_basic where user_id = ? and receiver_id=? and receiver_time is not null and receiver_time between ? and ? order by id desc";
 	
 	public ListPager doPageForSite(UserBase userBase, Integer orderId,
 			int pageno, int pagesize, Date startTime, Date endTime,TaskStatus status)

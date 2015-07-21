@@ -421,6 +421,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 				 */
 				_receiverUserCountChangeForTaskOrderSURE(now ,taskBasic);
 				break;
+		default:
+			break;
 				
 			
 		

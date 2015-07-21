@@ -9,6 +9,10 @@
 		<param-name>webAppRootKey</param-name>
 		<param-value>/video</param-value>
 	</context-param>
+	 	<context-param>  
+        <param-name>spring.profiles.active</param-name>  
+        <param-value>tomcatDEP</param-value>  
+    </context-param> 
 <error-page>  
 		<error-code>404</error-code> 
 		<location>/exception/404</location> 

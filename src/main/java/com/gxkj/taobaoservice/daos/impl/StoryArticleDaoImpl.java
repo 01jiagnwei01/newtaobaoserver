@@ -9,12 +9,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
-import com.gxkj.common.constants.StatusConstant;
 import com.gxkj.common.dao.BaseDAOImpl;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.daos.StoryArticleDao;
-import com.gxkj.taobaoservice.entitys.AdminUser;
-import com.gxkj.taobaoservice.entitys.StoryArticle;
 import com.gxkj.taobaoservice.entitys.StoryArticleDesc;
 import com.gxkj.taobaoservice.enums.StoryArticleStatus;
 @Repository
@@ -47,18 +44,26 @@ public class StoryArticleDaoImpl extends BaseDAOImpl implements StoryArticleDao 
 		
 		 StringBuffer sql = new StringBuffer(doPageFromDb_hql);
 		 List<Object> parameters = new ArrayList<Object>();
+		 boolean haveParam = false;
 		 if(status != null){
-			 sql.append(" status  = ").append(status);
+			 haveParam = true;
+			 sql.append(" where status  = ").append(status);
 		 } 
 		 if(StringUtils.isNotBlank(title )){
-			 sql.append(" and articleTitle like ?");
+			 if(haveParam){
+				 sql.append(" and "); 
+			 }else {
+				 sql.append(" where "); 
+			 }
+			 sql.append("   articleTitle like ?");
 			 parameters.add("%"+title+"%");
+			 haveParam = true;
 		 }
-		sql.append(" order by  id ");
+		sql.append(" order by  articleId ");
 		ListPager pager = new ListPager();
 		pager.setPageNo(pageno);
 		pager.setRowsPerPage(pagesize );
-		ListPager page = this.selectPageBySQL(sql.toString(), parameters.toArray(),StoryArticle.class,pager);
+		ListPager page = this.selectPageByHql(sql.toString(), parameters.toArray(),pager);
 		return page;
 	}
 

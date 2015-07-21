@@ -50,5 +50,8 @@ ckeditor
     out.println("window.parent.CKEDITOR.tools.callFunction(" + callback  
         + ",'','文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）');");  
     out.println("</script>");  
+ 
+ 问题3:CKEditor 4.3.4 工具栏 没有居中按钮如何设置
+ 	只修改 这条试试 ckeditor.js中的最后一行中的CKEDITOR.config.plugins 追加一项 justify 
 			
 	

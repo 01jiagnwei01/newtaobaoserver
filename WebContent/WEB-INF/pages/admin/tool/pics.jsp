@@ -51,7 +51,7 @@ var del = "${_adminUser_.btnMap.admin_tool_pics_del}"== "true"?true:false;
 		        	<tr>
 								<th data-options="field:'id',width:30" >id</th>
 								<th data-options="field:'picPath',width:150,formatter:imgFormat"  >图片</th> 
-								<th data-options="field:'picName',width:150"  >图片名称</th> 
+								<th data-options="field:'picName',width:150,formatter:picFormat,styler:picStyler,nowrap:false"  >图片名称/路径</th> 
 								<th data-options="field:'picDesc',width:150"  >图片描述</th>
 								<th data-options="field:'createTime',width:150,formatter:dateFormat"  >修改时间</th>
 								<th data-options="field:'createUser',width:150,formatter:userFormat"  >修改人</th>
@@ -135,6 +135,13 @@ function optFormat(value,row,index){
 function imgFormat(value,row,index){
 	 
 	return "<img style='width:100px;heigh:100px;' src='"+value+"'>";
+}
+function picFormat(value,row,index){
+	 
+	return value+"<br/>"+row['picPath'];
+}
+function picStyler(value,row,index){
+	return 'nowrap: true;word-wrap:break-word;width:10px;';
 }
 function callback(json){
  var result  = json['result'];

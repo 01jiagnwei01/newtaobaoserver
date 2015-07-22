@@ -47,8 +47,13 @@ public class StoryArticleDaoImpl extends BaseDAOImpl implements StoryArticleDao 
 		 boolean haveParam = false;
 		 if(status != null){
 			 haveParam = true;
-			 sql.append(" where status  = ").append(status);
-		 } 
+			 sql.append(" where status  = ?");
+			 parameters.add(status);
+		 }else {
+			 haveParam = true;
+			 sql.append(" where status  != ?") ;
+			 parameters.add(StoryArticleStatus.DEL);
+		 }
 		 if(StringUtils.isNotBlank(title )){
 			 if(haveParam){
 				 sql.append(" and "); 

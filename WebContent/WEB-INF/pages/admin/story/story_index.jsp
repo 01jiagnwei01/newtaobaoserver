@@ -18,7 +18,7 @@
 		<table style="width: 100%">
 			<tr >
 				<td width="50%">
-					标题: <input class="easyui-textbox" style="width:160px" id="s_title"/>
+					标题: <input class="easyui-textbox" style="width:160px;height:30px;padding:12px" id="s_title"/>
 					<a href="#"  class="easyui-linkbutton" iconCls="icon-search" onclick="searchFn()">查看</a>
 				</td>
 				<td align="right" width="50%">
@@ -89,6 +89,7 @@ var updateStroyBtn = "${_adminUser_.btnMap.admin_MYTH_doupdate}"== "true"?true:f
 var storydopage = "${_adminUser_.btnMap.admin_MYTH_dopage}"== "true"?true:false;
 var setStatusBtn = "${_adminUser_.btnMap.admin_MYTH_setstatus}"== "true"?true:false;
 var detailBtn = "${_adminUser_.btnMap.admin_MYTH_detail}"== "true"?true:false;
+var deleteBtn = "${_adminUser_.btnMap.admin_MYTH_delete}"== "true"?true:false;
 var p = getPageArea();
 var pwidth = p.width;
 var pheight = p.height;
@@ -120,10 +121,10 @@ $(function(){
 					{field:'articleId',title:'Id'},
 					{field:'articleTitle',title:'标题' ,width:100},
 					{field:'fromBookName',title:'出处' ,width:100},
-					{field:'hitTimes',title:'浏览数',width:200},
-					{field:'praiseNumber',title:'点赞数',width:200 },
-					{field:'tiresomeNumber',title:'脚踩数' ,width:50 },
-					{field:'status',title:'状态' ,width:50 ,formatter:statusFormat},
+					{field:'hitTimes',title:'浏览数',width:100},
+					{field:'praiseNumber',title:'点赞数',width:100 },
+					{field:'tiresomeNumber',title:'脚踩数' ,width:100 },
+					{field:'status',title:'状态' ,width:100 ,formatter:statusFormat},
 					{field:'opt',title:'操作' ,width:200,formatter:optFormat} 
 				]],
 				toolbar: '#tb',
@@ -151,7 +152,7 @@ $(function(){
 });
 function statusFormat(value,row,index){
 	if(value == 'WAIT4REVIEW') {
-		return "待审核";
+		return "<font color='red'>待审核</font>";
 	}else if(value == 'NORMAL') {
 		return "审核通过，已上线";
 	}else if(value == 'NOPASS') {
@@ -160,7 +161,7 @@ function statusFormat(value,row,index){
 	return "";	
 }
 function searchFn(){
-		if(!userdopage){
+		if(!storydopage){
 			 $.messager.alert('系统提示','您没有权限访问!','info');
 			return;
 		}
@@ -173,10 +174,20 @@ function searchFn(){
 function optFormat (value,row,index){
 	var btns = [];
 	if(updateStroyBtn){
-		btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="updateFn(\''+row['articleId']+'\',\'update\')" href="#" plain="true" iconCls="update_btn"><span class="l-btn-left"><span class="l-btn-text update_btn l-btn-icon-left">修改</span></span></a>');
+		btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="showDetail(\''+row['articleId']+'\',\'update\')" href="#" plain="true" iconCls="update_btn"><span class="l-btn-left"><span class="l-btn-text update_btn l-btn-icon-left">修改</span></span></a>');
 	}
 	if(detailBtn){
 		btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="showDetail(\''+row['articleId']+'\',\'detail\')" href="###" plain="true" iconCls="detail_btn"><span class="l-btn-left"><span class="l-btn-text detail_btn l-btn-icon-left">详情</span></span></a>');
+	}
+	if(setStatusBtn){
+		btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="setstatus(\''+row['articleId']+'\',\'pass\')" href="###" plain="true" iconCls="green_btn"><span class="l-btn-left"><span class="l-btn-text green_btn l-btn-icon-left">通过</span></span></a>');
+		btns.push('<br/>');
+		btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="setstatus(\''+row['articleId']+'\',\'nopass\')" href="###" plain="true" iconCls="red_btn"><span class="l-btn-left"><span class="l-btn-text red_btn l-btn-icon-left">不通过</span></span></a>');
+		
+	}
+	if(deleteBtn)
+	{
+		btns.push('<a class="easyui-linkbutton l-btn l-btn-plain" onclick="setstatus(\''+row['articleId']+'\',\'delete\')" href="###" plain="true" iconCls="del_btn"><span class="l-btn-left"><span class="l-btn-text del_btn l-btn-icon-left">删除</span></span></a>');
 	}
 	return btns.join("&nbsp;");
 }
@@ -187,6 +198,7 @@ function addFn(){
 			height: pheight});
 	 $('#story_w').panel('move',{left:0,top:0});
 	 initEditor();
+	 setReadOnly(false)
 }
 function closeWinFn(){
 	$('#story_w').window('close');
@@ -279,7 +291,7 @@ function updateIntoDb(saveObj){
 			  	 	index:updateRowIndex,
 			  	 	row:json
 			  	 });
-			  	  $('#dg').datagrid('selectRow',updateRowIndex);
+			  	 // $('#dg').datagrid('selectRow',updateRowIndex);
 			 	 $.messager.alert('系统提示','保存成功!','info',closeWinFn);
 			
 		  },
@@ -300,11 +312,10 @@ function updateIntoDb(saveObj){
 function showDetail(id,type){
 	$("#ff").form("reset");
 	updateRowIndex = -1;
-	saveType = "update";
 	var rows = $("#dg").datagrid("getRows");
 	var row = null;
 	for(var i=0;i<rows.length;i++){
-		if(rows[i]['id'] == id){
+		if(rows[i]['articleId'] == id){
 			row = rows[i];
 			break;
 		}
@@ -356,6 +367,10 @@ function afterAjaxShowWin(dto,type){
 	var title = '';
 	if(type == 'detail'){
 		title = "文章详情";
+	 }else if(type == 'update'){
+		 saveType = "update";
+		 
+		title = "修改文章";
 	 }
 	 $('#story_w').window('open').panel('setTitle',title).panel('resize',{width: pwidth,
 			height: pheight});
@@ -363,8 +378,11 @@ function afterAjaxShowWin(dto,type){
 	 //alert(type);
 	 if(type == 'detail'){
 		 setReadOnly(true);
+	 }else{
+		 setReadOnly(false);
 	 }
-	 //setReadOnly(true);
+	 
+	 //
 }
 function setReadOnly(bool){
 	if(bool){
@@ -374,8 +392,6 @@ function setReadOnly(bool){
 		 $("#fromBookName").textbox('readonly');
 		 
 		 $("#okBtn").hide();
-		// $("#cancelBtn").hide();
-		// CKEDITOR.instances.editor01.setReadOnly(true);
 		
 	}else{
 		 $("#articleTitle").textbox('readonly',false);
@@ -384,10 +400,78 @@ function setReadOnly(bool){
 		 $("#fromBookName").textbox('readonly',false);
 		
 		 $("#okBtn").show();
-		// $("#cancelBtn").show();
-		 //CKEDITOR.instances.editor01.setReadOnly(false);
 	}
 }
+function setstatus(id,type){
+	var url = null;
+	var param = null;
+	var dRowIndex = -1;
+	 
+	var rows = $("#dg").datagrid("getRows");
+	var row = null;
+	for(var i=0;i<rows.length;i++){
+		if(rows[i]['articleId'] == id){
+			row = rows[i];
+			break;
+		}
+	}
+	var rowIndex = 	$('#dg').datagrid("getRowIndex",row);
+	dRowIndex = rowIndex;
+	
+	if(type =='pass'){
+		url = "<%=request.getContextPath()%>/admin/MYTH/setstatus";
+		param = {storyId:id,status:'NORMAL'}
+		row.status = 'NORMAL';
+		deSetStatus(url,param,dRowIndex,row,type);
+	}else if(type =='nopass'){
+		url = "<%=request.getContextPath()%>/admin/MYTH/setstatus";
+		param = {storyId:id,status:'NOPASS'}
+		row.status = 'NOPASS';
+		deSetStatus(url,param,dRowIndex,row,type);
+	}else if(type =='delete'){
+		url = "<%=request.getContextPath()%>/admin/MYTH/delete";
+		param = {storyId:id,status:'DEL'}
+		row.status = 'DEL';
+		$.messager.confirm('系统提示', '您确定要删除该记录吗?', function(r){
+			if (r){
+				deSetStatus(url,param,dRowIndex,row,type)
+			}
+		});
+			
+		 
+	} 
+ 	 
+}
+function deSetStatus(url,param,dRowIndex,row,type){
+	$.ajax({
+	  	  type:'post',
+		  url: url,
+		  context: document.body,
+		  data:param,
+		  success:function(json){
+			  if(type =='delete'){
+				  $('#dg').datagrid('deleteRow',dRowIndex);
+				} else{
+					 $('#dg').datagrid('updateRow',{
+					  	 	index:dRowIndex,
+					  	 	row:row
+					  	 });
+				}
+			  	 // $('#dg').datagrid('selectRow',updateRowIndex);
+			 	 $.messager.alert('系统提示','保存成功!','info');
+			
+		  },
+		  error:function(xhr,textStatus,errorThrown){
+			
+		  		var responseText = xhr.responseText;
+		  		json = $.parseJSON(responseText);
+		  	
+		  			$.messager.alert('系统提示','保存失败,'+responseText,'error');
+		  } 
+	});
+}
+ 
+
 
 	</script>
 </html>

@@ -48,6 +48,7 @@ public class StoryArticleServiceImpl implements StoryArticleService {
 	public StoryArticleDTO updateStoryArticleDTO(StoryArticleDTO story,
 			AdminUser adminUser) throws SQLException {
 		story.setUpdateTime(new Date());
+		
 		story.setStatus(StoryArticleStatus.WAIT4REVIEW);
 		story.setUpdateUserId(adminUser.getId());
 		StoryArticle dbarticle = (StoryArticle) storyArticleDao.selectById(
@@ -75,14 +76,15 @@ public class StoryArticleServiceImpl implements StoryArticleService {
 		return story;
 	}
 
-	public void setStoryArticleDTOStatus(int storyId,
+	public void updateStoryArticleDTOStatus(int storyId,
 			StoryArticleStatus status, AdminUser adminUser) throws SQLException {
 
-		StoryArticle story = (StoryArticle) storyArticleDao.selectById(storyId,
+		StoryArticle dbstory = (StoryArticle) storyArticleDao.selectById(storyId,
 				StoryArticle.class);
-		story.setStatus(status);
-		story.setUpdateTime(new Date());
-		story.setUpdateUserId(adminUser.getId());
+		dbstory.setStatus(status);
+		dbstory.setUpdateTime(new Date());
+		dbstory.setUpdateUserId(adminUser.getId());
+		storyArticleDao.update(dbstory);
 	}
 
 	public StoryArticleDTO getStoryArticleDTOById(int articleId)

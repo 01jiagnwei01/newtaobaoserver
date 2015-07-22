@@ -34,7 +34,7 @@ public interface StoryArticleService {
 	 * @param adminUser	管理员
 	 * @throws SQLException 
 	 */
-	public void setStoryArticleDTOStatus(int storyId,StoryArticleStatus status,AdminUser adminUser) throws SQLException;
+	public void updateStoryArticleDTOStatus(int storyId,StoryArticleStatus status,AdminUser adminUser) throws SQLException;
 
 	/**
 	 * 根据故事id查询故事

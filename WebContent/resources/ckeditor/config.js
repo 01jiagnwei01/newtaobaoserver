@@ -20,7 +20,7 @@ CKEDITOR.editorConfig = function( config ) {
     config.allowedContent = true;
     config.format_p = { element: 'p', attributes: { 'class': 'normalPara' } };
     
-    config.image_previewText='';
+    config.image_previewText='请到工具箱->图片库选择图片';
     if(typeof  window.uploadUrl != "undefined"){
     	config.filebrowserImageUploadUrl= window.uploadUrl;
     }

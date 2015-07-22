@@ -74,13 +74,14 @@ public class AStoryArticleController {
 	@RequestMapping(value="/doupdate",method={RequestMethod.POST})
 	@ResponseBody
 	public EntityReturnData doUpdate( HttpServletRequest request, HttpServletResponse response,
-			StoryArticleDTO entity, 
+			StoryArticleDTO entity,@PathVariable StoryTypes storytype, 
 			ModelMap modelMap) throws Exception  {
 		EntityReturnData ret = new EntityReturnData();
+		entity.setType(storytype);
 		ret.setMsg("执行成功");
 		ret.setResult(true);
 		AdminUser  adminUser = SessionConstant.getAdminUserInSession(request);
-		entity = storyArticleService.addStoryArticle(entity, adminUser);
+		entity = storyArticleService.updateStoryArticleDTO(entity, adminUser);
 		ret.setEntity(entity);
 		return ret;
 	}
@@ -93,7 +94,20 @@ public class AStoryArticleController {
 		ret.setMsg("执行成功");
 		ret.setResult(true);
 		AdminUser  adminUser = SessionConstant.getAdminUserInSession(request);
-		storyArticleService.setStoryArticleDTOStatus(storyId, status, adminUser);
+		storyArticleService.updateStoryArticleDTOStatus(storyId, status, adminUser);
+		 
+		return ret;
+	}
+	@RequestMapping(value="/delete",method={RequestMethod.POST})
+	@ResponseBody
+	public EntityReturnData delete( HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="storyId")Integer storyId,
+			ModelMap modelMap) throws Exception  {
+		EntityReturnData ret = new EntityReturnData();
+		ret.setMsg("执行成功");
+		ret.setResult(true);
+		AdminUser  adminUser = SessionConstant.getAdminUserInSession(request);
+		storyArticleService.updateStoryArticleDTOStatus(storyId, StoryArticleStatus.DEL, adminUser);
 		 
 		return ret;
 	}

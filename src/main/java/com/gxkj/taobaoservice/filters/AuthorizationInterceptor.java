@@ -1,7 +1,6 @@
 package com.gxkj.taobaoservice.filters;
 
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
@@ -11,20 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.core.MethodParameter;
-import org.springframework.web.method.HandlerMethod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-//import org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver;
-//import org.springframework.web.servlet.mvc.multiaction.MethodNameResolver;
-
-
-
-import org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver;
-import org.springframework.web.servlet.mvc.multiaction.MethodNameResolver;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gxkj.common.annotation.WithoutAuthorize;
@@ -34,15 +24,15 @@ import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.SessionConstant;
 import com.gxkj.taobaoservice.entitys.AdminUser;
 import com.gxkj.taobaoservice.entitys.UserBase;
-import com.gxkj.taobaoservice.services.impl.UserAccountServiceImpl;
+//import org.springframework.web.servlet.mvc.multiaction.InternalPathMethodNameResolver;
+//import org.springframework.web.servlet.mvc.multiaction.MethodNameResolver;
 
  
  
 
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 
-	private static final Log log = 
-			LogFactory.getLog(AuthorizationInterceptor.class);
+	protected static final  Logger logger = LoggerFactory.getLogger(AuthorizationInterceptor.class); 
 	/**
 	 * 当有拦截器抛出异常时,会从当前拦截器往回执行所有的拦截器的afterCompletion() 
 	 */
@@ -62,7 +52,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse response,
 			Object handler) throws Exception {
-		MethodNameResolver methodNameResolver = new InternalPathMethodNameResolver();
+//		MethodNameResolver methodNameResolver = new InternalPathMethodNameResolver();
 //		System.out.println("methodName="+methodNameResolver.getHandlerMethodName(req));
 //		System.out.println("权限拦截---------------");
 		
@@ -72,20 +62,23 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 		String url = req.getRequestURI();
 		String ctx = req.getContextPath();
 		url = url.replace(ctx, "");
-		Enumeration<String> keys = req.getParameterNames();
-		while(keys.hasMoreElements()) {
-		    String k = keys.nextElement();
-		    System.out.println(k + " = " + req.getParameter(k) );
-		} 
-		
-		Map pathVariables = (Map) req.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-		if(pathVariables!=null){
-			Set set = pathVariables.keySet();
-			Iterator it =set.iterator();
-			while(it.hasNext()){
-				System.out.println(it.next());
+		if(logger.isDebugEnabled()){
+			Enumeration<String> keys = req.getParameterNames();
+			while(keys.hasMoreElements()) {
+			    String k = keys.nextElement();
+			    logger.debug( "{}={}",k ,req.getParameter(k));
+			} 
+			
+			Map pathVariables = (Map) req.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+			if(pathVariables!=null){
+				Set set = pathVariables.keySet();
+				Iterator it =set.iterator();
+				while(it.hasNext()){
+					logger.debug("{}",it.next());
+				}
 			}
 		}
+		
 		
 		if(handler !=null  ){
 			Class<? extends Object> clazz =  handler.getClass();
@@ -133,6 +126,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 			//前台来的
 			if(		"/".equals(url) 
 					||"".equals(url)
+					||  url.indexOf("/story/")>=0 
 					||  url.indexOf("/xuetang")>=0 
 					||  url.indexOf("/login")>=0 
 					|| url.indexOf("reg")>=0
@@ -145,7 +139,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 			}
 			UserBase base = SessionUtil.getSiteUserInSession(req);
 			if(base== null) {
-				log.error(String.format("%s被拦截", url));
+				logger.error(String.format("%s被拦截", url));
 				response.sendRedirect(req.getContextPath() +"/login");
 				return false;
 			}else {

@@ -199,6 +199,11 @@ function addFn(){
 	 $('#story_w').panel('move',{left:0,top:0});
 	 initEditor();
 	 setReadOnly(false)
+	 CKEDITOR.instances.editor01.setData( null, {
+		    callback: function() {
+		     
+		    }
+		} );
 }
 function closeWinFn(){
 	$('#story_w').window('close');

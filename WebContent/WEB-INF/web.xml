@@ -9,6 +9,10 @@
 		<param-name>webAppRootKey</param-name>
 		<param-value>/video</param-value>
 	</context-param>
+	 	<context-param>  
+        <param-name>spring.profiles.active</param-name>  
+        <param-value>tomcatDEP</param-value>  
+    </context-param> 
 <error-page>  
 		<error-code>404</error-code> 
 		<location>/exception/404</location> 
@@ -79,13 +83,9 @@
 	</filter-mapping>
   	<servlet-mapping>
     	<servlet-name>springmvc</servlet-name>
-    	<url-pattern>/*</url-pattern>
+    	<url-pattern>/</url-pattern>
   	</servlet-mapping>
-  	<servlet>
-		<servlet-name>rtmpt</servlet-name>
-		<servlet-class>org.red5.server.net.rtmpt.RTMPTServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
+   
   	
   	<listener>
    		  <listener-class>com.gxkj.common.listeners.ConfigInitializer</listener-class>
@@ -103,35 +103,6 @@
 	<listener>
 			<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
-	
-	
-	 
-    
-	<servlet-mapping>
-		<servlet-name>rtmpt</servlet-name>
-		<url-pattern>/fcs/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>rtmpt</servlet-name>
-		<url-pattern>/open/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>rtmpt</servlet-name>
-		<url-pattern>/close/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>rtmpt</servlet-name>
-		<url-pattern>/send/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>rtmpt</servlet-name>
-		<url-pattern>/idle/*</url-pattern>
-	</servlet-mapping>
-	
 	 
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>

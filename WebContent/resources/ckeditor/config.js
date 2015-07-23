@@ -1,66 +1,64 @@
 /**
- * @license Copyright (c) 2003-2014, CKSource - Frederico Knabben. All rights reserved.
+ * @license Copyright (c) 2003-2015, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.md or http://ckeditor.com/license
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here.
-	// For complete reference see:
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
+	// Define changes to default configuration here. For example:
+	// config.language = 'fr';
+	// config.uiColor = '#AADC6E';
+	config.uiColor = '#9AB8F3';
 
-	// The toolbar groups arrangement, optimized for two toolbar rows.
-	config.toolbarGroups = [
-		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
-		{ name: 'links' },
-		{ name: 'insert' },
-		{ name: 'forms' },
-		{ name: 'tools' },
-		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: 'others' },
-		'/',
-		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
-		{ name: 'styles' },
-		{ name: 'colors' },
-		{ name: 'about' }
-	];
+    //是否强制复制来的内容去除格式 plugins/pastetext/plugin.js   
+    config.forcePasteAsPlainText =false//不去除  
+    //是否使用等标签修饰或者代替从word文档中粘贴过来的内容 plugins/pastefromword/plugin.js    
+    config.pasteFromWordKeepsStructure = false;  
+    //从word中粘贴内容时是否移除格式 plugins/pastefromword/plugin.js  
+    config.pasteFromWordRemoveStyle = false  
+    config.pasteFromWordRemoveFontStyles = false; 
+    //
+    config.allowedContent = true;
+    config.format_p = { element: 'p', attributes: { 'class': 'normalPara' } };
+    //编辑器中回车产生的标签
+    config.enterMode = CKEDITOR.ENTER_DIV; //可选：CKEDITOR.ENTER_P,CKEDITOR.ENTER_BR或CKEDITOR.ENTER_DIV 
+    config.image_previewText='请到工具箱->图片库选择图片';
+    if(typeof  window.uploadUrl != "undefined"){
+    	config.filebrowserImageUploadUrl= window.uploadUrl;
+    }
+    
+    
+    
+    config.toolbar = 'FULL';//把默认工具栏改为‘MyToolbar’   
+    
+    config.toolbar_zixun2 =   
+    [   
+        ['NewPage','Preview'],   
+        ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Scayt'],   
+        ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],   
+        ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],   
+        '/',   
+        ['Styles','Format'],   
+        ['Bold','Italic','Strike'],   
+        ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],   
+        ['Link','Unlink','Anchor'],   
+        ['Maximize','-','About']   
+    ]; 
+    config.toolbar_zixun =   
+        [   
+            ['BGColor','TextColor'],
+            ['Bold','Italic','Underline','Strike'],
+            ['Subscript','Superscript','NumberedList','BulletedList'],
+            ['Undo','Redo'],
+            ['Cut','Copy','Paste','PasteText','PasteFromWord'],
+            ['Outdent','Indent','JustifyLeft','JustifyCenter','JustifyRight'],
+            ['Link','UnLink','Image','Table','Smilery','Blockquote','Maximize']
+        ]; 
+    config.toolbar_basic =   
+        [   
+            ['Bold','Italic','Underline','Strike'],
+            ['Table','Smilery','Blockquote']
+        ];
 
-	// Remove some buttons provided by the standard plugins, which are
-	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript';
 
-	// Set the most common block elements.
-	config.format_tags = 'p;h1;h2;h3;pre';
 
-	// Simplify the dialog windows.
-	config.removeDialogTabs = 'image:advanced;link:advanced';
-	
-	
-	config.toolbar = 'Full';
-
-	config.toolbar_Full =
-	[
-	    ['Source','-','Save','NewPage','Preview','-','Templates'],
-	    ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
-	    ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
-	    ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
-	   
-	    ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
-	    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
-	    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-	    ['Link','Unlink','Anchor'],
-	    ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
-	//    '/',
-	    ['Styles','Format','Font','FontSize'],
-	    ['TextColor','BGColor'],
-	    ['Maximize', 'ShowBlocks','-','About']
-	];
-
-	config.toolbar_Basic =
-	[
-	    ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink','-','About']
-	]
-	
-	
 };

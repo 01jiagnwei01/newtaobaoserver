@@ -19,9 +19,7 @@
 	</bean>
 	
 	
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName"><value>java:comp/env/jdbc/taobaoserver</value></property>
-    </bean>
+    
  <!-- 	
  	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -34,4 +32,20 @@
 		<property name="testWhileIdle" value="${taobaoservice.jdbc.testWhileIdle}"/>
 	</bean>
  -->
+ 	<beans profile="test"> 
+	 	 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+			<property name="driverClassName" value="${taobaoservice.jdbc.driver}" />
+			<property name="url" value="${taobaoservice.jdbc.url}" />
+			<property name="username" value="${taobaoservice.jdbc.user}" />
+			<property name="password" value="${taobaoservice.jdbc.password}" />
+			<property name="maxActive" value="${taobaoservice.jdbc.pool.size}"/>
+			<property name="validationQuery" value="${taobaoservice.jdbc.validationQuery}"/>
+			<property name="testWhileIdle" value="${taobaoservice.jdbc.testWhileIdle}"/>
+		</bean>  
+	 </beans>
+	<beans profile="tomcatDEP">   
+       <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName"><value>java:comp/env/jdbc/taobaoserver</value></property>
+    </bean>
+    </beans>
 </beans>

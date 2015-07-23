@@ -1,0 +1,23 @@
+1:Bootstrap官网：
+	http://www.bootcss.com/
+2:可视化组件布局：
+	http://www.bootcss.com/p/layoutit/
+3:其他同学做的bootstrap网站,Bootstrap 优站精选.
+	http://expo.bootcss.com/
+4:Bootstrap 不支持 IE 古老的兼容模式。为了让 IE 浏览器运行最新的渲染模式下，建议将此 <meta> 标签加入到你的页面中：
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+5:国产浏览器高速模式
+	<meta name="renderer" content="webkit">
+6:色彩对比
+	http://v3.bootcss.com/getting-started/#accessibility
+7:首页将来可参考的网站
+	http://magnet.co/ 参考这里的页眉开始在下面，后来到上面固定的例子
+	http://www.onefootball.com/ 参考大绿的风格
+	https://www.coursera.org/   参考页面排版
+	https://www.versioneye.com/ 参考不同类元素展示
+8：	栅格系统
+	http://v3.bootcss.com/css/#grid
+9:
+	样式col-xs-12 col-sm-12 col-md-12  col-lg-12的意义是适配不同大小的窗口。具体参考网址
+	http://v3.bootcss.com/css/#grid-options
+	

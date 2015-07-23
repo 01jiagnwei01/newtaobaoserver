@@ -1,0 +1,18 @@
+jstl
+	1：判断对象或集合为空
+		1.1  <c:if test="${empty user}"无user信息!TODO...</c:if>
+		1.2	 <c:if test="${test == null}">test为null</c:if>
+		1.3  <c:if test="${!empty list}"list集合不为空判断,TODO...</c:if>
+	2：
+		<c:choose> 
+		  <c:when test="expression"> 
+		        body content 
+		  </c:when> 
+		  <c:when test="expression"> 
+		        body content 
+		  </c:when> 
+		  ... 
+		  <c:otherwise> 
+		        body content 
+		  </c:otherwise> 
+		</c:choose> 

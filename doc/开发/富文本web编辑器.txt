@@ -1,0 +1,57 @@
+考虑使用ueditor
+网址为：http://fex.baidu.com/ueditor
+
+目前使用ueditor以满足要求为主。将来有任何改动，做相关的二次开发。
+	1支持最大可输入字数，还可以输入多少字数的提示功能
+	
+xheditor
+	http://xheditor.com/
+
+ckeditor
+	http://ckeditor.com/
+	开发指南guide
+	http://docs.ckeditor.com/#!/guide/dev_installation
+	例子：
+	http://sdk.ckeditor.com/samples/toolbar.html
+ 问题1：粘贴word时，格式消失。
+ 	解决方法：
+ 		在ckeditor\config.js的function( config ) 方法里添加如下代码
+ 		//是否强制复制来的内容去除格式 plugins/pastetext/plugin.js   
+	    config.forcePasteAsPlainText =false//不去除  
+	    //是否使用等标签修饰或者代替从word文档中粘贴过来的内容 plugins/pastefromword/plugin.js    
+	    config.pasteFromWordKeepsStructure = false;  
+	    //从word中粘贴内容时是否移除格式 plugins/pastefromword/plugin.js  
+	    config.pasteFromWordRemoveStyle = false  
+	    config.pasteFromWordRemoveFontStyles = false; 
+	   未解决的问题：
+	   	粘贴word是居中格式时，没有居中。
+	   	解决居中问题：
+	   		 config.allowedContent = true;
+    		 config.format_p = { element: 'p', attributes: { 'class': 'normalPara' } };
+问题2:点击图片按钮里有好多外文。需要把这个去掉。
+	解决方法：
+		方法1：
+			打开ckeditor/plugins/image/dialogs/image.js文件，搜索“b.config.image_previewText”，(b.config.image_previewText||'')单引号中的内容全删了，注意别删多了。
+		方法2：
+			在ckeditor\config.js的function( config ) 方法里添加如下代码
+			config.image_previewText=' '; //预览区域显示内容
+问题3:实现图片上传功能
+	打开config.js文件，加入下面一句话
+	config.filebrowserImageUploadUrl= "admin/UserArticleFileUpload.do"; //待会要上传的action或servlet
+	服务端返回脚本内容为：
+	String callback = ServletActionContext.getRequest().getParameter("CKEditorFuncNum");  
+	 out.println("<script type=\"text/javascript\">");  
+     out.println("window.parent.CKEDITOR.tools.callFunction(" + callback  
+                + ",'" + request.getContextPath() + "/img/uploadImg/" + fileName + "','')");  
+     out.println("</script>"); 
+     
+     错误提示：
+       out.println("<script type=\"text/javascript\">");  
+    out.println("window.parent.CKEDITOR.tools.callFunction(" + callback  
+        + ",'','文件格式不正确（必须为.jpg/.gif/.bmp/.png文件）');");  
+    out.println("</script>");  
+ 
+ 问题3:CKEditor 4.3.4 工具栏 没有居中按钮如何设置
+ 	只修改 这条试试 ckeditor.js中的最后一行中的CKEDITOR.config.plugins 追加一项 justify 
+			
+	

@@ -1,0 +1,17 @@
+1：将数据库驱动和commons-dbcp-<no>.jar拷贝到tomcat容器lib目录
+2：在tomcat的conf文件夹下的server.xml配置文件中  <GlobalNamingResources>标签中加入如下信息：
+	 <Resource  name="jdbc/jiancaidb"
+             auth="Container"
+         	type="javax.sql.DataSource"
+             maxActive="20"
+             maxIdel="10"
+             maxWait="1000"
+             username="root"
+             password="toor"
+     		driverClassName="com.mysql.jdbc.Driver"        
+     		url="jdbc:mysql://localhost:3306/jiancaidb"
+         >
+      </Resource>
+ 3:在context.xml文件加入ResourceLink
+ 	<ResourceLink name="jdbc/jiancaidb" type="javax.sql.DataSource" global="jdbc/jiancaidb"/>  
+ 

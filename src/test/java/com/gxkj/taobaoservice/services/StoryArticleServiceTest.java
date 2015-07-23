@@ -73,7 +73,7 @@ public class StoryArticleServiceTest extends BaseSpringTest {
 		AdminUser adminUser = new AdminUser();
 		adminUser.setId(1);
 		try {
-			storyArticleService.setStoryArticleDTOStatus(articleId, StoryArticleStatus.NORMAL, adminUser);
+			storyArticleService.updateStoryArticleDTOStatus(articleId, StoryArticleStatus.NORMAL, adminUser);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

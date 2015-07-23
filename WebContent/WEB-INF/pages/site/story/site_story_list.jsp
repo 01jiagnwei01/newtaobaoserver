@@ -95,11 +95,11 @@
         </div><!--/.col-xs-12.col-sm-9-->
         
       </div><!--/row-->
-
-      <hr>
-
+      <hr/>
       <footer>
-        <p>&copy; Company 2015 联系方式：QQ346745719</p>
+        <p>联系方式：QQ346745719</p>
+        <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1254570389'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/stat.php%3Fid%3D1254570389%26show%3Dpic2' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<p>&copy; Company 2015 </p>
       </footer>
 
     </div><!--/.container-->

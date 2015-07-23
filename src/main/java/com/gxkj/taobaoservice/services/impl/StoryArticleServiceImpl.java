@@ -123,18 +123,20 @@ public class StoryArticleServiceImpl implements StoryArticleService {
 		storyArticleDao.update(story);
 	}
 
-	public void addPraiseNumber(int articleId, Integer uid) throws Exception {
+	public StoryArticle addPraiseNumber(int articleId, Integer uid) throws Exception {
 		StoryArticle story = (StoryArticle) storyArticleDao.selectById(
 				articleId, StoryArticle.class);
 		story.setPraiseNumber(story.getPraiseNumber() + 1);
 		storyArticleDao.update(story);
+		return story;
 	}
 
-	public void addTiresomeNumber(int storyId, Integer uid) throws Exception {
+	public StoryArticle addTiresomeNumber(int storyId, Integer uid) throws Exception {
 		StoryArticle story = (StoryArticle) storyArticleDao.selectById(storyId,
 				StoryArticle.class);
 		story.setTiresomeNumber(story.getTiresomeNumber() + 1);
 		storyArticleDao.update(story);	
+		return story;
 	}
 
 }

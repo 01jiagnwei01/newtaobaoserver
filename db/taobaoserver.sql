@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-04-09 18:14:09
+Date: 2015-07-23 13:40:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `admin_menu` (
   `btnflag` varchar(64) DEFAULT NULL,
   `pid` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of admin_menu
@@ -116,6 +116,14 @@ INSERT INTO `admin_menu` VALUES ('89', '前台任务列表', '/admin/task', null
 INSERT INTO `admin_menu` VALUES ('90', '任务分页查看', '/admin/task/dopage', null, '1', 'admin_tasks_dopage', '89');
 INSERT INTO `admin_menu` VALUES ('91', '任务详情', '/admin/task/detail', null, '1', 'admin_task_detail', '89');
 INSERT INTO `admin_menu` VALUES ('92', '公司收支分页查看', '/admin/company_account/dopage', null, '1', 'admin_company_account_dopage', '41');
+INSERT INTO `admin_menu` VALUES ('93', '故事管理', '', null, '0', '', '0');
+INSERT INTO `admin_menu` VALUES ('94', '神话故事', '/admin/MYTH/index', null, '0', '', '93');
+INSERT INTO `admin_menu` VALUES ('95', '增加神话故事', '/admin/MYTH/doadd', null, '1', 'admin_MYTH_doadd', '94');
+INSERT INTO `admin_menu` VALUES ('96', '修改神话故事', '/admin/MYTH/doupdate', null, '1', 'admin_MYTH_doupdate', '94');
+INSERT INTO `admin_menu` VALUES ('97', '设置神话故事状态', '/admin/MYTH/setstatus', null, '1', 'admin_MYTH_setstatus', '94');
+INSERT INTO `admin_menu` VALUES ('98', '分页查看神话故事', '/admin/MYTH/dopage', null, '1', 'admin_MYTH_dopage', '94');
+INSERT INTO `admin_menu` VALUES ('99', '神话故事详情', '/admin/MYTH/detail', null, '1', 'admin_MYTH_detail', '94');
+INSERT INTO `admin_menu` VALUES ('100', '删除神话故事', '/admin/MYTH/delete', null, '1', 'admin_MYTH_delete', '94');
 
 -- ----------------------------
 -- Table structure for `admin_role`
@@ -188,13 +196,12 @@ CREATE TABLE `apply_draw_log` (
   `refuse_reason` varchar(100) DEFAULT NULL,
   `account_no` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of apply_draw_log
 -- ----------------------------
-INSERT INTO `apply_draw_log` VALUES ('1', null, '10.00', '2', '2015-03-23 15:45:21', 'REFUSE', '1', '管理员', '2015-03-23 15:46:09', '支付宝账号不存在', '10');
-INSERT INTO `apply_draw_log` VALUES ('2', null, '10.00', '2', '2015-03-23 15:46:39', 'WAIT_FOR_AUDIT', null, null, null, null, '10');
+INSERT INTO `apply_draw_log` VALUES ('1', '12345678901234512', '12.00', '2', '2015-04-13 14:14:09', 'APPROVE', '1', '管理员', '2015-04-13 14:15:17', null, '01jangwei01@163.com');
 
 -- ----------------------------
 -- Table structure for `business_exception`
@@ -244,6 +251,7 @@ CREATE TABLE `company_account` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `sell_points` double(10,2) NOT NULL,
   `sell_points_money` double(10,2) NOT NULL,
+  `get_money` double(10,2) NOT NULL,
   `get_points` double(10,2) NOT NULL,
   `supply_points` double(10,2) NOT NULL,
   `deposit_money` double(10,2) NOT NULL,
@@ -251,17 +259,19 @@ CREATE TABLE `company_account` (
   `createtime` datetime NOT NULL,
   `reason_type` varchar(20) NOT NULL,
   `ref_id` int(10) DEFAULT NULL,
+  `reason` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of company_account
 -- ----------------------------
-INSERT INTO `company_account` VALUES ('1', '0.00', '0.00', '0.00', '0.00', '200.00', '0.00', '2015-03-23 15:33:27', 'DEPOSIT', '1');
-INSERT INTO `company_account` VALUES ('2', '10.00', '10.00', '0.00', '0.00', '200.00', '0.00', '2015-03-23 15:33:44', 'SellPoint', null);
-INSERT INTO `company_account` VALUES ('3', '10.00', '10.00', '0.50', '0.00', '200.00', '0.00', '2015-03-23 15:35:45', 'ORDERSURE', '1');
-INSERT INTO `company_account` VALUES ('4', '10.00', '10.00', '1.00', '0.00', '200.00', '0.00', '2015-03-23 15:38:06', 'ORDERSURE', '1');
-INSERT INTO `company_account` VALUES ('6', '10.00', '10.00', '2.00', '0.00', '200.00', '0.00', '2015-03-26 12:45:08', 'ORDERSURE', '2');
+INSERT INTO `company_account` VALUES ('1', '0.00', '0.00', '0.00', '0.00', '0.00', '200.00', '0.00', '2015-04-13 10:22:43', 'DEPOSIT', '1', '用户【1】充值【200.00】元');
+INSERT INTO `company_account` VALUES ('2', '10.00', '10.00', '0.00', '0.00', '0.00', '200.00', '0.00', '2015-04-13 13:57:40', 'SellPoint', '1', '卖出【10】点,获得收入【10.00】元');
+INSERT INTO `company_account` VALUES ('3', '10.00', '10.00', '0.00', '0.50', '0.00', '200.00', '0.00', '2015-04-13 13:58:31', 'ORDERSURE', '2', '订单确定，公司收入【0.50】点');
+INSERT INTO `company_account` VALUES ('4', '10.00', '10.00', '0.00', '0.50', '0.00', '200.00', '12.00', '2015-04-13 14:15:17', 'DRAW', '1', '用户【2】取款【12.00】元');
+INSERT INTO `company_account` VALUES ('5', '10.00', '10.00', '0.00', '1.00', '0.00', '200.00', '12.00', '2015-04-13 14:28:23', 'ORDERSURE', '3', '订单确定，公司收入【0.50】点');
+INSERT INTO `company_account` VALUES ('6', '10.00', '10.00', '0.00', '2.00', '0.00', '200.00', '12.00', '2015-04-13 14:51:26', 'ORDERSURE', '4', '订单确定，公司收入【1.00】点');
 
 -- ----------------------------
 -- Table structure for `deposit_apply_log`
@@ -288,7 +298,7 @@ CREATE TABLE `deposit_apply_log` (
 -- ----------------------------
 -- Records of deposit_apply_log
 -- ----------------------------
-INSERT INTO `deposit_apply_log` VALUES ('1', '123456789012345678', '200.00', '1', '2015-03-23 15:30:46', 'APPROVE', '1', '管理员', '2015-03-23 15:33:27', null);
+INSERT INTO `deposit_apply_log` VALUES ('1', '123456789012345678', '200.00', '1', '2015-04-13 10:15:32', 'APPROVE', '1', '管理员', '2015-04-13 10:22:43', null);
 
 -- ----------------------------
 -- Table structure for `log4j_log`
@@ -562,7 +572,7 @@ CREATE TABLE `rel_role_menu` (
   `roleid` int(10) DEFAULT NULL,
   `menuid` int(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=369 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=460 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of rel_role_menu
@@ -608,89 +618,6 @@ INSERT INTO `rel_role_menu` VALUES ('163', '15', '21');
 INSERT INTO `rel_role_menu` VALUES ('164', '15', '22');
 INSERT INTO `rel_role_menu` VALUES ('165', '15', '24');
 INSERT INTO `rel_role_menu` VALUES ('166', '15', '25');
-INSERT INTO `rel_role_menu` VALUES ('167', '8', '19');
-INSERT INTO `rel_role_menu` VALUES ('168', '8', '20');
-INSERT INTO `rel_role_menu` VALUES ('169', '8', '23');
-INSERT INTO `rel_role_menu` VALUES ('170', '8', '26');
-INSERT INTO `rel_role_menu` VALUES ('171', '8', '27');
-INSERT INTO `rel_role_menu` VALUES ('172', '8', '21');
-INSERT INTO `rel_role_menu` VALUES ('173', '8', '22');
-INSERT INTO `rel_role_menu` VALUES ('174', '8', '24');
-INSERT INTO `rel_role_menu` VALUES ('175', '8', '25');
-INSERT INTO `rel_role_menu` VALUES ('176', '8', '39');
-INSERT INTO `rel_role_menu` VALUES ('177', '8', '40');
-INSERT INTO `rel_role_menu` VALUES ('178', '8', '41');
-INSERT INTO `rel_role_menu` VALUES ('179', '8', '92');
-INSERT INTO `rel_role_menu` VALUES ('180', '8', '29');
-INSERT INTO `rel_role_menu` VALUES ('181', '8', '28');
-INSERT INTO `rel_role_menu` VALUES ('182', '8', '30');
-INSERT INTO `rel_role_menu` VALUES ('183', '8', '32');
-INSERT INTO `rel_role_menu` VALUES ('184', '8', '86');
-INSERT INTO `rel_role_menu` VALUES ('185', '8', '87');
-INSERT INTO `rel_role_menu` VALUES ('186', '8', '88');
-INSERT INTO `rel_role_menu` VALUES ('187', '8', '89');
-INSERT INTO `rel_role_menu` VALUES ('188', '8', '90');
-INSERT INTO `rel_role_menu` VALUES ('189', '8', '91');
-INSERT INTO `rel_role_menu` VALUES ('190', '8', '42');
-INSERT INTO `rel_role_menu` VALUES ('191', '8', '43');
-INSERT INTO `rel_role_menu` VALUES ('192', '8', '44');
-INSERT INTO `rel_role_menu` VALUES ('193', '8', '46');
-INSERT INTO `rel_role_menu` VALUES ('194', '8', '47');
-INSERT INTO `rel_role_menu` VALUES ('195', '8', '48');
-INSERT INTO `rel_role_menu` VALUES ('196', '8', '49');
-INSERT INTO `rel_role_menu` VALUES ('197', '8', '55');
-INSERT INTO `rel_role_menu` VALUES ('198', '8', '45');
-INSERT INTO `rel_role_menu` VALUES ('199', '8', '50');
-INSERT INTO `rel_role_menu` VALUES ('200', '8', '51');
-INSERT INTO `rel_role_menu` VALUES ('201', '8', '52');
-INSERT INTO `rel_role_menu` VALUES ('202', '8', '53');
-INSERT INTO `rel_role_menu` VALUES ('203', '8', '54');
-INSERT INTO `rel_role_menu` VALUES ('204', '8', '79');
-INSERT INTO `rel_role_menu` VALUES ('205', '8', '61');
-INSERT INTO `rel_role_menu` VALUES ('206', '8', '62');
-INSERT INTO `rel_role_menu` VALUES ('207', '8', '65');
-INSERT INTO `rel_role_menu` VALUES ('208', '8', '66');
-INSERT INTO `rel_role_menu` VALUES ('209', '8', '67');
-INSERT INTO `rel_role_menu` VALUES ('210', '8', '68');
-INSERT INTO `rel_role_menu` VALUES ('211', '8', '69');
-INSERT INTO `rel_role_menu` VALUES ('212', '8', '70');
-INSERT INTO `rel_role_menu` VALUES ('213', '8', '71');
-INSERT INTO `rel_role_menu` VALUES ('214', '8', '72');
-INSERT INTO `rel_role_menu` VALUES ('215', '8', '73');
-INSERT INTO `rel_role_menu` VALUES ('216', '8', '74');
-INSERT INTO `rel_role_menu` VALUES ('217', '8', '75');
-INSERT INTO `rel_role_menu` VALUES ('218', '8', '76');
-INSERT INTO `rel_role_menu` VALUES ('219', '8', '77');
-INSERT INTO `rel_role_menu` VALUES ('220', '8', '78');
-INSERT INTO `rel_role_menu` VALUES ('221', '8', '56');
-INSERT INTO `rel_role_menu` VALUES ('222', '8', '57');
-INSERT INTO `rel_role_menu` VALUES ('223', '8', '58');
-INSERT INTO `rel_role_menu` VALUES ('224', '8', '59');
-INSERT INTO `rel_role_menu` VALUES ('225', '8', '60');
-INSERT INTO `rel_role_menu` VALUES ('226', '8', '80');
-INSERT INTO `rel_role_menu` VALUES ('227', '8', '81');
-INSERT INTO `rel_role_menu` VALUES ('228', '8', '82');
-INSERT INTO `rel_role_menu` VALUES ('229', '8', '83');
-INSERT INTO `rel_role_menu` VALUES ('230', '8', '84');
-INSERT INTO `rel_role_menu` VALUES ('231', '8', '85');
-INSERT INTO `rel_role_menu` VALUES ('232', '8', '1');
-INSERT INTO `rel_role_menu` VALUES ('233', '8', '2');
-INSERT INTO `rel_role_menu` VALUES ('234', '8', '9');
-INSERT INTO `rel_role_menu` VALUES ('235', '8', '10');
-INSERT INTO `rel_role_menu` VALUES ('236', '8', '11');
-INSERT INTO `rel_role_menu` VALUES ('237', '8', '12');
-INSERT INTO `rel_role_menu` VALUES ('238', '8', '3');
-INSERT INTO `rel_role_menu` VALUES ('239', '8', '13');
-INSERT INTO `rel_role_menu` VALUES ('240', '8', '14');
-INSERT INTO `rel_role_menu` VALUES ('241', '8', '15');
-INSERT INTO `rel_role_menu` VALUES ('242', '8', '16');
-INSERT INTO `rel_role_menu` VALUES ('243', '8', '17');
-INSERT INTO `rel_role_menu` VALUES ('244', '8', '4');
-INSERT INTO `rel_role_menu` VALUES ('245', '8', '5');
-INSERT INTO `rel_role_menu` VALUES ('246', '8', '6');
-INSERT INTO `rel_role_menu` VALUES ('247', '8', '7');
-INSERT INTO `rel_role_menu` VALUES ('248', '8', '8');
-INSERT INTO `rel_role_menu` VALUES ('249', '8', '18');
 INSERT INTO `rel_role_menu` VALUES ('307', '16', '19');
 INSERT INTO `rel_role_menu` VALUES ('308', '16', '20');
 INSERT INTO `rel_role_menu` VALUES ('309', '16', '23');
@@ -753,6 +680,155 @@ INSERT INTO `rel_role_menu` VALUES ('365', '16', '82');
 INSERT INTO `rel_role_menu` VALUES ('366', '16', '1');
 INSERT INTO `rel_role_menu` VALUES ('367', '16', '4');
 INSERT INTO `rel_role_menu` VALUES ('368', '16', '8');
+INSERT INTO `rel_role_menu` VALUES ('369', '8', '19');
+INSERT INTO `rel_role_menu` VALUES ('370', '8', '20');
+INSERT INTO `rel_role_menu` VALUES ('371', '8', '23');
+INSERT INTO `rel_role_menu` VALUES ('372', '8', '26');
+INSERT INTO `rel_role_menu` VALUES ('373', '8', '27');
+INSERT INTO `rel_role_menu` VALUES ('374', '8', '21');
+INSERT INTO `rel_role_menu` VALUES ('375', '8', '22');
+INSERT INTO `rel_role_menu` VALUES ('376', '8', '24');
+INSERT INTO `rel_role_menu` VALUES ('377', '8', '25');
+INSERT INTO `rel_role_menu` VALUES ('378', '8', '39');
+INSERT INTO `rel_role_menu` VALUES ('379', '8', '40');
+INSERT INTO `rel_role_menu` VALUES ('380', '8', '41');
+INSERT INTO `rel_role_menu` VALUES ('381', '8', '92');
+INSERT INTO `rel_role_menu` VALUES ('382', '8', '29');
+INSERT INTO `rel_role_menu` VALUES ('383', '8', '28');
+INSERT INTO `rel_role_menu` VALUES ('384', '8', '30');
+INSERT INTO `rel_role_menu` VALUES ('385', '8', '32');
+INSERT INTO `rel_role_menu` VALUES ('386', '8', '86');
+INSERT INTO `rel_role_menu` VALUES ('387', '8', '87');
+INSERT INTO `rel_role_menu` VALUES ('388', '8', '88');
+INSERT INTO `rel_role_menu` VALUES ('389', '8', '89');
+INSERT INTO `rel_role_menu` VALUES ('390', '8', '90');
+INSERT INTO `rel_role_menu` VALUES ('391', '8', '91');
+INSERT INTO `rel_role_menu` VALUES ('392', '8', '42');
+INSERT INTO `rel_role_menu` VALUES ('393', '8', '43');
+INSERT INTO `rel_role_menu` VALUES ('394', '8', '44');
+INSERT INTO `rel_role_menu` VALUES ('395', '8', '46');
+INSERT INTO `rel_role_menu` VALUES ('396', '8', '47');
+INSERT INTO `rel_role_menu` VALUES ('397', '8', '48');
+INSERT INTO `rel_role_menu` VALUES ('398', '8', '49');
+INSERT INTO `rel_role_menu` VALUES ('399', '8', '55');
+INSERT INTO `rel_role_menu` VALUES ('400', '8', '45');
+INSERT INTO `rel_role_menu` VALUES ('401', '8', '50');
+INSERT INTO `rel_role_menu` VALUES ('402', '8', '51');
+INSERT INTO `rel_role_menu` VALUES ('403', '8', '52');
+INSERT INTO `rel_role_menu` VALUES ('404', '8', '53');
+INSERT INTO `rel_role_menu` VALUES ('405', '8', '54');
+INSERT INTO `rel_role_menu` VALUES ('406', '8', '79');
+INSERT INTO `rel_role_menu` VALUES ('407', '8', '61');
+INSERT INTO `rel_role_menu` VALUES ('408', '8', '62');
+INSERT INTO `rel_role_menu` VALUES ('409', '8', '65');
+INSERT INTO `rel_role_menu` VALUES ('410', '8', '66');
+INSERT INTO `rel_role_menu` VALUES ('411', '8', '67');
+INSERT INTO `rel_role_menu` VALUES ('412', '8', '68');
+INSERT INTO `rel_role_menu` VALUES ('413', '8', '69');
+INSERT INTO `rel_role_menu` VALUES ('414', '8', '70');
+INSERT INTO `rel_role_menu` VALUES ('415', '8', '71');
+INSERT INTO `rel_role_menu` VALUES ('416', '8', '72');
+INSERT INTO `rel_role_menu` VALUES ('417', '8', '73');
+INSERT INTO `rel_role_menu` VALUES ('418', '8', '74');
+INSERT INTO `rel_role_menu` VALUES ('419', '8', '75');
+INSERT INTO `rel_role_menu` VALUES ('420', '8', '76');
+INSERT INTO `rel_role_menu` VALUES ('421', '8', '77');
+INSERT INTO `rel_role_menu` VALUES ('422', '8', '78');
+INSERT INTO `rel_role_menu` VALUES ('423', '8', '56');
+INSERT INTO `rel_role_menu` VALUES ('424', '8', '57');
+INSERT INTO `rel_role_menu` VALUES ('425', '8', '58');
+INSERT INTO `rel_role_menu` VALUES ('426', '8', '59');
+INSERT INTO `rel_role_menu` VALUES ('427', '8', '60');
+INSERT INTO `rel_role_menu` VALUES ('428', '8', '80');
+INSERT INTO `rel_role_menu` VALUES ('429', '8', '81');
+INSERT INTO `rel_role_menu` VALUES ('430', '8', '82');
+INSERT INTO `rel_role_menu` VALUES ('431', '8', '83');
+INSERT INTO `rel_role_menu` VALUES ('432', '8', '84');
+INSERT INTO `rel_role_menu` VALUES ('433', '8', '85');
+INSERT INTO `rel_role_menu` VALUES ('434', '8', '93');
+INSERT INTO `rel_role_menu` VALUES ('435', '8', '94');
+INSERT INTO `rel_role_menu` VALUES ('436', '8', '95');
+INSERT INTO `rel_role_menu` VALUES ('437', '8', '96');
+INSERT INTO `rel_role_menu` VALUES ('438', '8', '97');
+INSERT INTO `rel_role_menu` VALUES ('439', '8', '98');
+INSERT INTO `rel_role_menu` VALUES ('440', '8', '99');
+INSERT INTO `rel_role_menu` VALUES ('441', '8', '100');
+INSERT INTO `rel_role_menu` VALUES ('442', '8', '1');
+INSERT INTO `rel_role_menu` VALUES ('443', '8', '2');
+INSERT INTO `rel_role_menu` VALUES ('444', '8', '9');
+INSERT INTO `rel_role_menu` VALUES ('445', '8', '10');
+INSERT INTO `rel_role_menu` VALUES ('446', '8', '11');
+INSERT INTO `rel_role_menu` VALUES ('447', '8', '12');
+INSERT INTO `rel_role_menu` VALUES ('448', '8', '3');
+INSERT INTO `rel_role_menu` VALUES ('449', '8', '13');
+INSERT INTO `rel_role_menu` VALUES ('450', '8', '14');
+INSERT INTO `rel_role_menu` VALUES ('451', '8', '15');
+INSERT INTO `rel_role_menu` VALUES ('452', '8', '16');
+INSERT INTO `rel_role_menu` VALUES ('453', '8', '17');
+INSERT INTO `rel_role_menu` VALUES ('454', '8', '4');
+INSERT INTO `rel_role_menu` VALUES ('455', '8', '5');
+INSERT INTO `rel_role_menu` VALUES ('456', '8', '6');
+INSERT INTO `rel_role_menu` VALUES ('457', '8', '7');
+INSERT INTO `rel_role_menu` VALUES ('458', '8', '8');
+INSERT INTO `rel_role_menu` VALUES ('459', '8', '18');
+
+-- ----------------------------
+-- Table structure for `story_article`
+-- ----------------------------
+DROP TABLE IF EXISTS `story_article`;
+CREATE TABLE `story_article` (
+  `article_id` int(11) NOT NULL AUTO_INCREMENT,
+  `article_title` varchar(128) NOT NULL,
+  `add_time` datetime NOT NULL,
+  `add_user_id` int(11) NOT NULL,
+  `update_time` datetime NOT NULL,
+  `update_user_id` int(11) NOT NULL,
+  `story_time` varchar(64) NOT NULL COMMENT '故事发生时间',
+  `story_summary` varchar(256) NOT NULL,
+  `hit_times` int(11) DEFAULT '0' COMMENT '浏览数',
+  `praise_number` int(11) DEFAULT '0' COMMENT '喜欢这篇文章的人数',
+  `tiresome_number` int(11) DEFAULT '0' COMMENT '讨厌这篇文章的人数',
+  `from_book_name` varchar(256) DEFAULT NULL COMMENT '出自哪本书',
+  `status` varchar(16) NOT NULL COMMENT '状态',
+  `type` varchar(16) NOT NULL,
+  PRIMARY KEY (`article_id`),
+  KEY `story_type` (`type`) USING HASH
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of story_article
+-- ----------------------------
+INSERT INTO `story_article` VALUES ('1', '精卫填海3', '2015-07-21 13:07:27', '1', '2015-07-21 13:31:45', '1', '远古时期', '太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海3', '11', '12', '12', '山海经3', 'WAIT4REVIEW', 'MYTH');
+INSERT INTO `story_article` VALUES ('2', '后羿射日', '2015-07-21 17:45:18', '1', '2015-07-22 14:57:03', '1', '远古时期', '后羿射日的传说出自《山海经》、《书·尧典》、《十州记》、《淮南子》、《天问》等著作，故事内容：远古的时候，大地出现了严重的旱灾。炎热烤焦了森林，烘干了大地，晒干了禾苗草木。原来，帝俊和羲生了10个孩子都是太阳，他们住在东方海外，海水中有棵大树叫扶桑。10个太阳睡在枝条的底下，轮流跑出来在天空执勤，照耀大地。但有时，他们一齐出来给人类带来了灾难。为了拯救人类，羿张弓搭箭，向那些太阳射去。只见天空出现爆裂的火球，坠下一个个三脚的乌鸦。最后，天上只留下一个太阳。', '24', '7', '16', '山海经', 'NORMAL', 'MYTH');
+INSERT INTO `story_article` VALUES ('3', '精卫填海4', '2015-07-22 13:23:13', '1', '2015-07-22 14:58:04', '1', '远古时期', '太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海4', '0', '0', '0', '山海经4', 'NOPASS', 'MYTH');
+INSERT INTO `story_article` VALUES ('4', '精卫填海4', '2015-07-22 13:23:16', '1', '2015-07-22 13:23:16', '1', '远古时期', '太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海4', '0', '0', '0', '山海经4', 'WAIT4REVIEW', 'MYTH');
+INSERT INTO `story_article` VALUES ('5', '精卫填海4', '2015-07-22 13:24:09', '1', '2015-07-22 14:52:16', '1', '远古时期', '太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海4', '0', '0', '0', '山海经4', 'DEL', 'MYTH');
+INSERT INTO `story_article` VALUES ('6', '精卫填海5', '2015-07-22 13:30:18', '1', '2015-07-22 14:52:14', '1', '远古时期', '太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海5', '0', '0', '0', '山海经5', 'DEL', 'MYTH');
+INSERT INTO `story_article` VALUES ('7', '精卫填海6', '2015-07-22 13:31:34', '1', '2015-07-22 14:42:27', '1', '远古时期', '太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海6', '0', '0', '0', '山海经6', 'DEL', 'MYTH');
+INSERT INTO `story_article` VALUES ('8', '后羿射日1', '2015-07-22 14:47:21', '1', '2015-07-22 14:52:10', '1', '远古时期', '后羿射日1', '0', '0', '0', '山海经1', 'DEL', 'MYTH');
+
+-- ----------------------------
+-- Table structure for `story_article_desc`
+-- ----------------------------
+DROP TABLE IF EXISTS `story_article_desc`;
+CREATE TABLE `story_article_desc` (
+  `article_id` int(11) DEFAULT NULL,
+  `article_content` longtext,
+  KEY `shenhua_id` (`article_id`),
+  CONSTRAINT `shenhua_id` FOREIGN KEY (`article_id`) REFERENCES `story_article` (`article_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of story_article_desc
+-- ----------------------------
+INSERT INTO `story_article_desc` VALUES ('1', '<p>太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海3</p>');
+INSERT INTO `story_article_desc` VALUES ('2', '<p>后羿射日的传说出自《<a href=\"http://baike.baidu.com/view/11017.htm\" target=\"_blank\">山海经</a>》、《书&middot;<a href=\"http://baike.baidu.com/view/529329.htm\" target=\"_blank\">尧典</a>》、《<a href=\"http://baike.baidu.com/view/1921803.htm\" target=\"_blank\">十州记</a>》、《<a href=\"http://baike.baidu.com/view/49959.htm\" target=\"_blank\">淮南子</a>》、《<a href=\"http://baike.baidu.com/view/69838.htm\" target=\"_blank\">天问</a>》等著作，故事内容：远古的时候，大地出现了严重的旱灾。炎热烤焦了森林，烘干了大地，晒干了禾苗草木。原来，帝俊和<a href=\"http://baike.baidu.com/view/361763.htm\" target=\"_blank\">羲</a>生 了10个孩子都是太阳，他们住在东方海外，海水中有棵大树叫扶桑。10个太阳睡在枝条的底下，轮流跑出来在天空执勤，照耀大地。但有时，他们一齐出来给人 类带来了灾难。为了拯救人类，羿张弓搭箭，向那些太阳射去。只见天空出现爆裂的火球，坠下一个个三脚的乌鸦。最后，天上只留下一个太阳。</p>\n');
+INSERT INTO `story_article_desc` VALUES ('3', '<p>太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海4</p>\n');
+INSERT INTO `story_article_desc` VALUES ('4', '<p>太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海4</p>\n');
+INSERT INTO `story_article_desc` VALUES ('5', '<p>太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海4</p>\n');
+INSERT INTO `story_article_desc` VALUES ('6', '<p>太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海5</p>\n');
+INSERT INTO `story_article_desc` VALUES ('7', '<p>太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海6</p>\n');
+INSERT INTO `story_article_desc` VALUES ('8', '<p>后羿射日1</p>\n');
 
 -- ----------------------------
 -- Table structure for `sub_task_info`
@@ -809,14 +885,15 @@ CREATE TABLE `task_basic` (
   `pay_receiver_points` double(10,2) NOT NULL,
   `pay_receiver_money` double(10,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of task_basic
 -- ----------------------------
-INSERT INTO `task_basic` VALUES ('1', '1', '2015-03-23 15:35:45', '1', '02jiangwei02', '346745719', '订单1', 'www.1.com', '8.00', '0.00', 'Creater_Sure', '2', '2015-03-23 15:36:48', '222222222', '02jiangwei02', '2015-03-23 15:37:09', '2015-03-23 15:38:06', '0.00', '0.00', '0.00', '0.00');
-INSERT INTO `task_basic` VALUES ('4', '1', '2015-03-26 12:45:08', '2', '02jiangwei02', '346745719', '汽车销售物品', 'http://taobao.com', '8.00', '0.00', 'Have_Bean_Received', '2', '2015-03-26 13:07:51', '222222222', '02jiangwei02', null, null, '0.00', '0.00', '0.00', '0.00');
-INSERT INTO `task_basic` VALUES ('5', '1', '2015-03-26 12:45:08', '2', '02jiangwei02', '346745719', '汽车销售物品', 'http://taobao.com', '8.00', '0.00', 'Wait_For_Receive', null, null, null, null, null, null, '0.00', '0.00', '0.00', '0.00');
+INSERT INTO `task_basic` VALUES ('1', '1', '2015-04-13 13:58:31', '2', '02jiangwei02', '346745719', '二次版本', 'baidu.com', '10.00', '2.00', 'Creater_Sure', '2', '2015-04-13 14:04:33', '222222222', '02jiangwei02', '2015-04-13 14:07:21', '2015-04-13 14:09:28', '0.00', '0.00', '0.00', '12.00');
+INSERT INTO `task_basic` VALUES ('2', '1', '2015-04-13 14:28:23', '3', '02jiangwei02', '346745719', '发布新任务2', 'http://taobao.com2222', '10.00', '2.00', 'Wait_For_Receive', null, null, null, null, null, null, '0.50', '0.00', '0.50', '12.00');
+INSERT INTO `task_basic` VALUES ('3', '1', '2015-04-13 14:51:26', '4', '02jiangwei02', '346745719', '测试产品', 'taobao.com', '10.00', '2.00', 'Wait_For_Receive', null, null, null, null, null, null, '0.50', '0.00', '1.00', '12.00');
+INSERT INTO `task_basic` VALUES ('4', '1', '2015-04-13 14:51:26', '4', '02jiangwei02', '346745719', '测试产品', 'taobao.com', '10.00', '2.00', 'Wait_For_Receive', null, null, null, null, null, null, '0.50', '0.00', '1.00', '12.00');
 
 -- ----------------------------
 -- Table structure for `task_basic_log`
@@ -839,13 +916,13 @@ CREATE TABLE `task_basic_log` (
 -- ----------------------------
 -- Records of task_basic_log
 -- ----------------------------
-INSERT INTO `task_basic_log` VALUES ('1', '1', '1', 'CREATER', 'Wait_For_Receive', '2015-03-23 15:35:45', null, '0');
-INSERT INTO `task_basic_log` VALUES ('2', '1', '2', 'RECEIVER', 'Have_Bean_Received', '2015-03-23 15:36:48', null, '0');
-INSERT INTO `task_basic_log` VALUES ('3', '1', '2', 'RECEIVER', 'Receive_Complete', '2015-03-23 15:37:09', null, '0');
-INSERT INTO `task_basic_log` VALUES ('4', '1', '1', 'CREATER', 'Creater_Sure', '2015-03-23 15:38:06', null, '0');
-INSERT INTO `task_basic_log` VALUES ('7', '4', '1', 'CREATER', 'Wait_For_Receive', '2015-03-26 12:45:08', null, '1');
-INSERT INTO `task_basic_log` VALUES ('8', '5', '1', 'CREATER', 'Wait_For_Receive', '2015-03-26 12:45:08', null, '1');
-INSERT INTO `task_basic_log` VALUES ('9', '4', '2', 'RECEIVER', 'Have_Bean_Received', '2015-03-26 13:07:51', '127.0.0.1', '1');
+INSERT INTO `task_basic_log` VALUES ('1', '1', '1', 'CREATER', 'Wait_For_Receive', '2015-04-13 13:58:31', null, '1');
+INSERT INTO `task_basic_log` VALUES ('2', '1', '2', 'RECEIVER', 'Have_Bean_Received', '2015-04-13 14:04:33', '127.0.0.1', '1');
+INSERT INTO `task_basic_log` VALUES ('3', '1', '2', 'RECEIVER', 'Receive_Complete', '2015-04-13 14:07:21', null, '1');
+INSERT INTO `task_basic_log` VALUES ('4', '1', '1', 'CREATER', 'Creater_Sure', '2015-04-13 14:09:28', null, '1');
+INSERT INTO `task_basic_log` VALUES ('5', '2', '1', 'CREATER', 'Wait_For_Receive', '2015-04-13 14:28:23', null, '1');
+INSERT INTO `task_basic_log` VALUES ('6', '3', '1', 'CREATER', 'Wait_For_Receive', '2015-04-13 14:51:26', null, '1');
+INSERT INTO `task_basic_log` VALUES ('7', '4', '1', 'CREATER', 'Wait_For_Receive', '2015-04-13 14:51:26', null, '1');
 
 -- ----------------------------
 -- Table structure for `task_order`
@@ -869,14 +946,17 @@ CREATE TABLE `task_order` (
   `every_task_pay_pingtai_money` double(10,2) NOT NULL,
   `every_task_pay_receiver_points` double(10,2) NOT NULL,
   `every_task_pay_receiver_money` double(10,2) NOT NULL,
+  `basicPingtaiGainPoint` double(10,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of task_order
 -- ----------------------------
-INSERT INTO `task_order` VALUES ('1', '1', '2015-03-23 15:35:35', '02jiangwei02', '346745719', '订单1', 'www.1.com', '8.00', '0.00', 'SURE', '1', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00');
-INSERT INTO `task_order` VALUES ('2', '1', '2015-03-26 12:43:29', '02jiangwei02', '346745719', '汽车销售物品', 'http://taobao.com', '8.00', '0.00', 'SURE', '2', '0.00', '0.00', '0.00', '0.00', '0.00', '0.00');
+INSERT INTO `task_order` VALUES ('1', '1', '2015-04-13 10:23:59', '02jiangwei02', '346745719', '第二版测试1', 'baidu.com', '10.00', '2.00', 'CANCEL', '1', '0.50', '0.00', '0.00', '0.00', '0.00', '12.00', '0.50');
+INSERT INTO `task_order` VALUES ('2', '1', '2015-04-13 13:58:28', '02jiangwei02', '346745719', '二次版本', 'baidu.com', '10.00', '2.00', 'SURE', '1', '0.50', '0.00', '0.00', '0.00', '0.00', '12.00', '0.50');
+INSERT INTO `task_order` VALUES ('3', '1', '2015-04-13 14:28:20', '02jiangwei02', '346745719', '发布新任务2', 'http://taobao.com2222', '10.00', '2.00', 'SURE', '1', '0.50', '0.00', '0.50', '0.00', '0.50', '12.00', '0.50');
+INSERT INTO `task_order` VALUES ('4', '1', '2015-04-13 14:50:46', '02jiangwei02', '346745719', '测试产品', 'taobao.com', '10.00', '2.00', 'SURE', '2', '1.00', '0.00', '0.50', '0.00', '1.00', '12.00', '0.50');
 
 -- ----------------------------
 -- Table structure for `task_order_sub_task_info`
@@ -894,18 +974,25 @@ CREATE TABLE `task_order_sub_task_info` (
   PRIMARY KEY (`id`),
   KEY `task_order_id` (`task_order_id`),
   CONSTRAINT `task_order_id` FOREIGN KEY (`task_order_id`) REFERENCES `task_order` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of task_order_sub_task_info
 -- ----------------------------
-INSERT INTO `task_order_sub_task_info` VALUES ('1', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'FREE', 'POINT', '1', 'ONE_DAY_LATER');
-INSERT INTO `task_order_sub_task_info` VALUES ('2', 'ZHI_DING_SHOU_HUO_DI_ZHI', 'APPRECIATION', '0.50', 'RECEIVER', 'POINT', '1', '北京朝阳');
-INSERT INTO `task_order_sub_task_info` VALUES ('3', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '1', '2');
-INSERT INTO `task_order_sub_task_info` VALUES ('4', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'FREE', 'POINT', '1', '好评，产品很好');
-INSERT INTO `task_order_sub_task_info` VALUES ('7', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'FREE', 'POINT', '2', 'THIRTYMMinuteLater');
-INSERT INTO `task_order_sub_task_info` VALUES ('8', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '2', '2');
-INSERT INTO `task_order_sub_task_info` VALUES ('9', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'FREE', 'POINT', '2', '好评');
+INSERT INTO `task_order_sub_task_info` VALUES ('1', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'FREE', 'POINT', '1', 'THIRTYMMinuteLater');
+INSERT INTO `task_order_sub_task_info` VALUES ('2', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'FREE', 'POINT', '1', '好的产品');
+INSERT INTO `task_order_sub_task_info` VALUES ('3', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'FREE', 'POINT', '2', 'ONE_DAY_LATER');
+INSERT INTO `task_order_sub_task_info` VALUES ('4', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'FREE', 'POINT', '2', '产品质量不错');
+INSERT INTO `task_order_sub_task_info` VALUES ('5', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'FREE', 'POINT', '3', 'THIRTYMMinuteLater');
+INSERT INTO `task_order_sub_task_info` VALUES ('6', 'NEED_WANGWANG_TALK', 'APPRECIATION', '0.50', 'RECEIVER', 'POINT', '3', '1');
+INSERT INTO `task_order_sub_task_info` VALUES ('7', 'NO_REPEAT_TASK', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '3', '1');
+INSERT INTO `task_order_sub_task_info` VALUES ('8', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'FREE', 'POINT', '3', '好的产品2');
+INSERT INTO `task_order_sub_task_info` VALUES ('9', 'GOOD_COMMENT_TIME_LIMIT', 'BASIC', '0.00', 'FREE', 'POINT', '4', 'ONE_DAY_LATER');
+INSERT INTO `task_order_sub_task_info` VALUES ('10', 'NEED_WANGWANG_TALK', 'APPRECIATION', '0.50', 'RECEIVER', 'POINT', '4', '1');
+INSERT INTO `task_order_sub_task_info` VALUES ('11', 'PI_LIANG_FA_BU', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '4', '2');
+INSERT INTO `task_order_sub_task_info` VALUES ('12', 'ZHI_DING_SHOU_HUO_DI_ZHI', 'APPRECIATION', '0.50', 'RECEIVER', 'POINT', '4', '北京朝阳');
+INSERT INTO `task_order_sub_task_info` VALUES ('13', 'ZHI_DING_JIE_SHOU_REN', 'APPRECIATION', '0.50', 'PLATFORM', 'POINT', '4', '2');
+INSERT INTO `task_order_sub_task_info` VALUES ('14', 'GOOD_COMMENT_CONTENT', 'BASIC', '0.00', 'FREE', 'POINT', '4', '产品不错');
 
 -- ----------------------------
 -- Table structure for `user_account`
@@ -926,8 +1013,8 @@ CREATE TABLE `user_account` (
 -- ----------------------------
 -- Records of user_account
 -- ----------------------------
-INSERT INTO `user_account` VALUES ('1', '160.00', '7.50', '20.00', '0.50', '1');
-INSERT INTO `user_account` VALUES ('2', '0.00', '0.50', '10.00', '0.00', '2');
+INSERT INTO `user_account` VALUES ('1', '142.00', '4.00', '36.00', '4.00', '1');
+INSERT INTO `user_account` VALUES ('2', '0.00', '0.00', '0.00', '0.00', '2');
 INSERT INTO `user_account` VALUES ('3', '0.00', '0.00', '0.00', '0.00', '3');
 
 -- ----------------------------
@@ -956,22 +1043,23 @@ CREATE TABLE `user_account_log` (
   `lock_amount` double(10,2) DEFAULT '0.00',
   `pay_point` double(10,2) DEFAULT '0.00',
   `lock_point` double(10,2) DEFAULT '0.00',
+  `reason` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `draw_id` (`draw_log_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_account_log
 -- ----------------------------
-INSERT INTO `user_account_log` VALUES ('1', '2015-03-23 15:33:27', '1', 'DEPOSIT', '0.00', '0.00', '0.00', '0.00', '200.00', '0.00', '0.00', '0.00', '1', null, null, null, '1', '200.00', '0.00', '0.00', '0.00');
-INSERT INTO `user_account_log` VALUES ('2', '2015-03-23 15:33:44', '1', 'BUY_POINTS', '200.00', '0.00', '0.00', '0.00', '190.00', '10.00', '0.00', '0.00', null, null, null, null, null, '10.00', '0.00', '10.00', '0.00');
-INSERT INTO `user_account_log` VALUES ('3', '2015-03-23 15:35:45', '1', 'Task_Order_SURE', '190.00', '10.00', '0.00', '0.00', '180.00', '8.50', '10.00', '1.00', null, null, '1', null, null, '0.00', '10.00', '0.50', '1.00');
-INSERT INTO `user_account_log` VALUES ('4', '2015-03-23 15:38:06', '2', 'Task_SURE', '0.00', '0.00', '0.00', '0.00', '10.00', '0.50', '0.00', '0.00', null, '1', null, null, null, '10.00', null, '0.50', null);
-INSERT INTO `user_account_log` VALUES ('5', '2015-03-23 15:38:06', '1', 'Task_SURE', '180.00', '8.50', '10.00', '1.00', '180.00', '8.50', '0.00', '0.50', null, '1', null, null, null, '10.00', '0.00', '0.50', '0.00');
-INSERT INTO `user_account_log` VALUES ('6', '2015-03-23 15:45:21', '2', 'WITHDRAW_APPLY', '10.00', '0.50', '0.00', '0.00', '0.00', '0.50', '10.00', '0.00', null, null, null, '1', null, '10.00', '0.00', '0.00', '0.00');
-INSERT INTO `user_account_log` VALUES ('7', '2015-03-23 15:46:09', '2', 'WITHDRAW_FAILURE', '0.00', '0.50', '10.00', '0.00', '10.00', '0.50', '0.00', '0.00', '1', null, null, '1', null, '10.00', '0.00', '0.00', '0.00');
-INSERT INTO `user_account_log` VALUES ('8', '2015-03-23 15:46:39', '2', 'WITHDRAW_APPLY', '10.00', '0.50', '0.00', '0.00', '0.00', '0.50', '10.00', '0.00', null, null, null, '2', null, '10.00', '0.00', '0.00', '0.00');
-INSERT INTO `user_account_log` VALUES ('10', '2015-03-26 12:45:08', '1', 'Task_Order_SURE', '180.00', '8.50', '0.00', '0.50', '160.00', '7.50', '20.00', '0.50', null, null, '2', null, null, '0.00', '20.00', '1.00', '0.00');
+INSERT INTO `user_account_log` VALUES ('1', '2015-04-13 10:22:43', '1', 'DEPOSIT', '0.00', '0.00', '0.00', '0.00', '200.00', '0.00', '0.00', '0.00', '1', null, null, null, '1', '200.00', '0.00', '0.00', '0.00', '充值成功');
+INSERT INTO `user_account_log` VALUES ('2', '2015-04-13 13:57:40', '1', 'BUY_POINTS', '200.00', '0.00', '0.00', '0.00', '190.00', '10.00', '0.00', '0.00', null, null, null, null, null, '10.00', '0.00', '10.00', '0.00', '购买点卡');
+INSERT INTO `user_account_log` VALUES ('3', '2015-04-13 13:58:31', '1', 'Task_Order_SURE', '190.00', '10.00', '0.00', '0.00', '178.00', '9.50', '12.00', '0.00', null, null, '2', null, null, '0.00', '12.00', '0.50', '0.00', '订单【2】完成，支付资金，担保金绑定');
+INSERT INTO `user_account_log` VALUES ('4', '2015-04-13 14:09:28', '2', 'Task_SURE', '0.00', '0.00', '0.00', '0.00', '12.00', '0.00', '0.00', '0.00', null, '1', null, null, null, '12.00', null, '0.00', null, '完成任务【1】，获得担保金【10.00】获得佣金【2.00】');
+INSERT INTO `user_account_log` VALUES ('5', '2015-04-13 14:09:28', '1', 'Task_SURE', '178.00', '9.50', '12.00', '0.00', '178.00', '9.50', '0.00', '0.00', null, '1', null, null, null, '12.00', '0.00', '0.00', '0.00', '任务【1】完成，支付资金');
+INSERT INTO `user_account_log` VALUES ('6', '2015-04-13 14:14:09', '2', 'WITHDRAW_APPLY', '12.00', '0.00', '0.00', '0.00', '0.00', '0.00', '12.00', '0.00', null, null, null, '1', null, '0.00', '12.00', '0.00', '0.00', '取款申请，锁定资金【12】元');
+INSERT INTO `user_account_log` VALUES ('7', '2015-04-13 14:15:17', '2', 'WITHDRAW_SUCCESS', '0.00', '0.00', '12.00', '0.00', '0.00', '0.00', '0.00', '0.00', '1', null, null, '1', null, '12.00', '0.00', '0.00', '0.00', '取款成功，取出资金【12.00】元');
+INSERT INTO `user_account_log` VALUES ('8', '2015-04-13 14:28:23', '1', 'Task_Order_SURE', '178.00', '9.50', '0.00', '0.00', '166.00', '8.00', '12.00', '1.00', null, null, '3', null, null, '0.00', '12.00', '0.50', '1.00', '订单【3】完成，支付资金，担保金绑定');
+INSERT INTO `user_account_log` VALUES ('9', '2015-04-13 14:51:26', '1', 'Task_Order_SURE', '166.00', '8.00', '12.00', '1.00', '142.00', '4.00', '36.00', '4.00', null, null, '4', null, null, '0.00', '24.00', '1.00', '3.00', '订单【4】完成，支付资金，担保金绑定');
 
 -- ----------------------------
 -- Table structure for `user_base`

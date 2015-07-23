@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
-<%@ page import="java.util.*,com.gxkj.taobaoservice.entitys.*"%>
+<%@ page import="java.util.*,com.gxkj.taobaoservice.entitys.*,com.gxkj.common.util.*"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -10,11 +10,10 @@
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <jsp:include page="./site_story_meta.jsp"></jsp:include>
     <link rel="icon" href="../../favicon.ico">
 
-    <title>中华神话故事</title>
+    <title><%=SystemGlobals.getPreference("story.title") %></title>
 
     <!-- Bootstrap core CSS -->
     <link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -40,6 +39,13 @@
 		.#navbar-inverse .navbar-nav > .active > a:hover
 		{
 			background-color:#99cc00;
+		}
+		html, body{
+			background:#00CD66 none repeat scroll 0 0;
+			color:#fff;
+		}
+		.jumbotron{
+			background-color:#00CD66;
 		}
     </style>
   </head>
@@ -74,8 +80,8 @@
         <div class="col-xs-12 col-sm-12 col-md-12  col-lg-12">
           
           <div class="jumbotron">
-            <h1>XX道场，天天好故事</h1>
-            <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
+            <h1>咕咕道场</h1>
+            <p>咕咕鸟给你讲好故事啦，把你想听的故事发qq告诉我们。</p>
           </div>
           <div class="row">
           	<c:forEach var="story"  items="${list}" >
@@ -93,7 +99,7 @@
       <hr>
 
       <footer>
-        <p>&copy; Company 2015</p>
+        <p>&copy; Company 2015 联系方式：QQ346745719</p>
       </footer>
 
     </div><!--/.container-->
@@ -108,5 +114,8 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="<%=request.getContextPath() %>/resources/newtaobao/ie10-viewport-bug-workaround.js"></script>
     <script src="<%=request.getContextPath() %>/resources/newtaobao/offcanvas.js"></script>
+    <!-- appjs -->
+    <script src="<%=request.getContextPath() %>/resources/siteappjs/appjs.js">
+    </script>
   </body>
 </html>

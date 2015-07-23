@@ -1,0 +1,5 @@
+jquery控件
+	http://www.jq22.com/
+	http://blog.csdn.net/adsdassadfasdfasdf/article/details/5603206
+	星星
+	http://www.learningjquery.com/2007/05/half-star-rating-plugin

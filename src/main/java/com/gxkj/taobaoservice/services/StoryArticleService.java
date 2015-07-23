@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import com.gxkj.common.util.ListPager;
 import com.gxkj.taobaoservice.dto.StoryArticleDTO;
 import com.gxkj.taobaoservice.entitys.AdminUser;
+import com.gxkj.taobaoservice.entitys.StoryArticle;
 import com.gxkj.taobaoservice.enums.StoryArticleStatus;
 
 public interface StoryArticleService {
@@ -77,9 +78,10 @@ public interface StoryArticleService {
 	 * 增加点赞数
 	 * @param storyId
 	 * @param ip
+	 * @return 
 	 * @throws Exception
 	 */
-	public void addPraiseNumber (int storyId,Integer uid )throws Exception;
+	public StoryArticle addPraiseNumber (int storyId,Integer uid )throws Exception;
 	
 	/**
 	 * 增加不喜欢数值
@@ -87,6 +89,6 @@ public interface StoryArticleService {
 	 * @param ip
 	 * @throws Exception
 	 */
-	public void addTiresomeNumber (int storyId,Integer uid )throws Exception;
+	public StoryArticle addTiresomeNumber (int storyId,Integer uid )throws Exception;
 	
 }

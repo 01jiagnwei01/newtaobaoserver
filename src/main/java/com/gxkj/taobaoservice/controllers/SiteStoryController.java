@@ -13,9 +13,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gxkj.common.util.ListPager;
+import com.gxkj.taobaoservice.dto.EntityReturnData;
 import com.gxkj.taobaoservice.dto.StoryArticleDTO;
+import com.gxkj.taobaoservice.entitys.StoryArticle;
 import com.gxkj.taobaoservice.enums.StoryArticleStatus;
 import com.gxkj.taobaoservice.services.StoryArticleService;
 
@@ -61,6 +64,7 @@ public class SiteStoryController {
 		try {
 			StoryArticleDTO story = storyArticleService.getStoryArticleDTOById(id);
 			modelMap.put("story", story);
+			modelMap.put("title", story!=null?story.getArticleTitle():null);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();
@@ -68,5 +72,52 @@ public class SiteStoryController {
 		}
 		
 		return mv;	
+	}
+	@RequestMapping(value="look/{id}",method=RequestMethod.POST)
+	public @ResponseBody EntityReturnData  addHitTimes(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,
+			@PathVariable("id")int id){
+		EntityReturnData ret = new EntityReturnData();
+		ret.setMsg("执行成功");
+		ret.setResult(true);
+		try {
+			storyArticleService.addHitTimes(id);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			ret.setResult(false);
+		}
+		return ret;
+	}
+	@RequestMapping(value="tire/{id}",method=RequestMethod.POST)
+	public @ResponseBody EntityReturnData  addTiresomeNumber(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,
+			@PathVariable("id")int id){
+		EntityReturnData ret = new EntityReturnData();
+		ret.setMsg("执行成功");
+		ret.setResult(true);
+		try {
+			StoryArticle article =	storyArticleService.addTiresomeNumber(id,11111);
+			ret.setEntity(article.getTiresomeNumber());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			ret.setResult(false);
+		}
+		return ret;
+	}
+	@RequestMapping(value="praise/{id}",method=RequestMethod.POST)
+	public @ResponseBody EntityReturnData  addPraiseNumber(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,
+			@PathVariable("id")int id){
+		EntityReturnData ret = new EntityReturnData();
+		ret.setMsg("执行成功");
+		ret.setResult(true);
+		try {
+			StoryArticle article =	storyArticleService.addPraiseNumber(id,11111);
+			ret.setEntity(article.getPraiseNumber());
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+			ret.setResult(false);
+		}
+		return ret;
 	}
 }

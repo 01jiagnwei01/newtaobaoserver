@@ -92,6 +92,9 @@ public class StoryArticleServiceImpl implements StoryArticleService {
 		StoryArticleDTO targetObj = new StoryArticleDTO();
 		StoryArticle story = (StoryArticle) storyArticleDao.selectById(
 				articleId, StoryArticle.class);
+		if(story == null){
+			return null;
+		}
 		StoryArticleDesc storyDesc = storyArticleDao
 				.selectStoryArticleDescById(articleId);
 		BeanUtils.copyProperties(story, targetObj);

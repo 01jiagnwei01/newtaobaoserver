@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
 <%@ page import="java.util.*,com.gxkj.taobaoservice.entitys.*"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -77,47 +78,15 @@
             <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
           </div>
           <div class="row">
-          	<%
-          		List<StoryArticle> list = (List<StoryArticle>)request.getAttribute("list");
-          		StoryArticle item = null;
-          		for(int i=0,l=list.size();i<l;i++){
-          			item = list.get(i);
-          		}
-          	
-          	%>
-            <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="<%=request.getContextPath() %>/story/1" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6 col-sm-4 col-md-3  col-lg-3-->
-             <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="<%=request.getContextPath() %>/story/1" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6 col-sm-4 col-md-3  col-lg-3-->
-             <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="<%=request.getContextPath() %>/story/1" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6 col-sm-4 col-md-3  col-lg-3-->
-             <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="<%=request.getContextPath() %>/story/1" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6 col-sm-4 col-md-3  col-lg-3-->
-             <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="<%=request.getContextPath() %>/story/1" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6 col-sm-4 col-md-3  col-lg-3-->
-             <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn btn-default" href="<%=request.getContextPath() %>/story/1" role="button">View details &raquo;</a></p>
-            </div><!--/.col-xs-6 col-sm-4 col-md-3  col-lg-3-->
+          	<c:forEach var="story"  items="${list}" >
+			     <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
+	              <h2>${story.articleTitle }</h2>
+	              <p>${story.storySummary }</p>
+	              <p><a class="btn btn-default" href="<%=request.getContextPath() %>/story/${story.articleId }" target="_blank" role="button">去看看 &raquo;</a></p>
+	            </div><!--/.col-xs-6 col-sm-4 col-md-3  col-lg-3-->
+			</c:forEach>
           </div><!--/row-->
         </div><!--/.col-xs-12.col-sm-9-->
-
         
       </div><!--/row-->
 

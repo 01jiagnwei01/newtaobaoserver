@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -11,7 +12,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
-
     <title>中华神话故事</title>
 
     <!-- Bootstrap core CSS -->
@@ -57,6 +57,7 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="#">神话</a></li>
+            <li><a href="<%=request.getContextPath() %>/" >返回</a></li>
             <!-- 
             <li><a href="#about">童话</a></li>
              -->
@@ -67,11 +68,24 @@
  <div class="jumbotron">
     <div class="container">
          
-            <h1>精卫填海</h1>
-            
-			<p>太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海1</p>
-			<p>太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海2</p>
-			<p>太阳神的女儿精卫，变成了一只鸟，她每天都衔木填海3</p>
+            <h1><c:out value="${story.articleTitle} "/></h1>
+            <c:choose> 
+				  <c:when test="${story == null}"> 
+				  	<div class="col-xs-12 col-sm-12 col-md-12  col-lg-12">
+				  		 <div class="row">
+				  		 	 <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
+				              <h2>您要找的故事飘走了^^^</br></h2> 
+				              <p><a class="btn btn-default" href="<%=request.getContextPath() %>/" role="button">去首页看看 &raquo;</a></p>
+				            </div><!--/.col-xs-6 col-sm-4 col-md-3  col-lg-3-->
+				  		 </div>
+				  	</div>
+				  </c:when> 
+				  <c:otherwise> 
+				       <c:out value="${story.articleContent}" escapeXml="false" />
+				  </c:otherwise> 
+				</c:choose>
+             
+			
 			
           
       <hr>

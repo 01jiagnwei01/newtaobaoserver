@@ -19,7 +19,8 @@ CKEDITOR.editorConfig = function( config ) {
     //
     config.allowedContent = true;
     config.format_p = { element: 'p', attributes: { 'class': 'normalPara' } };
-    
+    //编辑器中回车产生的标签
+    config.enterMode = CKEDITOR.ENTER_DIV; //可选：CKEDITOR.ENTER_P,CKEDITOR.ENTER_BR或CKEDITOR.ENTER_DIV 
     config.image_previewText='请到工具箱->图片库选择图片';
     if(typeof  window.uploadUrl != "undefined"){
     	config.filebrowserImageUploadUrl= window.uploadUrl;

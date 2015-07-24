@@ -138,10 +138,7 @@
 										<dt id="support_btn">顶</dt>
 										<dd id="support_btn_txt">${story.praiseNumber}</dd>
 									</dl>
-									<dl class="oppose">
-										<dt id="oppose_btn">踩</dt>
-										<dd id="oppose_btn_txt">${story.tiresomeNumber}</dd>
-									</dl>
+									
 									<dl class="support">
 										<dt>浏览数</dt>
 										<dd>${story.hitTimes}</dd>
@@ -179,7 +176,7 @@
   	  <c:otherwise>  
   	  addLookNum("<%=request.getContextPath() %>/story/look/${story.articleId}");
   	  $("#support_btn").click(function(){praiseOrTireFn("<%=request.getContextPath() %>","praise","${story.articleId}","support_btn_txt")});
-  	  $("#oppose_btn").click(function(){ praiseOrTireFn("<%=request.getContextPath() %>","tire","${story.articleId}","oppose_btn_txt")});
+  	
   	  </c:otherwise> 
   	</c:choose>
     	 

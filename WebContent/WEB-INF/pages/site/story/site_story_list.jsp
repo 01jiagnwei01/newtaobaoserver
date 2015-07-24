@@ -85,11 +85,11 @@
           </div>
           <div class="row">
           	<c:forEach var="story"  items="${list}" >
-			     <div class="col-xs-6 col-sm-4 col-md-4  col-lg-4">
+			     <div class="col-xs-6 col-sm-6 col-md-6  col-lg-4">
 	              <h2>${story.articleTitle }</h2>
 	              <p>${story.storySummary }</p>
 	              <p><a class="btn btn-default" href="<%=request.getContextPath() %>/story/${story.articleId }" target="_blank" role="button">去看看 &raquo;</a></p>
-	            </div><!--/.col-xs-6 col-sm-4 col-md-3  col-lg-3-->
+	            </div><!--/.col-xs-6 col-sm-6 col-md-6  col-lg-4-->
 			</c:forEach>
           </div><!--/row-->
         </div><!--/.col-xs-12.col-sm-9-->

@@ -1,0 +1,84 @@
+判断访问来源与电脑还是手机？
+参考网站：
+http://www.douban.com/note/270485480/
+
+首先说最根本的解决方法：
+手 机访问时，会附带发送user-agent信息，这个信息里面会有手机号码信息，那么如果能取得手机号码，则可以肯定是通过手机wap访问的。但是目前中 国移动已经屏蔽了user-agent信息，所以获取不到手机号码。有关系的朋友可以联系移动公司，把wap网站服务器的ip提交给中国移动，加入白名单 后即可取得ua信息。目前中国联通可以直接取到手机号，对联通用户此方案可完美实施。
+接下来说我的解决方案：
+手机访问，原理是手机通过移动公司的代理服务器进行的访问。那么我们就可以理解是一台普通电脑使用了代理服务器。当手机通过代理服务器访问的时候，http头信息会毫无疑问的包含一个信息：via。这个信息提供了有价值的判断信息。
+例如河南移动取得的via信息是：
+
+http/1.1 hazz-b-gw001-wap(infox-wisg, huawei technologies)
+河南联通的via信息是：
+
+zxwap gateway,zte technologies
+其他各省的http头信息和这个大同小异，判断是否手机访问的方案就出来 了：获取http的via信息字符串看是否包含wap字符，如果有则是通过手机访问。这样做的结果是没有人能伪造手机访问，判断绝对准确。自然，这样对于 网上流行的手机wap模拟器也做了屏蔽—-从根本上屏蔽。
+操作代码也很简单：
+
+// check if wap by xhat
+function check_wap() {
+return stristr($_SERVER['HTTP_VIA'],"wap") ? true : false;
+}
+// check over
+从我查阅的资料来看，目前此方法应该是迄今互联网上准确率最高、最简单的判断手机访问方法。
+
+以上的方法可以实现判断访问来源是手机还是电脑，但有一个问题就是，只能通过手机才能访问，支持WAP的浏览器和手机模拟器也不能访问，这给测试带来了麻烦，也有点限制死了。
+下面的方案是：
+通过判断浏览器代理标识符，判断是否是支持WAP的浏览器来决定访问页面。这有一个缺点就是不可能全部的列出所有手机的浏览器标识符与所支持的浏览器标识符。
+下面看看实现的代码：
+
+function check_wap()
+{
+if (strpos(strtoupper($_SERVER['HTTP_ACCEPT']),"VND.WAP.WML") > 0)
+{
+// Check whether the browser/gateway says it accepts WML.
+$br = "WML";
+}
+else
+{
+$browser=substr(trim($_SERVER['HTTP_USER_AGENT']),0,4);
+if ($browser=="Noki" || // Nokia phones and emulators
+$browser=="Eric" || // Ericsson WAP phones and emulators
+$browser=="WapI" || // Ericsson WapIDE 2.0
+$browser=="MC21" || // Ericsson MC218
+$browser=="AUR" || // Ericsson R320
+$browser=="R380" || // Ericsson R380
+$browser=="UP.B" || // UP.Browser
+$browser=="WinW" || // WinWAP browser
+$browser=="UPG1" || // UP.SDK 4.0
+$browser=="upsi" || // another kind of UP.Browser ??
+$browser=="QWAP" || // unknown QWAPPER browser
+$browser=="Jigs" || // unknown JigSaw browser
+$browser=="Java" || // unknown Java based browser
+$browser=="Alca" || // unknown Alcatel-BE3 browser (UP based?)
+$browser=="MITS" || // unknown Mitsubishi browser
+$browser=="MOT-" || // unknown browser (UP based?)
+$browser=="My S" ||// unknown Ericsson devkit browser ?
+$browser=="WAPJ" || // Virtual WAPJAG www.wapjag.de
+$browser=="fetc" || // fetchpage.cgi Perl script from www.wapcab.de
+$browser=="ALAV" || // yet another unknown UP based browser ?
+$browser=="Wapa" || // another unknown browser (Web based "Wapalyzer"?)
+$browser=="Oper") // Opera
+{
+$br = "WML";
+}
+else
+{
+$br = "HTML";
+}
+}
+
+if($br == "WML")
+{
+return TRUE;
+}
+else
+{
+return FALSE;
+}
+}
+if(!check_wap())
+{
+Header("Location: http://www.chongwen.com/info/story.html");
+exit();
+}

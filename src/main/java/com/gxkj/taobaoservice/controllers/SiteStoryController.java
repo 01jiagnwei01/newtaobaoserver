@@ -1,6 +1,7 @@
 package com.gxkj.taobaoservice.controllers;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,6 +41,15 @@ public class SiteStoryController {
 	 */
 	@RequestMapping(value="/list",method=RequestMethod.GET)
 	public String storyList(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
+		
+		 logger.info( "/**********************************头部信息开始*******************************/");
+			Enumeration<?> enumer = request.getHeaderNames();
+	        while (enumer.hasMoreElements()) {
+	            String name = (String) enumer.nextElement();
+	            logger.info( "{}={}",name,request.getHeader(name));
+	        }
+	        logger.info( "/**********************************头部信息结束*******************************/");
+	        
 		String mv = "site/story/site_story_list";
 		try {
 			ListPager pager = storyArticleService.doPage4Site(0, 100, null, StoryArticleStatus.NORMAL);
@@ -61,6 +71,8 @@ public class SiteStoryController {
 	public String storyDetail(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap,
 			@PathVariable("id")int id){
 		String mv = "site/story/site_story_detail";
+		String agent = request.getHeader("User-Agent");
+		logger.info("User-Agent={}",agent);
 		try {
 			StoryArticleDTO story = storyArticleService.getStoryArticleDTOById(id);
 			modelMap.put("story", story);

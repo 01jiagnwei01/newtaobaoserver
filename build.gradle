@@ -76,6 +76,9 @@ dependencies {
 	compile 'org.slf4j:slf4j-api:1.7.12'
 	compile 'org.codehaus.janino:janino:2.7.8'
 	compile 'com.alibaba:fastjson:1.2.6'
+	
+	//jms
+	compile 'javax.jms:javax.jms-api:2.0.1'
 
 	 
 
@@ -171,10 +174,6 @@ dependencies {
 	 compile "org.apache.httpcomponents:httpclient:4.2.2"
 	 compile 'org.apache.httpcomponents:httpcore:4.4';
 	 
-	 compile 'org.apache.activemq:activemq-all:5.10.0';
-	 compile 'org.apache.activemq:activemq-ra:5.10.0';
-	 compile 'org.apache.activemq:activemq-rar:5.10.0';
-	 compile 'org.apache.activemq:activemq-broker:5.10.0';
 	 //apache mina
 	 compile 'org.apache.mina:mina-core:2.0.9'
 	 compile 'org.apache.mina:mina-integration-jmx:2.0.9'

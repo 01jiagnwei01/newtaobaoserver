@@ -58,7 +58,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 		
 //		HandlerMethod handlerMethod = (HandlerMethod) handler;        
 //		Method method = handlerMethod.getMethod();
-		
+	
 		String url = req.getRequestURI();
 		String ctx = req.getContextPath();
 		url = url.replace(ctx, "");

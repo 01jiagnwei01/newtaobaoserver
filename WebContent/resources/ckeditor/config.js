@@ -51,7 +51,7 @@ CKEDITOR.editorConfig = function( config ) {
             ['Undo','Redo'],
             ['Cut','Copy','Paste','PasteText','PasteFromWord'],
             ['Outdent','Indent','JustifyLeft','JustifyCenter','JustifyRight'],
-            ['Link','UnLink','Image','Table','Smilery','Blockquote','Maximize']
+            ['Link','UnLink','Image','Table','Smilery','Blockquote','Maximize','Source']
         ]; 
     config.toolbar_basic =   
         [   

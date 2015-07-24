@@ -81,6 +81,7 @@ public class StoryArticleServiceTest extends BaseSpringTest {
 
 	@Test
 	public void testGetStoryArticleDTOById() {
+		articleId =10;
 		if(articleId==0)return;
 		StoryArticleDTO dto;
 		try {

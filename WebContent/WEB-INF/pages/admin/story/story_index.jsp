@@ -363,7 +363,6 @@ function afterAjaxShowWin(dto,type){
 
 	var content = dto.articleContent;
 	initEditor();
-	
 	CKEDITOR.instances.editor01.setData( content, {
 	    callback: function() {
 	     
@@ -374,7 +373,6 @@ function afterAjaxShowWin(dto,type){
 		title = "文章详情";
 	 }else if(type == 'update'){
 		 saveType = "update";
-		 
 		title = "修改文章";
 	 }
 	 $('#story_w').window('open').panel('setTitle',title).panel('resize',{width: pwidth,

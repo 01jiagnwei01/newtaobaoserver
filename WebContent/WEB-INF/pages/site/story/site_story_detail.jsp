@@ -85,6 +85,7 @@
 		    text-align: center;
 		    width: 77px;
 		}
+		.suojin div{text-indent:2em}
     </style>
   </head>
 
@@ -127,7 +128,7 @@
 				  	</div>
 				  </c:when> 
 				  <c:otherwise>
-				  		<div class="row"> 
+				  		<div class="row suojin"> 
 				       	<c:out value="${story.articleContent}" escapeXml="false" />
 				       	</div>
 				       	<div class="row">

@@ -80,9 +80,6 @@ dependencies {
 	//jms
 	compile 'javax.jms:javax.jms-api:2.0.1'
 
-	 
-
- 
 	 //springframework
 	//compile 'org.springframework:spring-context-support:4.1.2.RELEASE'
 	compile 'org.springframework:spring-webmvc:4.1.2.RELEASE'

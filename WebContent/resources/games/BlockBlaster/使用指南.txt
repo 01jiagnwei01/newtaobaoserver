@@ -1,0 +1,5 @@
+该HTML5小游戏的使用方法非常简单。在页面中编写一个<canvas>元素，给它一个IDcanvas。并设置它的宽度和高度。
+<canvas id="canvas" width="800" height="600"></canvas>    
+
+要调用这个打方块游戏，只需要在页面底部<body>标签之前引入BlockBlaster.js文件即可。
+<script src="js/BlockBlaster.js"></script> 

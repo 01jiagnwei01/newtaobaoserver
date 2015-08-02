@@ -127,7 +127,7 @@
 		fader += .1 * 1/fps;
 		ctx.fillStyle = "rgba(255,255,255," + fader + ")";
 		ctx.font = "72px sans-serif";
-		ctx.fillText("开始?",canvas.width/2 - 140,canvas.height/2);
+		ctx.fillText("开始?",canvas.width/2 - 100,canvas.height/2);
 		drawScore();
 	}
 	
@@ -145,7 +145,7 @@
 		fader += .1 * 1/fps
 		ctx.fillStyle = "rgba(255,255,255," + fader + ")";
 		ctx.font = "72px sans-serif";
-		ctx.fillText("GAME OVER",canvas.width/2 - 220,canvas.height/2);
+		ctx.fillText("游戏结束",canvas.width/2 - 100,canvas.height/2);
 	}
 	
 	//Render everything

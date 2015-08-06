@@ -40,6 +40,7 @@ public class IndexController {
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public String index(HttpServletRequest request,HttpServletResponse response,ModelMap modelMap){
 		modelMap.put(SubHeaderTag.tagName, "shouye");
+		System.out.println("请求到达这里");
 		//String mv = "site/index";
 		//logger.info("登陆首页");
 		//return mv;

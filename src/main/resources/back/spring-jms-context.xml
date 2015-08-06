@@ -16,6 +16,9 @@ https://github.com/xpadro/spring-integration/tree/master/jms-tx
 http://activemq.apache.org/redelivery-policy.html
 http://docs.spring.io/spring/docs/3.0.x/spring-framework-reference/html/jms.html
 http://activemq.apache.org/spring-support.html
+
+failover的配置
+http://activemq.apache.org/failover-transport-reference.html
 jms数据持久化
 http://obullxl.iteye.com/blog/1114827
 失效的消息的处理方法见我的博客
@@ -29,7 +32,7 @@ http://wenku.baidu.com/link?url=oZkKhVWaKOOnBu5y44TTiFGceqqDF9mUWoK4gXJ6xxZr0vHR
  -->
 	<context:component-scan base-package="com.gxkj.taobaoservice.jms" />
 	 
-	<amq:connectionFactory brokerURL="tcp://localhost:61616" useAsyncSend="true"
+	<amq:connectionFactory brokerURL="tcp://localhost:61616" useAsyncSend="true" 
 		id="connectionFactory" >
 		<amq:redeliveryPolicyMap>
 			<amq:redeliveryPolicyMap>

@@ -25,6 +25,7 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'groovy'
+apply plugin: 'scala'
 //apply plugin: 'checkstyle'
 //apply plugin: 'findbugs'
 //apply plugin: 'pmd'
@@ -57,13 +58,17 @@ repositories {
 
 
 dependencies {
-	//compile 'org:jaudiotagger:2.0.3'
+	 
 
 	//red5
 	compile 'org.red5:red5-server:1.0.5-RELEASE';
 	//compile 'jstl:jstl:1.2'
 	//groovy
 	compile 'org.codehaus.groovy:groovy-all:2.3.7'
+	//scala
+	compile "org.scala-lang:scala-library:2.11.6"
+	compile "org.scala-lang:scala-compiler:2.11.6"
+	compile "org.scala-lang:scala-reflect:2.11.6"
 	
 	compile 'net.sf.ehcache:ehcache:2.9.1'
 	//log
@@ -158,18 +163,13 @@ dependencies {
 	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 	//testCompile group: 'junit', name: 'junit', version: '4.+'
 	compile 'junit:junit:4.12'
-	
-
-	
-	 
-	 
 	 
 	 //apache
 	 compile 'org.apache.poi:poi:3.11';
 	 compile 'org.apache.poi:poi-examples:3.11'
 	 
-	 compile "org.apache.httpcomponents:httpclient:4.2.2"
-	 compile 'org.apache.httpcomponents:httpcore:4.4';
+	// compile "org.apache.httpcomponents:httpclient:4.5"
+	// compile 'org.apache.httpcomponents:httpcore:4.4.1';
 	 
 	 //apache mina
 	 compile 'org.apache.mina:mina-core:2.0.9'
@@ -177,7 +177,8 @@ dependencies {
 	 compile 'org.apache.mina:mina-filter-ssl:1.1.7'
 	 //避免警告：sun.misc.BASE64Decoder 是 Sun 的专用
 	 compile 'org.apache.maven.plugins:maven-compiler-plugin:3.2'
-	 
+	 //html parser
+	// compile 'net.sourceforge.nekohtml:nekohtml:1.9.22'
 	
 	//自己系统jar
 	compile fileTree(dir: 'libs', include: '*.jar')

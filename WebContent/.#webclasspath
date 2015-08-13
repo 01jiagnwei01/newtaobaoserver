@@ -36,7 +36,6 @@ D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.maven\maven-repository-
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.maven\maven-settings\2.2.1\2236ffe71fa5f78ce42b0f5fc22c54ed45f14294\maven-settings-2.2.1.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.maven\maven-toolchain\1.0\1ff4a3f5869f68dfa05562a84e7a5d510d909608\maven-toolchain-1.0.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.mina\mina-core\2.0.9\255f546277515f2191105e89f4d768e3ca02db9c\mina-core-2.0.9.jar
-D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.mina\mina-filter-ssl\1.1.7\2ec9c6d3e3ba144c1026054827ae9e531bbd6a5b\mina-filter-ssl-1.1.7.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.mina\mina-integration-beans\2.0.9\2aa1d3ec37098729c45f88ff7e16ff6415855fbc\mina-integration-beans-2.0.9.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.mina\mina-integration-jmx\2.0.9\2c5f7b880decc88cf361fb8d6ec25072589c8eb3\mina-integration-jmx-2.0.9.jar
 D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.poi\poi-examples\3.11\eaef3f6d5ef603f8318fffceb514e727669fdd5c\poi-examples-3.11.jar
@@ -183,6 +182,7 @@ D:\java\mavenlib\xml-apis\xml-apis\1.3.04\xml-apis-1.3.04.jar
 D:\java\mavenlib\xmlpull\xmlpull\1.1.3.1\xmlpull-1.1.3.1.jar
 D:\java\mavenlib\xpp3\xpp3_min\1.1.4c\xpp3_min-1.1.4c.jar
 D:\newtaobaoserver\libs\aliyun-sdk-oss-2.0.1.jar
+D:\java\gradle_lib\caches\modules-2\files-2.1\org.apache.mina\mina-filter-ssl\1.1.7\2ec9c6d3e3ba144c1026054827ae9e531bbd6a5b\mina-filter-ssl-1.1.7.jar
 C:\Users\admin\.groovy\greclipse\global_dsld_support
 D:\java\eclipse2\plugins\org.codehaus.groovy_2.3.7.xx-201411061335-e44-RELEASE\plugin_dsld_support
 D:\java\eclipse2\plugins\org.codehaus.groovy_2.3.7.xx-201411061335-e44-RELEASE\lib\groovy-all-2.3.7.jar

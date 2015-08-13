@@ -50,6 +50,15 @@ sourceSets {
 tasks.withType(GroovyCompile) {
     groovyOptions.encoding = "UTF-8"
 }
+tasks.withType(ScalaCompile) {
+	//增量编译
+	scalaCompileOptions.useAnt = false
+	//在外部进程中编译
+	configure(scalaCompileOptions.forkOptions) {
+		memoryMaximumSize = '1g'
+		jvmArgs = ['-XX:MaxPermSize=512m']
+	}
+}
 
 repositories {
 	mavenLocal()

@@ -5,6 +5,7 @@ import java.sql.Connection;
  
 
 
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -13,15 +14,17 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 public class MyHttpGet {
-	  
+	protected static final  Logger logger = LoggerFactory.getLogger(MyHttpGet.class); 
 
 	public final static void getByString(String url, Connection conn) throws Exception {
 	        CloseableHttpClient httpclient = HttpClients.createDefault();
 	         
 	        try {
 	            HttpGet httpget = new HttpGet(url);
-	            System.out.println("executing request " + httpget.getURI());
+	            logger.info("抓取网址：{}",httpget.getURI());
 	 
 	            ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 	 

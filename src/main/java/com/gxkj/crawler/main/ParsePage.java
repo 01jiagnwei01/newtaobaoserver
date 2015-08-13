@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
  
+
 import org.htmlparser.Node;
 import org.htmlparser.Parser;
 import org.htmlparser.filters.HasAttributeFilter;
@@ -12,8 +13,13 @@ import org.htmlparser.tags.LinkTag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
  
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.URLDecoder;
 public class ParsePage {
+	protected static final  Logger logger = LoggerFactory.getLogger(ParsePage.class); 
+	
 	public static void parseFromString(String content, Connection conn) throws Exception {
         Parser parser = new Parser(content);
         HasAttributeFilter filter = new HasAttributeFilter("href");
@@ -58,7 +64,7 @@ public class ParsePage {
                                 sql = "INSERT INTO record (URL, crawled) VALUES ('" + nextlink + "',0)";
                                 pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                                 pstmt.execute();
-                                System.out.println(nextlink);
+                                logger.info(nextlink);
                                  
                                 //use substring for better comparison performance
                                 nextlink = nextlink.substring(mainurl.length());
@@ -77,9 +83,10 @@ public class ParsePage {
                             }
                         } catch (SQLException e) {
                             //handle the exceptions
-                            System.out.println("SQLException: " + e.getMessage());
-                            System.out.println("SQLState: " + e.getSQLState());
-                            System.out.println("VendorError: " + e.getErrorCode());
+                        	logger.info("SQLException: " + e.getMessage());
+                             
+                        	logger.info("SQLState: " + e.getSQLState());
+                        	logger.info("VendorError: " + e.getErrorCode());
                         } finally {
                             //close and release the resources of PreparedStatement, ResultSet and Statement
                             if(pstmt != null) {

@@ -141,7 +141,7 @@ function picFormat(value,row,index){
 	return value+"<br/>"+row['picPath'];
 }
 function picStyler(value,row,index){
-	return 'nowrap: true;word-wrap:break-word;width:10px;';
+	return 'white-space:normal;word-break:break-all;nowrap: true;word-wrap:break-word;';
 }
 function callback(json){
  var result  = json['result'];

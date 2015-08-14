@@ -86,6 +86,9 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter  {
 				return true;
 			} 
 		}
+		if(url.indexOf("bdunion.txt")>=0){
+			return true;
+		}
 		if(url.indexOf("/exception")>=0 || url.indexOf("/games")>=0){
 			return true;
 		}

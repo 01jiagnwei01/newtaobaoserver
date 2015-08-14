@@ -32,6 +32,7 @@ apply plugin: 'scala'
 //apply plugin: 'maven'
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
 webAppDirName = 'WebContent'    // 设置 WebApp 根目录
 [compileJava, compileTestJava,compileGroovy,javadoc]*.options*.encoding = 'UTF-8'
 //tasks.withType(JavaCompile) { options.encoding = "UTF-8" }
@@ -50,24 +51,27 @@ sourceSets {
 tasks.withType(GroovyCompile) {
     groovyOptions.encoding = "UTF-8"
 }
+/**
 tasks.withType(ScalaCompile) {
-	//增量编译
+	
 	scalaCompileOptions.useAnt = false
-	//在外部进程中编译
+	
 	configure(scalaCompileOptions.forkOptions) {
 		memoryMaximumSize = '1g'
 		jvmArgs = ['-XX:MaxPermSize=512m']
 	}
 }
+*/
 
 repositories {
 	mavenLocal()
-	 mavenCentral() // 中央库
+	mavenCentral() // 中央库
 }
-
+def spring_version = "4.1.2.RELEASE";//,4.2.0.RELEASE
 
 dependencies {
-	 
+	 //compile 'antlr:antlr:3.1.3'
+	 //compile 'org.javassist:javassist:3.20.0-GA'
 
 	//red5
 	compile 'org.red5:red5-server:1.0.5-RELEASE';
@@ -81,13 +85,14 @@ dependencies {
 	
 	compile 'net.sf.ehcache:ehcache:2.9.1'
 	//log
+	compile 'org.slf4j:slf4j-api:1.7.12'
+	compile 'org.slf4j:jul-to-slf4j:1.7.12'
+	compile 'org.slf4j:jcl-over-slf4j:1.7.12'
 	compile 'ch.qos.logback:logback-classic:1.1.3'
 	compile 'ch.qos.logback:logback-core:1.1.3'
 	compile 'ch.qos.logback:logback-access:1.1.3'
 	
-	compile 'org.slf4j:jul-to-slf4j:1.7.12'
-	compile 'org.slf4j:jcl-over-slf4j:1.7.12' 
-	compile 'org.slf4j:slf4j-api:1.7.12'
+	
 	compile 'org.codehaus.janino:janino:2.7.8'
 	compile 'com.alibaba:fastjson:1.2.6'
 	
@@ -95,24 +100,27 @@ dependencies {
 	compile 'javax.jms:javax.jms-api:2.0.1'
 
 	 //springframework
-	//compile 'org.springframework:spring-context-support:4.1.2.RELEASE'
+	compile 'org.springframework:spring-context-support:4.1.2.RELEASE'
+	compile 'org.springframework:spring-web:4.1.2.RELEASE'
 	compile 'org.springframework:spring-webmvc:4.1.2.RELEASE'
 	compile 'org.springframework:spring-tx:4.1.2.RELEASE'
 	compile 'org.springframework:spring-aop:4.1.2.RELEASE'
+	compile 'org.springframework:spring-jdbc:4.1.2.RELEASE'
+	compile 'org.springframework:spring-orm:4.1.2.RELEASE'
+	compile 'org.springframework:spring-test:4.1.2.RELEASE'
+	
 	compile 'org.springframework.security:spring-security-web:3.2.5.RELEASE'
 	compile 'org.springframework.security:spring-security-config:3.2.5.RELEASE'
-	compile 'org.springframework:spring-jdbc:4.1.2.RELEASE'
 	compile 'org.springframework.batch:spring-batch-core:3.0.2.RELEASE'
-	compile 'org.springframework:spring-orm:4.1.2.RELEASE'
+ 
 	compile 'org.springframework.amqp:spring-rabbit:1.4.1.RELEASE'
 	compile 'org.springframework.amqp:spring-amqp:1.4.1.RELEASE'
 	//compile 'org.springframework.integration:spring-integration-core:4.1.1.RELEASE'
-	//
 	compile 'com.googlecode.ehcache-spring-annotations:ehcache-spring-annotations:1.2.0'
-	testCompile 'org.springframework:spring-test:4.1.2.RELEASE'
-	testCompile 'org.glassfish:javax.el:3.0.0'
-	compile 'org.springframework:spring-support:2.0.8'
-	//compile 'org.springframework:spring-context-support:4.1.3.RELEASE'
+	
+	
+	//compile 'org.springframework:spring-support:2.0.8'
+	
 	
 	//jackson
 	compile 'org.codehaus.jackson:jackson-mapper-lgpl:1.9.13'
@@ -129,12 +137,7 @@ dependencies {
 	compile 'commons-beanutils:commons-beanutils:1.9.2'
 	//aspect
 	compile 'aspectj:aspectjweaver:1.5.4'
-	//json-lib
-	//compile 'net.sf.json-lib:json-lib:2.4'
-	//compile 'net.sf.ezmorph:ezmorph:1.0.6'
-	//activiti
-	//compile 'org.activiti:activiti-spring:5.17.0'
-	//compile 'org.activiti:activiti-engine:5.17.0'
+	 
 	
 	//jms
 //	compile 'org.apache.activemq:activemq-core:5.7.0';
@@ -163,13 +166,13 @@ dependencies {
 	testCompile 'mysql:mysql-connector-java:5.1.34'
 	//javamail
 	compile 'javax.mail:mail:1.4.7'
-	 
+	
 	compile 'javax.servlet:jstl:1.2'
 	//compile 'taglibs:standard:1.1.2';
 	compile 'aopalliance:aopalliance:1.0';
 	compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
-	//providedCompile 'javax.servlet:servlet-api:2.5'
-	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+	
+	
 	//testCompile group: 'junit', name: 'junit', version: '4.+'
 	compile 'junit:junit:4.12'
 	 
@@ -195,6 +198,10 @@ dependencies {
 	//system
 	//compile files('spring-core.jar', 'spring-aap.jar')
 	//compile fileTree(dir: 'deps', include: '*.jar')
+	
+	
+	providedCompile 'org.glassfish:javax.el:3.0.0'
+	providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
 }
 
 test {
@@ -243,7 +250,7 @@ eclipse {
 			facet name: 'jst.web', type: Facet.FacetType.fixed
 			facet name: 'java', type: Facet.FacetType.fixed
 			facet name: 'java', version: '1.8'
-			facet name: 'jst.web', version: '3.0'
+			facet name: 'jst.web', version: '2.5'
 			facet name: 'wst.jsdt.web', version: '1.0'
 		}
 		 

@@ -1,0 +1,6 @@
+com.sysdeo.eclipse.tomcat_3.3.0目录，
+看到有个Devloader.zip，还有一个DevloaderTomcat7.jar，
+如果你是Tomcat7，把DevloaderTomcat7.jar拷贝到TOMCAT_HOME/lib/目录下，
+如果是tomcat6，把Devloader.zip拷到TOMCAT_HOME/lib/目录下并重命名成Devloader.jar。
+如果是其他更低版本，直接解压Devloader.zip到TOMCAT_HOME/server/classes。
+tomcat6，7经测试都没问题，更低版本未经测试。
